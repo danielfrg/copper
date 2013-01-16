@@ -1,4 +1,6 @@
+# Python Specific
 *.py[cod]
+__pycache__
 
 # C extensions
 *.so
@@ -30,6 +32,3 @@ nosetests.xml
 *.mo
 
 # Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
