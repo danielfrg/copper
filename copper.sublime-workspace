@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"num",
+				"number_cols"
+			],
+			[
+				"bin",
+				"binary_cols"
+			],
+			[
+				"mo",
+				"money_cols"
+			],
+			[
+				"meta",
+				"meta_data"
+			],
+			[
+				"col",
+				"columns"
+			],
+			[
+				"tar",
+				"target_col"
+			],
+			[
+				"auto_",
+				"auto_fix"
+			],
+			[
+				"data",
+				"data_set"
+			],
+			[
 				"it",
 				"it"
 			],
@@ -80,10 +112,6 @@
 				"DataFrame"
 			],
 			[
-				"data",
-				"data_access"
-			],
-			[
 				"sel",
 				"self_dir"
 			],
@@ -146,10 +174,6 @@
 			[
 				"get",
 				"getenv"
-			],
-			[
-				"col",
-				"column"
 			],
 			[
 				"to",
@@ -408,10 +432,6 @@
 				"value_equities"
 			],
 			[
-				"num",
-				"num_of_shares"
-			],
-			[
 				"ow",
 				"own_each_stock"
 			],
@@ -494,44 +514,24 @@
 			[
 				"turn",
 				"turn_stdout"
-			],
-			[
-				"s",
-				"start_date"
-			],
-			[
-				"eve",
-				"eventMatrix"
-			],
-			[
-				"m",
-				"m"
-			],
-			[
-				"wi",
-				"weight"
-			],
-			[
-				"perce",
-				"Percentage"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": ".gitignore",
+			"file": "core/set.py",
 			"settings":
 			{
-				"buffer_size": 292,
+				"buffer_size": 3567,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/dfrodriguez/projects/packages/finance/.gitignore",
+			"file": "/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/core/frame.py",
 			"settings":
 			{
-				"buffer_size": 60,
+				"buffer_size": 199081,
 				"line_ending": "Unix"
 			}
 		}
@@ -624,6 +624,22 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/core/format.py",
+		"/home/dfrodriguez/projects/packages/copper/how_to.py",
+		"/home/dfrodriguez/projects/packages/copper/data/donors.csv",
+		"/home/dfrodriguez/projects/packages/copper/io/load.py",
+		"/home/dfrodriguez/projects/packages/copper/__init__.py",
+		"/home/dfrodriguez/projects/packages/copper/core/__init__.py",
+		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/__init__.py",
+		"/home/dfrodriguez/projects/packages/copper/io/__init__.py",
+		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/io/parsers.py",
+		"/home/dfrodriguez/projects/packages/copper/.gitignore",
+		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/util/terminal.py",
+		"/home/dfrodriguez/projects/packages/finance/finance.sublime-project",
+		"/home/dfrodriguez/projects/packages/copper/copper.sublime-project",
+		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/version.py",
+		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/info.py",
+		"/home/dfrodriguez/projects/packages/finance/.gitignore",
 		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/projects/web/hellodjango/templates/index/index.html",
 		"/home/dfrodriguez/projects/web/hellodjango/index/views.py",
@@ -636,7 +652,6 @@
 		"/home/dfrodriguez/projects/web/hellodjango/requirements.txt",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/dfrodriguez/projects/packages/finance/finance.sublime-workspace",
-		"/home/dfrodriguez/projects/packages/finance/finance.sublime-project",
 		"/home/dfrodriguez/projects/packages/finance/examples/ItCFaFE/Assignment 3 - Computations/Solution.py",
 		"/home/dfrodriguez/projects/packages/finance/examples/ItCFaFE/README.md",
 		"/home/dfrodriguez/projects/packages/finance/examples/Combining/Example 5/Solution.py",
@@ -736,22 +751,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/events/test/PastEventTest.py",
 		"/home/dfrodriguez/Documents/packages/finance/examples/Calculator/Example1.py",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Bussiness Intelligence/Project - Term/data/training_clean2.csv",
-		"/home/dfrodriguez/Documents/packages/finance/examples/EventStudy_Finder.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/EventStudy_Multiple.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/EventStudy_Past.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/DateUtils.py",
-		"/home/dfrodriguez/Documents/packages/finance/utils/test/BasicUtilsTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/utils/BasicUtils.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/ListUtils.py",
-		"/home/dfrodriguez/Documents/packages/finance/events/__init__.py",
-		"/home/dfrodriguez/Documents/packages/finance/events/SimpleEvent.py",
-		"/home/dfrodriguez/Documents/packages/finance/evtstudy/EventFinder.py",
-		"/home/dfrodriguez/Documents/packages/finance/utils/lists/NYSE_dates.txt",
-		"/home/dfrodriguez/Documents/packages/finance/utils/lists/NYSE_dates.py",
-		"/home/dfrodriguez/Documents/packages/finance/utils/lists/__init__.py",
-		"/home/dfrodriguez/Documents/packages/finance/evtstudy/MultipleEvents.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/MultipleEvents/data/SUN_2009-12-10_2012-1-19.csv",
-		"/home/dfrodriguez/Documents/packages/finance/utils/SP500_2012.py"
+		"/home/dfrodriguez/Documents/packages/finance/examples/EventStudy_Finder.py"
 	],
 	"find":
 	{
@@ -769,6 +769,28 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"elf.frame",
+			"ans",
+			"space",
+			"_put_str",
+			"print",
+			"TODO",
+			"_put_str",
+			"info(",
+			"_put",
+			"__unicode",
+			"info",
+			"_need_info_repr_",
+			"__unicode__",
+			"print",
+			"                 ",
+			"DataFrame(",
+			"DataFrame(self",
+			"DataFrame(Self",
+			"DataFrame",
+			"4",
+			"csv",
+			"read_csv",
 			"X_Ex",
 			"var",
 			"ev",
@@ -874,29 +896,7 @@
 			"list",
 			"0.9175",
 			"sr",
-			"d,",
-			"d",
-			"tr",
-			"equities",
-			"print",
-			"Adj",
-			")\n",
-			"))\n",
-			"columns",
-			"CFN",
-			"bwa",
-			"self.car",
-			"self.ar",
-			"er",
-			"print",
-			"mevt",
-			"evtf",
-			"delete",
-			"values",
-			"53",
-			"]]\n",
-			"data_estimation",
-			"data_window"
+			"d,"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -919,52 +919,54 @@
 			[
 				{
 					"buffer": 0,
-					"file": ".gitignore",
+					"file": "core/set.py",
 					"settings":
 					{
-						"buffer_size": 292,
+						"buffer_size": 3567,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								292,
-								292
+								3567,
+								3567
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 108.0,
+						"translation.y": 1548.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/home/dfrodriguez/projects/packages/finance/.gitignore",
+					"file": "/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/core/frame.py",
 					"settings":
 					{
-						"buffer_size": 60,
+						"buffer_size": 199081,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								58796,
+								58796
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 28681.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

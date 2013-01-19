@@ -1,8 +1,20 @@
 {
+    "build_systems":
+    [
+        {
+            "name": "Python Virtual env",
+            "env":
+            {
+                "PYTHONPATH":"/home/dfrodriguez/projects/packages/"
+            },
+            "cmd": ["/home/dfrodriguez/.virtualenvs/finance/bin/python", "-u", "$file"]
+        }
+    ],
 	"folders":
 	[
 		{
-			"path": "/home/dfrodriguez/projects/packages/copper"
+			"path": "/home/dfrodriguez/projects/packages/copper",
+            "folder_exclude_patterns": ["__pycache__"]
 		}
 	]
 }
