@@ -47,9 +47,9 @@ class DataSet(object):
         self.type[money_cols] = 'Money'
 
         # -- Types: Finally
-        self.type = self.type.fillna(value='Nominal')
+        self.type = self.type.fillna(value='Category')
 
-    def generate_frame(self, cols=None, ignoreNominal=False):
+    def generate_frame(self, cols=None, ignoreCategory=False):
         if cols is None:
             cols = self._columns
 
@@ -67,8 +67,8 @@ class DataSet(object):
                         rm_coma = ''.join(rm_sign.split(','))
                         ser[index] = float(rm_coma)
                 ans[col] = ser
-            else: # Nominal/Categorical column
-                if ignoreNominal:
+            else: # Category/Category column
+                if ignoreCategory:
                     ans[col] = self._oframe[col]
                 else:
                     # Creates and appends a new pd.Series for each category
@@ -92,7 +92,7 @@ class DataSet(object):
         return metadata
 
     def get_frame(self):
-        return self.generate_frame(ignoreNominal=True)
+        return self.generate_frame(ignoreCategory=True)
 
     def get_inputs(self):
         ans = self.generate_frame(cols=self.role[self.role == 'Input'].index)
@@ -109,6 +109,10 @@ class DataSet(object):
         if format == 'csv':
             if w == 'frame':
                 copper.export_frame_csv(self.frame, name)
+            if w == 'inputs':
+                copper.export_frame_csv(self.inputs, name)
+            if w == 'target':
+                copper.export_frame_csv(self.target, name)
 
     def restore(self):
         ''' Restores the original version of the DataFrame '''
@@ -126,9 +130,12 @@ class DataSet(object):
     target = property(get_target)
 
 if __name__ == "__main__":
-    copper.config.data_dir = '../tests/data'
-    ds = copper.load('dataset/test1/data.csv')
-    # copper.config.data_dir = '../examples/'
-    # ds = copper.load('donors/donors.csv')
+    # copper.config.data_dir = '../tests/data'
+    # ds = copper.load('dataset/test1/data.csv')
+    copper.config.data_dir = '../examples/donors'
+    ds = copper.load('donors.csv')
+    ds.role['DemMedIncome'] = 'Rejected'
     print(ds)
-    # ds.export(name='frame', format='csv', w='frame')
+    ds.export(name='frame', format='csv', w='frame')
+    ds.export(name='inputs', format='csv', w='inputs')
+    ds.export(name='target', format='csv', w='target')
