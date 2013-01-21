@@ -2,7 +2,6 @@ import os
 import copper
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 class DataSet(object):
 
@@ -105,14 +104,6 @@ class DataSet(object):
     def load(self, file_path):
         self.set_data(pd.read_csv(os.path.join(copper.config.data, file_path)))
 
-    def export(self, name, format='csv', w='frame'):
-        if format == 'csv':
-            if w == 'frame':
-                copper.export_frame_csv(self.frame, name)
-            if w == 'inputs':
-                copper.export_frame_csv(self.inputs, name)
-            if w == 'target':
-                copper.export_frame_csv(self.target, name)
 
     def restore(self):
         ''' Restores the original version of the DataFrame '''

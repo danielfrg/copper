@@ -7,7 +7,7 @@
             {
                 "PYTHONPATH":"/home/dfrodriguez/projects/packages/"
             },
-            "cmd": ["/home/dfrodriguez/.virtualenvs/finance/bin/python", "-u", "$file"]
+            "cmd": ["/home/dfrodriguez/.virtualenvs/copper/bin/python", "-u", "$file"]
         }
     ],
 	"folders":

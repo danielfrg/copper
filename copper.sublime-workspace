@@ -519,6 +519,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "core/set.py",
+			"settings":
+			{
+				"buffer_size": 5106,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "copper.sublime-project",
+			"settings":
+			{
+				"buffer_size": 441,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -608,14 +624,19 @@
 	},
 	"file_history":
 	[
-		"/home/dfrodriguez/projects/packages/copper/README.md",
-		"/home/dfrodriguez/projects/packages/copper/core/config.py",
-		"/home/dfrodriguez/projects/packages/copper/core/set.py",
+		"/home/dfrodriguez/Downloads/README.TXT",
+		"/usr/lib/sublime-text-2/cracked",
+		"/usr/lib/sublime-text-2/sublime_text",
+		"/home/dfrodriguez/projects/packages/copper/explore/explore.py",
 		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
+		"/home/dfrodriguez/projects/packages/copper/core/config.py",
 		"/home/dfrodriguez/projects/packages/copper/tests/DataSet.py",
-		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
-		"/home/dfrodriguez/projects/packages/copper/explore/explore.html",
+		"/home/dfrodriguez/projects/packages/copper/core/set.py",
+		"/home/dfrodriguez/projects/packages/copper/explore/__init__.py",
 		"/home/dfrodriguez/projects/packages/copper/io/save_load.py",
+		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
+		"/home/dfrodriguez/projects/packages/copper/README.md",
+		"/home/dfrodriguez/projects/packages/copper/explore/explore.html",
 		"/home/dfrodriguez/projects/packages/copper/examples/exported/frame.csv",
 		"/home/dfrodriguez/projects/packages/copper/t.py",
 		"/home/dfrodriguez/projects/packages/copper/__init__.py",
@@ -730,12 +751,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/sim/test/MarketSimulatorTest.py",
 		"/home/dfrodriguez/Dropbox/Documents/Coursera/Intro to Computational Finance/Week 1/returnCalculations.csv",
 		"/home/dfrodriguez/Documents/QSTK-master/qstkutil/tsutil.py",
-		"/home/dfrodriguez/Documents/QSTK-master/Examples/EventProfiler/SP500port.csv",
-		"/home/dfrodriguez/Documents/QSTK-master/Tools/investors_report.py",
-		"/home/dfrodriguez/Documents/QSTK-master/Tools/Data_CSV.py",
-		"/home/dfrodriguez/Documents/QSTK-master/qstkstrat/strategies.py",
-		"/home/dfrodriguez/Documents/QSTK-master/qstkutil/DataEvolved.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/Calculator_FV.py"
+		"/home/dfrodriguez/Documents/QSTK-master/Examples/EventProfiler/SP500port.csv"
 	],
 	"find":
 	{
@@ -753,6 +769,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"33 42",
+			"data_dir",
+			"_data_dir",
 			"Categorical",
 			"Nominal",
 			"data_path",
@@ -877,10 +896,7 @@
 			"rate",
 			"inf",
 			"daily_returns",
-			"daily",
-			"BasicUtils",
-			"Questio",
-			"(10) "
+			"daily"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -898,8 +914,65 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "core/set.py",
+					"settings":
+					{
+						"buffer_size": 5106,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								62,
+								62
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "copper.sublime-project",
+					"settings":
+					{
+						"buffer_size": 441,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								255,
+								255
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

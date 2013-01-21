@@ -1,16 +1,14 @@
 import copper
 
-copper.config.path = './'
+copper.config.path = ''
 ds = copper.load('donors.csv')
-print(ds)
+# print(ds)
 
 ds.role['DemMedIncome'] = 'Rejected'
-print(ds)
+# print(ds)
 ds.role['DemMedIncome'] = 'Input'
 
-# ds.export(name='frame', format='csv', w='frame')
-# ds.export(name='inputs', format='csv', w='inputs')
-# ds.export(name='target', format='csv', w='target')
+copper.export(ds.frame, name='frame')
 
 # Compare
 
