@@ -2,12 +2,30 @@ import os
 
 class Config(object):
     def __init__(self):
-        self._data_dir = ''
+        self._path = ''
+        self._data = ''
+        self._explore = ''
+        self._export = ''
 
-    def get_data_dir(self):
-        return self._data_dir
+    def set_path(self, value):
+        self._path = os.path.realpath(value)
+        self._data = os.path.join(self._path, 'data')
+        self._explore = os.path.join(self._path, 'explore')
+        self._export = os.path.join(self._path, 'exported')
 
-    def set_data_dir(self, value):
-        self._data_dir = os.path.realpath(value)
+    def get_path(self):
+        return self._path
 
-    data_dir = property(get_data_dir, set_data_dir)
+    def get_data(self):
+        return self._data
+
+    def get_explore(self):
+        return self._explore
+
+    def get_export(self):
+        return self._export
+
+    path = property(get_path, set_path)
+    data = property(get_data)
+    explore = property(get_explore)
+    export = property(get_export)

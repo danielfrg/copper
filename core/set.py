@@ -103,7 +103,7 @@ class DataSet(object):
         return ans
 
     def load(self, file_path):
-        self.set_data(pd.read_csv(os.path.join(copper.config.data_dir, file_path)))
+        self.set_data(pd.read_csv(os.path.join(copper.config.data, file_path)))
 
     def export(self, name, format='csv', w='frame'):
         if format == 'csv':
@@ -132,10 +132,9 @@ class DataSet(object):
 if __name__ == "__main__":
     # copper.config.data_dir = '../tests/data'
     # ds = copper.load('dataset/test1/data.csv')
-    copper.config.data_dir = '../examples/donors'
+    copper.config.path = '../examples/donors'
     ds = copper.load('donors.csv')
-    ds.role['DemMedIncome'] = 'Rejected'
     print(ds)
-    ds.export(name='frame', format='csv', w='frame')
-    ds.export(name='inputs', format='csv', w='inputs')
-    ds.export(name='target', format='csv', w='target')
+    # ds.export(name='frame', format='csv', w='frame')
+    # ds.export(name='inputs', format='csv', w='inputs')
+    # ds.export(name='target', format='csv', w='target')

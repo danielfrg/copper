@@ -11,14 +11,14 @@ def load(file_path):
     return ds
 
 def export_frame_csv(df, name):
-    expo_dir = os.path.join(copper.config.data_dir, 'exported')
+    expo_dir = copper.config.export
     if not (os.access(expo_dir, os.F_OK)):
         os.makedirs(expo_dir)
 
     fpath = os.path.join(expo_dir, name + '.csv')
     df.to_csv(fpath)
 
-
+'''
 def save_cache(data, name):
     cache_dir = os.path.join(copper.config.data_dir, 'cache')
 
@@ -47,4 +47,4 @@ def load_cache(name):
     f = os.path.join(cache_dir, filename)
     if os.access(f, os.F_OK):
         return pd.load(f)
-
+'''

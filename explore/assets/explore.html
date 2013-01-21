@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <link href="nv.d3.css" rel="stylesheet" type="text/css">
+    <style>
+
+    #chart{
+        width: 600px;
+        height: 600px;
+    }
+
+    </style>
+<head>
+<body>
+
+<div id='chart'>
+<svg id="test1"></svg>
+</div>
+
+<body>
+<script src="d3.min.js"></script>
+<script src="nv.d3.min.js"></script>
+<script>
+
+ nv.addGraph(function() {
+   var chart = nv.models.discreteBarChart()
+       .x(function(d) { return d.label })
+       .y(function(d) { return d.value })
+       .staggerLabels(true)
+       .tooltips(true)
+       .showValues(true)
+
+   d3.select('#chart svg')
+        .datum(exampleData())
+        .transition().duration(500)
+        .call(chart);
+
+   nv.utils.windowResize(chart.update);
+
+   return chart;
+ });
+
+
+
+
+
+
+
+function exampleData() {
+return  [
+{
+   key: "Cumulative Return",
+   values: [
+     {
+       "label" : "CDS / Options" ,
+       "value" : 29.765957771107
+     } ,
+     {
+       "label" : "Cash" ,
+       "value" : 0
+     } ,
+     {
+       "label" : "Corporate Bonds" ,
+       "value" : 32.807804682612
+     } ,
+     {
+       "label" : "Equity" ,
+       "value" : 196.45946739256
+     } ,
+     {
+       "label" : "Index Futures" ,
+       "value" : 0.19434030906893
+     } ,
+     {
+       "label" : "Options" ,
+       "value" : 98.079782601442
+     } ,
+     {
+       "label" : "Preferred" ,
+       "value" : 13.925743130903
+     } ,
+     {
+       "label" : "Not Available" ,
+       "value" : 5.1387322875705
+     }
+   ]
+}
+];
+}
+
+</script>
