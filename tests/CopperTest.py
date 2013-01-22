@@ -65,7 +65,7 @@ class CopperTest(unittest.TestCase):
     def assertFrameEqual(self, ans, sol, digits=0):
         self.assertFrame(ans)
         self.assertFrame(sol)
-        self.assertEquals(ans.columns.name, sol.columns.name)
+        self.assertEqual(ans.columns.name, sol.columns.name)
 
         if digits == 0:
             pd_test.assert_frame_equal(ans, sol)

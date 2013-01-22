@@ -29,7 +29,7 @@ class DataSetTest(CopperTest):
         target = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/target.csv'))
         self.assertEqual(ds.target, target)
 
-        # Change
+        # Change 1
         ds.role['Target'] = 'Input'
         metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/metadata_2.csv'))
         metadata = metadata.set_index('column')

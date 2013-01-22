@@ -239,4 +239,4 @@ if __name__ == "__main__":
     # print(ds.frame['DemHomeOwner'].tail(10))
 
     print(ds.histogram().to_string())
-    # ds.histogram().to_csv('hist.csv')
+    # copper.export(ds.histogram(), name='hist')

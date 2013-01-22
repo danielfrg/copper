@@ -17,16 +17,22 @@ class ExploreHandler(tornado.web.RequestHandler):
 class ExploreFileHandler(tornado.web.RequestHandler):
     def get(self, ftarget):
         if ftarget == '':
-            data = None
+            files = os.listdir(copper.config.export)
+            self.render("templates/explore.html", files=files, data=None)
         else:
-            import csv
+            import pandas as pd
             import json
             f = os.path.join(copper.config.export, ftarget)
-            with open(f, 'rt', encoding='utf-8') as csvfile:
-                reader = csv.reader(csvfile)
-                data = json.dumps( [ row for row in reader ] )
-        files = os.listdir(copper.config.export)
-        self.render("templates/explore.html", files=files, data=data)
+            df = pd.read_csv(f)
+            d = [
+                dict([
+                    (colname, row[i])
+                    for i,colname in enumerate(df.columns)
+                ])
+                for row in df.values
+            ]
+            # return json.dumps(d)
+            self.write(json.dumps(d))
 
 def start(port=8000):
     settings = {
