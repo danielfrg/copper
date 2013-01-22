@@ -2,13 +2,14 @@ import copper
 
 copper.config.path = ''
 ds = copper.load('donors.csv')
+
 # print(ds)
 
-ds.role['DemMedIncome'] = 'Rejected'
+# ds.role['DemMedIncome'] = 'Rejected'
 # print(ds)
-ds.role['DemMedIncome'] = 'Input'
+# ds.role['DemMedIncome'] = 'Input'
 
-copper.export(ds.frame, name='frame')
+# copper.export(ds.frame, name='frame')
 
 # Compare
 

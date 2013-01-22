@@ -3,6 +3,8 @@ import copper
 import numpy as np
 import pandas as pd
 
+from sklearn import preprocessing
+
 class DataSet(object):
 
     def __init__(self):
@@ -48,7 +50,15 @@ class DataSet(object):
         # -- Types: Finally
         self.type = self.type.fillna(value='Category')
 
-    def generate_frame(self, cols=None, ignoreCategory=False):
+        # Encode categories:
+        self._categories = {}
+        for col in self.type.index[self.type == 'Category']:
+            le = preprocessing.LabelEncoder()
+            le.fit(self._oframe[col].values)
+            self._categories[col] = le
+
+    def gen_frame(self, cols=None,
+                   ignoreCategory=False, encodeCategory=True, mlCategory=False):
         if cols is None:
             cols = self._columns
 
@@ -66,11 +76,14 @@ class DataSet(object):
                         rm_coma = ''.join(rm_sign.split(','))
                         ser[index] = float(rm_coma)
                 ans[col] = ser
-            else: # Category/Category column
+            else: # Category column
                 if ignoreCategory:
                     ans[col] = self._oframe[col]
-                else:
-                    # Creates and appends a new pd.Series for each category
+                elif encodeCategory:
+                    le = self._categories[col] # LabelEncoder
+                    ans[col] = le.transform(self._oframe[col].values)
+                elif mlCategory:
+                    # Creates and appends a few pd.Series for each category
                     cat_col = self._oframe[col]
                     categories = list(set(cat_col))
                     categories.sort()
@@ -91,19 +104,38 @@ class DataSet(object):
         return metadata
 
     def get_frame(self):
-        return self.generate_frame(ignoreCategory=True)
+        return self.gen_frame(ignoreCategory=True)
 
     def get_inputs(self):
-        ans = self.generate_frame(cols=self.role[self.role == 'Input'].index)
-        return ans
+        return self.gen_frame(cols=self.role[self.role == 'Input'].index,
+                                                                mlCategory=True)
 
     def get_target(self):
-        ans = self.generate_frame(cols=self.role[self.role == 'Target'].index)
+        return self.gen_frame(cols=self.role[self.role == 'Target'].index)
+
+    def get_cat_coder(self):
+        return self._categories
+
+    def histogram(self, bins=20):
+        data = self.gen_frame(cols=self.role[self.role != 'ID'].index,
+                                                encodeCategory=True)
+        index = range(-1, bins+1)
+        ans = pd.DataFrame(index=index)
+        for col in data.columns:
+            count, division = np.histogram(data[col].dropna().values, bins=bins)
+            dummy = np.zeros(bins+2)
+            n_df = pd.DataFrame({'a': dummy, 'b': dummy}, index=index)
+            n_df.columns = [[col, col],['division', 'count']]
+            n_df[col]['division'].ix[-1] = np.nan
+            n_df[col]['division'].ix[0:bins+1] = division
+            n_df[col]['count'].ix[-1] = len(data[col]) - data[col].count()
+            n_df[col]['count'].ix[0:bins-1] = count
+            n_df[col]['count'].ix[bins] = np.nan
+            ans = ans.join(n_df)
         return ans
 
     def load(self, file_path):
         self.set_data(pd.read_csv(os.path.join(copper.config.data, file_path)))
-
 
     def restore(self):
         ''' Restores the original version of the DataFrame '''
@@ -120,12 +152,18 @@ class DataSet(object):
     inputs = property(get_inputs)
     target = property(get_target)
 
+    cat_coder = property(get_cat_coder)
+
 if __name__ == "__main__":
     # copper.config.data_dir = '../tests/data'
     # ds = copper.load('dataset/test1/data.csv')
     copper.config.path = '../examples/donors'
     ds = copper.load('donors.csv')
-    print(ds)
-    # ds.export(name='frame', format='csv', w='frame')
-    # ds.export(name='inputs', format='csv', w='inputs')
-    # ds.export(name='target', format='csv', w='target')
+    # print(ds)
+    # print(ds.frame['DemGender'].value_counts())
+
+    # print(ds.gen_frame(encodeCategory=True)['DemHomeOwner'].tail(10))
+    # print(ds.frame['DemHomeOwner'].tail(10))
+
+    print(ds.histogram().to_string())
+    # ds.histogram().to_csv('hist.csv')
