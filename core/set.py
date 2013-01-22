@@ -6,6 +6,13 @@ import pandas as pd
 from sklearn import preprocessing
 
 class DataSet(object):
+    '''
+    Wrapper around a few pandas.DataFrames to include metadata.
+
+    Usage
+    -----
+        data_set = copper.load(<csv_file>)
+    '''
 
     def __init__(self):
         self._name = ''
@@ -16,8 +23,15 @@ class DataSet(object):
         self._binary_cols = None
         self._number_cols = None
 
-    def set_data(self, data_frame):
-        self._oframe = data_frame
+    def set_data(self, df):
+        '''
+        Uses a pandas.DataFrame to generate the metadata [Role, Type]
+
+        Parameters
+        ----------
+            df: pandas.DataFrame
+        '''
+        self._oframe = df
         self._columns = self._oframe.columns.values
         self._name = ''.join(self._columns)
 
@@ -51,14 +65,32 @@ class DataSet(object):
         self.type = self.type.fillna(value='Category')
 
         # Encode categories:
-        self._categories = {}
+        self._categories_encoders = {}
         for col in self.type.index[self.type == 'Category']:
             le = preprocessing.LabelEncoder()
             le.fit(self._oframe[col].values)
-            self._categories[col] = le
+            self._categories_encoders[col] = le
 
     def gen_frame(self, cols=None,
                    ignoreCategory=False, encodeCategory=True, mlCategory=False):
+        '''
+        Generates and returns a new pandas.DataFrame given the conditions
+
+        Parameters
+        ----------
+            cols=None: list - filter for the columns of the DataFrame,
+                              by default uses all the columns available
+            ignoreCategory=False: boolean - True if dont want to change the
+                                            categorical columns
+            encodeCategory=True: boolean - True if want to encode the categorical
+                                     columns into number, useful for exploration
+            mlCategory=False: boolean - True if want to convert the categorial
+                  columns for machine learning, useful for use with scikit-learn
+
+        Returns
+        -------
+            df: pandas.DataFrame
+        '''
         if cols is None:
             cols = self._columns
 
@@ -80,7 +112,7 @@ class DataSet(object):
                 if ignoreCategory:
                     ans[col] = self._oframe[col]
                 elif encodeCategory:
-                    le = self._categories[col] # LabelEncoder
+                    le = self._categories_encoders[col] # LabelEncoder
                     ans[col] = le.transform(self._oframe[col].values)
                 elif mlCategory:
                     # Creates and appends a few pd.Series for each category
@@ -97,26 +129,73 @@ class DataSet(object):
 
         return ans
 
+    # --------------------------------------------------------------------------
+    #                                METHODS
+    # --------------------------------------------------------------------------
+
+    def load(self, file_path):
+        ''' Loads data and tries to figure out the best metadata '''
+        self.set_data(pd.read_csv(os.path.join(copper.config.data, file_path)))
+
+    def restore(self):
+        ''' Restores the original version of the DataFrame '''
+        self.set_data(self._oframe)
+
+    # --------------------------------------------------------------------------
+    #                               PROPERTIES
+    # --------------------------------------------------------------------------
+
     def get_metadata(self):
+        '''
+        Return a pandas.DataFrame with a summary of the metadata [Role, Type]
+        '''
         metadata = pd.DataFrame(index=self._columns, columns=['Role', 'Type'])
         metadata['Role'] = self.role
         metadata['Type'] = self.type
         return metadata
 
     def get_frame(self):
+        '''
+        Return a pandas.DataFrame with this catacteristics:
+            1. Money columns are transformed into float
+            2. Categorical columns are ignored (default is used)
+        '''
         return self.gen_frame(ignoreCategory=True)
 
     def get_inputs(self):
+        '''
+        Return a pandas.DataFrame of the columns marked with Role='Input'
+        with this catacteristics:
+            1. Money columns transformed into float
+            2. Categorical columns are transformed for Machine Learning
+        '''
         return self.gen_frame(cols=self.role[self.role == 'Input'].index,
                                                                 mlCategory=True)
 
     def get_target(self):
+        '''
+        Return a pandas.DataFrame of the column marked with Role='Target'
+        with this catacteristics:
+            1. Money columns transformed into float
+        '''
         return self.gen_frame(cols=self.role[self.role == 'Target'].index)
 
     def get_cat_coder(self):
-        return self._categories
+        return self._categories_encoders
 
     def histogram(self, bins=20):
+        '''
+        Return a pandas.DataFrame with the information necessary to build a
+        histogram for each column, that is divisions and count of each bin
+
+        Parameters
+        ----------
+            bins=20: int, number of bins of the histogram
+
+        Return
+        ------
+            df: pandas.DataFrame
+        '''
         data = self.gen_frame(cols=self.role[self.role != 'ID'].index,
                                                 encodeCategory=True)
         index = range(-1, bins+1)
@@ -134,21 +213,15 @@ class DataSet(object):
             ans = ans.join(n_df)
         return ans
 
-    def load(self, file_path):
-        self.set_data(pd.read_csv(os.path.join(copper.config.data, file_path)))
-
-    def restore(self):
-        ''' Restores the original version of the DataFrame '''
-        self.set_data(self._oframe)
-
     def __unicode__(self):
         return self.get_metadata()
 
     def __str__(self):
         return str(self.__unicode__())
 
-    frame = property(get_frame)
+
     metadata = property(get_metadata)
+    frame = property(get_frame)
     inputs = property(get_inputs)
     target = property(get_target)
 
