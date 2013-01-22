@@ -72,7 +72,7 @@ class DataSet(object):
             self._categories_encoders[col] = le
 
     def gen_frame(self, cols=None,
-                   ignoreCategory=False, encodeCategory=True, mlCategory=False):
+                  encodeCategory=False, mlCategory=False):
         '''
         Generates and returns a new pandas.DataFrame given the conditions
 
@@ -80,9 +80,7 @@ class DataSet(object):
         ----------
             cols=None: list - filter for the columns of the DataFrame,
                               by default uses all the columns available
-            ignoreCategory=False: boolean - True if dont want to change the
-                                            categorical columns
-            encodeCategory=True: boolean - True if want to encode the categorical
+            encodeCategory=False: boolean - True if want to encode the categorical
                                      columns into number, useful for exploration
             mlCategory=False: boolean - True if want to convert the categorial
                   columns for machine learning, useful for use with scikit-learn
@@ -109,9 +107,7 @@ class DataSet(object):
                         ser[index] = float(rm_coma)
                 ans[col] = ser
             else: # Category column
-                if ignoreCategory:
-                    ans[col] = self._oframe[col]
-                elif encodeCategory:
+                if encodeCategory:
                     le = self._categories_encoders[col] # LabelEncoder
                     ans[col] = le.transform(self._oframe[col].values)
                 elif mlCategory:
@@ -126,6 +122,8 @@ class DataSet(object):
                         n_data = n_data.fillna(value=0)
                         ans = ans.join(n_data)
                     del ans[col] # Deletes the original column
+                else:
+                    ans[col] = self._oframe[col]
 
         return ans
 
@@ -160,7 +158,7 @@ class DataSet(object):
             1. Money columns are transformed into float
             2. Categorical columns are ignored (default is used)
         '''
-        return self.gen_frame(ignoreCategory=True)
+        return self.gen_frame()
 
     def get_inputs(self):
         '''
