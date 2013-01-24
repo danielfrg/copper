@@ -13,7 +13,8 @@ class DataSet(object):
 
     Usage
     -----
-        data_set = copper.load(<csv_file>)
+        data_set = copper.DataSet()
+        data_set.load(<csv_file>)
     '''
 
     def __init__(self):
@@ -29,6 +30,8 @@ class DataSet(object):
         self.categoriesLimitFilter = 20
         self.idFilterCols = ['id', 'index']
         self.targetFilterCols = ['target']
+
+        self.moneyPercentFilter = 0.1
 
     def _idFilter(self, col_name):
             return col_name.lower() in self.idFilterCols
@@ -69,6 +72,9 @@ class DataSet(object):
         self.type = pd.Series(index=self.role.index, name='Type', dtype=str)
 
         # Types: Number
+        # -- dtype of the column is np.int or np.float AND (
+        #            num of different values is greater than filter (default=20)
+        #            OR role of the column is target, target are Number
         number_cols = [c for c in self.columns
                             if self._oframe.dtypes[c] in [np.int64, np.float64]
                                 and (len(set(self._oframe[c].values)) > self.categoriesLimitFilter
@@ -82,7 +88,7 @@ class DataSet(object):
             x = [x[:1] for x in self._oframe[col].dropna().values]
             y = [self.money_symbol for y in x]
             eq = np.array(x) == np.array(y)
-            if len(eq[eq==True]) >= 0.1 * len(x):
+            if len(eq[eq==True]) >= self.moneyPercentFilter * len(x):
                 money_cols.append(col)
         self.type[money_cols] = self.MONEY
 
@@ -215,7 +221,7 @@ class DataSet(object):
 
     def save(self, name=None, format='.dataset'):
         ''' Saves a pickle version of the DataSet '''
-        copper.export(self, name=name, format=format)
+        copper.save(self, name=name, format=format)
 
     def load(self, file_path):
         ''' Loads data and tries to figure out the best metadata '''
@@ -286,7 +292,7 @@ if __name__ == "__main__":
     # print(ds.gen_frame(encodeCategory=True)['DemHomeOwner'].tail(10))
     # print(ds.frame['DemHomeOwner'].tail(10))
 
-    ds.save(name='donors')
+    # ds.save(name='donors')
     # ds = copper.load('donors.dataset')
 
     # ds.histogram('DemAge')

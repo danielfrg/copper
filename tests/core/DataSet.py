@@ -15,6 +15,18 @@ class DataSetTest(CopperTest):
         return suite
 
     def test_1(self):
+        '''
+        Tests
+        -----
+            1. Load data
+            2. Default metadata:
+                2.1 role of ID, inputs and target
+                2.2 type of Number, Category and Money
+            2. Default frame (removes $ symbol on money cols)
+            3. Encode the category column
+            4. Default inputs
+            5. Default target
+        '''
         self.setUpData()
 
         ds = copper.DataSet()
@@ -36,6 +48,18 @@ class DataSetTest(CopperTest):
         self.assertEqual(ds.target, target)
 
     def test_2(self):
+        '''
+        Tests
+        -----
+            1. Load Data: two columns
+            2. Default Metadata
+                2.1 Roles: Two inputs
+                2.2 Types: Number and Category
+            3. Default inputs: Category col is transformed into 4 columns
+            4. Change the type of a column from Category to Number
+                4.1 New Metadata
+                4.2 New Inputs (fewer columns)
+        '''
         self.setUpData()
 
         ds = copper.DataSet()
@@ -62,6 +86,14 @@ class DataSetTest(CopperTest):
         self.assertEqual(encoded, inputs)
 
     def test_save_load(self):
+        '''
+        Tests
+        -----
+            1. Load Data
+            2. Save Data
+            3. Load saved Data
+            4. Test that loaded data is the same as the saved data
+        '''
         self.setUpData()
 
         ds1 = copper.DataSet()

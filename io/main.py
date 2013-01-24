@@ -15,7 +15,7 @@ def load(file_path):
         pkl_file = open(f, 'rb')
         return pickle.load(pkl_file)
 
-def export(data, name, format='csv'):
+def save(data, name, format='csv'):
     if type(data) is pd.DataFrame and format == 'csv':
         if not (os.access(copper.config.export, os.F_OK)):
             os.makedirs(copper.config.export)
