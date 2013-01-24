@@ -11,12 +11,14 @@ class DataSetTest(CopperTest):
         suite = unittest.TestSuite()
         suite.addTest(DataSetTest('test_1'))
         suite.addTest(DataSetTest('test_2'))
+        suite.addTest(DataSetTest('test_save_load'))
         return suite
 
     def test_1(self):
         self.setUpData()
 
-        ds = copper.load('dataset/test1/data.csv')
+        ds = copper.DataSet()
+        ds.load('dataset/test1/data.csv')
         metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/metadata.csv'))
         metadata = metadata.set_index('column')
         self.assertEqual(ds.metadata, metadata)
@@ -58,6 +60,19 @@ class DataSetTest(CopperTest):
 
         encoded = ds.gen_frame(encodeCategory=True)
         self.assertEqual(encoded, inputs)
+
+    def test_save_load(self):
+        self.setUpData()
+
+        ds1 = copper.DataSet()
+        ds1.load('dataset/test1/data.csv')
+
+        ds1.save('data_saved')
+
+        ds2 = copper.load('data_saved')
+        self.assertEqual(ds1.metadata, ds2.metadata)
+        self.assertEqual(ds1.frame, ds2.frame)
+        self.assertEqual(ds1.inputs, ds2.inputs)
 
 if __name__ == '__main__':
     suite = DataSetTest().suite()

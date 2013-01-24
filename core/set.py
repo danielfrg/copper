@@ -26,9 +26,18 @@ class DataSet(object):
         self._number_cols = None
 
         # Configurations for import
-        self.numOfCategoriesLimit = 20
-        self.idFilter = ['id', 'index']
-        self.targetFilter = ['target']
+        self.categoriesLimitFilter = 20
+        self.idFilterCols = ['id', 'index']
+        self.targetFilterCols = ['target']
+
+    def _idFilter(self, col_name):
+            return col_name.lower() in self.idFilterCols
+
+    def _targetFilter(self, col_name):
+        for _filter in self.targetFilterCols:
+            if col_name.lower().startswith(_filter):
+                return True
+        return False
 
     def set_data(self, df):
         '''
@@ -45,11 +54,11 @@ class DataSet(object):
         # Roles
         self.role = pd.Series(index=self.columns, name='Role', dtype=str)
         # Roles: ID
-        id_cols = [c for c in self.columns if c.lower() in ['id', 'index']]
+        id_cols = [c for c in self.columns if self._idFilter(c)]
         if len(id_cols) > 0:
             self.role[id_cols] = 'ID'
         # Roles: Target
-        target_cols = [c for c in self.columns if c.lower().startswith('target')]
+        target_cols = [c for c in self.columns if self._targetFilter(c)]
         if len(target_cols) > 0:
             self.role[target_cols[0]] = self.TARGET
             self.role[target_cols[1:]] = self.REJECTED
@@ -62,7 +71,7 @@ class DataSet(object):
         # Types: Number
         number_cols = [c for c in self.columns
                             if self._oframe.dtypes[c] in [np.int64, np.float64]
-                                and (len(set(self._oframe[c].values)) > self.numOfCategoriesLimit
+                                and (len(set(self._oframe[c].values)) > self.categoriesLimitFilter
                                     or self.role[c] == self.TARGET)]
         self.type[number_cols] = self.NUMBER
 
@@ -205,13 +214,10 @@ class DataSet(object):
     # --------------------------------------------------------------------------
 
     def save(self, name=None, format='.dataset'):
-        import pickle
-        f = os.path.join(copper.config.data, name + format)
-        output = open(f, 'wb')
-        pickle.dump(self, output)
-        output.close()
+        ''' Saves a pickle version of the DataSet '''
+        copper.export(self, name=name, format=format)
 
-    def load(self, file_path, *args):
+    def load(self, file_path):
         ''' Loads data and tries to figure out the best metadata '''
         self.set_data(pd.read_csv(os.path.join(copper.config.data, file_path)))
 
@@ -266,9 +272,10 @@ class DataSet(object):
 
 if __name__ == "__main__":
     copper.config.path = '../tests/'
-    ds = copper.load('dataset/test1/data.csv')
+    ds = copper.DataSet()
+    ds.load('dataset/test1/data.csv')
     # ds.type['Number as Category'] = ds.NUMBER
-    print(ds.inputs)
+    print(ds)
     # print(ds.gen_frame(encodeCategory=True))
 
 
@@ -279,7 +286,7 @@ if __name__ == "__main__":
     # print(ds.gen_frame(encodeCategory=True)['DemHomeOwner'].tail(10))
     # print(ds.frame['DemHomeOwner'].tail(10))
 
-    # ds.save(name='donors')
+    ds.save(name='donors')
     # ds = copper.load('donors.dataset')
 
     # ds.histogram('DemAge')
