@@ -9,6 +9,7 @@ Requirements
 1. Python (>=3.2)
 2. pandas
 3. scikit-learn
+4. matplotlib
 
 For a complete list see requirements.txt
 
