@@ -186,9 +186,8 @@ class DataSet(object):
 
     def save(self, name=None, format='.dataset'):
         import pickle
-        f = os.path.join(copper.config.export, name + format)
+        f = os.path.join(copper.config.data, name + format)
         output = open(f, 'wb')
-        # Pickle dictionary using protocol 0.
         pickle.dump(self, output)
         output.close()
 
@@ -242,21 +241,19 @@ class DataSet(object):
         return str(self.__unicode__())
 
 if __name__ == "__main__":
-    # copper.config.data_dir = '../tests/data'
+    # copper.config.path = '../tests/'
     # ds = copper.load('dataset/test1/data.csv')
     copper.config.path = '../examples/donors'
-    # ds = copper.load('donors.csv')
-    # print(ds)
+    ds = copper.load('donors.csv')
+    print(ds)
     # print(ds.frame['DemGender'].value_counts())
 
     # print(ds.gen_frame(encodeCategory=True)['DemHomeOwner'].tail(10))
     # print(ds.frame['DemHomeOwner'].tail(10))
 
-    # ds.save(name='donors')
+    ds.save(name='donors')
     ds = copper.load('donors.dataset')
-    print(ds)
 
-
-    # ds.histogram('DemAge', bins=20)
+    ds.histogram('DemAge', bins=20)
     # ds.histogram('DemGender', bins=20)
-    # plt.show()
+    plt.show()

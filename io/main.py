@@ -8,12 +8,13 @@ import pandas as pd
 
 def load(file_path):
     if file_path.endswith('dataset'):
-        f = os.path.join(copper.config.export, file_path)
+        f = os.path.join(copper.config.data, file_path)
         pkl_file = open(f, 'rb')
         return pickle.load(pkl_file)
     elif file_path.endswith('csv'):
+        f = os.path.join(copper.config.data, file_path)
         ds = copper.DataSet()
-        ds.load(file_path)
+        ds.load(f)
         return ds
 
 def export(data, name, format='csv'):
