@@ -7,7 +7,9 @@ from sklearn import preprocessing
 
 class DataSet(object):
     '''
-    Wrapper around a few pandas.DataFrames to include metadata.
+    Wrapper around a few pandas.DataFrames to include metadata
+    Provides easy transformation and generatios of DataFrames of the columns
+    by defining roles and types of each column
 
     Usage
     -----
@@ -23,6 +25,11 @@ class DataSet(object):
         self._binary_cols = None
         self._number_cols = None
 
+        # Configurations for import
+        self.numOfCategoriesLimit = 20
+        self.idFilter = ['id', 'index']
+        self.targetFilter = ['target']
+
     def set_data(self, df):
         '''
         Uses a pandas.DataFrame to generate the metadata [Role, Type]
@@ -35,22 +42,31 @@ class DataSet(object):
         self.columns = self._oframe.columns.values
         self._name = ''.join(self.columns)
 
-        # -- Roles
-        self.role = pd.Series(index=self._oframe.columns, name='Role', dtype=str)
+        # Roles
+        self.role = pd.Series(index=self.columns, name='Role', dtype=str)
+        # Roles: ID
         id_cols = [c for c in self.columns if c.lower() in ['id', 'index']]
+        if len(id_cols) > 0:
+            self.role[id_cols] = 'ID'
+        # Roles: Target
         target_cols = [c for c in self.columns if c.lower().startswith('target')]
-        self.role[id_cols[0]] = 'ID'
-        self.role[target_cols[0]] = self.TARGET
-        self.role[target_cols[1:]] = self.REJECTED
+        if len(target_cols) > 0:
+            self.role[target_cols[0]] = self.TARGET
+            self.role[target_cols[1:]] = self.REJECTED
+        # Roles: Input
         self.role = self.role.fillna(value=self.INPUT) # Missing cols are Input
 
-        # -- Types
+        # Types
         self.type = pd.Series(index=self.role.index, name='Type', dtype=str)
 
+        # Types: Number
         number_cols = [c for c in self.columns
-                            if self._oframe.dtypes[c] in [np.int64, np.float64]]
+                            if self._oframe.dtypes[c] in [np.int64, np.float64]
+                                and (len(set(self._oframe[c].values)) > self.numOfCategoriesLimit
+                                    or self.role[c] == self.TARGET)]
         self.type[number_cols] = self.NUMBER
 
+        # Types: Money
         money_cols = []
         obj_cols = self._oframe.dtypes[self._oframe.dtypes == object].index
         for col in obj_cols:
@@ -61,10 +77,10 @@ class DataSet(object):
                 money_cols.append(col)
         self.type[money_cols] = self.MONEY
 
-        # -- Types: Finally
+        # Types: Category
         self.type = self.type.fillna(value=self.CATEGORY)
 
-        # Encode categories:
+        # Create the categories encoders
         self._categories_encoders = {}
         for col in self.type.index[self.type == self.CATEGORY]:
             le = preprocessing.LabelEncoder()
@@ -116,10 +132,10 @@ class DataSet(object):
                     categories = list(set(cat_col))
                     categories.sort()
                     for category in categories:
-                        n_data = pd.Series(index=self._oframe.index)
-                        n_data[cat_col == category] = 1
+                        n_data = pd.Series(np.zeros(len(self._oframe.index)),
+                                            index=self._oframe.index, dtype=int)
                         n_data.name = '%s [%s]' % (cat_col.name, category)
-                        n_data = n_data.fillna(value=0)
+                        n_data[cat_col == category] = 1
                         ans = ans.join(n_data)
                     del ans[col] # Deletes the original column
                 else:
@@ -249,19 +265,23 @@ class DataSet(object):
         return str(self.__unicode__())
 
 if __name__ == "__main__":
-    # copper.config.path = '../tests/'
-    # ds = copper.load('dataset/test1/data.csv')
-    copper.config.path = '../examples/donors'
-    ds = copper.load('donors.csv')
-    print(ds)
+    copper.config.path = '../tests/'
+    ds = copper.load('dataset/test1/data.csv')
+    # ds.type['Number as Category'] = ds.NUMBER
+    print(ds.inputs)
+    # print(ds.gen_frame(encodeCategory=True))
+
+
+    # copper.config.path = '../examples/donors'
+    # ds = copper.load('donors.csv')
     # print(ds.frame['DemGender'].value_counts())
 
     # print(ds.gen_frame(encodeCategory=True)['DemHomeOwner'].tail(10))
     # print(ds.frame['DemHomeOwner'].tail(10))
 
-    ds.save(name='donors')
-    ds = copper.load('donors.dataset')
+    # ds.save(name='donors')
+    # ds = copper.load('donors.dataset')
 
-    ds.histogram('DemAge')
+    # ds.histogram('DemAge')
     # ds.histogram('DemGender', bins=20)
-    plt.show()
+    # plt.show()
