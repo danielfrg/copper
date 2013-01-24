@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"Cate",
+				"Category"
+			],
+			[
+				"col",
+				"column"
+			],
+			[
+				"exte",
+				"extend"
+			],
+			[
+				"file",
+				"file_path"
+			],
+			[
+				"hist",
+				"histogram"
+			],
+			[
+				"n_",
+				"n_df"
+			],
+			[
+				"clas",
+				"classes_"
+			],
+			[
 				"ds",
 				"ds"
 			],
@@ -38,10 +66,6 @@
 			[
 				"_",
 				"_frame"
-			],
-			[
-				"col",
-				"col_name"
 			],
 			[
 				"set",
@@ -490,30 +514,6 @@
 			[
 				"down",
 				"downloadMissing"
-			],
-			[
-				"symbol_s",
-				"symbol_s"
-			],
-			[
-				"start",
-				"start_date"
-			],
-			[
-				"dow",
-				"downloadMissing"
-			],
-			[
-				"do",
-				"downloadMissing"
-			],
-			[
-				"field",
-				"field_s"
-			],
-			[
-				"dir",
-				"dir_path"
 			]
 		]
 	},
@@ -523,15 +523,15 @@
 			"file": "core/set.py",
 			"settings":
 			{
-				"buffer_size": 5106,
+				"buffer_size": 9646,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "copper.sublime-project",
+			"file": "/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
 			"settings":
 			{
-				"buffer_size": 441,
+				"buffer_size": 6576,
 				"line_ending": "Unix"
 			}
 		}
@@ -545,6 +545,10 @@
 			[
 				"install",
 				"Package Control: Install Package"
+			],
+			[
+				"enable",
+				"Package Control: Enable Package"
 			],
 			[
 				"pa",
@@ -561,10 +565,6 @@
 			[
 				"disable",
 				"Package Control: Disable Package"
-			],
-			[
-				"enable",
-				"Package Control: Enable Package"
 			],
 			[
 				"remove",
@@ -607,7 +607,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 435.0
+		"width": 561.0
 	},
 	"console":
 	{
@@ -624,22 +624,37 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore_bu.html",
+		"/home/dfrodriguez/projects/packages/copper/explore/static/css/main.css",
+		"/home/dfrodriguez/projects/packages/copper/explore/explore.py",
+		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore.html",
+		"/home/dfrodriguez/projects/packages/copper/explore/templates/d3.html",
+		"/home/dfrodriguez/projects/packages/copper/core/set.py",
+		"/home/dfrodriguez/projects/packages/copper/io/main.py",
+		"/home/dfrodriguez/projects/packages/copper/examples/donors/exported/donors.dataset",
+		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
+		"/home/dfrodriguez/projects/packages/copper/README.md",
+		"/home/dfrodriguez/projects/packages/copper/tests/core/DataSet.py",
+		"/home/dfrodriguez/projects/packages/copper/core/config.py",
+		"/home/dfrodriguez/projects/packages/copper/explore/templates/index.html",
+		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
+		"/home/dfrodriguez/Videos/Doctor Who/Doctor.Who.2005-s01e11.Boom.Town.srt",
+		"/home/dfrodriguez/projects/packages/copper/core/hist.csv",
+		"/home/dfrodriguez/projects/packages/copper/explore/assets/explore.html",
+		"/home/dfrodriguez/.virtualenvs/finance/bin/activate",
+		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
+		"/home/dfrodriguez/projects/packages/copper/__init__.py",
+		"/home/dfrodriguez/projects/packages/copper/tests/DataSet.py",
+		"/home/dfrodriguez/projects/packages/copper/explore/hello.py",
+		"/home/dfrodriguez/projects/packages/copper/io/save_load.py",
+		"/home/dfrodriguez/projects/packages/copper/copper.sublime-project",
 		"/home/dfrodriguez/Downloads/README.TXT",
 		"/usr/lib/sublime-text-2/cracked",
 		"/usr/lib/sublime-text-2/sublime_text",
-		"/home/dfrodriguez/projects/packages/copper/explore/explore.py",
-		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
-		"/home/dfrodriguez/projects/packages/copper/core/config.py",
-		"/home/dfrodriguez/projects/packages/copper/tests/DataSet.py",
-		"/home/dfrodriguez/projects/packages/copper/core/set.py",
 		"/home/dfrodriguez/projects/packages/copper/explore/__init__.py",
-		"/home/dfrodriguez/projects/packages/copper/io/save_load.py",
-		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
-		"/home/dfrodriguez/projects/packages/copper/README.md",
 		"/home/dfrodriguez/projects/packages/copper/explore/explore.html",
 		"/home/dfrodriguez/projects/packages/copper/examples/exported/frame.csv",
 		"/home/dfrodriguez/projects/packages/copper/t.py",
-		"/home/dfrodriguez/projects/packages/copper/__init__.py",
 		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/scipy/__config__.py",
 		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/rpy2/__init__.py",
 		"/home/dfrodriguez/projects/packages/finance/test/FinanceTest.py",
@@ -649,7 +664,6 @@
 		"/home/dfrodriguez/projects/packages/finance/utils/DataAccess.py",
 		"/home/dfrodriguez/projects/packages/copper/io/cache.py",
 		"/home/dfrodriguez/projects/packages/copper/how_to.py",
-		"/home/dfrodriguez/projects/packages/copper/copper.sublime-project",
 		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/core/format.py",
 		"/home/dfrodriguez/projects/packages/copper/data/donors.csv",
 		"/home/dfrodriguez/projects/packages/copper/io/load.py",
@@ -670,7 +684,6 @@
 		"/home/dfrodriguez/projects/web/hellodjango/index/urls.py",
 		"/home/dfrodriguez/.virtualenvs/django14/bin/activate",
 		"/home/dfrodriguez/projects/web/hellodjango/.gitignore",
-		"/home/dfrodriguez/.virtualenvs/finance/bin/activate",
 		"/home/dfrodriguez/projects/web/hellodjango/Procfile",
 		"/home/dfrodriguez/projects/web/hellodjango/requirements.txt",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
@@ -738,20 +751,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/test/utils/DateUtilsTest.py",
 		"/home/dfrodriguez/Documents/packages/finance/events/SampleEvents.py",
 		"/home/dfrodriguez/Documents/packages/finance/events/Event.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTest_TVM_3.csv",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTest_TVM_2.csv",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTest_TVM.csv",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/finance.sublime-project",
-		"/home/dfrodriguez/Documents/packages/finance/utils/test/CalculatorTypesTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/__init__.py",
-		"/home/dfrodriguez/Documents/packages/finance/utils/test/CalculatorValuesTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/utils/test/CalculatorTest1.csv",
-		"/home/dfrodriguez/Documents/packages/finance/utils/test/CalculatorTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/sim/test/MarketSimulatorTest.py",
-		"/home/dfrodriguez/Dropbox/Documents/Coursera/Intro to Computational Finance/Week 1/returnCalculations.csv",
-		"/home/dfrodriguez/Documents/QSTK-master/qstkutil/tsutil.py",
-		"/home/dfrodriguez/Documents/QSTK-master/Examples/EventProfiler/SP500port.csv"
+		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTest_TVM_3.csv"
 	],
 	"find":
 	{
@@ -769,6 +769,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"load",
+			"bins",
+			"hist",
+			"size",
+			"books",
+			"sampleSVG",
+			"FileHandler",
+			"ExploreAPIHandler",
+			"SearchView",
+			"_columns",
+			"df",
+			"file",
+			"_categories",
+			"data_frame",
+			"0",
+			"generate_frame",
+			"ftarget",
 			"33 42",
 			"data_dir",
 			"_data_dir",
@@ -879,24 +896,7 @@
 			"array_2_dr",
 			"assertEquals",
 			"d2_array",
-			"array2",
-			"d1_array",
-			"CalculatorTypes",
-			"BasicUtilsTest",
-			"d1_array_1_dr",
-			"total_return",
-			"test_pv_fv_R_effret_with_m",
-			"solution",
-			"test_pv_fv_R_eff_ret_with_m",
-			"ear",
-			"grid",
-			"plt.grid(True)",
-			"grid",
-			"backend",
-			"rate",
-			"inf",
-			"daily_returns",
-			"daily"
+			"array2"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -922,15 +922,15 @@
 					"file": "core/set.py",
 					"settings":
 					{
-						"buffer_size": 5106,
+						"buffer_size": 9646,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								62,
-								62
+								6610,
+								6610
 							]
 						],
 						"settings":
@@ -940,35 +940,33 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2867.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "copper.sublime-project",
+					"file": "/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
 					"settings":
 					{
-						"buffer_size": 441,
+						"buffer_size": 6576,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								255,
-								255
+								4708,
+								4708
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1602.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
