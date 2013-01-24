@@ -40,16 +40,16 @@ class DataSet(object):
         id_cols = [c for c in self.columns if c.lower() in ['id', 'index']]
         target_cols = [c for c in self.columns if c.lower().startswith('target')]
         self.role[id_cols[0]] = 'ID'
-        self.role[target_cols[0]] = 'Target'
-        self.role[target_cols[1:]] = 'Rejected'
-        self.role = self.role.fillna(value='Input') # Missing cols are Input
+        self.role[target_cols[0]] = self.TARGET
+        self.role[target_cols[1:]] = self.REJECTED
+        self.role = self.role.fillna(value=self.INPUT) # Missing cols are Input
 
         # -- Types
         self.type = pd.Series(index=self.role.index, name='Type', dtype=str)
 
         number_cols = [c for c in self.columns
                             if self._oframe.dtypes[c] in [np.int64, np.float64]]
-        self.type[number_cols] = 'Number'
+        self.type[number_cols] = self.NUMBER
 
         money_cols = []
         obj_cols = self._oframe.dtypes[self._oframe.dtypes == object].index
@@ -59,14 +59,14 @@ class DataSet(object):
             eq = np.array(x) == np.array(y)
             if len(eq[eq==True]) >= 0.1 * len(x):
                 money_cols.append(col)
-        self.type[money_cols] = 'Money'
+        self.type[money_cols] = self.MONEY
 
         # -- Types: Finally
-        self.type = self.type.fillna(value='Category')
+        self.type = self.type.fillna(value=self.CATEGORY)
 
         # Encode categories:
         self._categories_encoders = {}
-        for col in self.type.index[self.type == 'Category']:
+        for col in self.type.index[self.type == self.CATEGORY]:
             le = preprocessing.LabelEncoder()
             le.fit(self._oframe[col].values)
             self._categories_encoders[col] = le
@@ -95,9 +95,9 @@ class DataSet(object):
         ans = pd.DataFrame(columns=cols, index=self._oframe.index)
 
         for col in cols:
-            if col in self.type[self.type == 'Number']:
+            if col in self.type[self.type == self.NUMBER]:
                 ans[col] = self._oframe[col]
-            elif col in self.type[self.type == 'Money']:
+            elif col in self.type[self.type == self.MONEY]:
                 # Removes the '$' and ','' if necessary
                 ser = pd.Series(index=ans.index, dtype=float)
                 for index, value in zip(self._oframe.index, self._oframe[col]):
@@ -131,9 +131,13 @@ class DataSet(object):
     #                          PROPERTIES & CONSTANTS
     # --------------------------------------------------------------------------
 
-    category = 'Category'
-    money = 'Money'
-    number = 'Number'
+    MONEY = 'Money'
+    NUMBER = 'Number'
+    CATEGORY = 'Category'
+
+    INPUT = 'Input'
+    TARGET = 'Target'
+    REJECTED = 'Rejected'
 
     def get_metadata(self):
         '''
@@ -154,21 +158,21 @@ class DataSet(object):
 
     def get_inputs(self):
         '''
-        Return a pandas.DataFrame of the columns marked with Role='Input'
+        Return a pandas.DataFrame of the columns marked with Role=self.INPUT
         with this catacteristics:
             1. Money columns transformed into float
             2. Categorical columns are transformed for Machine Learning
         '''
-        return self.gen_frame(cols=self.role[self.role == 'Input'].index,
+        return self.gen_frame(cols=self.role[self.role == self.INPUT].index,
                                                                 mlCategory=True)
 
     def get_target(self):
         '''
-        Return a pandas.DataFrame of the column marked with Role='Target'
+        Return a pandas.DataFrame of the column marked with Role=self.TARGET
         with this catacteristics:
             1. Money columns transformed into float
         '''
-        return self.gen_frame(cols=self.role[self.role == 'Target'].index)
+        return self.gen_frame(cols=self.role[self.role == self.TARGET].index)
 
     def get_cat_coder(self):
         return self._categories_encoders
@@ -199,10 +203,9 @@ class DataSet(object):
         ''' Restores the original version of the DataFrame '''
         self.set_data(self._oframe)
 
-    def histogram(self, col, bins=20):
+    def histogram(self, col, bins=None):
         '''
-        Return a pandas.DataFrame with the information necessary to build a
-        histogram for each column, that is divisions and count of each bin
+        Draws a histogram for the selected column on matplotlib
 
         Parameters
         ----------
@@ -214,10 +217,15 @@ class DataSet(object):
         '''
         data = self.gen_frame(cols=[col], encodeCategory=True)
         values = data.dropna().values[:,0]
-        bins = len(set(values)) if len(set(values)) < bins else bins
+
+        if self.type[col] == self.CATEGORY:
+            bins = len(set(values))
+        elif self.type[col] == self.NUMBER or self.type[col] == self.MONEY:
+            if bins is None:
+                bins=20
         count, divis = np.histogram(values, bins=bins)
 
-        if self.type[col] == 'Category':
+        if self.type[col] == self.CATEGORY:
             types = self._categories_encoders[col].classes_
             tooltip = ['%d (%s)' % (cnt, typ) for cnt, typ in zip(count, types)]
         else:
@@ -254,6 +262,6 @@ if __name__ == "__main__":
     ds.save(name='donors')
     ds = copper.load('donors.dataset')
 
-    ds.histogram('DemAge', bins=20)
+    ds.histogram('DemAge')
     # ds.histogram('DemGender', bins=20)
     plt.show()
