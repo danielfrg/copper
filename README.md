@@ -1,7 +1,7 @@
 copper
 ======
 
-Wrapper around pandas & scikitlearn for doing Data Analysis in python
+Wrapper around pandas & scikit-learn for doing Data Analysis in python
 
 Requirements
 ------------
