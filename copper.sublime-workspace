@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"Tests",
+				"Tests"
+			],
+			[
+				"id",
+				"idFilterCols"
+			],
+			[
+				"nu",
+				"numOfCategoriesLimit"
+			],
+			[
+				"num",
+				"number"
+			],
+			[
+				"enco",
+				"encodeCategory"
+			],
+			[
 				"Cate",
 				"Category"
 			],
@@ -70,10 +90,6 @@
 			[
 				"set",
 				"set_data"
-			],
-			[
-				"num",
-				"number_cols"
 			],
 			[
 				"bin",
@@ -380,10 +396,6 @@
 				"lookforwardDays"
 			],
 			[
-				"id",
-				"idx_start_date"
-			],
-			[
 				"date",
 				"datetime"
 			],
@@ -502,39 +514,11 @@
 			[
 				"clo",
 				"close_loaded"
-			],
-			[
-				"ca",
-				"cache_dir"
-			],
-			[
-				"fiel",
-				"field"
-			],
-			[
-				"down",
-				"downloadMissing"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "core/set.py",
-			"settings":
-			{
-				"buffer_size": 9646,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
-			"settings":
-			{
-				"buffer_size": 6576,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -624,18 +608,23 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/packages/copper/tests/core/DataSet.py",
+		"/home/dfrodriguez/projects/packages/copper/core/set.py",
+		"/home/dfrodriguez/projects/packages/copper/io/main.py",
+		"/home/dfrodriguez/projects/packages/copper/core/config.py",
+		"/home/dfrodriguez/projects/packages/copper/README.md",
+		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/frame.csv",
+		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/target.csv",
+		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/metadata.csv",
+		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/inputs.csv",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore_bu.html",
 		"/home/dfrodriguez/projects/packages/copper/explore/static/css/main.css",
 		"/home/dfrodriguez/projects/packages/copper/explore/explore.py",
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore.html",
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/d3.html",
-		"/home/dfrodriguez/projects/packages/copper/core/set.py",
-		"/home/dfrodriguez/projects/packages/copper/io/main.py",
 		"/home/dfrodriguez/projects/packages/copper/examples/donors/exported/donors.dataset",
 		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
-		"/home/dfrodriguez/projects/packages/copper/README.md",
-		"/home/dfrodriguez/projects/packages/copper/tests/core/DataSet.py",
-		"/home/dfrodriguez/projects/packages/copper/core/config.py",
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/index.html",
 		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
 		"/home/dfrodriguez/Videos/Doctor Who/Doctor.Who.2005-s01e11.Boom.Town.srt",
@@ -746,12 +735,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/test/sim/MarketSimulatorTest.py",
 		"/home/dfrodriguez/Documents/packages/finance/test/sim/docs/Test1.csv",
 		"/home/dfrodriguez/Documents/packages/finance/utils/ListUtils.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/DataAccessTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/FileManagerTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/DateUtilsTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/events/SampleEvents.py",
-		"/home/dfrodriguez/Documents/packages/finance/events/Event.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTest_TVM_3.csv"
+		"/home/dfrodriguez/Documents/packages/finance/test/utils/DataAccessTest.py"
 	],
 	"find":
 	{
@@ -769,6 +753,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"targetFilter",
+			"numOfCategoriesLimit",
+			"Rejected",
+			"'Target'",
+			"'Input'",
+			"'Inpu",
+			"'Number'",
+			"'Money'",
+			"'Category'",
+			"\n        ",
 			"load",
 			"bins",
 			"hist",
@@ -886,17 +880,7 @@
 			"test_time_value_of_money",
 			"assert_series_equal",
 			"pd_test",
-			"CalculatorValues",
-			"np_test",
-			"> Returns",
-			"Returns",
-			"assert_frame_equal",
-			"pd_test",
-			"matrix_dr",
-			"array_2_dr",
-			"assertEquals",
-			"d2_array",
-			"array2"
+			"CalculatorValues"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -914,63 +898,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "core/set.py",
-					"settings":
-					{
-						"buffer_size": 9646,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6610,
-								6610
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2867.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
-					"settings":
-					{
-						"buffer_size": 6576,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4708,
-								4708
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1602.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
