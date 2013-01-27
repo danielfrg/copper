@@ -9,9 +9,9 @@ class DataSetTest(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        # suite.addTest(DataSetTest('test_1'))
-        # suite.addTest(DataSetTest('test_2'))
-        # suite.addTest(DataSetTest('test_save_load'))
+        suite.addTest(DataSetTest('test_1'))
+        suite.addTest(DataSetTest('test_2'))
+        suite.addTest(DataSetTest('test_save_load'))
         suite.addTest(DataSetTest('test_3'))
         return suite
 
@@ -46,7 +46,7 @@ class DataSetTest(CopperTest):
         self.assertEqual(ds.inputs, inputs)
 
         target = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/target.csv'))
-        self.assertEqual(ds.target, target)
+        self.assertEqual(ds.target, target['Target'])
 
     def test_2(self):
         '''

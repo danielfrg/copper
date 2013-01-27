@@ -52,7 +52,7 @@ class CopperTest(unittest.TestCase):
     def assertSeriesEqual(self, ans, sol, digits=0):
         self.assertSeries(ans)
         self.assertSeries(sol)
-        self.assertEquals(ans.name, sol.name)
+        self.assertEqual(ans.name, sol.name)
 
         if digits == 0:
             pd_test.assert_series_equal(ans, sol, digits)
