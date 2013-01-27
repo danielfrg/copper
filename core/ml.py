@@ -25,23 +25,29 @@ class MachineLearning():
             clf = self.models[model]
             clf.fit(self.X_train, self.y_train)
 
-    def score(self):
-        # Is this useful?
-        ans = pd.Series(name='Score')
+    def predict(self):
+        ans = pd.DataFrame(columns=self.models.keys(), index=range(len(self.X_test)))
         for model in self.models:
             clf = self.models[model]
-            scores = clf.score(X_test, y_test)
-            print(scores)
+            scores = clf.predict(self.X_test)
+            ans[model][:] = pd.Series(scores)
+        return ans
+
+    def predict_proba(self):
+        ans = pd.DataFrame(columns=self.models.keys(), index=range(len(self.X_test)))
+        for model in self.models:
+            clf = self.models[model]
+            scores = clf.predict_proba(self.X_test)
+            ans[model][:] = pd.Series(scores[:,0])
+        return ans
 
     def accuracy(self):
-        from sklearn.metrics import accuracy_score
         ans = pd.Series(index=self.models.keys(), name='Accuracy')
 
         for model in self.models.keys():
             clf = self.models[model]
-            y_pred = clf.predict(self.X_test)
-            ans[model] = accuracy_score(self.y_test, y_pred)
-        return ans
+            ans[model] = clf.score(self.X_test, self.y_test)
+        return ans.order(ascending=False)
 
     def auc(self):
         from sklearn.metrics import auc_score
@@ -87,9 +93,6 @@ class MachineLearning():
         pl.matshow(self.cf()[model])
         pl.title('%s Confusion matrix' % model)
         pl.colorbar()
-
-    def predict(self, inputs):
-        pass # TODO
 
     def set_train(self, ds):
         self.X_train = ds.inputs
@@ -140,14 +143,20 @@ if __name__ == '__main__':
     from sklearn.naive_bayes import GaussianNB
     gnb_clf = GaussianNB()
 
+    from sklearn.ensemble import GradientBoostingClassifier
+    gr_bst_clf = GradientBoostingClassifier()
+
     ml.add_model(svm_clf, 'SVM')
     ml.add_model(tree_clf, 'Decision Tree')
     ml.add_model(gnb_clf, 'GaussianNB')
+    ml.add_model(gr_bst_clf, 'Grad Boosting')
 
     ml.fit()
 
-    ml.roc()
-    plt.show()
+    print(ml.predict().head())
+    print(ml.predict_proba().head())
+    # ml.roc()
+    # plt.show()
 
 
     # IRIS

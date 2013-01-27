@@ -244,6 +244,7 @@ class DataSet(object):
     def restore(self):
         ''' Restores the original version of the DataFrame '''
         self.set_data(self._oframe)
+        self._transformations = []
 
     def index(self, initial, final):
         self._index_init = initial
