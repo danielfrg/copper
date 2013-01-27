@@ -21,6 +21,7 @@ class DataSet(object):
         self._name = ''
         self._oframe = None
         self.money_symbol = '$'
+        self._transformations = []
 
         self._money_cols = None
         self._binary_cols = None
@@ -102,6 +103,10 @@ class DataSet(object):
             le.fit(self._oframe[col].values)
             self._categories_encoders[col] = le
 
+
+        self._index_init = 0
+        self._index_final = len(self._oframe)
+
     def gen_frame(self, cols=None,
                   encodeCategory=False, mlCategory=False):
         '''
@@ -156,7 +161,11 @@ class DataSet(object):
                 else:
                     ans[col] = self._oframe[col]
 
-        return ans
+        for trans in self._transformations:
+            if trans['col'] in ans.columns:
+                ans[trans['col']] = ans[trans['col']].apply(trans['fnc'])
+
+        return ans[self._index_init:self._index_final]
 
     # --------------------------------------------------------------------------
     #                          PROPERTIES & CONSTANTS
@@ -166,6 +175,7 @@ class DataSet(object):
     NUMBER = 'Number'
     CATEGORY = 'Category'
 
+    ID = 'ID'
     INPUT = 'Input'
     TARGET = 'Target'
     REJECTED = 'Rejected'
@@ -203,7 +213,11 @@ class DataSet(object):
         with this catacteristics:
             1. Money columns transformed into float
         '''
-        return self.gen_frame(cols=self.role[self.role == self.TARGET].index)
+        df = self.gen_frame(encodeCategory=True,
+                                cols=self.role[self.role == self.TARGET].index)
+        if len(df.columns) == 1:
+            return df[df.columns[0]]
+        return df
 
     def get_cat_coder(self):
         return self._categories_encoders
@@ -230,6 +244,13 @@ class DataSet(object):
     def restore(self):
         ''' Restores the original version of the DataFrame '''
         self.set_data(self._oframe)
+
+    def index(self, initial, final):
+        self._index_init = initial
+        self._index_final = final
+
+    def transform(self, col, fnc):
+        self._transformations.append({'col': col, 'fnc':fnc})
 
     def histogram(self, col, bins=None):
         '''
@@ -269,6 +290,7 @@ class DataSet(object):
         for c, h, t in zip(center, count, tooltip):
             ax.bar(c, h, align = 'center', width=width, label=t)
         ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        return ax
 
     def __unicode__(self):
         return self.get_metadata()
@@ -276,18 +298,20 @@ class DataSet(object):
     def __str__(self):
         return str(self.__unicode__())
 
-if __name__ == "__main__":
-    copper.config.path = '../tests/'
-    ds = copper.DataSet()
-    ds.load('dataset/test1/data.csv')
+# if __name__ == "__main__":
+    # copper.config.path = '../tests/'
+    # ds = copper.DataSet()
+    # ds.load('dataset/test1/data.csv')
     # ds.type['Number as Category'] = ds.NUMBER
-    print(ds)
+    # print(ds)
     # print(ds.gen_frame(encodeCategory=True))
 
 
     # copper.config.path = '../examples/donors'
-    # ds = copper.load('donors.csv')
-    # print(ds.frame['DemGender'].value_counts())
+    # ds = copper.DataSet()
+    # ds.load('donors.csv')
+    # print(ds)
+    # print(ds.inputs['DemGender']) # TODO: make it possible
 
     # print(ds.gen_frame(encodeCategory=True)['DemHomeOwner'].tail(10))
     # print(ds.frame['DemHomeOwner'].tail(10))
@@ -295,6 +319,13 @@ if __name__ == "__main__":
     # ds.save(name='donors')
     # ds = copper.load('donors.dataset')
 
-    # ds.histogram('DemAge')
-    # ds.histogram('DemGender', bins=20)
+    # ds.histogram('DemMedIncome')
+    # ds.histogram('DemGender')
     # plt.show()
+
+    # copper.config.path = '../examples/iris'
+    # ds = copper.read_csv('iris.csv')
+    # print(ds)
+    # ds.role['class'] = 'as'
+
+

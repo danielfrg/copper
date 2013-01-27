@@ -28,3 +28,8 @@ def save(data, name, format='csv'):
         output = open(f, 'wb')
         pickle.dump(data, output)
         output.close()
+
+def read_csv(file_path):
+    ds = copper.DataSet()
+    ds.load(file_path)
+    return ds

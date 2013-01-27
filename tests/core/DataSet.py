@@ -9,9 +9,10 @@ class DataSetTest(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(DataSetTest('test_1'))
-        suite.addTest(DataSetTest('test_2'))
-        suite.addTest(DataSetTest('test_save_load'))
+        # suite.addTest(DataSetTest('test_1'))
+        # suite.addTest(DataSetTest('test_2'))
+        # suite.addTest(DataSetTest('test_save_load'))
+        suite.addTest(DataSetTest('test_3'))
         return suite
 
     def test_1(self):
@@ -84,6 +85,21 @@ class DataSetTest(CopperTest):
 
         encoded = ds.gen_frame(encodeCategory=True)
         self.assertEqual(encoded, inputs)
+
+    def test_3(self):
+        '''
+        This test compares the iris dataset from scikit-learn to the produced by
+        copper
+        '''
+        self.setUpData()
+        ds = copper.read_csv('iris/iris.csv')
+        ds.role['class'] = ds.TARGET
+
+        from sklearn import datasets
+        iris = datasets.load_iris()
+
+        self.assertEqual(ds.inputs.values, iris.data)
+        self.assertEqual(ds.target.values, iris.target)
 
     def test_save_load(self):
         '''
