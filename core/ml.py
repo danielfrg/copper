@@ -7,6 +7,18 @@ class MachineLearning():
     def __init__(self):
         self.dataset = None
         self.models = {}
+        self.costs = [[1,0],[0,1]]
+
+    def set_train(self, ds):
+        self.X_train = ds.inputs
+        self.y_train = ds.target
+
+    def set_test(self, ds):
+        self.X_test = ds.inputs
+        self.y_test = ds.target
+
+    train = property(None, set_train)
+    test = property(None, set_test)
 
     def add_model(self, clf, _id):
         self.models[_id] = clf
@@ -41,25 +53,15 @@ class MachineLearning():
             ans[model][:] = pd.Series(scores[:,0])
         return ans
 
-    def accuracy(self):
+    def accuracy(self, ascending=False):
         ans = pd.Series(index=self.models.keys(), name='Accuracy')
 
         for model in self.models.keys():
             clf = self.models[model]
             ans[model] = clf.score(self.X_test, self.y_test)
-        return ans.order(ascending=False)
+        return ans.order(ascending=ascending)
 
-    def auc(self):
-        from sklearn.metrics import auc_score
-        ans = pd.Series(index=self.models.keys(), name='Accuracy')
-
-        for model in self.models.keys():
-            clf = self.models[model]
-            y_pred = clf.predict(self.X_test)
-            ans[model] = auc_score(self.y_test, self.y_pred)
-        return ans
-
-    def cf(self):
+    def cm(self):
         from sklearn.metrics import confusion_matrix
         ans = {}
 
@@ -69,16 +71,28 @@ class MachineLearning():
             ans[model] = confusion_matrix(self.y_test, y_pred)
         return ans
 
-    def roc(self):
-        import pylab as pl
-        from sklearn.metrics import roc_curve, auc
+    def auc(self, ascending=False):
+        from sklearn.metrics import auc_score
+        ans = pd.Series(index=self.models.keys(), name='Accuracy')
 
         for model in self.models.keys():
             clf = self.models[model]
+            y_pred = clf.predict(self.X_test)
+            ans[model] = auc_score(self.y_test, y_pred)
+        return ans.order(ascending=ascending)
+
+    def roc(self, ascending=False):
+        import pylab as pl
+        from sklearn.metrics import roc_curve
+
+        auc_s = self.auc(ascending=ascending)
+
+        for model in auc_s.index:
+            clf = self.models[model]
             probas_ = clf.predict_proba(self.X_test)
             fpr, tpr, thresholds = roc_curve(self.y_test, probas_[:, 1])
-            roc_auc = auc(fpr, tpr)
-            pl.plot(fpr, tpr, label='%s (area = %0.2f)' % (model, roc_auc))
+            auc = auc_s[model]
+            pl.plot(fpr, tpr, label='%s (area = %0.2f)' % (model, auc))
 
         pl.plot([0, 1], [0, 1], 'k--')
         pl.xlim([0.0, 1.0])
@@ -88,24 +102,48 @@ class MachineLearning():
         pl.title('ROC: Receiver operating characteristic')
         pl.legend(loc="lower right")
 
-    def plot_cf(self, model):
+    def plot_cm(self, model):
         import pylab as pl
         pl.matshow(self.cf()[model])
         pl.title('%s Confusion matrix' % model)
         pl.colorbar()
 
-    def set_train(self, ds):
-        self.X_train = ds.inputs
-        self.y_train = ds.target
+    def cm_table(self, value):
+        cols = ['Predicted %d\'s' % value, 'Correct %d\'s' % value, 'Rate']
+        ans = pd.DataFrame(index=self.models.keys(), columns=cols)
 
-    def set_test(self, ds):
-        self.X_test = ds.inputs
-        self.y_test = ds.target
+        cm_s = self.cm()
+        for model in cm_s.keys():
+            cm = cm_s[model]
+            ans['Predicted %d\'s' % value][model] = cm[:,value].sum()
+            ans['Correct %d\'s' % value][model] = cm[value,value].sum()
+            ans['Rate'][model] = cm[value,value].sum() / cm[:,value].sum()
 
-    train = property(None, set_train)
-    test = property(None, set_test)
+        return ans
 
-    # dataset = property(get_dataset, set_dataset) # In case of needed
+    def revenue(self, by='Net revenue', ascending=False):
+        cols = ['Loss from False Positive', 'Revenue', 'Net revenue']
+        ans = pd.DataFrame(index=self.models.keys(), columns=cols)
+
+        cm_s = self.cm()
+        for model in cm_s.keys():
+            cm = cm_s[model]
+            ans['Loss from False Positive'][model] = cm[0,1] * self.costs[0][1]
+            ans['Revenue'][model] = cm[1,1] * self.costs[1][1]
+            ans['Net revenue'][model] = ans['Revenue'][model] - \
+                                        ans['Loss from False Positive'][model]
+
+        return ans.sort_index(by=by, ascending=ascending)
+
+    def oportunity_cost(self, ascending=False):
+        ans = pd.Series(index=self.models.keys(), name='Oportuniy cost')
+
+        cm_s = self.cm()
+        for model in cm_s.keys():
+            cm = cm_s[model]
+            ans[model] = cm[1,0] * self.costs[1][0]
+        return ans.order(ascending=ascending)
+
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
@@ -146,17 +184,26 @@ if __name__ == '__main__':
     from sklearn.ensemble import GradientBoostingClassifier
     gr_bst_clf = GradientBoostingClassifier()
 
-    ml.add_model(svm_clf, 'SVM')
+    # ml.add_model(svm_clf, 'SVM')
     ml.add_model(tree_clf, 'Decision Tree')
     ml.add_model(gnb_clf, 'GaussianNB')
     ml.add_model(gr_bst_clf, 'Grad Boosting')
 
     ml.fit()
 
-    print(ml.predict().head())
-    print(ml.predict_proba().head())
+    # print(ml.auc())
+    # print(ml.predict().head())
+    # print(ml.predict_proba().head())
     # ml.roc()
     # plt.show()
+
+    ml.costs = [[0, 4], [12, 16]]
+
+    # print(ml.cm_table(value=1))
+    # print(ml.cm_table(value=0))
+
+    print(ml.revenue())
+    print(ml.oportunity_cost())
 
 
     # IRIS
