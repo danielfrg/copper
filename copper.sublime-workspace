@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"au",
+				"auc_s"
+			],
+			[
+				"a",
+				"auc_s"
+			],
+			[
+				"as",
+				"ascending"
+			],
+			[
+				"X",
+				"X_test"
+			],
+			[
+				"col",
+				"columns"
+			],
+			[
+				"_in",
+				"_index_final"
+			],
+			[
+				"X_",
+				"X_test"
+			],
+			[
+				"colu",
+				"columns"
+			],
+			[
 				"Tests",
 				"Tests"
 			],
@@ -26,10 +58,6 @@
 			[
 				"Cate",
 				"Category"
-			],
-			[
-				"col",
-				"column"
 			],
 			[
 				"exte",
@@ -132,10 +160,6 @@
 				"X_Ex"
 			],
 			[
-				"X",
-				"X_Ex"
-			],
-			[
 				"x",
 				"x"
 			],
@@ -220,10 +244,6 @@
 				"assertArray"
 			],
 			[
-				"as",
-				"assertArrayEqual"
-			],
-			[
 				"d1",
 				"d1_array2"
 			],
@@ -306,10 +326,6 @@
 			[
 				"port",
 				"Portfolio"
-			],
-			[
-				"colu",
-				"column"
 			],
 			[
 				"pr",
@@ -498,22 +514,6 @@
 			[
 				"ow",
 				"own_each_stock"
-			],
-			[
-				"cas",
-				"cash_change"
-			],
-			[
-				"init",
-				"initial_cash"
-			],
-			[
-				"fir",
-				"first_row"
-			],
-			[
-				"clo",
-				"close_loaded"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 	"build_system": "Python Virtual env",
 	"command_palette":
 	{
-		"height": 56.0,
+		"height": 125.0,
 		"selected_items":
 		[
 			[
@@ -591,7 +591,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 561.0
+		"width": 435.0
 	},
 	"console":
 	{
@@ -608,15 +608,30 @@
 	},
 	"file_history":
 	[
-		"/home/dfrodriguez/projects/packages/copper/.gitignore",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/dfrodriguez/projects/packages/copper/core/ml.py",
+		"/home/dfrodriguez/projects/web/danielfrg.github.com/_posts/2013-1-26-copper-easy-data-analysis-on-python.html",
+		"/home/dfrodriguez/projects/web/danielfrg.github.com/utils/bu.html",
+		"/home/dfrodriguez/projects/web/danielfrg.github.com/utils/howto_ipython_2_jekyll.md",
 		"/home/dfrodriguez/projects/packages/copper/core/set.py",
-		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
-		"/home/dfrodriguez/projects/packages/copper/io/main.py",
+		"/home/dfrodriguez/projects/packages/copper/examples/catalog/data/training.csv",
+		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
 		"/home/dfrodriguez/projects/packages/copper/tests/core/DataSet.py",
+		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/target.csv",
+		"/home/dfrodriguez/projects/packages/copper/__init__.py",
+		"/home/dfrodriguez/projects/packages/copper/examples/iris/data/iris.csv",
+		"/home/dfrodriguez/projects/packages/copper/examples/catalog/training.csv",
+		"/home/dfrodriguez/projects/packages/copper/core/ml_2.py",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/svm/classes.py",
+		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
+		"/home/dfrodriguez/projects/packages/copper/io/main.py",
+		"/home/dfrodriguez/projects/packages/copper/.gitignore",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
 		"/home/dfrodriguez/projects/packages/copper/core/config.py",
 		"/home/dfrodriguez/projects/packages/copper/README.md",
 		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/frame.csv",
-		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/target.csv",
 		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/metadata.csv",
 		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/inputs.csv",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
@@ -626,15 +641,12 @@
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore.html",
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/d3.html",
 		"/home/dfrodriguez/projects/packages/copper/examples/donors/exported/donors.dataset",
-		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/index.html",
-		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
 		"/home/dfrodriguez/Videos/Doctor Who/Doctor.Who.2005-s01e11.Boom.Town.srt",
 		"/home/dfrodriguez/projects/packages/copper/core/hist.csv",
 		"/home/dfrodriguez/projects/packages/copper/explore/assets/explore.html",
 		"/home/dfrodriguez/.virtualenvs/finance/bin/activate",
 		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
-		"/home/dfrodriguez/projects/packages/copper/__init__.py",
 		"/home/dfrodriguez/projects/packages/copper/tests/DataSet.py",
 		"/home/dfrodriguez/projects/packages/copper/explore/hello.py",
 		"/home/dfrodriguez/projects/packages/copper/io/save_load.py",
@@ -676,7 +688,6 @@
 		"/home/dfrodriguez/projects/web/hellodjango/.gitignore",
 		"/home/dfrodriguez/projects/web/hellodjango/Procfile",
 		"/home/dfrodriguez/projects/web/hellodjango/requirements.txt",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/dfrodriguez/projects/packages/finance/finance.sublime-workspace",
 		"/home/dfrodriguez/projects/packages/finance/examples/ItCFaFE/Assignment 3 - Computations/Solution.py",
 		"/home/dfrodriguez/projects/packages/finance/examples/ItCFaFE/README.md",
@@ -724,18 +735,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/test/utils/FileManager.py",
 		"/home/dfrodriguez/Documents/packages/finance/test/events/__init__.py",
 		"/home/dfrodriguez/Documents/packages/finance/.gitignore",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/PastEventTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/MultipleEventTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/events/PastEvent.py",
-		"/home/dfrodriguez/Documents/packages/finance/events/EventStudy.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/docs/PastEvent_window_1.csv",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/EventFinderTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorValuesTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTypesTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/sim/MarketSimulator.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/sim/MarketSimulatorTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/sim/docs/Test1.csv",
-		"/home/dfrodriguez/Documents/packages/finance/utils/ListUtils.py"
+		"/home/dfrodriguez/Documents/packages/finance/test/events/PastEventTest.py"
 	],
 	"find":
 	{
@@ -753,6 +753,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"inf",
+			"ds_train",
+			"ds",
+			"models",
+			"BaseSVC",
+			"SVC(",
 			"encodestring",
 			"targetFilter",
 			"numOfCategoriesLimit",
@@ -874,12 +880,6 @@
 			"assertSeriesEqual",
 			"self.sim",
 			"assert_frame_equal",
-			"pd_test",
-			"nyse_add_substract",
-			"self",
-			"funcion_name",
-			"test_time_value_of_money",
-			"assert_series_equal",
 			"pd_test"
 		],
 		"highlight": true,
@@ -936,7 +936,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 154.0
+		"height": 181.0
 	},
 	"replace":
 	{
