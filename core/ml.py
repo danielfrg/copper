@@ -1,4 +1,5 @@
 import copper
+import numpy as np
 import pandas as pd
 from sklearn import cross_validation
 
@@ -61,16 +62,6 @@ class MachineLearning():
             ans[model] = clf.score(self.X_test, self.y_test)
         return ans.order(ascending=ascending)
 
-    def cm(self):
-        from sklearn.metrics import confusion_matrix
-        ans = {}
-
-        for model in self.models.keys():
-            clf = self.models[model]
-            y_pred = clf.predict(self.X_test)
-            ans[model] = confusion_matrix(self.y_test, y_pred)
-        return ans
-
     def auc(self, ascending=False):
         from sklearn.metrics import auc_score
         ans = pd.Series(index=self.models.keys(), name='Accuracy')
@@ -102,9 +93,19 @@ class MachineLearning():
         pl.title('ROC: Receiver operating characteristic')
         pl.legend(loc="lower right")
 
+    def cm(self):
+        from sklearn.metrics import confusion_matrix
+        ans = {}
+
+        for model in self.models.keys():
+            clf = self.models[model]
+            y_pred = clf.predict(self.X_test)
+            ans[model] = confusion_matrix(self.y_test, y_pred)
+        return ans
+
     def plot_cm(self, model):
         import pylab as pl
-        pl.matshow(self.cf()[model])
+        pl.matshow(self.cm()[model])
         pl.title('%s Confusion matrix' % model)
         pl.colorbar()
 
@@ -144,6 +145,16 @@ class MachineLearning():
             ans[model] = cm[1,0] * self.costs[1][0]
         return ans.order(ascending=ascending)
 
+    def revenue_idiot(self, ascending=False):
+        cols = ['Expense', 'Revenue', 'Net revenue']
+        ans = pd.Series(index=cols)
+
+        counts = np.bincount(self.y_test)
+        ans['Expense'] = counts[0] * self.costs[1][0]
+        ans['Revenue'] = counts[1] * self.costs[1][1]
+        ans['Net revenue'] = ans['Revenue'] - ans['Expense']
+
+        return ans.order(ascending=ascending)
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
@@ -202,8 +213,9 @@ if __name__ == '__main__':
     # print(ml.cm_table(value=1))
     # print(ml.cm_table(value=0))
 
-    print(ml.revenue())
-    print(ml.oportunity_cost())
+    # print(ml.revenue())
+    # print(ml.oportunity_cost())
+    print(ml.revenue_idiot())
 
 
     # IRIS
