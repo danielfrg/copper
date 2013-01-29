@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"cate",
+				"_category_labels"
+			],
+			[
+				"spli",
+				"splits"
+			],
+			[
+				"_cate",
+				"_category2number"
+			],
+			[
+				"new",
+				"new_cols"
+			],
+			[
+				"ne",
+				"new_cols"
+			],
+			[
+				"sl",
+				"splits"
+			],
+			[
+				"mo",
+				"money_symbols"
+			],
+			[
+				"money",
+				"money_symbol"
+			],
+			[
+				"tran",
+				"transformation"
+			],
+			[
 				"au",
 				"auc_s"
 			],
@@ -122,10 +158,6 @@
 			[
 				"bin",
 				"binary_cols"
-			],
-			[
-				"mo",
-				"money_cols"
 			],
 			[
 				"meta",
@@ -482,48 +514,24 @@
 			[
 				"excep",
 				"exception"
-			],
-			[
-				"estimi",
-				"estimation_period"
-			],
-			[
-				"es",
-				"estimation_period"
-			],
-			[
-				"st",
-				"std_error"
-			],
-			[
-				"shar",
-				"sharpe"
-			],
-			[
-				"load",
-				"load_trades"
-			],
-			[
-				"por",
-				"portfolio"
-			],
-			[
-				"valu",
-				"value_equities"
-			],
-			[
-				"ow",
-				"own_each_stock"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "core/ml.py",
+			"settings":
+			{
+				"buffer_size": 7669,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
 	{
-		"height": 125.0,
+		"height": 102.0,
 		"selected_items":
 		[
 			[
@@ -608,9 +616,17 @@
 	},
 	"file_history":
 	[
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/dfrodriguez/.bashrc",
+		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
+		"/home/dfrodriguez/projects/copper/tests/core/DataSet.py",
+		"/home/dfrodriguez/projects/copper/core/set_bu.py",
+		"/home/dfrodriguez/projects/copper/core/set.py",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/pandas/core/frame.py",
+		"/home/dfrodriguez/projects/copper/tests/CopperTest.py",
+		"/home/dfrodriguez/projects/copper/copper.sublime-project",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
 		"/home/dfrodriguez/projects/packages/copper/core/ml.py",
 		"/home/dfrodriguez/projects/web/danielfrg.github.com/_posts/2013-1-26-copper-easy-data-analysis-on-python.html",
 		"/home/dfrodriguez/projects/web/danielfrg.github.com/utils/bu.html",
@@ -646,7 +662,6 @@
 		"/home/dfrodriguez/projects/packages/copper/core/hist.csv",
 		"/home/dfrodriguez/projects/packages/copper/explore/assets/explore.html",
 		"/home/dfrodriguez/.virtualenvs/finance/bin/activate",
-		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
 		"/home/dfrodriguez/projects/packages/copper/tests/DataSet.py",
 		"/home/dfrodriguez/projects/packages/copper/explore/hello.py",
 		"/home/dfrodriguez/projects/packages/copper/io/save_load.py",
@@ -679,7 +694,6 @@
 		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/version.py",
 		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/info.py",
 		"/home/dfrodriguez/projects/packages/finance/.gitignore",
-		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/projects/web/hellodjango/templates/index/index.html",
 		"/home/dfrodriguez/projects/web/hellodjango/index/views.py",
 		"/home/dfrodriguez/projects/web/hellodjango/hellodjango/urls.py",
@@ -729,13 +743,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/test/sim/MarketSimulator.py",
 		"/home/dfrodriguez/Documents/packages/finance/test/events/PastEvent.py",
 		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorValues.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/FinanceTest.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/DataAccess.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorTypes.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/FileManager.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/__init__.py",
-		"/home/dfrodriguez/Documents/packages/finance/.gitignore",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/PastEventTest.py"
+		"/home/dfrodriguez/Documents/packages/finance/test/FinanceTest.py"
 	],
 	"find":
 	{
@@ -750,9 +758,36 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"n_data",
+			"print",
+			"cat_col",
+			"test1",
+			"_oframe",
+			"_frame",
+			"test_type_1",
+			"test_metadata_type_1",
+			"test1",
+			"DataFrameFormatter",
+			"def to_string(",
+			"to_string",
+			"_need_info_repr_",
+			"summary(",
+			"__str",
+			"__unicode",
+			"INPUT",
+			"_targetFilter",
+			"_idFilter",
+			"_oframe",
+			"NDFrame",
+			"DataFrame(",
+			"DataFrame",
+			"set_data",
+			"test_1",
+			"test_2",
+			"test_3",
 			"inf",
 			"ds_train",
 			"ds",
@@ -853,34 +888,7 @@
 			"total_return",
 			"pevt",
 			"MultipleEventTest",
-			"utils",
-			"CalculatorTestValues",
-			"cumulative_ar",
-			"abnormal_return",
-			"expected_return",
-			"elf.evt",
-			"std_abnormal_return",
-			"mean_abnormal_return",
-			"std_expected_return",
-			"mean_expected_return",
-			"expected_returns",
-			"abnormal_returns",
-			"cumulative_abnormal_returns",
-			"mean_cumulative_abnormal_return",
-			"assert_almost_equal",
-			"assert_equal",
-			"np_test",
-			"mevt",
-			"self.mevt",
-			"self.evtf",
-			"self.setUp",
-			"assertFrameEqual",
-			"assertSeriesEqual",
-			"assertArrayEqual",
-			"assertSeriesEqual",
-			"self.sim",
-			"assert_frame_equal",
-			"pd_test"
+			"utils"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -898,8 +906,37 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "core/ml.py",
+					"settings":
+					{
+						"buffer_size": 7669,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5353,
+								5353
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2465.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -936,7 +973,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 181.0
+		"height": 153.0
 	},
 	"replace":
 	{

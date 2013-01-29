@@ -11,12 +11,12 @@ class MachineLearning():
         self.costs = [[1,0],[0,1]]
 
     def set_train(self, ds):
-        self.X_train = ds.inputs
-        self.y_train = ds.target
+        self.X_train = ds.inputs.values
+        self.y_train = ds.target.values
 
     def set_test(self, ds):
-        self.X_test = ds.inputs
-        self.y_test = ds.target
+        self.X_test = ds.inputs.values
+        self.y_test = ds.target.values
 
     train = property(None, set_train)
     test = property(None, set_test)
@@ -148,8 +148,12 @@ class MachineLearning():
     def revenue_idiot(self, ascending=False):
         cols = ['Expense', 'Revenue', 'Net revenue']
         ans = pd.Series(index=cols)
+        print(type(self.y_test))
 
-        counts = np.bincount(self.y_test)
+        # counts = np.bincount(self.y_test)
+        counts = []
+        counts.append(len(self.y_test[self.y_test == 0]))
+        counts.append(len(self.y_test[self.y_test == 1]))
         ans['Expense'] = counts[0] * self.costs[1][0]
         ans['Revenue'] = counts[1] * self.costs[1][1]
         ans['Net revenue'] = ans['Revenue'] - ans['Expense']
@@ -158,26 +162,21 @@ class MachineLearning():
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
-    copper.config.path = '../examples/catalog'
+    copper.config.path = '../tests'
 
-    ds_train = copper.read_csv('training.csv')
+    ds_train = copper.read_csv('catalog/training.csv')
     ds_train.type['RFA1'] = ds_train.NUMBER
     ds_train.type['RFA2'] = ds_train.NUMBER
     ds_train.type['Order'] = ds_train.NUMBER
     ds_train.role['CustomerID'] = ds_train.ID
     ds_train.role['Order'] = ds_train.TARGET
-    fnc = lambda x: 12*(2007 - int(str(x)[0:4])) - int(str(x)[4:6]) + 2
-    ds_train.transform('LASD', fnc)
 
-    ds_test = copper.read_csv('testing.csv')
+    ds_test = copper.read_csv('catalog/testing.csv')
     ds_test.type['RFA1'] = ds_test.NUMBER
     ds_test.type['RFA2'] = ds_test.NUMBER
     ds_test.type['Order'] = ds_test.NUMBER
     ds_test.role['CustomerID'] = ds_test.ID
     ds_test.role['Order'] = ds_test.TARGET
-
-    fnc = lambda x: 12*(2007 - int(str(x)[0:4])) - int(str(x)[4:6]) + 2
-    ds_test.transform('LASD', fnc)
 
     ml = copper.MachineLearning()
     ml.train = ds_train

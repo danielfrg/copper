@@ -1,20 +1,25 @@
 {
-    "build_systems":
-    [
-        {
-            "name": "Python Virtual env",
-            "env":
-            {
-                "PYTHONPATH":"/home/dfrodriguez/projects/packages/"
-            },
-            "cmd": ["/home/dfrodriguez/.virtualenvs/copper/bin/python", "-u", "$file"]
-        }
-    ],
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"/home/dfrodriguez/.virtualenvs/copper/bin/python",
+				"-u",
+				"$file"
+			],
+			"env":
+			{
+				"PYTHONPATH": "/home/dfrodriguez/projects/"
+			},
+			"name": "Python Virtual env"
+		}
+	],
 	"folders":
 	[
 		{
-			"path": "/home/dfrodriguez/projects/packages/copper",
-            "folder_exclude_patterns": ["__pycache__"]
+			"path": "/home/dfrodriguez/projects/copper",
+			"folder_exclude_patterns": ["__pycache__"]
 		}
 	]
 }

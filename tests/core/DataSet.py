@@ -9,46 +9,68 @@ class DataSetTest(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(DataSetTest('test_1'))
-        suite.addTest(DataSetTest('test_2'))
-        suite.addTest(DataSetTest('test_save_load'))
-        suite.addTest(DataSetTest('test_3'))
+        suite.addTest(DataSetTest('test_pandas_1'))
+        suite.addTest(DataSetTest('test_types_1'))
+        suite.addTest(DataSetTest('test_roles_1'))
+        suite.addTest(DataSetTest('test_inputs_1'))
+        suite.addTest(DataSetTest('test_inputs_2'))
+        suite.addTest(DataSetTest('test_inputs_3'))
+        # suite.addTest(DataSetTest('test_save_load'))
+        # suite.addTest(DataSetTest('test_transform'))
         return suite
 
-    def test_1(self):
+    def test_pandas_1(self):
         '''
-        Tests
-        -----
-            1. Load data
-            2. Default metadata:
-                2.1 role of ID, inputs and target
-                2.2 type of Number, Category and Money
-            2. Default frame (removes $ symbol on money cols)
-            3. Encode the category column
-            4. Default inputs
-            5. Default target
+        Test basic functionality of pandas
         '''
         self.setUpData()
 
+        ds = copper.read_csv('dataset/pandas1/data.csv')
+        df = pd.read_csv(os.path.join(copper.config.data, 'dataset/pandas1/data.csv'))
+
+        self.assertEqual(ds['Number'], df['Number'])
+        self.assertEqual(ds['Date'], df['Date'])
+
+        ds['Number'] = ds['Number'] - 10
+        df['Number'] = df['Number'] - 10
+        self.assertEqual(df, ds.frame)
+
+        fnc = lambda x: 12*(2007 - int(str(x)[0:4])) - int(str(x)[4:6]) + 2
+        ds['Date'] = ds['Date'].apply(fnc)
+        df['Date'] = df['Date'].apply(fnc)
+        self.assertEqual(df, ds.frame)
+
+    def test_types_1(self):
+        self.setUpData()
+        ds = copper.read_csv('dataset/types1/data.csv')
+        sol = pd.read_csv(os.path.join(copper.config.data, 'dataset/types1/solution.csv'))
+        sol = sol.set_index('column')
+        self.assertEqual(ds.type, sol['Type'])
+
+    def test_roles_1(self):
+        self.setUpData()
+        ds = copper.read_csv('dataset/roles1/data.csv')
+        self.assertEqual(ds.role.values, ds.frame.ix[0].values)
+
+    def test_inputs_1(self):
+        self.setUpData()
+
         ds = copper.DataSet()
-        ds.load('dataset/test1/data.csv')
-        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/metadata.csv'))
+        ds.load('dataset/inputs1/data.csv')
+        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/metadata.csv'))
         metadata = metadata.set_index('column')
         self.assertEqual(ds.metadata, metadata)
 
-        frame = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/frame.csv'))
+        frame = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/frame.csv'))
         self.assertEqual(ds.frame, frame)
 
-        encoded = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/encoded.csv'))
-        self.assertEqual(ds.gen_frame(encodeCategory=True), encoded)
-
-        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/inputs.csv'))
+        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/inputs.csv'))
         self.assertEqual(ds.inputs, inputs)
 
-        target = pd.read_csv(os.path.join(copper.config.data, 'dataset/test1/target.csv'))
+        target = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/target.csv'))
         self.assertEqual(ds.target, target['Target'])
 
-    def test_2(self):
+    def test_inputs_2(self):
         '''
         Tests
         -----
@@ -83,16 +105,13 @@ class DataSetTest(CopperTest):
         inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/test2/inputs2.csv'))
         self.assertEqual(ds.inputs, inputs)
 
-        encoded = ds.gen_frame(encodeCategory=True)
-        self.assertEqual(encoded, inputs)
-
-    def test_3(self):
+    def test_inputs_3(self):
         '''
         This test compares the iris dataset from scikit-learn to the produced by
         copper
         '''
         self.setUpData()
-        ds = copper.read_csv('iris/iris.csv')
+        ds = copper.read_csv('iris/data.csv')
         ds.role['class'] = ds.TARGET
 
         from sklearn import datasets
