@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"ense",
+				"_ensembled"
+			],
+			[
+				"sv",
+				"svm_clf"
+			],
+			[
 				"pre",
 				"prediction"
 			],
@@ -506,14 +514,6 @@
 			[
 				"dail",
 				"daily_returns"
-			],
-			[
-				"return",
-				"return"
-			],
-			[
-				"lo",
-				"lookback_days"
 			]
 		]
 	},
@@ -608,10 +608,13 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/copper/core/ensemble.py",
+		"/home/dfrodriguez/projects/copper/core/ml.py",
+		"/home/dfrodriguez/projects/copper/tests/core/ML.py",
+		"/home/dfrodriguez/projects/copper/core/config.py",
+		"/home/dfrodriguez/projects/copper/tests/core/models.csv",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/tree/tree.py",
 		"/home/dfrodriguez/projects/copper/core/set.py",
-		"/home/dfrodriguez/projects/copper/core/ml.py",
-		"/home/dfrodriguez/projects/copper/core/ensemble.py",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/ensemble/base.py",
@@ -732,10 +735,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/EventStudy_Finder.py",
 		"/home/dfrodriguez/Documents/packages/finance/utils/FileManager.py",
 		"/home/dfrodriguez/Documents/packages/finance/utils/DataAccess.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Combining/Example 2/Solution.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Combining/Example 1/Solution.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/ListUtils.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/EventStudy_Past.py"
+		"/home/dfrodriguez/Documents/packages/finance/examples/Combining/Example 2/Solution.py"
 	],
 	"find":
 	{
@@ -753,6 +753,16 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"clf",
+			"add_model",
+			"pl",
+			"clf",
+			"_id",
+			"remove_clf",
+			"remove",
+			"add_model",
+			"model",
+			"models",
 			"probas",
 			"classes_",
 			"print",
@@ -870,17 +880,7 @@
 			"print",
 			"                 ",
 			"DataFrame(",
-			"DataFrame(self",
-			"DataFrame(Self",
-			"DataFrame",
-			"4",
-			"csv",
-			"read_csv",
-			"X_Ex",
-			"var",
-			"ev",
-			"amzn",
-			"cost"
+			"DataFrame(self"
 		],
 		"highlight": true,
 		"in_selection": false,
