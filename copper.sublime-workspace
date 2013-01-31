@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"pre",
+				"prediction"
+			],
+			[
+				"predi",
+				"predict"
+			],
+			[
+				"for",
+				"for	For Loop"
+			],
+			[
+				"predic",
+				"predictions"
+			],
+			[
+				"e",
+				"ensemble"
+			],
+			[
+				"_catego",
+				"_category2number"
+			],
+			[
+				"tree",
+				"tree_clf"
+			],
+			[
+				"CA",
+				"CATEGORY"
+			],
+			[
 				"cate",
 				"_category_labels"
 			],
@@ -122,10 +154,6 @@
 			[
 				"fi",
 				"filepath"
-			],
-			[
-				"for",
-				"format"
 			],
 			[
 				"co",
@@ -480,53 +508,17 @@
 				"daily_returns"
 			],
 			[
-				"e",
-				"end_date"
-			],
-			[
 				"return",
 				"return"
 			],
 			[
 				"lo",
 				"lookback_days"
-			],
-			[
-				"Mar",
-				"MarketSimulatorTest"
-			],
-			[
-				"BasicUtils",
-				"BasicUtilsTest"
-			],
-			[
-				"sta",
-				"start_window"
-			],
-			[
-				"sat",
-				"start_period"
-			],
-			[
-				"ar",
-				"ar"
-			],
-			[
-				"excep",
-				"exception"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "core/ml.py",
-			"settings":
-			{
-				"buffer_size": 7669,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -616,13 +608,20 @@
 	},
 	"file_history":
 	[
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/tree/tree.py",
+		"/home/dfrodriguez/projects/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/core/ml.py",
+		"/home/dfrodriguez/projects/copper/core/ensemble.py",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/ensemble/base.py",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/ensemble/forest.py",
+		"/home/dfrodriguez/projects/copper/__init__.py",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
 		"/home/dfrodriguez/projects/copper/tests/core/DataSet.py",
 		"/home/dfrodriguez/projects/copper/core/set_bu.py",
-		"/home/dfrodriguez/projects/copper/core/set.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/pandas/core/frame.py",
 		"/home/dfrodriguez/projects/copper/tests/CopperTest.py",
 		"/home/dfrodriguez/projects/copper/copper.sublime-project",
@@ -736,14 +735,7 @@
 		"/home/dfrodriguez/Documents/packages/finance/examples/Combining/Example 2/Solution.py",
 		"/home/dfrodriguez/Documents/packages/finance/examples/Combining/Example 1/Solution.py",
 		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/ListUtils.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/EventStudy_Past.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/MarketSimulator.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/DateUtils.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/DataAccess.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/sim/MarketSimulator.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/PastEvent.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/utils/CalculatorValues.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/FinanceTest.py"
+		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/EventStudy_Past.py"
 	],
 	"find":
 	{
@@ -761,6 +753,17 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"probas",
+			"classes_",
+			"print",
+			"self.X_test",
+			"self.probas",
+			"def predict",
+			"def fit",
+			"fit(",
+			"class ",
+			"class",
+			"self.models",
 			"n_data",
 			"print",
 			"cat_col",
@@ -877,18 +880,7 @@
 			"var",
 			"ev",
 			"amzn",
-			"cost",
-			"test",
-			"<string>나눔고딕</string>",
-			"7",
-			"SampleEvents",
-			"event",
-			"self.event",
-			".total_return",
-			"total_return",
-			"pevt",
-			"MultipleEventTest",
-			"utils"
+			"cost"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -906,37 +898,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "core/ml.py",
-					"settings":
-					{
-						"buffer_size": 7669,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5353,
-								5353
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2465.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1021,6 +984,14 @@
 		"height": 500.0,
 		"selected_items":
 		[
+			[
+				"",
+				"/home/dfrodriguez/projects/blog/blog.sublime-project"
+			],
+			[
+				"blog",
+				"/home/dfrodriguez/projects/blog/blog.sublime-project"
+			]
 		],
 		"width": 380.0
 	},

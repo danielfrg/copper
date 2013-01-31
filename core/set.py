@@ -7,15 +7,19 @@ from sklearn import preprocessing
 
 class DataSet(dict):
     '''
-    Wrapper around a few pandas.DataFrames to include metadata
-    Provides easy transformation and generatios of DataFrames of the columns
-    by defining roles and types of each column
+    Wrapper around a few pandas.DataFrames to include metadata to a DataFrame
+    Provides easy transformation of a DataFrame by defining roles and types
+    of each column.
+
+    Provides the same API as pandas for data transformation
 
     Usage
     -----
         data_set = copper.DataSet()
         data_set.load(<csv_file>)
     '''
+
+    # ------ Constants
 
     MONEY = 'Money'
     NUMBER = 'Number'
@@ -42,9 +46,15 @@ class DataSet(dict):
     # --------------------------------------------------------------------------
 
     def _id_identifier(self, col_name):
+        '''
+        Indentifier for Role=ID based on the name of the column
+        '''
         return col_name.lower() in ['id']
 
     def _target_identifier(self, col_name):
+        '''
+        Indentifier for Role=Target based on the name of the column
+        '''
         return col_name.lower() in ['target']
 
     def load(self, file_path):
@@ -55,6 +65,7 @@ class DataSet(dict):
         ----------
             df: pandas.DataFrame
         '''
+        # TODO: rewrite this method?
         self.frame = pd.read_csv(os.path.join(copper.config.data, file_path))
         self.columns = self.frame.columns.values
 
@@ -111,6 +122,7 @@ class DataSet(dict):
     def get_inputs(self):
         '''
         Generates and returns a new pandas.DataFrame ready for machine learning
+
         Returns
         -------
             df: pandas.DataFrame
@@ -122,8 +134,8 @@ class DataSet(dict):
                 ans = ans.join(self.frame[col])
             elif col in self.type[self.type == self.MONEY]:
                 ans = ans.join(self.frame[col])
-                # ans = ans.join(self._money2number(self.frame[col]))
             elif col in self.type[self.type == self.CATEGORY]:
+                # ans = ans.join(self._category2number(self.frame[col]))
                 new_cols = self._category2ml(self.frame[col])
                 ans = ans.join(new_cols)
             else:
@@ -134,6 +146,13 @@ class DataSet(dict):
     inputs = property(get_inputs)
 
     def get_target(self):
+        '''
+        Generates and returns a new pandas.Series ready for machine learning
+
+        Returns
+        -------
+            df: pandas.Series
+        '''
         col = self.role[self.role == self.TARGET].index[0]
         ans = self._category2number(self.frame[col])
         ans.name = 'Target'
@@ -142,10 +161,13 @@ class DataSet(dict):
     target = property(get_target)
 
     # --------------------------------------------------------------------------
-    #                                 TRANSORMS
+    #                                TRANSFORMS
     # --------------------------------------------------------------------------
 
     def _money2number(self, series):
+        '''
+        Converts a pd.Series with a money format to a simple number
+        '''
         ans = pd.Series(index=series.index, name=series.name, dtype=float)
         splits = ''.join(self.money_symbols) + ','
 
@@ -158,6 +180,10 @@ class DataSet(dict):
         return ans
 
     def _category2ml(self, series):
+        '''
+        Converts a pd.Series with category format to a pd.DataFrame representing
+        the same information on different columns of ones and zeros
+        '''
         ans = pd.DataFrame(index=series.index)
         categories = list(set(series))
         categories.sort()
@@ -170,12 +196,19 @@ class DataSet(dict):
         return ans
 
     def _category2number(self, series):
+        '''
+        Convert a pd.Series with categorical information to a pd.Series of numbers
+        using the scikit-learn LabelEncoder
+        '''
         le = preprocessing.LabelEncoder()
         le.fit(series.values)
         vals = le.transform(series.values)
-        return pd.Series(vals, index=series.index, dtype=float)
+        return pd.Series(vals, index=series.index, name=series.name, dtype=float)
 
     def _category_labels(self, series):
+        '''
+        Return the labels for a categorical pd.Series
+        '''
         le = preprocessing.LabelEncoder()
         le.fit(series.values)
         return le.classes_
@@ -196,7 +229,7 @@ class DataSet(dict):
     metadata = property(get_metadata)
 
     # --------------------------------------------------------------------------
-    #                                  PLOTS
+    #                           EXPLORE / PLOTS
     # --------------------------------------------------------------------------
 
     def histogram(self, col, bins=None):
@@ -241,12 +274,18 @@ class DataSet(dict):
         ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         return ax
 
+    def stats(self):
+        '''
+        Generates a pd.DataFrame with a summary of important statistics
+        '''
+        pass # TODO
+
     # --------------------------------------------------------------------------
-    #                              SPECIAL METHODS
+    #                        SPECIAL METHODS / Pandas API
     # --------------------------------------------------------------------------
 
     def __unicode__(self):
-        return self.frame
+        return self.metadata
 
     def __str__(self):
         return str(self.__unicode__())
@@ -257,12 +296,31 @@ class DataSet(dict):
     def __setitem__(self, name, value):
         self.frame[name] = value
 
+    def fillna(self, col, method):
+        if self.type[col] == self.NUMBER or self.type[col] == self.MONEY:
+            if method == 'mean':
+                value = self[col].mean()
+        if self.type[col] == self.CATEGORY:
+            if method == 'mode':
+                pass # TODO
+        self[col] = self[col].fillna(value=value)
+
 if __name__ == "__main__":
     copper.config.path = '../tests/'
     ds = copper.DataSet()
     ds.load('donors/data.csv')
+    ds.role['TARGET_D'] = ds.REJECTED
+    ds.role['TARGET_B'] = ds.TARGET
+    ds.type['ID'] = ds.CATEGORY
 
-    import matplotlib.pyplot as plt
-    ds.histogram('DemGender')
-    plt.show()
+    # print(ds.inputs)
+    # ds['GiftAvgCard36'].fillna(method)
+    ds.fillna('DemAge', 'mean')
+    ds.fillna('GiftAvgCard36', 'mean')
+    print(ds.inputs)
+
+
+    # import matplotlib.pyplot as plt
+    # ds.histogram('DemGender')
+    # plt.show()
 
