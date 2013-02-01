@@ -6,18 +6,6 @@ import matplotlib.pyplot as plt
 from sklearn import preprocessing
 
 class DataSet(dict):
-    '''
-    Wrapper around a few pandas.DataFrames to include metadata to a DataFrame
-    Provides easy transformation of a DataFrame by defining roles and types
-    of each column.
-
-    Provides the same API as pandas for data transformation
-
-    Usage
-    -----
-        data_set = copper.DataSet()
-        data_set.load(<csv_file>)
-    '''
 
     # ------ Constants
 
@@ -39,7 +27,7 @@ class DataSet(dict):
 
         self.categoriesLimitFilter = 20
         self.moneyPercentFilter = 0.1
-        self.money_symbols = ['$']
+        self.money_symbols = []
 
     # --------------------------------------------------------------------------
     #                                 LOAD
@@ -101,10 +89,11 @@ class DataSet(dict):
         obj_cols = self.frame.dtypes[self.frame.dtypes == object].index
         for col in obj_cols:
             x = [x[:1] for x in self.frame[col].dropna().values]
-            for money_symbol in self.money_symbols:
+            for money_symbol in self.MONEY_SYMBOLS:
                 y = [money_symbol for y in x]
                 eq = np.array(x) == np.array(y)
                 if len(eq[eq==True]) >= self.moneyPercentFilter * len(x):
+                    self.money_symbol.append(money_symbol)
                     money_cols.append(col)
         self.type[money_cols] = self.MONEY
 
@@ -317,7 +306,9 @@ if __name__ == "__main__":
     # ds['GiftAvgCard36'].fillna(method)
     ds.fillna('DemAge', 'mean')
     ds.fillna('GiftAvgCard36', 'mean')
-    print(ds.inputs)
+    print(ds.frame)
+
+    print(ds.frame)
 
 
     # import matplotlib.pyplot as plt

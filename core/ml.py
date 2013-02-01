@@ -191,7 +191,8 @@ class MachineLearning():
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
         plt.title('ROC: Receiver operating characteristic')
-        plt.legend(loc="lower right")
+        plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        # plt.legend(loc="lower right")
 
     # --------------------------------------------------------------------------
     #                            CONFUSION MATRIX

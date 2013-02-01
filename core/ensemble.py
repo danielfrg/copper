@@ -6,8 +6,14 @@ class Ensemble(object):
     def __init__(self):
         pass
 
-    def fit(self):
-        pass
+    def score(self, X_test, y_test):
+        raise NotImplementedError( "Should have implemented this")
+
+    def predict(self, X_test):
+        raise NotImplementedError( "Should have implemented this")
+
+    def predict_proba(self, X_test):
+        raise NotImplementedError( "Should have implemented this")
 
 
 class Bagging(Ensemble):
