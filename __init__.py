@@ -1,5 +1,5 @@
 import os
-from copper.io.main import *
+from copper.io.io import *
 from copper.core.set import *
 from copper.core.ml import *
 from copper.core.ensemble import *

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ static_url("css/chosen.css") }}" />
+        <script src="{{ static_url("js/jquery.min.js") }}"></script>
+        <script src="{{ static_url("js/chosen.jquery.min.js") }}"></script>
+        <script src="{{ static_url("js/underscore.min.js") }}"></script>
+        <script src="{{ static_url("js/backbone.min.js") }}"></script>
+    </head>
+<body>
+    <div id="selects">
+        <select data-placeholder="Choose a folder" style="min-width:350px;" id="folders-select" class='chzn-select'>
+            <option value=""></option>
+        </select>
+        <select data-placeholder="Choose a file" style="min-width:350px;" id="files-select" class='chzn-select'>
+            <option value=""></option>
+        </select>
+    </div>
+
+    <div id="graph"></div>
+
+<script type="text/javascript">
+$(function(){
+
+    var Folder = Backbone.Model.extend();
+    var File = Backbone.Model.extend();
+
+    Folders = Backbone.Collection.extend({
+        url: 'folders',
+        model: Folder
+    });
+
+    Files = Backbone.Collection.extend({
+        model: File
+    });
+
+    OptionView = Backbone.View.extend({
+        // This view represents each <option> on the <select>
+        tagName: "option",
+
+        initialize: function() {
+            _.bindAll(this, 'render');
+        },
+
+        render: function(){
+            $(this.el).attr('value', this.model.get('folder')).html(this.model.get('folder'));
+            return this;
+        },
+    })
+
+    OptionsView = Backbone.View.extend({
+        initialize: function(){
+            _.bindAll(this, 'addOne', 'addAll');
+            this.collection.bind('reset', this.addAll);
+        },
+
+        addOne: function(folder_name){
+            $(this.el).append(new OptionView({ model: folder_name }).render().el);
+        },
+        addAll: function(){
+            this.collection.each(this.addOne);
+            $(".chzn-select").chosen();
+        },
+
+        events: {
+            "change": "changeSelected"
+        },
+
+        changeSelected: function(evt) {
+            this.setSelectedId($(this.el).val());
+        }
+    })
+
+    FoldersView = OptionsView.extend({
+        setSelectedId: function(folder_name) {
+            this.filesView.collection.url = "folders/" + folder_name + "/files";
+            this.filesView.collection.fetch();
+        }
+    });
+
+    FilesView = OptionsView.extend({
+
+    });
+
+    var folders = new Folders();
+    var foldersView = new FoldersView({el:'#folders-select', collection: folders});
+    var filesView = new FilesView({el:'#files-select', collection: new Files()});
+    foldersView.filesView = filesView;
+    folders.fetch()
+})
+
+</script>
+</body>
+</html>

@@ -1,11 +1,13 @@
 import os
+import io
+import json
 import copper
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
 
-class DataSet(dict):
+class Dataset(dict):
 
     # ------ Constants
 
@@ -25,8 +27,8 @@ class DataSet(dict):
         self.role = None
         self.type = None
 
-        self.categoriesLimitFilter = 20
-        self.moneyPercentFilter = 0.1
+        self.unique_values_limit = 20
+        self.money_percent_filter = 0.1
         self.money_symbols = []
 
     # --------------------------------------------------------------------------
@@ -68,20 +70,19 @@ class DataSet(dict):
         if len(target_cols) > 0:
             self.role[target_cols[0]] = self.TARGET
             self.role[target_cols[1:]] = self.REJECTED
+        # Check for a lot of missing values
+        rejected = self.percent_nas()[self.percent_nas() > 0.5].index
+        self.role[rejected] = self.REJECTED
         # Roles: Input
         self.role = self.role.fillna(value=self.INPUT) # Missing cols are Input
 
         # Types
-        self.type = pd.Series(index=self.role.index, name='Type', dtype=str)
+        self.type = pd.Series(index=self.columns, name='Type', dtype=str)
 
         # Types: Number
-        # -- dtype of the column is np.int or np.float AND (
-        #            num of different values is greater than filter (default=20)
-        #            OR role of the column is target, target are Number
+        unique_vals = self.unique_values()
         number_cols = [c for c in self.columns
-                            if self.frame.dtypes[c] in [np.int64, np.float64]
-                                and (len(set(self.frame[c].values)) > self.categoriesLimitFilter
-                                    or self.role[c] == self.TARGET)]
+                            if self.frame.dtypes[c] in [np.int64, np.float64]]
         self.type[number_cols] = self.NUMBER
 
         # Types: Money
@@ -92,8 +93,8 @@ class DataSet(dict):
             for money_symbol in self.MONEY_SYMBOLS:
                 y = [money_symbol for y in x]
                 eq = np.array(x) == np.array(y)
-                if len(eq[eq==True]) >= self.moneyPercentFilter * len(x):
-                    self.money_symbol.append(money_symbol)
+                if len(eq[eq==True]) >= self.money_percent_filter * len(x):
+                    self.money_symbols.append(money_symbol)
                     money_cols.append(col)
         self.type[money_cols] = self.MONEY
 
@@ -221,7 +222,7 @@ class DataSet(dict):
     #                           EXPLORE / PLOTS
     # --------------------------------------------------------------------------
 
-    def histogram(self, col, bins=None):
+    def histogram(self, col, bins=20, legend=True):
         '''
         Draws a histogram for the selected column on matplotlib
 
@@ -233,41 +234,62 @@ class DataSet(dict):
         ------
             nothing, figure is ready to be shown
         '''
+        plt.hold(True)
         data = self.frame[col]
+        nas = len(data) - len(data.dropna())
+        data = data.dropna()
+
         if self.type[col] == self.CATEGORY:
             types = self._category_labels(data)
             data = self._category2number(data)
-        values = data.dropna().values
+            bins = len(set(data))
 
-        if self.type[col] == self.CATEGORY:
-            bins = len(set(values))
-        elif self.type[col] == self.NUMBER or self.type[col] == self.MONEY:
-            if bins is None:
-                bins=20
-        count, divis = np.histogram(values, bins=bins)
+            count, divis = np.histogram(data.values, bins=bins)
+            width = 0.97 * (divis[1] - divis[0])
 
-        if self.type[col] == self.CATEGORY:
-            tooltip = ['%d (%s)' % (cnt, typ) for cnt, typ in zip(count, types)]
+            types = types.tolist()
+            types.insert(0, 'NA')
+            count = count.tolist()
+            count.insert(0, nas)
+
+            labels = ['%s: %d' % (typ, cnt) for cnt, typ in zip(count, types)]
+            centers = np.array(range(len(types))) - 0.5
+
+            plt.bar(-width, nas, width=width, color='r', label=labels[0])
+            for c, h, t in zip(centers[1:], count[1:], labels[1:]):
+                plt.bar(c, h, align = 'center', width=width, label=t)
+
+            plt.xticks(centers, types)
         else:
-            tooltip = ['%d (%d - %d)' % (c, i, f) for c, i, f in
-                                    zip(count, divis[:-1], divis[1:])]
+            count, divis = np.histogram(data.values, bins=bins)
+            width = 0.97 * (divis[1] - divis[0])
+            centers = (divis[:-1] + divis[1:]) / 2
+            labels = ['%.1f - %.2f: %s' % (i, f, c) for c, i, f in
+                                            zip(count, divis[:-1], divis[1:])]
+            print(count, divis)
+            plt.bar(min(divis) - width, nas, width=width, color='r', label="NA: %d" % nas)
+            for c, h, t in zip(centers, count, labels):
+                plt.bar(c, h, align = 'center', width=width, label=t)
 
-        width = 0.8 * (divis[1] - divis[0])
-        center = (divis[:-1] + divis[1:]) / 2
+        if legend:
+            plt.legend(loc='best')
 
-        fig = plt.figure()
-        # ax = fig.add_axes([0.1, 0.1, 0.7, 0.75])
-        ax = fig.add_axes([0.075, 0.075, 0.7, 0.85])
-        for c, h, t in zip(center, count, tooltip):
-            ax.bar(c, h, align = 'center', width=width, label=t)
-        ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-        return ax
+        return pd.Series(labels)
 
     def stats(self):
         '''
         Generates a pd.DataFrame with a summary of important statistics
         '''
         pass # TODO
+
+    def unique_values(self, ascending=False):
+        ans = pd.Series(index=self.frame.columns)
+        for col in self.frame.columns:
+            ans[col] = len(self.frame[col].value_counts())
+        return ans.order(ascending=ascending)
+
+    def percent_nas(self, ascending=False):
+        return (1 - (self.frame.count() / len(self.frame))).order(ascending=ascending)
 
     # --------------------------------------------------------------------------
     #                        SPECIAL METHODS / Pandas API
@@ -285,31 +307,41 @@ class DataSet(dict):
     def __setitem__(self, name, value):
         self.frame[name] = value
 
-    def fillna(self, col, method):
-        if self.type[col] == self.NUMBER or self.type[col] == self.MONEY:
-            if method == 'mean':
-                value = self[col].mean()
-        if self.type[col] == self.CATEGORY:
-            if method == 'mode':
-                pass # TODO
-        self[col] = self[col].fillna(value=value)
+    def fillna(self, cols=None, method='mean'):
+        if cols is None:
+            cols = self.columns
+        if cols is str:
+            cols = [cols]
+
+        for col in self.columns:
+            if self.type[col] == self.NUMBER or self.type[col] == self.MONEY:
+                if method == 'mean':
+                    value = self[col].mean()
+            if self.type[col] == self.CATEGORY:
+                if method == 'mode' or method == 'mode':
+                    pass # TODO
+            self[col] = self[col].fillna(value=value)
 
 if __name__ == "__main__":
-    copper.config.path = '../tests/'
-    ds = copper.DataSet()
-    ds.load('donors/data.csv')
-    ds.role['TARGET_D'] = ds.REJECTED
-    ds.role['TARGET_B'] = ds.TARGET
-    ds.type['ID'] = ds.CATEGORY
+    copper.config.path = '../project/'
+    train = copper.read_csv('train.csv')
+    # copper.export(train, name='train', format='json')
+    # print(train.frame)
+    train.histogram('x2')
+    plt.show()
 
-    # print(ds.inputs)
-    # ds['GiftAvgCard36'].fillna(method)
-    ds.fillna('DemAge', 'mean')
-    ds.fillna('GiftAvgCard36', 'mean')
-    print(ds.frame)
 
-    print(ds.frame)
+    # copper.config.path = '../tests/'
+    # ds = copper.DataSet()
+    # ds.load('donors/data.csv')
+    # ds.role['TARGET_D'] = ds.REJECTED
+    # ds.role['TARGET_B'] = ds.TARGET
+    # ds.type['ID'] = ds.CATEGORY
 
+    # # print(ds.inputs)
+    # # ds['GiftAvgCard36'].fillna(method)
+    # ds.fillna('DemAge', 'mean')
+    # ds.fillna('GiftAvgCard36', 'mean')
 
     # import matplotlib.pyplot as plt
     # ds.histogram('DemGender')

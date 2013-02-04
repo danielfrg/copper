@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import cross_validation
-from sklearn.metrics import auc_score
+from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 from sklearn.metrics import confusion_matrix
 
@@ -163,27 +163,31 @@ class MachineLearning():
                 clf = self._clfs[clf_name]
             else:
                 clf = self._ensembled[clf_name]
-            y_pred = clf.predict(X_test)
-            ans[clf_name] = auc_score(y_test, y_pred)
+            probas_ = clf.predict_proba(self.X_test)
+            fpr, tpr, thresholds = roc_curve(self.y_test, probas_[:, 1])
+            ans[clf_name] = auc(fpr, tpr)
         return ans.order(ascending=ascending)
 
-    def roc(self, X_test=None, y_test=None, ascending=False):
+    def roc(self, X_test=None, y_test=None, ascending=False, legend=True, ret_list=False):
         '''
         Plots the ROC chart
         '''
         if X_test is None and y_test is None:
             X_test = self.X_test
             y_test = self.y_test
-        auc_s = self.auc(ascending=ascending)
-        for clf_name in auc_s.index:
+
+        aucs = self.auc(ascending=ascending)
+        ans = pd.Series(index=aucs.index)
+        for clf_name in aucs.index:
             if clf_name in self._clfs.keys():
                 clf = self._clfs[clf_name]
             else:
                 clf = self._ensembled[clf_name]
             probas_ = clf.predict_proba(self.X_test)
             fpr, tpr, thresholds = roc_curve(self.y_test, probas_[:, 1])
-            auc = auc_s[clf_name]
-            plt.plot(fpr, tpr, label='%s (area = %0.2f)' % (clf_name, auc))
+            area = aucs[clf_name]
+            ans[clf_name] = area
+            plt.plot(fpr, tpr, label='%s (area = %0.2f)' % (clf_name, area))
 
         plt.plot([0, 1], [0, 1], 'k--')
         plt.xlim([0.0, 1.0])
@@ -191,8 +195,11 @@ class MachineLearning():
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
         plt.title('ROC: Receiver operating characteristic')
-        plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-        # plt.legend(loc="lower right")
+        if legend:
+            # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+            plt.legend(loc='best', bbox_to_anchor=(1, 0.5))
+        if ret_list:
+            return ans.order(ascending=ascending)
 
     # --------------------------------------------------------------------------
     #                            CONFUSION MATRIX
@@ -276,6 +283,28 @@ class MachineLearning():
 
         return ans.order(ascending=ascending)
 
+    def bootstrap(self, clf_class, clf_name, n_iter, **args):
+        from sklearn import tree
+        bs = cross_validation.Bootstrap(len(self.X_train), n_iter=n_iter)
+        i = 0
+        for train_index, test_index in bs:
+            X_train = self.X_train[train_index]
+            y_train = self.y_train[train_index]
+            clf = clf_class(**args)
+            clf.fit(X_train, y_train)
+            self.add_clf(clf, "%s_%i" % (clf_name, i + 1))
+            i += 1
+
+    def important_features(self, clf_name):
+        clf = self._clfs[clf_name]
+        importances = clf.feature_importances_
+        indices = np.argsort(importances)[::-1]
+        plt.title("Feature importances")
+        plt.bar(range(len(importances)), importances[indices],
+                                color="r", align="center")
+        plt.xticks(range(len(importances)), indices)
+
+
 if __name__ == '__main__':
     # ''' DONORS
     copper.config.path = '../tests'
@@ -293,30 +322,29 @@ if __name__ == '__main__':
     ml.sample(0.5)
 
     from sklearn import tree
-    tree_clf = tree.DecisionTreeClassifier(max_depth=10)
+    tree_clf = tree.DecisionTreeClassifier(compute_importances=True, max_depth=10)
 
-    from sklearn.ensemble import RandomForestClassifier
-    ranfor_clf = RandomForestClassifier(n_estimators=10)
+    from sklearn import svm
+    svc_clf = svm.SVC(kernel='linear', probability=True)
 
-    # ml.add_clf(tree_clf, "DT")
-    # ml.add_clf(ranfor_clf, "RF")
+    # from sklearn.naive_bayes import GaussianNB
+    # gnb_clf = GaussianNB(compute_importances=True)
+
+    # ml.add_clf(tree_clf, 'DT')
+    # ml.add_clf(svc_clf, 'SVM')
+    # ml.add_clf(gnb_clf, 'GNB')
 
     # ml.fit()
 
-    bs = cross_validation.Bootstrap(len(ds.inputs.values), n_iter=5)
-    i = 0
-    for train_index, test_index in bs:
-        X_train = ds.inputs.values[test_index]
-        y_train = ds.target.values[test_index]
-        clf = tree.DecisionTreeClassifier(max_depth=10)
-        clf.fit(X_train, y_train)
-        ml.add_clf(clf, "DT" + str(i + 1))
-        i += 1
+    ml.bootstrap(tree.DecisionTreeClassifier, "DT", 20, max_depth=4)
+    # print(ml.clfs)
 
     ml.bagging("Bagging")
-    print(ml.accuracy())
+    # print(ml.accuracy())
     # print(ml.auc())
-    ml.roc()
+    areas = ml.roc()
+    print(areas)
+    # ml.important_features('DT')
     plt.show()
     # '''
 

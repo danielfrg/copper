@@ -4,6 +4,7 @@ class Config(object):
     def __init__(self):
         self._path = ''
         self._data = ''
+        self._export = ''
         self._cache = ''
         self._graphs = ''
         self._logs = ''
@@ -11,12 +12,16 @@ class Config(object):
     def set_path(self, value):
         self._path = os.path.realpath(value)
         self._data = os.path.join(self._path, 'data')
+        self._export = os.path.join(self._path, 'export')
         self._cache = os.path.join(self._path, 'cache')
         self._graphs = os.path.join(self._path, 'graphs')
         self._logs = os.path.join(self._path, 'logs')
 
     def get_path(self):
         return self._path
+
+    def get_export(self):
+        return self._export
 
     def get_cache(self):
         return self._cache
@@ -31,7 +36,8 @@ class Config(object):
         return self._logs
 
     path = property(get_path, set_path)
-    cache = property(get_data)
     data = property(get_data)
+    export = property(get_export)
+    cache = property(get_data)
     graphs = property(get_graphs)
     logs = property(get_logs)

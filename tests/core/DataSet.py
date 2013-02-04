@@ -86,23 +86,23 @@ class DataSetTest(CopperTest):
         self.setUpData()
 
         ds = copper.DataSet()
-        ds.load('dataset/test2/data.csv')
+        ds.load('dataset/inputs2/data.csv')
 
-        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/test2/metadata1.csv'))
+        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/metadata1.csv'))
         metadata = metadata.set_index('column')
         self.assertEqual(ds.metadata, metadata)
 
-        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/test2/inputs1.csv'))
+        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/inputs1.csv'))
         self.assertEqual(ds.inputs, inputs)
 
         # -- Change the 'Category' col to 'Number'
-        ds.type['Number as Category'] = ds.NUMBER
+        ds.type['Number as Category'] = ds.CATEGORY
 
-        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/test2/metadata2.csv'))
+        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/metadata2.csv'))
         metadata = metadata.set_index('column')
         self.assertEqual(ds.metadata, metadata)
 
-        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/test2/inputs2.csv'))
+        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/inputs2.csv'))
         self.assertEqual(ds.inputs, inputs)
 
     def test_inputs_3(self):

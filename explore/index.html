@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ static_url("css/chosen.css") }}" />
+        <script src="{{ static_url("js/jquery.min.js") }}"></script>
+        <script src="{{ static_url("js/chosen.jquery.min.js") }}"></script>
+        <script src="{{ static_url("js/underscore.min.js") }}"></script>
+        <script src="{{ static_url("js/backbone.min.js") }}"></script>
+        <script src="{{ static_url("js/d3.min.js") }}"></script>
+    </head>
+
+    <style>
+        svg {
+            background: #fff;
+            border: 1px solid #DEDEDE;
+        }
+
+        body {
+            font: 10px sans-serif;
+        }
+
+        .bar rect {
+            fill: #348ABD;
+            shape-rendering: crispEdges;
+        }
+
+        .bar-nans rect {
+            fill: #ff0000;
+            shape-rendering: crispEdges;
+        }
+
+        .bar text {
+            fill: #fff;
+        }
+
+        .axis path, .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+    </style>
+<body>
+    <div id="selects">
+        <select data-placeholder="Choose a column" style="min-width:350px;" id="column-select" class='chzn-select'>
+            <option value=""></option>
+        </select>
+    </div>
+    <div id="chart"></div>
+
+<script type="text/template" id="option_template">
+    <option value="<%= id %>"><%= name %></option>
+</script>
+
+<script type="text/javascript">
+
+$(function(){
+
+    var ColumnListItem = Backbone.Model.extend();
+    var ColumnList = Backbone.Collection.extend({
+        url: '/columns',
+        model: ColumnListItem
+    });
+
+    var ColumnListView = Backbone.View.extend({
+        initialize: function() {
+            _.bindAll(this, 'addOne', 'addAll');
+            this.collection.bind('reset', this.addAll);
+        },
+
+        addOne: function(column) {
+            // column is a ColumnListItem model
+            var variables = { id: column.get('id'), name: column.get('name') };
+            var template = _.template( $("#option_template").html(), variables);
+            $(this.el).append(template);
+        },
+
+        addAll: function() {
+            this.collection.each(this.addOne); // For each item in the collection call addOne
+            $(".chzn-select").chosen();
+        },
+
+        events: {
+            "change": "changeSelectedItem"
+        },
+
+        changeSelectedItem: function(evt) {
+            histogramData.set('id', $(this.el).val())
+            histogramData.fetch()
+        }
+    })
+
+    var HistogramData = Backbone.Model.extend({
+        urlRoot: '/hist',
+    });
+
+    var ChartView = Backbone.View.extend({
+        initialize: function() {
+            this.model.bind('sync', this.render, this);
+        },
+
+        render: function() {
+            histData = this.model.toJSON();
+            this.$el.html('')
+
+            var width = 960;
+            var height = 500;
+            var padding = {top: 15, right: 15, bottom: 25, left: 30};
+
+            var xScale = d3.scale.linear()
+                    .domain([histData.x_min, histData.x_max])
+                    .range([padding.left, width - padding.right]);
+            var yScale = d3.scale.linear()
+                    .domain([0, histData.y_max])
+                    .range([height - padding.bottom, padding.top]);
+
+            var values = histData.values
+            var data = d3.layout.histogram()
+                .bins(20)
+                (values);
+            var barWidth = xScale(data[1].x) - xScale(data[0].x) - 1
+
+            var svg = d3.select(this.el)
+                .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+
+            if (histData.nans > 0){
+                xScale = d3.scale.linear()
+                    .domain([histData.x_min, histData.x_max])
+                    .range([padding.left + barWidth, width - padding.right]);
+                barWidth = (xScale(data[1].x) - xScale(data[0].x)) - 1
+
+                yNans = histData.nans
+                svg.append("g")
+                    .attr("class", "bar-nans")
+                    .attr("transform", function(d) { return "translate(" + (padding.left + 2) + "," + yScale(yNans) + ")"; })
+                    .append("rect")
+                        .attr("width", barWidth - 1)
+                        .attr("height", height - yScale(yNans) - padding.bottom);
+            }
+
+            var bar = svg.selectAll(".bar")
+                .data(data)
+              .enter().append("g")
+                .attr("class", "bar")
+                .attr("transform", function(d) { return "translate(" + xScale(d.x) + ", " + yScale(d.y) + ")"});
+
+            bar.append("rect")
+                .attr("width", barWidth)
+                .attr("height", function(d) { return height - yScale(d.y) - padding.bottom; });
+
+            // Axis
+            var xAxis = d3.svg.axis()
+                .scale(xScale)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                  .scale(yScale)
+                  .orient("left")
+                  .ticks(5);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + (height - padding.bottom) + ")")
+                .call(xAxis);
+            svg.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + padding.left + ",0)")
+                .call(yAxis);
+            return this;
+        },
+    })
+
+    var columnsList = new ColumnList();
+    var columnsListView = new ColumnListView({el: $("#column-select"), collection: columnsList});
+
+    var histogramData = new HistogramData();
+    var chartView = new ChartView({el: '#chart', model: histogramData});
+
+    columnsList.fetch(); // Start calling at the end
+})
+
+
+</script>
+</body>
+</html>
