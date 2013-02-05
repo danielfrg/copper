@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"y",
+				"ymax"
+			],
+			[
+				"hist",
+				"histData"
+			],
+			[
+				"bar",
+				"barWidth"
+			],
+			[
+				"colu",
+				"ColumnData"
+			],
+			[
+				"col",
+				"columnDataModel"
+			],
+			[
+				"column",
+				"columnsListView"
+			],
+			[
+				"templ",
+				"template"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"Column",
+				"ColumnData"
+			],
+			[
+				"pro",
+				"propertyName"
+			],
+			[
 				"clf",
 				"clf_name"
 			],
@@ -128,16 +168,8 @@
 				"X_test"
 			],
 			[
-				"col",
-				"columns"
-			],
-			[
 				"_in",
 				"_index_final"
-			],
-			[
-				"colu",
-				"columns"
 			],
 			[
 				"Tests",
@@ -170,10 +202,6 @@
 			[
 				"file",
 				"file_path"
-			],
-			[
-				"hist",
-				"histogram"
 			],
 			[
 				"n_",
@@ -486,78 +514,22 @@
 			[
 				"dr_market",
 				"dr_market_window"
-			],
-			[
-				"equi",
-				"equities_window"
-			],
-			[
-				"cus",
-				"customDates"
-			],
-			[
-				"NYSE",
-				"NYSE_dates"
-			],
-			[
-				"nt",
-				"nyse_dates"
-			],
-			[
-				"look",
-				"lookforwardDays"
-			],
-			[
-				"date",
-				"datetime"
-			],
-			[
-				"all",
-				"all_dates"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "examples/expedia/models.py",
-			"settings":
-			{
-				"buffer_size": 328,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "core/set.py",
-			"settings":
-			{
-				"buffer_size": 11772,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "core/ml.py",
-			"settings":
-			{
-				"buffer_size": 13594,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "core/ensemble.py",
-			"settings":
-			{
-				"buffer_size": 1396,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
 	{
-		"height": 56.0,
+		"height": 194.0,
 		"selected_items":
 		[
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
 			[
 				"remove",
 				"Package Control: Remove Package"
@@ -627,7 +599,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 435.0
+		"width": 561.0
 	},
 	"console":
 	{
@@ -644,6 +616,36 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/explore/explore.py",
+		"/home/dfrodriguez/projects/copper/explore/index.html",
+		"/home/dfrodriguez/projects/copper/explore/3.js",
+		"/home/dfrodriguez/projects/copper/explore/static/css/chosen.css",
+		"/home/dfrodriguez/projects/copper/explore/static/css/hint.min.css",
+		"/home/dfrodriguez/projects/copper/explore/5.js",
+		"/home/dfrodriguez/projects/copper/explore/js5.html",
+		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
+		"/home/dfrodriguez/projects/copper/explore/js4.js",
+		"/home/dfrodriguez/projects/copper/explore/js1.js",
+		"/home/dfrodriguez/projects/copper/explore/js2.js",
+		"/home/dfrodriguez/projects/copper/explore/static/js/d3.min.js",
+		"/home/dfrodriguez/projects/copper/explore/js1.html",
+		"/home/dfrodriguez/projects/copper/explore/select_cascade.html",
+		"/home/dfrodriguez/projects/copper/explore/train.csv",
+		"/home/dfrodriguez/projects/copper/explore/select_cascade.py",
+		"/home/dfrodriguez/projects/copper/core/config.py",
+		"/home/dfrodriguez/projects/copper/io/io.py",
+		"/home/dfrodriguez/projects/copper/core/train.json",
+		"/home/dfrodriguez/projects/copper/project/export/train.json",
+		"/home/dfrodriguez/projects/copper/project/export/train.csv",
+		"/home/dfrodriguez/projects/copper/__init__.py",
+		"/home/dfrodriguez/projects/copper/explore/js/underscore.min.js",
+		"/home/dfrodriguez/projects/copper/explore/css/chosen.css",
+		"/home/dfrodriguez/projects/copper/explore/js/chosen.jquery.min.js",
+		"/home/dfrodriguez/projects/copper/explore/js/jquery.min.js",
+		"/home/dfrodriguez/projects/copper/explore/backbone.min.js",
+		"/home/dfrodriguez/projects/copper/core/ensemble.py",
+		"/home/dfrodriguez/projects/copper/core/ml.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/models.py",
 		"/home/dfrodriguez/projects/copper/tests/core/DataSet.py",
 		"/home/dfrodriguez/.bashrc",
@@ -652,21 +654,15 @@
 		"/usr/lib/sublime-text-2/sublime_text",
 		"/usr/bin/sublime-text",
 		"/usr/bin/sublime-text-2",
-		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
-		"/home/dfrodriguez/projects/copper/core/set.py",
-		"/home/dfrodriguez/projects/copper/core/ml.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/tree/tree.py",
 		"/home/dfrodriguez/projects/copper/core/ml_bu.py",
-		"/home/dfrodriguez/projects/copper/core/ensemble.py",
 		"/home/dfrodriguez/projects/copper/examples/data_analysis/week2/quiz2.py",
 		"/home/dfrodriguez/projects/copper/tests/core/ML.py",
-		"/home/dfrodriguez/projects/copper/core/config.py",
 		"/home/dfrodriguez/projects/copper/tests/core/models.csv",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/ensemble/base.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/ensemble/forest.py",
-		"/home/dfrodriguez/projects/copper/__init__.py",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
 		"/home/dfrodriguez/projects/copper/core/set_bu.py",
@@ -747,31 +743,7 @@
 		"/home/dfrodriguez/projects/web/hellodjango/.gitignore",
 		"/home/dfrodriguez/projects/web/hellodjango/Procfile",
 		"/home/dfrodriguez/projects/web/hellodjango/requirements.txt",
-		"/home/dfrodriguez/projects/packages/finance/finance.sublime-workspace",
-		"/home/dfrodriguez/projects/packages/finance/examples/ItCFaFE/Assignment 3 - Computations/Solution.py",
-		"/home/dfrodriguez/projects/packages/finance/examples/ItCFaFE/README.md",
-		"/home/dfrodriguez/projects/packages/finance/examples/Combining/Example 5/Solution.py",
-		"/home/dfrodriguez/projects/packages/finance/examples/Combining/Example 3/Solution.py",
-		"/home/dfrodriguez/projects/packages/finance/examples/Basic/EventStudy_Multiple.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
-		"//usr/lib/python3.2/tkinter/__init__.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/matplotlib/backends/tkagg.py",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/Python/Python.sublime-build",
-		"/home/dfrodriguez/Documents/packages/finance/utils/Calculator.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Combining/Example 3/Solution.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Combining/Example 3/solution.py",
-		"/home/dfrodriguez/Documents/packages/finance/examples/Basic/EventStudy_Multiple.py",
-		"/home/dfrodriguez/Documents/packages/finance/README.md",
-		"/home/dfrodriguez/Documents/packages/finance/CHANGELOG.md",
-		"/etc/fonts/conf.d/90-fonts-nanum.conf",
-		"/etc/fonts/conf.d/65-droid-sans-fonts.conf",
-		"/home/dfrodriguez/Documents/packages/finance/plots/errorfill.py",
-		"/home/dfrodriguez/Documents/packages/finance/events/MultipleEvents.py",
-		"/home/dfrodriguez/Documents/packages/finance/plots/__init__.py",
-		"/home/dfrodriguez/.matplotlib/matplotlibrc",
-		"/home/dfrodriguez/Documents/packages/finance/test/AllTets.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/EventFinder.py",
-		"/home/dfrodriguez/Documents/packages/finance/test/events/MultipleEvents.py"
+		"/home/dfrodriguez/projects/packages/finance/finance.sublime-workspace"
 	],
 	"find":
 	{
@@ -789,6 +761,18 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"max",
+			"histogramData",
+			"color",
+			"histData",
+			"color",
+			"30",
+			"columnData",
+			"ColumnData",
+			"alert",
+			"ColumnsList",
+			"folders-select",
+			"locations",
 			"test2",
 			"3342",
 			"33 42",
@@ -904,19 +888,7 @@
 			"cols",
 			"data",
 			"new_df",
-			"self.name",
-			"self.columns",
-			"DataSet",
-			"CalculatorTypesTest",
-			"'])",
-			"elf.frame",
-			"ans",
-			"space",
-			"_put_str",
-			"print",
-			"TODO",
-			"_put_str",
-			"info("
+			"self.name"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -934,119 +906,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "examples/expedia/models.py",
-					"settings":
-					{
-						"buffer_size": 328,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								327,
-								327
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "core/set.py",
-					"settings":
-					{
-						"buffer_size": 11772,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9583,
-								9583
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4515.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "core/ml.py",
-					"settings":
-					{
-						"buffer_size": 13594,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6927,
-								6927
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3257.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "core/ensemble.py",
-					"settings":
-					{
-						"buffer_size": 1396,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 216.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
