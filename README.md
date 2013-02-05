@@ -18,4 +18,4 @@ How to use it
 
 See the examples folder
 
-For more information (but possible un-updated) can see my blog: [danielfrg.github.com](danielfrg.github.com)
+For more information and more examples can see my blog: [danielfrg.github.com](danielfrg.github.com)
