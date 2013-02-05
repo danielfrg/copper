@@ -266,7 +266,6 @@ class Dataset(dict):
             centers = (divis[:-1] + divis[1:]) / 2
             labels = ['%.1f - %.2f: %s' % (i, f, c) for c, i, f in
                                             zip(count, divis[:-1], divis[1:])]
-            print(count, divis)
             plt.bar(min(divis) - width, nas, width=width, color='r', label="NA: %d" % nas)
             for c, h, t in zip(centers, count, labels):
                 plt.bar(c, h, align = 'center', width=width, label=t)
@@ -322,28 +321,39 @@ class Dataset(dict):
                     pass # TODO
             self[col] = self[col].fillna(value=value)
 
+    def cov(self):
+        return self.frame.cov()
+
+    def corr(self):
+        return self.frame.corr()
+
 if __name__ == "__main__":
     copper.config.path = '../project/'
     train = copper.read_csv('train.csv')
     # copper.export(train, name='train', format='json')
     # print(train.frame)
-    train.histogram('x2')
-    plt.show()
-
-
-    # copper.config.path = '../tests/'
-    # ds = copper.DataSet()
-    # ds.load('donors/data.csv')
-    # ds.role['TARGET_D'] = ds.REJECTED
-    # ds.role['TARGET_B'] = ds.TARGET
-    # ds.type['ID'] = ds.CATEGORY
-
-    # # print(ds.inputs)
-    # # ds['GiftAvgCard36'].fillna(method)
-    # ds.fillna('DemAge', 'mean')
-    # ds.fillna('GiftAvgCard36', 'mean')
-
-    # import matplotlib.pyplot as plt
-    # ds.histogram('DemGender')
+    # train.histogram('x2')
     # plt.show()
+
+    # print(train.cov().to_csv('cov.csv'))
+    print(train.corr().to_csv('corr.csv'))
+
+
+    ''' Donors
+    copper.config.path = '../tests/'
+    ds = copper.DataSet()
+    ds.load('donors/data.csv')
+    ds.role['TARGET_D'] = ds.REJECTED
+    ds.role['TARGET_B'] = ds.TARGET
+    ds.type['ID'] = ds.CATEGORY
+
+    # print(ds.inputs)
+    # ds['GiftAvgCard36'].fillna(method)
+    ds.fillna('DemAge', 'mean')
+    ds.fillna('GiftAvgCard36', 'mean')
+
+    import matplotlib.pyplot as plt
+    ds.histogram('DemGender')
+    plt.show()
+    '''
 
