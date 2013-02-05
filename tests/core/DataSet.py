@@ -5,18 +5,18 @@ import pandas as pd
 import unittest
 from copper.tests.CopperTest import CopperTest
 
-class DataSetTest(CopperTest):
+class DatasetTest(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(DataSetTest('test_pandas_1'))
-        suite.addTest(DataSetTest('test_types_1'))
-        suite.addTest(DataSetTest('test_roles_1'))
-        suite.addTest(DataSetTest('test_inputs_1'))
-        suite.addTest(DataSetTest('test_inputs_2'))
-        suite.addTest(DataSetTest('test_inputs_3'))
-        # suite.addTest(DataSetTest('test_save_load'))
-        # suite.addTest(DataSetTest('test_transform'))
+        suite.addTest(DatasetTest('test_pandas_1'))
+        suite.addTest(DatasetTest('test_types_1'))
+        suite.addTest(DatasetTest('test_roles_1'))
+        suite.addTest(DatasetTest('test_inputs_1'))
+        suite.addTest(DatasetTest('test_inputs_2'))
+        suite.addTest(DatasetTest('test_inputs_3'))
+        # suite.addTest(DatasetTest('test_save_load'))
+        # suite.addTest(DatasetTest('test_transform'))
         return suite
 
     def test_pandas_1(self):
@@ -55,7 +55,7 @@ class DataSetTest(CopperTest):
     def test_inputs_1(self):
         self.setUpData()
 
-        ds = copper.DataSet()
+        ds = copper.Dataset()
         ds.load('dataset/inputs1/data.csv')
         metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/metadata.csv'))
         metadata = metadata.set_index('column')
@@ -85,7 +85,7 @@ class DataSetTest(CopperTest):
         '''
         self.setUpData()
 
-        ds = copper.DataSet()
+        ds = copper.Dataset()
         ds.load('dataset/inputs2/data.csv')
 
         metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/metadata1.csv'))
@@ -131,7 +131,7 @@ class DataSetTest(CopperTest):
         '''
         self.setUpData()
 
-        ds1 = copper.DataSet()
+        ds1 = copper.Dataset()
         ds1.load('dataset/test1/data.csv')
 
         ds1.save('data_saved')
@@ -142,5 +142,5 @@ class DataSetTest(CopperTest):
         self.assertEqual(ds1.inputs, ds2.inputs)
 
 if __name__ == '__main__':
-    suite = DataSetTest().suite()
+    suite = DatasetTest().suite()
     unittest.TextTestRunner(verbosity=2).run(suite)

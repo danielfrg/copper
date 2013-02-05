@@ -8,8 +8,12 @@ import matplotlib.pyplot as plt
 from sklearn import preprocessing
 
 class Dataset(dict):
+    '''
+    Wrapper around pandas to define metadata of a DataFrame.
+    Also introduces a some utils for filling missing data, ploting.
+    '''
 
-    # ------ Constants
+    # Constants
 
     MONEY = 'Money'
     NUMBER = 'Number'
@@ -38,25 +42,45 @@ class Dataset(dict):
     def _id_identifier(self, col_name):
         '''
         Indentifier for Role=ID based on the name of the column
+
+        Returns
+        -------
+            boolean
         '''
         return col_name.lower() in ['id']
 
     def _target_identifier(self, col_name):
         '''
         Indentifier for Role=Target based on the name of the column
+
+        Returns
+        -------
+            boolean
         '''
         return col_name.lower() in ['target']
 
-    def load(self, file_path):
+    def load(self, file_path, autoMetadata=True):
         '''
-        Uses a pandas.DataFrame to generate the metadata [Role, Type]
+        Loads a csv file from the project/data directory.
+        Then calls self.set_data to create the metadata
+
+        Parameters
+        ----------
+            file_path: str
+        '''
+        self.frame = pd.read_csv(os.path.join(copper.config.data, file_path))
+        if autoMetadata:
+            self.create_metadata()
+
+    def create_metadata(self):
+        '''
+        Creates metadata for the data
 
         Parameters
         ----------
             df: pandas.DataFrame
         '''
         # TODO: rewrite this method?
-        self.frame = pd.read_csv(os.path.join(copper.config.data, file_path))
         self.columns = self.frame.columns.values
 
         # Roles
@@ -111,7 +135,8 @@ class Dataset(dict):
 
     def get_inputs(self):
         '''
-        Generates and returns a new pandas.DataFrame ready for machine learning
+        Generates and returns a DataFrame with the inputs ready for doing
+        Machine Learning
 
         Returns
         -------
@@ -137,7 +162,8 @@ class Dataset(dict):
 
     def get_target(self):
         '''
-        Generates and returns a new pandas.Series ready for machine learning
+        Generates and returns a DataFrame with the targets ready for doing
+        Machine Learning
 
         Returns
         -------
@@ -156,7 +182,15 @@ class Dataset(dict):
 
     def _money2number(self, series):
         '''
-        Converts a pd.Series with a money format to a simple number
+        Converts a Series with money format to a numbers
+
+        Parameters
+        ----------
+            series: pandas.Series, target to convert
+
+        Returns
+        -------
+            pandas.Series with the converted data
         '''
         ans = pd.Series(index=series.index, name=series.name, dtype=float)
         splits = ''.join(self.money_symbols) + ','
@@ -171,8 +205,16 @@ class Dataset(dict):
 
     def _category2ml(self, series):
         '''
-        Converts a pd.Series with category format to a pd.DataFrame representing
-        the same information on different columns of ones and zeros
+        Converts a Series with category format to a format for machine learning
+        Represents the same information on different columns of ones and zeros
+
+        Parameters
+        ----------
+            series: pandas.Series, target to convert
+
+        Returns
+        -------
+            pandas.DataFrame with the converted data
         '''
         ans = pd.DataFrame(index=series.index)
         categories = list(set(series))
@@ -187,8 +229,16 @@ class Dataset(dict):
 
     def _category2number(self, series):
         '''
-        Convert a pd.Series with categorical information to a pd.Series of numbers
+        Convert a Series with categorical information to a Series of numbers
         using the scikit-learn LabelEncoder
+
+        Parameters
+        ----------
+            series: pandas.Series, target to convert
+
+        Returns
+        -------
+            pandas.Series with the converted data
         '''
         le = preprocessing.LabelEncoder()
         le.fit(series.values)
@@ -197,7 +247,15 @@ class Dataset(dict):
 
     def _category_labels(self, series):
         '''
-        Return the labels for a categorical pd.Series
+        Return the labels for a Series with categorical values
+
+        Parameters
+        ----------
+            series: pandas.Series, target to convert
+
+        Returns
+        -------
+            list, labels of the series
         '''
         le = preprocessing.LabelEncoder()
         le.fit(series.values)
@@ -209,7 +267,13 @@ class Dataset(dict):
 
     def get_metadata(self):
         '''
-        Return a pandas.DataFrame with a summary of the metadata [Role, Type]
+        Generates and return a DataFrame with a summary of the metadata:
+            * Role
+            * Type
+
+        Returns
+        -------
+            pandas.DataFrame with the role and type of each column
         '''
         metadata = pd.DataFrame(index=self.columns, columns=['Role', 'Type'])
         metadata['Role'] = self.role
@@ -277,17 +341,39 @@ class Dataset(dict):
 
     def stats(self):
         '''
-        Generates a pd.DataFrame with a summary of important statistics
+        Generates a DataFrame with a summary of important statistics
         '''
         pass # TODO
 
     def unique_values(self, ascending=False):
+        '''
+        Generetas a Series with the number of unique values of each column
+
+        Parameters
+        ----------
+            ascending: boolean, sort the returned Series on this direction
+
+        Returns
+        -------
+            pandas.Series
+        '''
         ans = pd.Series(index=self.frame.columns)
         for col in self.frame.columns:
             ans[col] = len(self.frame[col].value_counts())
         return ans.order(ascending=ascending)
 
     def percent_nas(self, ascending=False):
+        '''
+        Generetas a Series with the percent of missing values of each column
+
+        Parameters
+        ----------
+            ascending: boolean, sort the returned Series on this direction
+
+        Returns
+        -------
+            pandas.Series
+        '''
         return (1 - (self.frame.count() / len(self.frame))).order(ascending=ascending)
 
     # --------------------------------------------------------------------------
@@ -307,6 +393,16 @@ class Dataset(dict):
         self.frame[name] = value
 
     def fillna(self, cols=None, method='mean'):
+        '''
+        Fill missing values using a method
+
+        Parameters
+        ----------
+            cols: list, of columns to fill missing values
+            method: str, method to use to fill missing values
+                * mean(numerical,money)/mode(categorical): use the mean or most
+                  repeted value of the column
+        '''
         if cols is None:
             cols = self.columns
         if cols is str:
@@ -314,18 +410,44 @@ class Dataset(dict):
 
         for col in self.columns:
             if self.type[col] == self.NUMBER or self.type[col] == self.MONEY:
-                if method == 'mean':
+                if method == 'mean' or method == 'mode':
                     value = self[col].mean()
             if self.type[col] == self.CATEGORY:
                 if method == 'mode' or method == 'mode':
                     pass # TODO
             self[col] = self[col].fillna(value=value)
 
-    def cov(self):
-        return self.frame.cov()
+    def cov(self, cols=None):
+        '''
+        Calculates the covariance between columns of the data
 
-    def corr(self):
-        return self.frame.corr()
+        Parameters
+        ----------
+            cols: list, of columns to calculate the correlation between
+
+        Returns
+        -------
+            pandas.DataFrame with the covariances
+        '''
+        if cols is None:
+            cols = self.columns
+        return self.frame[cols].cov()
+
+    def corr(self, cols=None):
+        '''
+        Calculates the correlation between columns of the data
+
+        Parameters
+        ----------
+            cols: list, of columns to calculate the correlation between
+
+        Returns
+        -------
+            pandas.DataFrame with the correlations
+        '''
+        if cols is None:
+            cols = self.columns
+        return self.frame[cols].corr()
 
 if __name__ == "__main__":
     copper.config.path = '../project/'
