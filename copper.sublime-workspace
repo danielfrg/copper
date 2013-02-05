@@ -523,9 +523,13 @@
 	"build_system": "Python Virtual env",
 	"command_palette":
 	{
-		"height": 194.0,
+		"height": 263.0,
 		"selected_items":
 		[
+			[
+				"ha",
+				"Set Syntax: HTML (ASP)"
+			],
 			[
 				"java",
 				"Set Syntax: JavaScript"
@@ -599,7 +603,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 561.0
+		"width": 435.0
 	},
 	"console":
 	{
@@ -616,9 +620,13 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/copper/explore/static/css/main.css",
+		"/home/dfrodriguez/projects/copper/explore/index.html",
+		"/home/dfrodriguez/projects/copper/explore/static/js/main.js",
+		"/home/dfrodriguez/projects/blog/_source/_layouts/default.html",
+		"/home/dfrodriguez/projects/blog/_source/index.html",
 		"/home/dfrodriguez/projects/copper/core/set.py",
 		"/home/dfrodriguez/projects/copper/explore/explore.py",
-		"/home/dfrodriguez/projects/copper/explore/index.html",
 		"/home/dfrodriguez/projects/copper/explore/3.js",
 		"/home/dfrodriguez/projects/copper/explore/static/css/chosen.css",
 		"/home/dfrodriguez/projects/copper/explore/static/css/hint.min.css",
@@ -739,11 +747,7 @@
 		"/home/dfrodriguez/projects/web/hellodjango/index/views.py",
 		"/home/dfrodriguez/projects/web/hellodjango/hellodjango/urls.py",
 		"/home/dfrodriguez/projects/web/hellodjango/index/urls.py",
-		"/home/dfrodriguez/.virtualenvs/django14/bin/activate",
-		"/home/dfrodriguez/projects/web/hellodjango/.gitignore",
-		"/home/dfrodriguez/projects/web/hellodjango/Procfile",
-		"/home/dfrodriguez/projects/web/hellodjango/requirements.txt",
-		"/home/dfrodriguez/projects/packages/finance/finance.sublime-workspace"
+		"/home/dfrodriguez/.virtualenvs/django14/bin/activate"
 	],
 	"find":
 	{
@@ -761,6 +765,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"nbins",
 			"max",
 			"histogramData",
 			"color",
@@ -887,8 +892,7 @@
 			"_frame",
 			"cols",
 			"data",
-			"new_df",
-			"self.name"
+			"new_df"
 		],
 		"highlight": true,
 		"in_selection": false,
