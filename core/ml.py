@@ -8,22 +8,35 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import confusion_matrix
 
 class MachineLearning():
+    '''
+    Wrapper around scikit-learn and pandas to make machine learning faster and easier.
+    '''
 
     def __init__(self):
         self.dataset = None
         self._clfs = {}
         self._ensembled = {}
         self.costs = [[1,0],[0,1]]
+        self.X_train = None
+        self.y_train = None
+        self.X_test  = None
+        self.y_test = None
 
     # --------------------------------------------------------------------------
     #                               PROPERTIES
     # --------------------------------------------------------------------------
-    # TODO: properties for X_train, X_test,...
+
     def set_train(self, ds):
+        '''
+        Uses copper.DataSet to set the correct values of inputs and targets
+        '''
         self.X_train = ds.inputs.values
         self.y_train = ds.target.values
 
     def set_test(self, ds):
+        '''
+        Uses copper.DataSet to set the correct values of inputs and targets
+        '''
         self.X_test = ds.inputs.values
         self.y_test = ds.target.values
 
@@ -53,7 +66,10 @@ class MachineLearning():
 
     def list_clfs(self):
         '''
-        Generates a pandas.DataFrame to see all classifiers
+        Generates a pandas.Series with all the classifiers
+        Returns
+        -------
+            pandas.Series
         '''
         clfs = list(self._clfs.keys())
         clfs = clfs + list(self._ensembled.keys())
@@ -61,55 +77,51 @@ class MachineLearning():
         values = values + list(self._ensembled.values())
         return pd.Series(values, index=clfs)
 
-    clfs = property(list_clfs)
-
-    #                               ENSAMBLING
-
-    def sample(self, trainPercent=0.5):
-        '''
-        Samples the dataset into training and testing
-
-        Parameters
-        ----------
-            trainPercent: int, percent of the dataset to be set to training,
-                                the remaining will be set to testing
-        '''
-        X_train, X_test, y_train, y_test = cross_validation.train_test_split(
-                        self.dataset.inputs.values, self.dataset.target.values,
-                        test_size=(1-trainPercent), random_state=0)
-        self.X_train = X_train
-        self.X_test = X_test
-        self.y_train = y_train
-        self.y_test = y_test
-
-    def bagging(self, name, clfs=None):
-        '''
-        Create a new bag with target classifiers
-        '''
-        # TODO: list of classifiers
-        new = copper.Bagging()
-        new.clfs = self._clfs.values()
-        self._ensembled[name] = new
+    clfs = property(list_clfs, None)
 
     # --------------------------------------------------------------------------
-    #                               METHODS
+    #                            Scikit-learn API
     # --------------------------------------------------------------------------
 
-    def fit(self):
+    def fit(self, clfs=None, X_train=None, y_train=None):
         '''
         Fits all the models
+        Parameters
+        ----------
+            clfs: list, of classifiers to fit, default all
+            X_train: np.array, inputs of the training, default is self.X_train
+            y_train: np.array, targets of the training, default is self.y_train
+        Returns
+        -------
+            None
         '''
-        for clf_name in self._clfs:
-            self._clfs[clf_name].fit(self.X_train, self.y_train)
+        if clfs is None:
+            clfs = self._clfs.keys()
+        if X_train is None and y_train is None:
+            X_train = self.X_train
+            y_train = self.y_train
 
-    def predict(self, X_test=None):
+        for clf_name in clfs:
+            self._clfs[clf_name].fit(X_train, y_train)
+
+    def predict(self, clfs=None, X_test=None):
         '''
-        Predicts in all classifiers
+        Make the classifiers predict inputs
+        Parameters
+        ----------
+            clfs: list, of classifiers to make prediction, default all
+            X_test: np.array, inputs for the prediction, default is self.X_test
+        Returns
+        -------
+            pandas.DataFrame with the predictions
         '''
+        if clfs is None:
+            clfs = self.clfs.index
         if X_test is None:
             X_test = self.X_test
-        ans = pd.DataFrame(columns=self.clfs.index, index=range(len(X_test)))
-        for clf_name in self.clfs.index:
+
+        ans = pd.DataFrame(columns=clfs, index=range(len(X_test)))
+        for clf_name in clfs:
             if clf_name in self._clfs.keys():
                 clf = self._clfs[clf_name]
             else:
@@ -118,14 +130,24 @@ class MachineLearning():
             ans[clf_name][:] = pd.Series(scores)
         return ans
 
-    def predict_proba(self, X_test=None):
+    def predict_proba(self, clfs=None, X_test=None):
         '''
-        Predicts with probability for all classifiers
+        Make the classifiers predict probabilities of inputs
+        Parameters
+        ----------
+            clfs: list, of classifiers to make prediction, default all
+            X_test: np.array, inputs of the prediction, default is self.X_test
+        Returns
+        -------
+            pandas.DataFrame with the predictions
         '''
+        if clfs is None:
+            clfs = self.clfs.index
         if X_test is None:
             X_test = self.X_test
-        ans = pd.DataFrame(columns=self.clfs.index, index=range(len(X_test)))
-        for clf_name in self.clfs.index:
+
+        ans = pd.DataFrame(columns=clfs, index=range(len(X_test)))
+        for clf_name in clfs:
             if clf_name in self._clfs.keys():
                 clf = self._clfs[clf_name]
             else:
@@ -134,15 +156,31 @@ class MachineLearning():
             ans[clf_name][:] = pd.Series(scores)
         return ans
 
-    def accuracy(self, X_test=None, y_test=None, ascending=False):
+    def accuracy(self, clfs=None, X_test=None, y_test=None, ds=None, ascending=False):
         '''
-        Calculates the accuracy for the testing set
+        Calculates the accuracy of inputs
+        Parameters
+        ----------
+            clfs: list, of classifiers to fit, default all
+            X_test: np.array, inputs for the prediction, default is self.X_test
+            y_test: np.array, targets for the prediction, default is self.y_test
+            ds: copper.Dataset, dataset for the prediction, default is self.test
+            ascending: boolean, sort the Series on this direction
+        Returns
+        -------
+            pandas.Series with the accuracy
         '''
+        if clfs is None:
+            clfs = self.clfs.index
         if X_test is None and y_test is None:
             X_test = self.X_test
             y_test = self.y_test
-        ans = pd.Series(index=self.clfs.index, name='Accuracy')
-        for clf_name in self.clfs.index:
+        if ds is not None:
+            X_test = ds.inputs.values
+            y_test = ds.target.values
+
+        ans = pd.Series(index=clfs, name='Accuracy')
+        for clf_name in clfs:
             if clf_name in self._clfs.keys():
                 clf = self._clfs[clf_name]
             else:
@@ -150,44 +188,76 @@ class MachineLearning():
             ans[clf_name] = clf.score(X_test, y_test)
         return ans.order(ascending=ascending)
 
-    def auc(self, X_test=None, y_test=None, ascending=False):
+    def auc(self, clfs=None, X_test=None, y_test=None, ds=None, ascending=False):
         '''
-        Calculates the Area Under the Curve
+        Calculates the Area Under the ROC Curve
+        Parameters
+        ----------
+            clfs: list, of classifiers to calculate the AUC, default all
+            X_test: np.array, inputs for the prediction, default is self.X_test
+            y_test: np.array, targets for the prediction, default is self.y_test
+            ds: copper.Dataset, dataset for the prediction, default is self.test
+            ascending: boolean, sort the Series on this direction
+        Returns
+        -------
+            pandas.Series with the accuracy
         '''
+        if clfs is None:
+            clfs = self.clfs.index
         if X_test is None and y_test is None:
             X_test = self.X_test
             y_test = self.y_test
-        ans = pd.Series(index=self.clfs.index, name='Area Under the Curve')
-        for clf_name in self.clfs.index:
+        if ds is not None:
+            X_test = ds.inputs.values
+            y_test = ds.target.values
+
+        ans = pd.Series(index=clfs, name='Area Under the Curve')
+        for clf_name in clfs:
             if clf_name in self._clfs.keys():
                 clf = self._clfs[clf_name]
             else:
                 clf = self._ensembled[clf_name]
-            probas_ = clf.predict_proba(self.X_test)
-            fpr, tpr, thresholds = roc_curve(self.y_test, probas_[:, 1])
+            probas_ = clf.predict_proba(X_test)
+            fpr, tpr, thresholds = roc_curve(y_test, probas_[:, 1])
             ans[clf_name] = auc(fpr, tpr)
         return ans.order(ascending=ascending)
 
-    def roc(self, X_test=None, y_test=None, ascending=False, legend=True, ret_list=False):
+    def roc(self, clfs=None,  X_test=None, y_test=None, ds=None,
+                                 ascending=False, legend=True, ret_list=False):
         '''
         Plots the ROC chart
+        Parameters
+        ----------
+            clfs: list, of classifiers to plot the ROC, default all
+            X_test: np.array, inputs for the prediction, default is self.X_test
+            y_test: np.array, targets for the prediction, default is self.y_test
+            ds: copper.Dataset, dataset for the prediction, default is self.test
+            legend: boolean, if want the legend on the chart
+            ret_list: boolean, True if want the method to return a list with the
+                            areas under the curve
+            ascending: boolean, legend and list sorting direction
         '''
+        if clfs is None:
+            clfs = self.clfs.index
         if X_test is None and y_test is None:
             X_test = self.X_test
             y_test = self.y_test
+        if ds is not None:
+            X_test = ds.inputs.values
+            y_test = ds.target.values
 
-        aucs = self.auc(ascending=ascending)
-        ans = pd.Series(index=aucs.index)
+        aucs = self.auc(clfs=clfs, X_test=X_test, y_test=y_test, ds=ds, ascending=ascending)
+        ans = pd.Series(index=clfs)
         for clf_name in aucs.index:
             if clf_name in self._clfs.keys():
                 clf = self._clfs[clf_name]
             else:
                 clf = self._ensembled[clf_name]
-            probas_ = clf.predict_proba(self.X_test)
-            fpr, tpr, thresholds = roc_curve(self.y_test, probas_[:, 1])
-            area = aucs[clf_name]
-            ans[clf_name] = area
-            plt.plot(fpr, tpr, label='%s (area = %0.2f)' % (clf_name, area))
+            probas_ = clf.predict_proba(X_test)
+            fpr, tpr, thresholds = roc_curve(y_test, probas_[:, 1])
+            _auc = aucs[clf_name]
+            ans[clf_name] = _auc
+            plt.plot(fpr, tpr, label='%s (area = %0.2f)' % (clf_name, _auc))
 
         plt.plot([0, 1], [0, 1], 'k--')
         plt.xlim([0.0, 1.0])
@@ -202,37 +272,139 @@ class MachineLearning():
             return ans.order(ascending=ascending)
 
     # --------------------------------------------------------------------------
+    #                          Sampling/Crossvalidation
+    # --------------------------------------------------------------------------
+
+    def sample(self, trainPercent=0.5):
+        '''
+        Samples the dataset into training and testing
+        self.ds needs to be set
+
+        Parameters
+        ----------
+            trainPercent: int, percent of the dataset to be set to training,
+                                the remaining will be set to testing
+        '''
+        X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+                        self.dataset.inputs.values, self.dataset.target.values,
+                        test_size=(1-trainPercent), random_state=0)
+        self.X_train = X_train
+        self.X_test = X_test
+        self.y_train = y_train
+        self.y_test = y_test
+
+    def bootstrap(self, clf_class, clf_name, n_iter, X_train=None, y_train=None,
+                                                            ds=None, **args):
+        '''
+        Use bootstrap cross validation to create classifiers
+        Parameters
+        ----------
+            clf_class: scikit-learn classifier
+            clf_name: str - prefix for the classifiers: clf_name + "_" + itertation
+            n_iter: int - number of iterations
+            X_train: np.array - custom inputs train data, needs y_train
+            y_train: np.array - custom target train data, needs X_train
+            ds: copper.Dataset, dataset for the prediction, default is self.train
+            **args: - arguments of the classifier
+        '''
+        if X_train is None and y_train is None:
+            X_train = self.X_train
+            y_train = self.y_train
+        if ds is not None:
+            X_train = ds.inputs.values
+            y_train = ds.target.values
+
+        bs = cross_validation.Bootstrap(len(X_train), n_iter=n_iter)
+        i = 0
+        for train_index, test_index in bs:
+            _X_train = X_train[train_index]
+            _y_train = y_train[train_index]
+            clf = clf_class(**args)
+            clf.fit(_X_train, _y_train)
+            self.add_clf(clf, "%s_%i" % (clf_name, i + 1))
+            i += 1
+
+    def bagging(self, name, clfs=None):
+        '''
+        Create a new bag with target classifiers
+        '''
+        if clfs is None:
+            clfs = self.clfs.index.tolist()
+        new = copper.Bagging()
+        _clfs = { key: self._clfs[key] for key in clfs }
+        new.clfs = _clfs.values()
+        self._ensembled[name] = new
+
+    # --------------------------------------------------------------------------
     #                            CONFUSION MATRIX
     # --------------------------------------------------------------------------
 
-    def cm(self, X_test=None):
-        if X_test is None:
+    def cm(self, clfs=None, X_test=None, y_test=None):
+        '''
+        Calculates the confusion matrixes of each model
+        Parameters
+        ----------
+            clfs: list, of classifiers to calculate the confusion matrix, default all
+            X_test: np.array, custom testing inputs
+            y_test: np.array, custom testing target
+        Returns
+        -------
+            python dictionary
+        '''
+        if clfs is None:
+            clfs = self.clfs.index
+        if X_test is None and y_test is None:
             X_test = self.X_test
+            y_test = self.y_test
+
         ans = {}
-        for clf_name in self.clfs.index:
+        for clf_name in clfs:
             if clf_name in self._clfs.keys():
                 clf = self._clfs[clf_name]
             else:
                 clf = self._ensembled[clf_name]
-            y_pred = clf.predict(self.X_test)
-            ans[clf_name] = confusion_matrix(self.y_test, y_pred)
+            y_pred = clf.predict(X_test)
+            ans[clf_name] = confusion_matrix(y_test, y_pred)
         return ans
 
-    def plot_cm(self, clf):
-        import pylab as pl
-        pl.matshow(self.cm()[clf])
-        pl.title('%s Confusion matrix' % clf)
-        pl.colorbar()
+    def plot_cm(self, clf_name, X_test=None, y_test=None):
+        '''
+        Plots the confusion matrixes of the classifier
+        Parameters
+        ----------
+            clf_name: str, classifier identifier
+            X_test: np.array, custom testing inputs
+            y_test: np.array, custom testing target
+        '''
+        plt.matshow(self.cm(X_test, y_test)[clf_name])
+        plt.title('%s Confusion matrix' % clf_name)
+        plt.colorbar()
 
-    def cm_table(self, value, X_test=None, ascending=False):
-        # TODO: make value optional and default all
-        if X_test is None:
+    def cm_table(self, value, clfs=None, X_test=None, y_test=None, ascending=False):
+        '''
+        Calculates the confusion matrix of the classifiers and returns a DataFrame
+        for easier visualization
+        Parameters
+        ----------
+            value: int, target value of the target variable. For example if the
+                        target variable is binary (0,1) value can be 0 or 1.
+            clf_names: list, classifiers identifiers to generate data
+            X_test: np.array, custom testing inputs
+            y_test: np.array, custom testing target
+            ascending: boolean, list sorting direction
+        Returns
+        -------
+            pandas.DataFrame
+        '''
+        if X_test is None and y_test is None:
             X_test = self.X_test
+            y_test = self.y_test
+
+        cm_s = self.cm(clfs=clfs, X_test=X_test, y_test=y_test)
         cols = ['Predicted %d\'s' % value, 'Correct %d\'s' % value,
                                     'Rate %d\'s' % value]
-        ans = pd.DataFrame(index=self.clfs.index, columns=cols)
+        ans = pd.DataFrame(index=cm_s.keys(), columns=cols)
 
-        cm_s = self.cm(X_test=X_test)
         for clf_name in cm_s.keys():
             cm = cm_s[clf_name]
             ans['Predicted %d\'s' % value][clf_name] = cm[:,value].sum()
@@ -245,30 +417,60 @@ class MachineLearning():
     #                                 MONEY!
     # --------------------------------------------------------------------------
 
-    def revenue(self, by='Net revenue', ascending=False):
-        cols = ['Loss from False Positive', 'Revenue', 'Net revenue']
-        ans = pd.DataFrame(index=self.clfs.index, columns=cols)
+    def income(self, clfs=None, by='Income', ascending=False):
+        '''
+        Calculates the Revenue of using the classifiers, self.costs needs to be set.
+        Parameters
+        ----------
+            clf_names: list, classifier identifiers to generate revenue, default all
+            by: str, Sort the DataFrame by. Options are: [Loss from False Positive, Revenue, Income]
+            ascending: boolean, Sort the DataFrame by direction
+        Returns
+        -------
+            pandas.DataFrame
+        '''
+        cm_s = self.cm(clfs=clfs)
+        cols = ['Loss from False Positive', 'Revenue', 'Income']
+        ans = pd.DataFrame(index=cm_s.keys(), columns=cols)
 
-        cm_s = self.cm()
         for clf in cm_s.keys():
             cm = cm_s[clf]
             ans['Loss from False Positive'][clf] = cm[0,1] * self.costs[0][1]
             ans['Revenue'][clf] = cm[1,1] * self.costs[1][1]
-            ans['Net revenue'][clf] = ans['Revenue'][clf] - \
+            ans['Income'][clf] = ans['Revenue'][clf] - \
                                         ans['Loss from False Positive'][clf]
 
         return ans.sort_index(by=by, ascending=ascending)
 
-    def oportunity_cost(self, ascending=False):
-        ans = pd.Series(index=self.clfs.index, name='Oportuniy cost')
+    def oportunity_cost(self, clfs=None, ascending=False):
+        '''
+        Calculates the Oportuniy Cost of the classifiers, self.costs needs to be set.
+        Parameters
+        ----------
+            clf_names: list, classifier identifiers to generate revenue, default all.
+            ascending: boolean, Sort the Series by direction
+        Returns
+        -------
+            pandas.DataFrame
+        '''
+        cm_s = self.cm(clfs=clfs)
+        ans = pd.Series(index=cm_s.keys(), name='Oportuniy cost')
 
-        cm_s = self.cm()
         for clf in cm_s.keys():
             cm = cm_s[clf]
             ans[clf] = cm[1,0] * self.costs[1][0]
         return ans.order(ascending=ascending)
 
-    def revenue_idiot(self, ascending=False):
+    def revenue_no_ml(self, ascending=False):
+        '''
+        Calculate the revenue of not using any classifier
+        Parameters
+        ----------
+            ascending: boolean, Sort the DataFrame by direction
+        Returns
+        -------
+            pandas.Series
+        '''
         cols = ['Expense', 'Revenue', 'Net revenue']
         ans = pd.Series(index=cols, name='Revenue Idiot')
 
@@ -283,18 +485,7 @@ class MachineLearning():
 
         return ans.order(ascending=ascending)
 
-    def bootstrap(self, clf_class, clf_name, n_iter, **args):
-        from sklearn import tree
-        bs = cross_validation.Bootstrap(len(self.X_train), n_iter=n_iter)
-        i = 0
-        for train_index, test_index in bs:
-            X_train = self.X_train[train_index]
-            y_train = self.y_train[train_index]
-            clf = clf_class(**args)
-            clf.fit(X_train, y_train)
-            self.add_clf(clf, "%s_%i" % (clf_name, i + 1))
-            i += 1
-
+    ## Is this useful?
     def important_features(self, clf_name):
         clf = self._clfs[clf_name]
         importances = clf.feature_importances_
@@ -323,16 +514,11 @@ if __name__ == '__main__':
 
     from sklearn import tree
     tree_clf = tree.DecisionTreeClassifier(compute_importances=True, max_depth=10)
-
-    from sklearn import svm
-    svc_clf = svm.SVC(kernel='linear', probability=True)
+    # ml.add_clf(tree_clf, 'DT')
 
     # from sklearn.naive_bayes import GaussianNB
     # gnb_clf = GaussianNB(compute_importances=True)
-
-    # ml.add_clf(tree_clf, 'DT')
     # ml.add_clf(svc_clf, 'SVM')
-    # ml.add_clf(gnb_clf, 'GNB')
 
     # ml.fit()
 
@@ -342,9 +528,8 @@ if __name__ == '__main__':
     ml.bagging("Bagging")
     # print(ml.accuracy())
     # print(ml.auc())
-    areas = ml.roc()
-    print(areas)
-    # ml.important_features('DT')
+    ml.roc()
+    # print(ml.roc(ret_list=True))
     plt.show()
     # '''
 
@@ -398,10 +583,11 @@ if __name__ == '__main__':
     ml.costs = [[0, 4], [12, 16]]
 
     # print(ml.cm())
-    # print(ml.cm_table(value=1))
     # print(ml.cm_table(value=0))
+    # print(ml.cm_table(clfs=['Decision Tree'], value=1))
+    # print(ml.cm_table(clfs=['GaussianNB'], value=0))
 
-    print(ml.revenue())
-    print(ml.oportunity_cost())
-    print(ml.revenue_idiot())
+    print(ml.income())
+    # print(ml.oportunity_cost(clfs=['Bag 1']))
+    # print(ml.revenue_no_ml())
     '''
