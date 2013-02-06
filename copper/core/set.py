@@ -434,7 +434,7 @@ class Dataset(dict):
             self[col].fillna(value=value, inplace=True)
 
 if __name__ == "__main__":
-    copper.project.path = '../examples/expedia'
+    copper.project.path = '../../examples/expedia'
     train = copper.read_csv('train.csv')
     # copper.export(train, name='train', format='json')
     # print(train.frame)

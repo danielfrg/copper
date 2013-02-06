@@ -10,7 +10,7 @@
 			],
 			"env":
 			{
-				"PYTHONPATH": "/home/dfrodriguez/projects/"
+				"PYTHONPATH": "/home/dfrodriguez/projects/copper"
 			},
 			"name": "Python Virtual env"
 		}
