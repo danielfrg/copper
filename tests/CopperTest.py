@@ -11,7 +11,7 @@ class CopperTest(unittest.TestCase):
 
     def setUpData(self):
         self_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        copper.config.path = os.path.join(self_dir)
+        copper.project.path = os.path.join(self_dir)
 
     def assertEqual(self, ans, sol, digits=0):
         if type(ans) == np.ndarray and type(sol) == np.ndarray:

@@ -15,8 +15,6 @@ class DatasetTest(CopperTest):
         suite.addTest(DatasetTest('test_inputs_1'))
         suite.addTest(DatasetTest('test_inputs_2'))
         suite.addTest(DatasetTest('test_inputs_3'))
-        # suite.addTest(DatasetTest('test_save_load'))
-        # suite.addTest(DatasetTest('test_transform'))
         return suite
 
     def test_pandas_1(self):
@@ -26,7 +24,7 @@ class DatasetTest(CopperTest):
         self.setUpData()
 
         ds = copper.read_csv('dataset/pandas1/data.csv')
-        df = pd.read_csv(os.path.join(copper.config.data, 'dataset/pandas1/data.csv'))
+        df = pd.read_csv(os.path.join(copper.project.data, 'dataset/pandas1/data.csv'))
 
         self.assertEqual(ds['Number'], df['Number'])
         self.assertEqual(ds['Date'], df['Date'])
@@ -43,7 +41,7 @@ class DatasetTest(CopperTest):
     def test_types_1(self):
         self.setUpData()
         ds = copper.read_csv('dataset/types1/data.csv')
-        sol = pd.read_csv(os.path.join(copper.config.data, 'dataset/types1/solution.csv'))
+        sol = pd.read_csv(os.path.join(copper.project.data, 'dataset/types1/solution.csv'))
         sol = sol.set_index('column')
         self.assertEqual(ds.type, sol['Type'])
 
@@ -57,17 +55,17 @@ class DatasetTest(CopperTest):
 
         ds = copper.Dataset()
         ds.load('dataset/inputs1/data.csv')
-        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/metadata.csv'))
+        metadata = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs1/metadata.csv'))
         metadata = metadata.set_index('column')
         self.assertEqual(ds.metadata, metadata)
 
-        frame = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/frame.csv'))
+        frame = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs1/frame.csv'))
         self.assertEqual(ds.frame, frame)
 
-        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/inputs.csv'))
+        inputs = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs1/inputs.csv'))
         self.assertEqual(ds.inputs, inputs)
 
-        target = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs1/target.csv'))
+        target = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs1/target.csv'))
         self.assertEqual(ds.target, target['Target'])
 
     def test_inputs_2(self):
@@ -88,21 +86,21 @@ class DatasetTest(CopperTest):
         ds = copper.Dataset()
         ds.load('dataset/inputs2/data.csv')
 
-        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/metadata1.csv'))
+        metadata = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs2/metadata1.csv'))
         metadata = metadata.set_index('column')
         self.assertEqual(ds.metadata, metadata)
 
-        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/inputs1.csv'))
+        inputs = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs2/inputs1.csv'))
         self.assertEqual(ds.inputs, inputs)
 
         # -- Change the 'Category' col to 'Number'
         ds.type['Number as Category'] = ds.CATEGORY
 
-        metadata = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/metadata2.csv'))
+        metadata = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs2/metadata2.csv'))
         metadata = metadata.set_index('column')
         self.assertEqual(ds.metadata, metadata)
 
-        inputs = pd.read_csv(os.path.join(copper.config.data, 'dataset/inputs2/inputs2.csv'))
+        inputs = pd.read_csv(os.path.join(copper.project.data, 'dataset/inputs2/inputs2.csv'))
         self.assertEqual(ds.inputs, inputs)
 
     def test_inputs_3(self):
@@ -111,7 +109,7 @@ class DatasetTest(CopperTest):
         copper
         '''
         self.setUpData()
-        ds = copper.read_csv('iris/data.csv')
+        ds = copper.read_csv('dataset/iris/data.csv')
         ds.role['class'] = ds.TARGET
 
         from sklearn import datasets

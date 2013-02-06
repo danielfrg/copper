@@ -68,7 +68,7 @@ class Dataset(dict):
         ----------
             file_path: str
         '''
-        self.frame = pd.read_csv(os.path.join(copper.config.data, file_path))
+        self.frame = pd.read_csv(os.path.join(copper.project.data, file_path))
         if autoMetadata:
             self.create_metadata()
 
@@ -430,7 +430,7 @@ class Dataset(dict):
             self[col].fillna(value=value, inplace=True)
 
 if __name__ == "__main__":
-    copper.config.path = '../project/'
+    copper.project.path = '../examples/expedia'
     train = copper.read_csv('train.csv')
     # copper.export(train, name='train', format='json')
     # print(train.frame)
@@ -440,11 +440,11 @@ if __name__ == "__main__":
     # print(train.cov().to_csv('cov.csv'))
     # print(train.corr().to_csv('corr.csv'))
 
-    print(train.money)
+    print(train)
 
 
     ''' Donors
-    copper.config.path = '../tests/'
+    copper.project.path = '../tests/'
     ds = copper.DataSet()
     ds.load('donors/data.csv')
     ds.role['TARGET_D'] = ds.REJECTED

@@ -1,18 +1,21 @@
 import os
 
-class Config(object):
+class Project(object):
     def __init__(self):
         self._path = ''
         self._data = ''
-        self._export = ''
+        self._exported = ''
         self._cache = ''
         self._graphs = ''
         self._logs = ''
 
+    def create_folders():
+        pass # TODO
+
     def set_path(self, value):
         self._path = os.path.realpath(value)
         self._data = os.path.join(self._path, 'data')
-        self._export = os.path.join(self._path, 'export')
+        self._exported = os.path.join(self._data, 'exported')
         self._cache = os.path.join(self._path, 'cache')
         self._graphs = os.path.join(self._path, 'graphs')
         self._logs = os.path.join(self._path, 'logs')
@@ -20,8 +23,8 @@ class Config(object):
     def get_path(self):
         return self._path
 
-    def get_export(self):
-        return self._export
+    def get_exported(self):
+        return self._exported
 
     def get_cache(self):
         return self._cache
@@ -30,14 +33,14 @@ class Config(object):
         return self._data
 
     def get_graphs(self):
-        return self._export
+        return self._graphs
 
     def get_logs(self):
         return self._logs
 
     path = property(get_path, set_path)
     data = property(get_data)
-    export = property(get_export)
+    exported = property(get_exported)
     cache = property(get_data)
     graphs = property(get_graphs)
     logs = property(get_logs)

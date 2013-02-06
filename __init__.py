@@ -4,5 +4,5 @@ from copper.core.set import *
 from copper.core.ml import *
 from copper.core.ensemble import *
 
-from copper.core.config import Config
-config = Config()
+from copper.core.config import Project
+project = Project()
