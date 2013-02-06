@@ -246,7 +246,7 @@ class MachineLearning():
         return ans.order(ascending=ascending)
 
     def roc(self, clfs=None,  X_test=None, y_test=None, ds=None,
-                                 ascending=False, legend=True, ret_list=False):
+                                 ascending=False, legend=True, retList=False):
         '''
         Plots the ROC chart
 
@@ -295,8 +295,8 @@ class MachineLearning():
         plt.title('ROC: Receiver operating characteristic')
         if legend:
             # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-            plt.legend(loc='best', bbox_to_anchor=(1, 0.5))
-        if ret_list:
+            plt.legend(loc='best')
+        if retList:
             return ans.order(ascending=ascending)
 
     # --------------------------------------------------------------------------
@@ -438,7 +438,7 @@ class MachineLearning():
         plt.title('%s Confusion matrix' % clf_name)
         plt.colorbar()
 
-    def cm_table(self, value, clfs=None, X_test=None, y_test=None, ascending=False):
+    def cm_table(self, value, clfs=None, X_test=None, y_test=None, ds=None, ascending=False):
         '''
         Calculates the confusion matrix of the classifiers and returns a DataFrame
         for easier visualization
@@ -475,7 +475,7 @@ class MachineLearning():
             ans['Correct %d\'s' % value][clf_name] = cm[value,value].sum()
             ans['Rate %d\'s' % value][clf_name] = cm[value,value].sum() / cm[:,value].sum()
 
-        return ans.sort(ascending=ascending)
+        return ans.sort_index(by='Rate %d\'s' % value, ascending=ascending)
 
     # --------------------------------------------------------------------------
     #                                 MONEY!
@@ -529,7 +529,7 @@ class MachineLearning():
             ans[clf] = cm[1,0] * self.costs[1][0]
         return ans.order(ascending=ascending)
 
-    def revenue_no_ml(self, ascending=False):
+    def income_no_ml(self, ascending=False):
         '''
         Calculate the revenue of not using any classifier
 
@@ -659,5 +659,5 @@ if __name__ == '__main__':
 
     print(ml.income())
     # print(ml.oportunity_cost(clfs=['Bag 1']))
-    # print(ml.revenue_no_ml())
+    # print(ml.income_no_ml())
     '''

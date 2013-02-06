@@ -47,7 +47,4 @@ def df_to_json(df):
                     for row in df.values]
     return json.dumps(d)
 
-def read_csv(file_path):
-    ds = copper.Dataset()
-    ds.load(file_path)
-    return ds
+

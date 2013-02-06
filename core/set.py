@@ -304,7 +304,7 @@ class Dataset(dict):
     #                           EXPLORE / PLOTS
     # --------------------------------------------------------------------------
 
-    def histogram(self, col, bins=20, legend=True, ret_list=False):
+    def histogram(self, col, bins=20, legend=True, retList=False):
         '''
         Draws a histogram for the selected column on matplotlib
 
@@ -358,7 +358,7 @@ class Dataset(dict):
         if legend:
             plt.legend(loc='best')
 
-        if ret_list:
+        if retList:
             return pd.Series(labels)
 
     def unique_values(self, ascending=False):
