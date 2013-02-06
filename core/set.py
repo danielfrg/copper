@@ -130,7 +130,7 @@ class Dataset(dict):
             self.frame[col] = self._money2number(self.frame[col])
 
     # --------------------------------------------------------------------------
-    #                              INPUTS / TARGET
+    #                                PROPERTIES
     # --------------------------------------------------------------------------
 
     def get_inputs(self):
@@ -175,6 +175,24 @@ class Dataset(dict):
         return ans
 
     target = property(get_target)
+
+    def get_numbers(self):
+        cols = self.type[self.type == self.NUMBER].index
+        return self.frame[cols]
+
+    number = property(get_numbers)
+
+    def get_money(self):
+        cols = self.type[self.type == self.MONEY].index
+        return self.frame[cols]
+
+    money = property(get_money)
+
+    def get_categories(self):
+        cols = self.type[self.type == self.CATEGORY].index
+        return self.frame[cols]
+
+    category = property(get_categories)
 
     # --------------------------------------------------------------------------
     #                                TRANSFORMS
@@ -339,12 +357,6 @@ class Dataset(dict):
 
         return pd.Series(labels)
 
-    def stats(self):
-        '''
-        Generates a DataFrame with a summary of important statistics
-        '''
-        pass # TODO
-
     def unique_values(self, ascending=False):
         '''
         Generetas a Series with the number of unique values of each column
@@ -415,39 +427,7 @@ class Dataset(dict):
             if self.type[col] == self.CATEGORY:
                 if method == 'mode' or method == 'mode':
                     pass # TODO
-            self[col] = self[col].fillna(value=value)
-
-    def cov(self, cols=None):
-        '''
-        Calculates the covariance between columns of the data
-
-        Parameters
-        ----------
-            cols: list, of columns to calculate the correlation between
-
-        Returns
-        -------
-            pandas.DataFrame with the covariances
-        '''
-        if cols is None:
-            cols = self.columns
-        return self.frame[cols].cov()
-
-    def corr(self, cols=None):
-        '''
-        Calculates the correlation between columns of the data
-
-        Parameters
-        ----------
-            cols: list, of columns to calculate the correlation between
-
-        Returns
-        -------
-            pandas.DataFrame with the correlations
-        '''
-        if cols is None:
-            cols = self.columns
-        return self.frame[cols].corr()
+            self[col].fillna(value=value, inplace=True)
 
 if __name__ == "__main__":
     copper.config.path = '../project/'
@@ -458,7 +438,9 @@ if __name__ == "__main__":
     # plt.show()
 
     # print(train.cov().to_csv('cov.csv'))
-    print(train.corr().to_csv('corr.csv'))
+    # print(train.corr().to_csv('corr.csv'))
+
+    print(train.money)
 
 
     ''' Donors

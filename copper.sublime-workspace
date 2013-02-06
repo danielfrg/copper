@@ -4,6 +4,78 @@
 		"selected_items":
 		[
 			[
+				"y_",
+				"y_test"
+			],
+			[
+				"categori",
+				"categorical"
+			],
+			[
+				"Data",
+				"DataFrame"
+			],
+			[
+				"pred",
+				"prediction"
+			],
+			[
+				"X",
+				"X_test"
+			],
+			[
+				"cl",
+				"clfs"
+			],
+			[
+				"X_T",
+				"X_train"
+			],
+			[
+				"X_t",
+				"X_train"
+			],
+			[
+				"clfs",
+				"clfs"
+			],
+			[
+				"cm",
+				"cm_s"
+			],
+			[
+				"class",
+				"classifiers"
+			],
+			[
+				"c",
+				"classifiers"
+			],
+			[
+				"clas",
+				"classifiers"
+			],
+			[
+				"cla",
+				"classifiers"
+			],
+			[
+				"boo",
+				"boolean"
+			],
+			[
+				"clf",
+				"clf_names"
+			],
+			[
+				"plt",
+				"plt"
+			],
+			[
+				"clasi",
+				"classifier"
+			],
+			[
 				"y",
 				"ymax"
 			],
@@ -44,10 +116,6 @@
 				"propertyName"
 			],
 			[
-				"clf",
-				"clf_name"
-			],
-			[
 				"wi",
 				"width"
 			],
@@ -58,10 +126,6 @@
 			[
 				"impo",
 				"importances"
-			],
-			[
-				"plt",
-				"plt"
 			],
 			[
 				"max",
@@ -164,10 +228,6 @@
 				"ascending"
 			],
 			[
-				"X",
-				"X_test"
-			],
-			[
 				"_in",
 				"_index_final"
 			],
@@ -206,10 +266,6 @@
 			[
 				"n_",
 				"n_df"
-			],
-			[
-				"clas",
-				"classes_"
 			],
 			[
 				"ds",
@@ -306,10 +362,6 @@
 			[
 				"err",
 				"errorfill"
-			],
-			[
-				"y_",
-				"y_cos"
 			],
 			[
 				"order",
@@ -436,10 +488,6 @@
 				"symbol"
 			],
 			[
-				"Data",
-				"DataAccess"
-			],
-			[
 				"past",
 				"pastEvent"
 			],
@@ -466,67 +514,11 @@
 			[
 				"idx",
 				"idx"
-			],
-			[
-				"event",
-				"eventList"
-			],
-			[
-				"act",
-				"actionAfter"
-			],
-			[
-				"fil",
-				"field"
-			],
-			[
-				"mar",
-				"market"
-			],
-			[
-				"ev",
-				"evt_idx2"
-			],
-			[
-				"evt",
-				"evt_idx"
-			],
-			[
-				"evt_",
-				"evt_date"
-			],
-			[
-				"end",
-				"end_date"
-			],
-			[
-				"star",
-				"start"
-			],
-			[
-				"fill",
-				"fillna"
-			],
-			[
-				"ex",
-				"expected_return"
-			],
-			[
-				"dr_market",
-				"dr_market_window"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "README.md",
-			"settings":
-			{
-				"buffer_size": 370,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -628,12 +620,16 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/copper/core/ml.py",
+		"/home/dfrodriguez/projects/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/tests/core/ML.py",
+		"/home/dfrodriguez/projects/copper/tests/core/DataSet.py",
+		"/home/dfrodriguez/projects/copper/README.md",
 		"/home/dfrodriguez/projects/copper/explore/static/css/main.css",
 		"/home/dfrodriguez/projects/copper/explore/index.html",
 		"/home/dfrodriguez/projects/copper/explore/static/js/main.js",
 		"/home/dfrodriguez/projects/blog/_source/_layouts/default.html",
 		"/home/dfrodriguez/projects/blog/_source/index.html",
-		"/home/dfrodriguez/projects/copper/core/set.py",
 		"/home/dfrodriguez/projects/copper/explore/explore.py",
 		"/home/dfrodriguez/projects/copper/explore/3.js",
 		"/home/dfrodriguez/projects/copper/explore/static/css/chosen.css",
@@ -661,9 +657,7 @@
 		"/home/dfrodriguez/projects/copper/explore/js/jquery.min.js",
 		"/home/dfrodriguez/projects/copper/explore/backbone.min.js",
 		"/home/dfrodriguez/projects/copper/core/ensemble.py",
-		"/home/dfrodriguez/projects/copper/core/ml.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/models.py",
-		"/home/dfrodriguez/projects/copper/tests/core/DataSet.py",
 		"/home/dfrodriguez/.bashrc",
 		"/usr/lib/sublime-text-2/sublime_text_",
 		"/usr/lib/sublime-text-2/sublime_text_cracked",
@@ -673,7 +667,6 @@
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/tree/tree.py",
 		"/home/dfrodriguez/projects/copper/core/ml_bu.py",
 		"/home/dfrodriguez/projects/copper/examples/data_analysis/week2/quiz2.py",
-		"/home/dfrodriguez/projects/copper/tests/core/ML.py",
 		"/home/dfrodriguez/projects/copper/tests/core/models.csv",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
@@ -754,8 +747,7 @@
 		"/home/dfrodriguez/projects/web/hellodjango/templates/index/index.html",
 		"/home/dfrodriguez/projects/web/hellodjango/index/views.py",
 		"/home/dfrodriguez/projects/web/hellodjango/hellodjango/urls.py",
-		"/home/dfrodriguez/projects/web/hellodjango/index/urls.py",
-		"/home/dfrodriguez/.virtualenvs/django14/bin/activate"
+		"/home/dfrodriguez/projects/web/hellodjango/index/urls.py"
 	],
 	"find":
 	{
@@ -773,6 +765,13 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"train",
+			"DataSet",
+			"print",
+			"TODO",
+			"todo",
+			"of",
+			"clf",
 			"nbins",
 			"max",
 			"histogramData",
@@ -893,14 +892,7 @@
 			"n_col",
 			"n_cols",
 			"new_data",
-			"meta_data",
-			"_id",
-			"self._o_frame",
-			"self._frame",
-			"_frame",
-			"cols",
-			"data",
-			"new_df"
+			"meta_data"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -918,35 +910,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "README.md",
-					"settings":
-					{
-						"buffer_size": 370,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								311,
-								311
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
