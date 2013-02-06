@@ -310,7 +310,10 @@ class Dataset(dict):
 
         Parameters
         ----------
-            bins=20: int, number of bins of the histogram
+            bins: int, number of bins of the histogram, default 20
+            legend: boolean, True if want to display the legend of the ploting
+            ret_list: boolean, True if want the method to return a list with the
+                                distribution(information) of each bin
 
         Return
         ------
