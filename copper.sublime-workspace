@@ -620,6 +620,13 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/copper/setup.py",
+		"/home/dfrodriguez/projects/copper/README.md",
+		"/home/dfrodriguez/projects/copper/copper/explore/__init__.py",
+		"/home/dfrodriguez/projects/copper/README.txt",
+		"/home/dfrodriguez/projects/copper/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/copper.sublime-project",
+		"/home/dfrodriguez/projects/copper/LICENSE.txt",
 		"/home/dfrodriguez/projects/copper/core/set.py",
 		"/home/dfrodriguez/projects/copper/core/ml.py",
 		"/home/dfrodriguez/projects/copper/io/io.py",
@@ -630,7 +637,6 @@
 		"/home/dfrodriguez/projects/copper/tests/core/DataSet.py",
 		"/home/dfrodriguez/projects/copper/tests/core/ML.py",
 		"/home/dfrodriguez/projects/copper/__init__.py",
-		"/home/dfrodriguez/projects/copper/README.md",
 		"/home/dfrodriguez/projects/copper/explore/static/css/main.css",
 		"/home/dfrodriguez/projects/copper/explore/index.html",
 		"/home/dfrodriguez/projects/copper/explore/static/js/main.js",
@@ -678,7 +684,6 @@
 		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
 		"/home/dfrodriguez/projects/copper/core/set_bu.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/pandas/core/frame.py",
-		"/home/dfrodriguez/projects/copper/copper.sublime-project",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
 		"/home/dfrodriguez/projects/packages/copper/core/ml.py",
 		"/home/dfrodriguez/projects/web/danielfrg.github.com/_posts/2013-1-26-copper-easy-data-analysis-on-python.html",
@@ -742,12 +747,7 @@
 		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/io/parsers.py",
 		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/util/terminal.py",
 		"/home/dfrodriguez/projects/packages/finance/finance.sublime-project",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/version.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/info.py",
-		"/home/dfrodriguez/projects/packages/finance/.gitignore",
-		"/home/dfrodriguez/projects/web/hellodjango/templates/index/index.html",
-		"/home/dfrodriguez/projects/web/hellodjango/index/views.py",
-		"/home/dfrodriguez/projects/web/hellodjango/hellodjango/urls.py"
+		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/version.py"
 	],
 	"find":
 	{
