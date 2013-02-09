@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"tar",
+				"target_name"
+			],
+			[
+				"col",
+				"columns"
+			],
+			[
+				"X_",
+				"X_test"
+			],
+			[
+				"per",
+				"percent_nas"
+			],
+			[
+				"y_T",
+				"y_train"
+			],
+			[
 				"MONE",
 				"MONEY"
 			],
@@ -96,10 +116,6 @@
 				"ColumnData"
 			],
 			[
-				"col",
-				"columnDataModel"
-			],
-			[
 				"column",
 				"columnsListView"
 			],
@@ -134,10 +150,6 @@
 			[
 				"max",
 				"max_depth"
-			],
-			[
-				"X_",
-				"X_train"
 			],
 			[
 				"ense",
@@ -310,10 +322,6 @@
 			[
 				"meta",
 				"meta_data"
-			],
-			[
-				"tar",
-				"target_col"
 			],
 			[
 				"auto_",
@@ -506,19 +514,35 @@
 			[
 				"afte",
 				"after_date"
-			],
-			[
-				"days",
-				"daysAfter"
-			],
-			[
-				"idx",
-				"idx"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "copper/core/set.py",
+			"settings":
+			{
+				"buffer_size": 15662,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/expedia/src/clfs.py",
+			"settings":
+			{
+				"buffer_size": 447,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/expedia/src/train_clean.py",
+			"settings":
+			{
+				"buffer_size": 973,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -620,12 +644,42 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/forest.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/test_clean.py",
+		"/home/dfrodriguez/projects/copper/copper/core/ml.py",
+		"/home/dfrodriguez/projects/copper/copper/io/io.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc-original",
+		"/home/dfrodriguez/projects/copper/copper.sublime-project",
+		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_inputs.csv",
+		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_target.csv",
+		"/home/dfrodriguez/projects/copper/copper/core/config.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/test_inputs.csv",
+		"/home/dfrodriguez/projects/copper/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/explore.py",
+		"/home/dfrodriguez/projects/copper/copper/explore/explore.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/ggplot.py",
+		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/webplot_example.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/functional.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/protocol.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/properties.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/plot_expr_graph.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/mpl.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/bokeh.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/templates/plot.html",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/pandas_plot_data.py",
+		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/local_example.py",
+		"/home/dfrodriguez/anaconda/bin/launch_instance",
+		"/home/dfrodriguez/.bashrc",
+		"/home/dfrodriguez/projects/bokeh/example1.py",
+		"/home/dfrodriguez/.virtualenvs/get_env_details",
+		"/home/dfrodriguez/anaconda/bin/python",
+		"/home/dfrodriguez/.continuum/license_anacondapro_20130207155036.txt",
+		"/home/dfrodriguez/anaconda/LICENSE.txt",
 		"/home/dfrodriguez/projects/copper/setup.py",
 		"/home/dfrodriguez/projects/copper/README.md",
 		"/home/dfrodriguez/projects/copper/copper/explore/__init__.py",
 		"/home/dfrodriguez/projects/copper/README.txt",
-		"/home/dfrodriguez/projects/copper/copper/core/set.py",
-		"/home/dfrodriguez/projects/copper/copper.sublime-project",
 		"/home/dfrodriguez/projects/copper/LICENSE.txt",
 		"/home/dfrodriguez/projects/copper/core/set.py",
 		"/home/dfrodriguez/projects/copper/core/ml.py",
@@ -666,7 +720,6 @@
 		"/home/dfrodriguez/projects/copper/explore/backbone.min.js",
 		"/home/dfrodriguez/projects/copper/core/ensemble.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/models.py",
-		"/home/dfrodriguez/.bashrc",
 		"/usr/lib/sublime-text-2/sublime_text_",
 		"/usr/lib/sublime-text-2/sublime_text_cracked",
 		"/usr/lib/sublime-text-2/sublime_text",
@@ -718,36 +771,7 @@
 		"/home/dfrodriguez/Videos/Doctor Who/Doctor.Who.2005-s01e11.Boom.Town.srt",
 		"/home/dfrodriguez/projects/packages/copper/core/hist.csv",
 		"/home/dfrodriguez/projects/packages/copper/explore/assets/explore.html",
-		"/home/dfrodriguez/.virtualenvs/finance/bin/activate",
-		"/home/dfrodriguez/projects/packages/copper/tests/DataSet.py",
-		"/home/dfrodriguez/projects/packages/copper/explore/hello.py",
-		"/home/dfrodriguez/projects/packages/copper/io/save_load.py",
-		"/home/dfrodriguez/projects/packages/copper/copper.sublime-project",
-		"/home/dfrodriguez/Downloads/README.TXT",
-		"/usr/lib/sublime-text-2/cracked",
-		"/home/dfrodriguez/projects/packages/copper/explore/__init__.py",
-		"/home/dfrodriguez/projects/packages/copper/explore/explore.html",
-		"/home/dfrodriguez/projects/packages/copper/examples/exported/frame.csv",
-		"/home/dfrodriguez/projects/packages/copper/t.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/scipy/__config__.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/rpy2/__init__.py",
-		"/home/dfrodriguez/projects/packages/finance/test/FinanceTest.py",
-		"/home/dfrodriguez/projects/packages/copper/tests/data/frame.csv",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/core/frame.py",
-		"/home/dfrodriguez/projects/packages/copper/tests/__init__.py",
-		"/home/dfrodriguez/projects/packages/finance/utils/DataAccess.py",
-		"/home/dfrodriguez/projects/packages/copper/io/cache.py",
-		"/home/dfrodriguez/projects/packages/copper/how_to.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/core/format.py",
-		"/home/dfrodriguez/projects/packages/copper/data/donors.csv",
-		"/home/dfrodriguez/projects/packages/copper/io/load.py",
-		"/home/dfrodriguez/projects/packages/copper/core/__init__.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/__init__.py",
-		"/home/dfrodriguez/projects/packages/copper/io/__init__.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/io/parsers.py",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/util/terminal.py",
-		"/home/dfrodriguez/projects/packages/finance/finance.sublime-project",
-		"/home/dfrodriguez/.virtualenvs/finance/lib/python3.2/site-packages/pandas/version.py"
+		"/home/dfrodriguez/.virtualenvs/finance/bin/activate"
 	],
 	"find":
 	{
@@ -765,6 +789,15 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"train",
+			"x14",
+			"percent_nas",
+			"perce",
+			"percent",
+			"export",
+			"accurac",
+			"geom",
+			"ggplot",
 			"no_ml",
 			"layout",
 			"copper.config",
@@ -883,19 +916,10 @@
 			"data_frame",
 			"0",
 			"generate_frame",
-			"ftarget",
-			"33 42",
-			"data_dir",
-			"_data_dir",
-			"Categorical",
-			"Nominal",
-			"data_path",
-			"fdir",
-			"filepath",
-			"copper.data_path"
+			"ftarget"
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
@@ -910,8 +934,89 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "copper/core/set.py",
+					"settings":
+					{
+						"buffer_size": 15662,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13362,
+								13362
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6982.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "examples/expedia/src/clfs.py",
+					"settings":
+					{
+						"buffer_size": 447,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								199,
+								199
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "examples/expedia/src/train_clean.py",
+					"settings":
+					{
+						"buffer_size": 973,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								259,
+								259
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

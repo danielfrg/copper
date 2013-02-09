@@ -1,3 +1,5 @@
+# coding=utf-8
+from __future__ import division
 import os
 import io
 import json
@@ -95,7 +97,7 @@ class Dataset(dict):
             self.role[target_cols[0]] = self.TARGET
             self.role[target_cols[1:]] = self.REJECTED
         # Check for a lot of missing values
-        rejected = self.percent_nas()[self.percent_nas() > 0.5].index
+        rejected = self.percent_missing()[self.percent_missing() > 0.5].index
         self.role[rejected] = self.REJECTED
         # Roles: Input
         self.role = self.role.fillna(value=self.INPUT) # Missing cols are Input
@@ -323,6 +325,8 @@ class Dataset(dict):
         data = self.frame[col]
         nas = len(data) - len(data.dropna())
         data = data.dropna()
+        data = data[data != float('-inf')]
+        data = data[data != float('inf')]
 
         if self.type[col] == self.CATEGORY:
             types = self._category_labels(data)
@@ -378,7 +382,7 @@ class Dataset(dict):
             ans[col] = len(self.frame[col].value_counts())
         return ans.order(ascending=ascending)
 
-    def percent_nas(self, ascending=False):
+    def percent_missing(self, ascending=False):
         '''
         Generetas a Series with the percent of missing values of each column
 
@@ -391,6 +395,22 @@ class Dataset(dict):
             pandas.Series
         '''
         return (1 - (self.frame.count() / len(self.frame))).order(ascending=ascending)
+
+    def variance_explained(self, cols=None):
+        # TODO: is this working?
+        if cols is None:
+            cols = self.inputs.columns
+        U, s, V = np.linalg.svd(self.inputs[cols].values)
+        var = np.square(s) / sum(np.square(s))
+        xlocations = np.array(range(len(var)))+0.5
+        width = 0.99
+        plt.bar(xlocations, var, width=width)
+        return var
+
+    def corr(self, ascending=False):
+        corrs = self.frame.corr()
+        target_name = self.role[self.role == self.TARGET].index[0]
+        return corrs[target_name].order(ascending=ascending)
 
     # --------------------------------------------------------------------------
     #                        SPECIAL METHODS / Pandas API
@@ -431,7 +451,7 @@ class Dataset(dict):
             if self.type[col] == self.CATEGORY:
                 if method == 'mode' or method == 'mode':
                     pass # TODO
-            self[col].fillna(value=value, inplace=True)
+            self[col] = self[col].fillna(value=value)
 
 if __name__ == "__main__":
     copper.project.path = '../../examples/expedia'
@@ -444,7 +464,7 @@ if __name__ == "__main__":
     # print(train.cov().to_csv('cov.csv'))
     # print(train.corr().to_csv('corr.csv'))
 
-    print(train)
+    # print(train)
 
 
     ''' Donors

@@ -24,6 +24,8 @@ class Project(object):
         return self._path
 
     def get_exported(self):
+        if not (os.access(self._exported, os.F_OK)):
+            os.makedirs(self._exported)
         return self._exported
 
     def get_cache(self):
