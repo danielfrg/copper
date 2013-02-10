@@ -520,26 +520,18 @@
 	"buffers":
 	[
 		{
-			"file": "copper/core/set.py",
+			"file": "examples/expedia/src/explore.py",
 			"settings":
 			{
-				"buffer_size": 15662,
+				"buffer_size": 735,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "examples/expedia/src/clfs.py",
+			"file": "examples/expedia/src/clean.py",
 			"settings":
 			{
-				"buffer_size": 447,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "examples/expedia/src/train_clean.py",
-			"settings":
-			{
-				"buffer_size": 973,
+				"buffer_size": 1020,
 				"line_ending": "Unix"
 			}
 		}
@@ -547,9 +539,17 @@
 	"build_system": "Python Virtual env",
 	"command_palette":
 	{
-		"height": 263.0,
+		"height": 79.0,
 		"selected_items":
 		[
+			[
+				"Package Control: ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
 			[
 				"ha",
 				"Set Syntax: HTML (ASP)"
@@ -565,10 +565,6 @@
 			[
 				"list",
 				"Package Control: List Packages"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
 			],
 			[
 				"enable",
@@ -644,6 +640,13 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Default.sublime-commands",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Main.sublime-menu",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/clfs.py",
+		"/home/dfrodriguez/projects/copper/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/train_clean.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/data/test_clean.dataset",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/forest.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/test_clean.py",
 		"/home/dfrodriguez/projects/copper/copper/core/ml.py",
@@ -655,7 +658,6 @@
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_target.csv",
 		"/home/dfrodriguez/projects/copper/copper/core/config.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/test_inputs.csv",
-		"/home/dfrodriguez/projects/copper/copper/core/set.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/explore.py",
 		"/home/dfrodriguez/projects/copper/copper/explore/explore.py",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/ggplot.py",
@@ -765,13 +767,7 @@
 		"/home/dfrodriguez/projects/packages/copper/explore/static/css/main.css",
 		"/home/dfrodriguez/projects/packages/copper/explore/explore.py",
 		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore.html",
-		"/home/dfrodriguez/projects/packages/copper/explore/templates/d3.html",
-		"/home/dfrodriguez/projects/packages/copper/examples/donors/exported/donors.dataset",
-		"/home/dfrodriguez/projects/packages/copper/explore/templates/index.html",
-		"/home/dfrodriguez/Videos/Doctor Who/Doctor.Who.2005-s01e11.Boom.Town.srt",
-		"/home/dfrodriguez/projects/packages/copper/core/hist.csv",
-		"/home/dfrodriguez/projects/packages/copper/explore/assets/explore.html",
-		"/home/dfrodriguez/.virtualenvs/finance/bin/activate"
+		"/home/dfrodriguez/projects/packages/copper/explore/templates/d3.html"
 	],
 	"find":
 	{
@@ -789,6 +785,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"repl_python_ipython",
 			"train",
 			"x14",
 			"percent_nas",
@@ -915,8 +912,7 @@
 			"_categories",
 			"data_frame",
 			"0",
-			"generate_frame",
-			"ftarget"
+			"generate_frame"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -934,51 +930,49 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "copper/core/set.py",
+					"file": "examples/expedia/src/explore.py",
 					"settings":
 					{
-						"buffer_size": 15662,
+						"buffer_size": 735,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13362,
-								13362
+								515,
+								515
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 6982.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "examples/expedia/src/clfs.py",
+					"file": "examples/expedia/src/clean.py",
 					"settings":
 					{
-						"buffer_size": 447,
+						"buffer_size": 1020,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								199,
-								199
+								276,
+								276
 							]
 						],
 						"settings":
@@ -986,33 +980,7 @@
 							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "examples/expedia/src/train_clean.py",
-					"settings":
-					{
-						"buffer_size": 973,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								259,
-								259
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 52.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

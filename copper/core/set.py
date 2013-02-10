@@ -350,6 +350,7 @@ class Dataset(dict):
 
             plt.xticks(centers, types)
         else:
+            bins = bins if len(set(data)) > bins else len(set(data))
             count, divis = np.histogram(data.values, bins=bins)
             width = 0.97 * (divis[1] - divis[0])
             centers = (divis[:-1] + divis[1:]) / 2
@@ -364,6 +365,18 @@ class Dataset(dict):
 
         if retList:
             return pd.Series(labels)
+
+    def scatter(self, var1, var2, var3=None, **args):
+        x = self.frame[var1].values
+        y = self.frame[var2].values
+        if var3 is None:
+            plt.scatter(x, y, **args)
+        else:
+            z = self.frame[var3].values
+            plt.scatter(x, y, c=z, **args)
+            plt.gray()
+        plt.xlabel(var1)
+        plt.ylabel(var2)
 
     def unique_values(self, ascending=False):
         '''
@@ -407,10 +420,13 @@ class Dataset(dict):
         plt.bar(xlocations, var, width=width)
         return var
 
-    def corr(self, ascending=False):
+    def corr(self, col=None, ascending=False):
+        if col is None:
+            col = self.role[self.role == self.TARGET].index[0]
         corrs = self.frame.corr()
-        target_name = self.role[self.role == self.TARGET].index[0]
-        return corrs[target_name].order(ascending=ascending)
+        corrs = corrs[col]
+        corrs = corrs[corrs.index != col]
+        return corrs.order(ascending=ascending)
 
     # --------------------------------------------------------------------------
     #                        SPECIAL METHODS / Pandas API
@@ -427,6 +443,9 @@ class Dataset(dict):
 
     def __setitem__(self, name, value):
         self.frame[name] = value
+
+    def __len__(self):
+        return len(self.frame)
 
     def fillna(self, cols=None, method='mean'):
         '''

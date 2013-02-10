@@ -1,3 +1,5 @@
+# coding=utf-8
+from __future__ import division
 import copper
 import numpy as np
 import pandas as pd
@@ -438,7 +440,7 @@ class MachineLearning():
         plt.title('%s Confusion matrix' % clf_name)
         plt.colorbar()
 
-    def cm_table(self, value, clfs=None, X_test=None, y_test=None, ds=None, ascending=False):
+    def cm_table(self, values=None, clfs=None, X_test=None, y_test=None, ds=None, ascending=False):
         '''
         Calculates the confusion matrix of the classifiers and returns a DataFrame
         for easier visualization
@@ -463,18 +465,24 @@ class MachineLearning():
         if ds is not None:
             X_test = self.test.values
             y_test = self.test.values
+        if values is None:
+            values = set(y_test)
+        elif type(values) is int:
+            values = [values]
 
         cm_s = self.cm(clfs=clfs, X_test=X_test, y_test=y_test)
-        cols = ['Predicted %d\'s' % value, 'Correct %d\'s' % value,
+        ans = pd.DataFrame(index=cm_s.keys())
+        for value in values:
+            cols = ['Predicted %d\'s' % value, 'Correct %d\'s' % value,
                                     'Rate %d\'s' % value]
-        ans = pd.DataFrame(index=cm_s.keys(), columns=cols)
-
-        for clf_name in cm_s.keys():
-            cm = cm_s[clf_name]
-            ans['Predicted %d\'s' % value][clf_name] = cm[:,value].sum()
-            ans['Correct %d\'s' % value][clf_name] = cm[value,value].sum()
-            ans['Rate %d\'s' % value][clf_name] = cm[value,value].sum() / cm[:,value].sum()
-
+            n_ans = pd.DataFrame(index=cm_s.keys(), columns=cols)
+            for clf_name in cm_s.keys():
+                cm = cm_s[clf_name]
+                n_ans['Predicted %d\'s' % value][clf_name] = cm[:,value].sum()
+                n_ans['Correct %d\'s' % value][clf_name] = cm[value,value].sum()
+                n_ans['Rate %d\'s' % value][clf_name] = cm[value,value].sum() / cm[:,value].sum()
+            ans = ans.join(n_ans)
+        # return ans
         return ans.sort_index(by='Rate %d\'s' % value, ascending=ascending)
 
     # --------------------------------------------------------------------------
