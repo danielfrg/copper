@@ -8,6 +8,7 @@ from sklearn import cross_validation
 from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 from sklearn.metrics import confusion_matrix
+from copper.core.ensemble import *
 
 class MachineLearning():
     '''
