@@ -17,8 +17,9 @@ class Dataset(dict):
 
     # Constants
 
-    MONEY = 'Money'
     NUMBER = 'Number'
+    MONEY = 'Money'
+    PERCENT = 'Percent'
     CATEGORY = 'Category'
 
     ID = 'ID'
@@ -34,7 +35,8 @@ class Dataset(dict):
         self.type = None
 
         self.unique_values_limit = 20
-        self.money_percent_filter = 0.1
+        self.percent_filter = 0.9
+        self.money_percent_filter = 0.9
         self.money_symbols = []
 
     # --------------------------------------------------------------------------
@@ -115,14 +117,25 @@ class Dataset(dict):
         money_cols = []
         obj_cols = self.frame.dtypes[self.frame.dtypes == object].index
         for col in obj_cols:
-            x = [x[:1] for x in self.frame[col].dropna().values]
+            x = [x[:1] for x in self.frame[col].dropna().values] # First chars
             for money_symbol in self.MONEY_SYMBOLS:
                 y = [money_symbol for y in x]
                 eq = np.array(x) == np.array(y)
-                if len(eq[eq==True]) >= self.money_percent_filter * len(x):
+                if len(eq[eq==True]) > self.money_percent_filter * len(x):
                     self.money_symbols.append(money_symbol)
                     money_cols.append(col)
         self.type[money_cols] = self.MONEY
+
+        # Types: Percent
+        percent_cols = []
+        for col in obj_cols:
+            _col = self.frame[col].dropna()
+            finder = lambda x: True if x.endswith('%') else False
+            _col = _col.map(finder)
+            _col = _col[_col == True]
+            if len(_col) > self.percent_filter * len(_col):
+                percent_cols.append(col)
+        self.type[percent_cols] = self.PERCENT
 
         # Types: Category
         self.type = self.type.fillna(value=self.CATEGORY)

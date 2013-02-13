@@ -534,7 +534,7 @@ class MachineLearning():
 
         for clf in cm_s.keys():
             cm = cm_s[clf]
-            ans[clf] = cm[1,0] * self.costs[1][0]
+            ans[clf] = cm[1,0] * self.costs[1][0] + cm[0,1] * self.costs[0][1]
         return ans.order(ascending=ascending)
 
     def income_no_ml(self, ascending=False):

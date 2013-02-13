@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"in",
+				"int"
+			],
+			[
+				"ru",
+				"running"
+			],
+			[
+				"train",
+				"train_imp"
+			],
+			[
+				"file",
+				"filename"
+			],
+			[
+				"fil",
+				"filepath"
+			],
+			[
 				"tar",
 				"target_name"
 			],
@@ -272,10 +292,6 @@
 				"extend"
 			],
 			[
-				"file",
-				"file_path"
-			],
-			[
 				"n_",
 				"n_df"
 			],
@@ -498,40 +514,16 @@
 			[
 				"past",
 				"pastEvent"
-			],
-			[
-				"d2_",
-				"d1_array_2_dr"
-			],
-			[
-				"port",
-				"Portfolio"
-			],
-			[
-				"pr",
-				"prices"
-			],
-			[
-				"afte",
-				"after_date"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "examples/expedia/src/explore.py",
+			"file": "/home/dfrodriguez/.bashrc",
 			"settings":
 			{
-				"buffer_size": 735,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "examples/expedia/src/clean.py",
-			"settings":
-			{
-				"buffer_size": 1020,
+				"buffer_size": 4706,
 				"line_ending": "Unix"
 			}
 		}
@@ -539,16 +531,32 @@
 	"build_system": "Python Virtual env",
 	"command_palette":
 	{
-		"height": 79.0,
+		"height": 56.0,
 		"selected_items":
 		[
 			[
-				"Package Control: ena",
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"enable",
 				"Package Control: Enable Package"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
+				"conver",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"Package Control: ena",
+				"Package Control: Enable Package"
 			],
 			[
 				"ha",
@@ -559,16 +567,8 @@
 				"Set Syntax: JavaScript"
 			],
 			[
-				"remove",
-				"Package Control: Remove Package"
-			],
-			[
 				"list",
 				"Package Control: List Packages"
-			],
-			[
-				"enable",
-				"Package Control: Enable Package"
 			],
 			[
 				"pa",
@@ -577,10 +577,6 @@
 			[
 				"packa",
 				"Package Control: Disable Package"
-			],
-			[
-				"conver",
-				"Indentation: Convert to Spaces"
 			],
 			[
 				"disable",
@@ -601,10 +597,6 @@
 			[
 				"packagre",
 				"Package Control: Discover Packages"
-			],
-			[
-				"disa",
-				"Package Control: Disable Package"
 			],
 			[
 				"disabl",
@@ -632,25 +624,50 @@
 	"distraction_free":
 	{
 		"menu_visible": true,
-		"show_minimap": false,
+		"show_minimap": true,
 		"show_open_files": false,
-		"show_tabs": false,
-		"side_bar_visible": false,
+		"show_tabs": true,
+		"side_bar_visible": true,
 		"status_bar_visible": false
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/test.py",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/SublimeREPL.sublime-settings",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Default.sublime-commands",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/SublimeREPL.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Main.sublime-menu",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/ipy_repl.py",
+		"/home/dfrodriguez/.bashrc",
+		"/home/dfrodriguez/.bash_history",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/Package Control/Package Control.sublime-settings",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Default.sublime-commands",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+		"/home/dfrodriguez/Dropbox/Documents/Coursera/Data Analysis/Quizes/quiz4/quiz4.r",
+		"/home/dfrodriguez/Dropbox/Documents/Coursera/Data Analysis/Quizes/quiz4/data/movies.txt",
+		"/home/dfrodriguez/q4.r",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/clfs.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/clean_imputed.py",
+		"/home/dfrodriguez/projects/copper/copper/core/ml.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/explore.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/impute.py",
+		"/home/dfrodriguez/projects/copper/copper/io/io.py",
+		"/home/dfrodriguez/projects/copper/copper/core/r.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_imp.csv",
+		"/home/dfrodriguez/projects/copper/examples/expedia/data/train.csv",
+		"/home/dfrodriguez/projects/copper/copper/__init__.py",
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/pandas/rpy/common.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/clean.py",
 		"/home/dfrodriguez/projects/copper/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/forest.py",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeIPython/SublimeIPython.py",
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeIPython/install.txt",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/train_clean.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/test_clean.dataset",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/forest.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/test_clean.py",
-		"/home/dfrodriguez/projects/copper/copper/core/ml.py",
-		"/home/dfrodriguez/projects/copper/copper/io/io.py",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc-original",
 		"/home/dfrodriguez/projects/copper/copper.sublime-project",
@@ -658,7 +675,6 @@
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_target.csv",
 		"/home/dfrodriguez/projects/copper/copper/core/config.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/test_inputs.csv",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/explore.py",
 		"/home/dfrodriguez/projects/copper/copper/explore/explore.py",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/ggplot.py",
 		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/webplot_example.py",
@@ -672,7 +688,6 @@
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/pandas_plot_data.py",
 		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/local_example.py",
 		"/home/dfrodriguez/anaconda/bin/launch_instance",
-		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/projects/bokeh/example1.py",
 		"/home/dfrodriguez/.virtualenvs/get_env_details",
 		"/home/dfrodriguez/anaconda/bin/python",
@@ -731,15 +746,12 @@
 		"/home/dfrodriguez/projects/copper/core/ml_bu.py",
 		"/home/dfrodriguez/projects/copper/examples/data_analysis/week2/quiz2.py",
 		"/home/dfrodriguez/projects/copper/tests/core/models.csv",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/ensemble/base.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/ensemble/forest.py",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/dfrodriguez/.virtualenvs/copper/bin/activate",
 		"/home/dfrodriguez/projects/copper/core/set_bu.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/pandas/core/frame.py",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
 		"/home/dfrodriguez/projects/packages/copper/core/ml.py",
 		"/home/dfrodriguez/projects/web/danielfrg.github.com/_posts/2013-1-26-copper-easy-data-analysis-on-python.html",
 		"/home/dfrodriguez/projects/web/danielfrg.github.com/utils/bu.html",
@@ -747,27 +759,7 @@
 		"/home/dfrodriguez/projects/packages/copper/core/set.py",
 		"/home/dfrodriguez/projects/packages/copper/examples/catalog/data/training.csv",
 		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
-		"/home/dfrodriguez/projects/packages/copper/tests/core/DataSet.py",
-		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/target.csv",
-		"/home/dfrodriguez/projects/packages/copper/__init__.py",
-		"/home/dfrodriguez/projects/packages/copper/examples/iris/data/iris.csv",
-		"/home/dfrodriguez/projects/packages/copper/examples/catalog/training.csv",
-		"/home/dfrodriguez/projects/packages/copper/core/ml_2.py",
-		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/svm/classes.py",
-		"/home/dfrodriguez/projects/packages/copper/examples/donors/donors.py",
-		"/home/dfrodriguez/projects/packages/copper/io/main.py",
-		"/home/dfrodriguez/projects/packages/copper/.gitignore",
-		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
-		"/home/dfrodriguez/projects/packages/copper/core/config.py",
-		"/home/dfrodriguez/projects/packages/copper/README.md",
-		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/frame.csv",
-		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/metadata.csv",
-		"/home/dfrodriguez/projects/packages/copper/tests/data/dataset/test1/inputs.csv",
-		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore_bu.html",
-		"/home/dfrodriguez/projects/packages/copper/explore/static/css/main.css",
-		"/home/dfrodriguez/projects/packages/copper/explore/explore.py",
-		"/home/dfrodriguez/projects/packages/copper/explore/templates/explore.html",
-		"/home/dfrodriguez/projects/packages/copper/explore/templates/d3.html"
+		"/home/dfrodriguez/projects/packages/copper/tests/core/DataSet.py"
 	],
 	"find":
 	{
@@ -785,6 +777,12 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"train",
+			"convert_robj",
+			"DataFra",
+			"train",
+			"histro",
+			"nans",
 			"repl_python_ipython",
 			"train",
 			"x14",
@@ -906,13 +904,7 @@
 			"FileHandler",
 			"ExploreAPIHandler",
 			"SearchView",
-			"_columns",
-			"df",
-			"file",
-			"_categories",
-			"data_frame",
-			"0",
-			"generate_frame"
+			"_columns"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -935,52 +927,28 @@
 			[
 				{
 					"buffer": 0,
-					"file": "examples/expedia/src/explore.py",
+					"file": "/home/dfrodriguez/.bashrc",
 					"settings":
 					{
-						"buffer_size": 735,
+						"buffer_size": 4706,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								515,
-								515
+								3936,
+								3936
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "examples/expedia/src/clean.py",
-					"settings":
-					{
-						"buffer_size": 1020,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								276,
-								276
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 52.0,
+						"translation.y": 2301.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1021,7 +989,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 161.0
+		"height": 171.0
 	},
 	"replace":
 	{

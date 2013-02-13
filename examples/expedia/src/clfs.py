@@ -12,6 +12,8 @@ train = copper.load('train_imp.dataset')
 # test = copper.load('test_mean.dataset')
 test = copper.load('test_imp.dataset')
 
+# print test.inputs
+
 ml = copper.MachineLearning()
 ml.set_train(train)
 ml.set_test(test)
@@ -31,8 +33,8 @@ print ml.accuracy()
 ml.roc()
 plt.show()
 
-# print ml.cm_table()
+print ml.cm_table()
 # print ml.cm_table(0)
 # print ml.cm_table(1)
-
+print ml.oportunity_cost()
 
