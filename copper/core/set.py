@@ -240,13 +240,39 @@ class Dataset(dict):
         plt.bar(xlocations, var, width=width)
         return var
 
-    def corr(self, col=None, ascending=False):
-        if col is None:
-            col = self.role[self.role == self.TARGET].index[0]
+    def corr(self, cols=None, ascending=False):
+        ''' Calculates correlation matrix of the frame
+        If a column has a role of target only values for that column are returned
+
+        Parameters
+        ----------
+            cols: list, list of columns on the returned DataFrame.
+                        default=None: On that case if there is a column with
+                        role=Target then retuns only values for that column if
+                        there is not return all values
+            cols: str, special case: 'all' to return all values
+
+        Returns
+        -------
+        '''
+        if cols is None:
+            try :
+                # If there is a target column use that
+                cols = self.role[self.role == self.TARGET].index[0]
+            except:
+                cols = [c for c in self.columns
+                              if self.frame.dtypes[c] in (np.int64, np.float64)]
+        elif cols == 'all':
+            cols = [c for c in self.columns
+                              if self.frame.dtypes[c] in (np.int64, np.float64)]
+
         corrs = self.frame.corr()
-        corrs = corrs[col]
-        corrs = corrs[corrs.index != col]
-        return corrs.order(ascending=ascending)
+        corrs = corrs[cols]
+        if type(corrs) is pd.Series:
+            corrs = corrs[corrs.index != cols]
+            return corrs.order(ascending=ascending)
+        else:
+            return corrs
 
     def fillna(self, cols=None, method='mean'):
         '''
@@ -326,6 +352,7 @@ class Dataset(dict):
         return self.frame.tail(n)
 
 if __name__ == "__main__":
+    '''
     copper.project.path = '../../examples/coursera_data_analysis/assignment1'
     dataset = copper.Dataset()
     dataset.load('loansData.csv')
@@ -336,10 +363,10 @@ if __name__ == "__main__":
     dataset.type['Employment.Length'] = dataset.NUMBER
     # print dataset.metadata
     dataset.fillna(method='knn')
-    print dataset.frame
     # print dataset.inputs
     # print dataset.inputs.head()
 
     # import matplotlib.pyplot as plt
     # dataset.histogram('FICO.Range', legend=False)
     # plt.show()
+    '''
