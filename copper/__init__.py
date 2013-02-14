@@ -2,7 +2,7 @@ import os
 from copper.io.io import *
 from copper.core.set import *
 from copper.core.ml import *
-import copper.explore.base as plots
+import copper.viz.base as plot
 
 import copper.core.transforms as transform
 import copper.core.r as r

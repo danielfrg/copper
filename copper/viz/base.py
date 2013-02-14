@@ -1,6 +1,7 @@
 # coding=utf-8
 import copper
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 def histogram(series, bins=20, legend=True, retList=False):
