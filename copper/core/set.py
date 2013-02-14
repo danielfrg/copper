@@ -298,7 +298,7 @@ class Dataset(dict):
         ------
             nothing, figure is ready to be shown
         '''
-        copper.plots.histogram(self.frame[col], **args)
+        copper.plot.histogram(self.frame[col], **args)
 
     # --------------------------------------------------------------------------
     #                              SPECIAL METHODS
