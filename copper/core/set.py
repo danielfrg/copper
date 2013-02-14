@@ -9,7 +9,7 @@ import pandas as pd
 
 class Dataset(dict):
     '''
-    Wrapper around pandas to define metadata of a DataFrame.
+    Wrapper around pandas to define metadata to a pandas DataFrame.
     Also introduces a some utils for filling missing data, ploting.
     '''
 
@@ -22,9 +22,7 @@ class Dataset(dict):
     TARGET = 'Target'
     REJECTED = 'Rejected'
 
-    MONEY_SYMBOLS = ['$','£','€']
-
-    def __init__(self):
+    def __init__(self, data=None):
         self.frame = None
         self.role = None
         self.type = None
@@ -33,6 +31,12 @@ class Dataset(dict):
         self.percent_filter = 0.9
         self.money_percent_filter = 0.9
         self.money_symbols = []
+
+        if data is not None:
+            if type(data) is pd.DataFrame:
+                self.set_frame(data)
+            elif type(data) is str:
+                self.load(data)
 
     # --------------------------------------------------------------------------
     #                                 LOAD
@@ -67,11 +71,18 @@ class Dataset(dict):
         ----------
             file_path: str
         '''
-        self.frame = pd.read_csv(os.path.join(copper.project.data, file_path))
-        if autoMetadata:
-            self.create_metadata()
+        filepath = os.path.join(copper.project.data, file_path)
+        self.set_frame(pd.read_csv(filepath), autoMetadata=autoMetadata)
 
-    def create_metadata(self):
+    def set_frame(self, dataframe, autoMetadata=True):
+        self.frame = dataframe
+        self.columns = self.frame.columns.values
+        self.role = pd.Series(index=self.columns, name='Role', dtype=str)
+        self.type = pd.Series(index=self.columns, name='Type', dtype=str)
+        if autoMetadata:
+            self.generate_metada()
+
+    def generate_metada(self):
         '''
         Creates metadata for the data
 
@@ -79,12 +90,7 @@ class Dataset(dict):
         ----------
             df: pandas.DataFrame
         '''
-        # TODO: rewrite this method?
-        self.columns = self.frame.columns.values
-
         # Roles
-        self.role = pd.Series(index=self.columns, name='Role', dtype=str)
-
         id_cols = [c for c in self.columns if self._id_identifier(c)]
         if len(id_cols) > 0:
             self.role[id_cols] = 'ID'
@@ -101,7 +107,6 @@ class Dataset(dict):
         self.role = self.role.fillna(value=self.INPUT) # Missing cols are Input
 
         # Types
-        self.type = pd.Series(index=self.columns, name='Type', dtype=str)
         number_cols = [c for c in self.columns
                               if self.frame.dtypes[c] in (np.int64, np.float64)]
         self.type[number_cols] = self.NUMBER
@@ -121,9 +126,7 @@ class Dataset(dict):
         -------
             df: pandas.DataFrame
         '''
-        cols = self.columns
         ans = pd.DataFrame(index=self.frame.index)
-
         for col in self.role[self.role == self.INPUT].index:
             if self.type[col] == self.NUMBER and \
                               self.frame[col].dtype in (np.int64, np.float64):
@@ -135,6 +138,7 @@ class Dataset(dict):
                             self.frame[col].dtype in (np.int64, np.float64):
                 new_cols = copper.transform.category2ml(self.frame[col])
                 # new_cols = copper.transform.category2number(self.frame[col])
+                ans = ans.join(new_cols)
             elif col in self.type[self.type == self.CATEGORY]:
                 # new_cols = copper.transform.category2ml(self.frame[col])
                 new_cols = copper.transform.category2number(self.frame[col])
@@ -162,10 +166,6 @@ class Dataset(dict):
 
     target = property(get_target)
 
-    # --------------------------------------------------------------------------
-    #                              METADATA
-    # --------------------------------------------------------------------------
-
     def get_metadata(self):
         '''
         Generates and return a DataFrame with a summary of the data:
@@ -179,10 +179,20 @@ class Dataset(dict):
         metadata = pd.DataFrame(index=self.columns)
         metadata['Role'] = self.role
         metadata['Type'] = self.type
+        metadata['dtype'] = self.frame.dtypes
         # metadata['nas'] = len(self.frame) - self.frame.count()
         return metadata
 
     metadata = property(get_metadata)
+
+    def update(self):
+        for col in self.frame.columns:
+            if self.type[col] == self.NUMBER and \
+                                        self.frame[col].dtype == object:
+                self.frame[col] = copper.transform.to_number(self.frame[col])
+            elif col in self.type[self.type == self.CATEGORY] and \
+                            self.frame[col].dtype in (np.int64, np.float64):
+                self.frame[col] = copper.transform.category2number(self.frame[col])
 
     # --------------------------------------------------------------------------
     #                                    STATS
@@ -248,20 +258,26 @@ class Dataset(dict):
             method: str, method to use to fill missing values
                 * mean(numerical,money)/mode(categorical): use the mean or most
                   repeted value of the column
+                * knn
         '''
         if cols is None:
             cols = self.columns
         if cols is str:
             cols = [cols]
 
-        for col in self.columns:
-            if self.type[col] == self.NUMBER or self.type[col] == self.MONEY:
-                if method == 'mean' or method == 'mode':
-                    value = self[col].mean()
-            if self.type[col] == self.CATEGORY:
-                if method == 'mode' or method == 'mode':
-                    pass # TODO
-            self[col] = self[col].fillna(value=value)
+        if method == 'mean' or method == 'mode':
+            for col in cols:
+                if self.type[col] == self.NUMBER:
+                    if method == 'mean' or method == 'mode':
+                        value = self[col].mean()
+                if self.type[col] == self.CATEGORY:
+                    if method == 'mode' or method == 'mode':
+                        pass # TODO
+                self[col] = self[col].fillna(value=value)
+        elif method == 'knn':
+            for col in cols:
+                imputed = copper.r.imputeKNN(self.frame)
+                self.frame[col] = imputed[col]
     # --------------------------------------------------------------------------
     #                                    CHARTS
     # --------------------------------------------------------------------------
@@ -303,6 +319,12 @@ class Dataset(dict):
     def __len__(self):
         return len(self.frame)
 
+    def head(self, n=5):
+        return self.frame.head(n)
+
+    def tail(self, n=5):
+        return self.frame.tail(n)
+
 if __name__ == "__main__":
     copper.project.path = '../../examples/coursera_data_analysis/assignment1'
     dataset = copper.Dataset()
@@ -312,8 +334,10 @@ if __name__ == "__main__":
     dataset.type['Loan.Length'] = dataset.NUMBER
     dataset.type['Debt.To.Income.Ratio'] = dataset.NUMBER
     dataset.type['Employment.Length'] = dataset.NUMBER
-    print dataset.metadata
-    print dataset.inputs
+    # print dataset.metadata
+    dataset.fillna(method='knn')
+    print dataset.frame
+    # print dataset.inputs
     # print dataset.inputs.head()
 
     # import matplotlib.pyplot as plt

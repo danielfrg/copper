@@ -10,7 +10,7 @@ def _numberREFun(x):
     try:
         return float(_numberRE.search(x).group())
     except:
-        return 0
+        return np.nan
 
 def to_number(series):
     return series.apply(_numberREFun)

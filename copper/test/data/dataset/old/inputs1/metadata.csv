@@ -1,0 +1,7 @@
+column,Role,Type
+ID,ID,Number
+Int,Input,Number
+Float,Input,Number
+Money,Input,Money
+String,Input,Category
+Target,Target,Number

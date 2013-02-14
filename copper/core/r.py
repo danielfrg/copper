@@ -10,7 +10,7 @@ from rpy2.robjects import r
 from rpy2.robjects.packages import importr
 
 
-def impute(filename, method='knn'):
+def impute(dataframe, col, method='knn'):
     ''' Imputes data using R imputation package
     This requires the R package imputation to be installed:
         R: install.packages("imputation")
@@ -29,23 +29,23 @@ def impute(filename, method='knn'):
     if method == 'knn':
         return _imputeKNN(filename)
 
-def _imputeKNN(filename):
-    importr("imputation")
-
-    filepath = os.path.join(copper.project.data, filename)
-    r('data <- read.csv("%s")' % filepath)
-    r('data.imputed = kNNImpute(data, 2)')
-    r('data.imputed = data.imputed[[1]]')
-
-    # NOTE: pandas api not working
-    # print com.load_data('data.imputed')
-
-    # Workaround for the pandas error
+def imputeKNN(dataframe):
+    filename = 'impute.csv'
     filepath = os.path.join('/tmp/', filename)
+    dataframe.to_csv(filepath)
+
+    importr("imputation")
+    r('data = read.csv("%s")' % filepath)
+    r('data.imputed = kNNImpute(data, 2, verbose=F)')
+    r('data.imputed = data.imputed[[1]]')
+    # print com.load_data('data.imputed') # NOTE: pandas api not working
     r('write.csv(data.imputed, "%s")' % filepath)
+
     return pd.read_csv(filepath)
 
 if __name__ == "__main__":
     copper.project.path = '../../examples/expedia'
-    impute('train.csv', method='knn')
+    data = copper.read_csv('raw/train.csv')
+    print data
+    print imputeKNN(data)
 

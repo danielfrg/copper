@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"fill",
+				"fillna"
+			],
+			[
+				"data",
+				"dataframe"
+			],
+			[
+				"dat",
+				"datafra"
+			],
+			[
+				"number",
+				"number_cols"
+			],
+			[
+				"csv",
+				"csv"
+			],
+			[
+				"loa",
+				"loansData"
+			],
+			[
 				"in",
 				"int"
 			],
@@ -344,10 +368,6 @@
 				"auto_fix"
 			],
 			[
-				"data",
-				"data_set"
-			],
-			[
 				"it",
 				"it"
 			],
@@ -494,36 +514,40 @@
 			[
 				"en",
 				"environ"
-			],
-			[
-				"sym",
-				"symbols"
-			],
-			[
-				"loo",
-				"lookforward_days"
-			],
-			[
-				"sy",
-				"symbol_s"
-			],
-			[
-				"symbo",
-				"symbol"
-			],
-			[
-				"past",
-				"pastEvent"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/home/dfrodriguez/.bashrc",
+			"file": "copper/core/set.py",
 			"settings":
 			{
-				"buffer_size": 4706,
+				"buffer_size": 11529,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "copper/core/transform.py",
+			"settings":
+			{
+				"buffer_size": 2502,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "copper/core/r.py",
+			"settings":
+			{
+				"buffer_size": 1352,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "copper/io/io.py",
+			"settings":
+			{
+				"buffer_size": 1427,
 				"line_ending": "Unix"
 			}
 		}
@@ -632,6 +656,16 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/projects/copper/copper/__init__.py",
+		"/home/dfrodriguez/projects/copper/copper/test/CopperTest.py",
+		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset.py",
+		"/home/dfrodriguez/projects/copper/copper/core/ml.py",
+		"/home/dfrodriguez/projects/copper/copper/core/transform.py",
+		"/home/dfrodriguez/projects/copper/copper/explore/base.py",
+		"/home/dfrodriguez/projects/copper/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/examples/coursera_data_analysis/assignment1/src/assignment1.py",
+		"/home/dfrodriguez/projects/copper/examples/coursera_data_analysis/assignment1/data/loansData.csv",
+		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/test.py",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/SublimeREPL.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
@@ -639,7 +673,6 @@
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/SublimeREPL.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Main.sublime-menu",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/ipy_repl.py",
-		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/.bash_history",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/Package Control/Package Control.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Default.sublime-commands",
@@ -649,17 +682,14 @@
 		"/home/dfrodriguez/q4.r",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/clfs.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/clean_imputed.py",
-		"/home/dfrodriguez/projects/copper/copper/core/ml.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/explore.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/impute.py",
 		"/home/dfrodriguez/projects/copper/copper/io/io.py",
 		"/home/dfrodriguez/projects/copper/copper/core/r.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_imp.csv",
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/train.csv",
-		"/home/dfrodriguez/projects/copper/copper/__init__.py",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/pandas/rpy/common.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/clean.py",
-		"/home/dfrodriguez/projects/copper/copper/core/set.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/forest.py",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
@@ -753,13 +783,7 @@
 		"/home/dfrodriguez/projects/copper/core/set_bu.py",
 		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/pandas/core/frame.py",
 		"/home/dfrodriguez/projects/packages/copper/core/ml.py",
-		"/home/dfrodriguez/projects/web/danielfrg.github.com/_posts/2013-1-26-copper-easy-data-analysis-on-python.html",
-		"/home/dfrodriguez/projects/web/danielfrg.github.com/utils/bu.html",
-		"/home/dfrodriguez/projects/web/danielfrg.github.com/utils/howto_ipython_2_jekyll.md",
-		"/home/dfrodriguez/projects/packages/copper/core/set.py",
-		"/home/dfrodriguez/projects/packages/copper/examples/catalog/data/training.csv",
-		"/home/dfrodriguez/projects/packages/copper/tests/CopperTest.py",
-		"/home/dfrodriguez/projects/packages/copper/tests/core/DataSet.py"
+		"/home/dfrodriguez/projects/web/danielfrg.github.com/_posts/2013-1-26-copper-easy-data-analysis-on-python.html"
 	],
 	"find":
 	{
@@ -777,6 +801,18 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"MONEY",
+			"self.colu",
+			"dataframe",
+			"create_metadata",
+			"metada",
+			"transforms",
+			"data",
+			"self",
+			"type",
+			"col",
+			"values",
+			"x",
 			"train",
 			"convert_robj",
 			"DataFra",
@@ -892,19 +928,7 @@
 			"'Input'",
 			"'Inpu",
 			"'Number'",
-			"'Money'",
-			"'Category'",
-			"\n        ",
-			"load",
-			"bins",
-			"hist",
-			"size",
-			"books",
-			"sampleSVG",
-			"FileHandler",
-			"ExploreAPIHandler",
-			"SearchView",
-			"_columns"
+			"'Money'"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -922,33 +946,117 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/dfrodriguez/.bashrc",
+					"file": "copper/core/set.py",
 					"settings":
 					{
-						"buffer_size": 4706,
+						"buffer_size": 11529,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3936,
-								3936
+								9397,
+								9397
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"syntax": "Packages/Python/Python.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2301.0,
+						"translation.y": 4687.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "copper/core/transform.py",
+					"settings":
+					{
+						"buffer_size": 2502,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								247,
+								247
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "copper/core/r.py",
+					"settings":
+					{
+						"buffer_size": 1352,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								985,
+								985
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 440.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "copper/io/io.py",
+					"settings":
+					{
+						"buffer_size": 1427,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								504,
+								504
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1052,6 +1160,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 197.0,
+	"side_bar_width": 213.0,
 	"status_bar_visible": true
 }
