@@ -1,6 +1,7 @@
 # coding=utf-8
 import copper
 import numpy as np
+from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -24,6 +25,8 @@ def histogram(series, bins=20, legend=True, retList=False):
     series = series.dropna()
     series = series[series != float('-inf')]
     series = series[series != float('inf')]
+
+    print (series)
 
     if series.dtype == object:
         types = copper.transform.category_labels(series)
@@ -63,14 +66,33 @@ def histogram(series, bins=20, legend=True, retList=False):
     if retList:
         return pd.Series(labels)
 
-def scatter(self, var1, var2, var3=None, **args):
-    x = self.frame[var1].values
-    y = self.frame[var2].values
+def scatter(frame, var1, var2, var3=None, reg=False, **args):
+    if type(frame) is copper.Dataset:
+        frame = frame.frame
+    x = frame[var1].values
+    y = frame[var2].values
+
     if var3 is None:
         plt.scatter(x, y, **args)
     else:
-        z = self.frame[var3].values
+        z = frame[var3].values
         plt.scatter(x, y, c=z, **args)
         plt.gray()
+
+    if reg:
+        slope, intercept, r_value, p_value, std_err = stats.linregress(x,y)
+        line = slope * x + intercept # regression line
+        plt.plot(x, line, c='r')
+
     plt.xlabel(var1)
     plt.ylabel(var2)
+
+def show():
+    ''' For the super lazy
+    Useful if only want to import copper and not matplotlib.
+    '''
+    plt.show()
+
+
+
+

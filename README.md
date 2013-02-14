@@ -1,7 +1,8 @@
 Copper
 ======
 
-Wrapper around pandas & scikit-learn for doing Data Analysis in python
+Wrapper around python data analysis packages such as pandas, scikit-learn and matplotlib
+to make data analysis on python easier.
 
 Requirements
 ------------
@@ -10,7 +11,8 @@ Requirements
 2. **pandas**
 3. scikit-learn
 4. matplotlib
-5. tornado
+5. rpy2
+6. tornado
 
 Note: pandas is the only package that is required before installing copper, but is
 recommended to have all other packages installed too.

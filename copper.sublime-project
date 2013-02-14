@@ -4,8 +4,8 @@
 		{
 			"cmd":
 			[
-				// "/home/dfrodriguez/.virtualenvs/copper/bin/python",
-				"/home/dfrodriguez/anaconda/bin/python",
+				"/home/dfrodriguez/.virtualenvs/copper/bin/python",
+				// "/home/dfrodriguez/anaconda/bin/python",
 				"-u",
 				"$file"
 			],

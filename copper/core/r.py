@@ -42,10 +42,10 @@ def imputeKNN(dataframe):
     r('write.csv(data.imputed, "%s")' % filepath)
 
     return pd.read_csv(filepath)
-
+'''
 if __name__ == "__main__":
     copper.project.path = '../../examples/expedia'
     data = copper.read_csv('raw/train.csv')
     print data
     print imputeKNN(data)
-
+'''

@@ -1,1 +1,2 @@
+v0.0.2, 2012-2-13 -- API changes and deneral improovements.
 v0.0.1, 2012-2-6 -- Initial release.

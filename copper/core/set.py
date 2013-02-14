@@ -75,6 +75,13 @@ class Dataset(dict):
         self.set_frame(pd.read_csv(filepath), autoMetadata=autoMetadata)
 
     def set_frame(self, dataframe, autoMetadata=True):
+        ''' Sets the frame of the Dataset
+
+        Parameters
+        ----------
+            dataframe
+            autoMetadata: boolean, Generate the metadata for the frame? default = True
+        '''
         self.frame = dataframe
         self.columns = self.frame.columns.values
         self.role = pd.Series(index=self.columns, name='Role', dtype=str)
@@ -103,14 +110,12 @@ class Dataset(dict):
 
         rejected = self.percent_missing()[self.percent_missing() > 0.5].index
         self.role[rejected] = self.REJECTED
-
         self.role = self.role.fillna(value=self.INPUT) # Missing cols are Input
 
         # Types
         number_cols = [c for c in self.columns
                               if self.frame.dtypes[c] in (np.int64, np.float64)]
         self.type[number_cols] = self.NUMBER
-
         self.type = self.type.fillna(value=self.CATEGORY)
 
     # --------------------------------------------------------------------------
@@ -127,7 +132,7 @@ class Dataset(dict):
             df: pandas.DataFrame
         '''
         ans = pd.DataFrame(index=self.frame.index)
-        for col in self.role[self.role == self.INPUT].index:
+        for col in self.filter(role=self.INPUT).index:
             if self.type[col] == self.NUMBER and \
                               self.frame[col].dtype in (np.int64, np.float64):
                 ans = ans.join(self.frame[col])
@@ -159,7 +164,7 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        col = self.role[self.role == self.TARGET].index[0]
+        col = self.filter(role=self.TARGET).index[0]
         ans = copper.transform.category2number(self.frame[col])
         ans.name = 'Target'
         return ans
@@ -185,7 +190,24 @@ class Dataset(dict):
 
     metadata = property(get_metadata)
 
+    def get_numbers(self):
+        ''' Returns the columns of type number
+        '''
+        return self.filter(type=self.NUMBER)
+
+    numbers = property(get_numbers)
+
+
+    def get_categories(self):
+        ''' Returns the columns of type category
+        '''
+        return self.filter(type=self.CATEGORY)
+
+    categories = property(get_categories)
+
     def update(self):
+        ''' Updates the frame based on the metadata
+        '''
         for col in self.frame.columns:
             if self.type[col] == self.NUMBER and \
                                         self.frame[col].dtype == object:
@@ -193,6 +215,32 @@ class Dataset(dict):
             elif col in self.type[self.type == self.CATEGORY] and \
                             self.frame[col].dtype in (np.int64, np.float64):
                 self.frame[col] = copper.transform.category2number(self.frame[col])
+
+    def filter(self, role=None, type=None, dtype=None):
+        ''' Filter the columns of the Dataset by Role and Type
+
+        Parameters
+        ----------
+            role: Role constant
+            type: Type constant
+
+        Returns
+        -------
+            pandas.DataFrame
+        '''
+        role_cols = self.columns
+        type_cols = self.columns
+        if role is not None:
+            role_cols = self.columns[self.role == role]
+        if type is not None:
+            type_cols = self.columns[self.type == type]
+
+        cols = []
+        for col in self.columns:
+            if col in role_cols and col in type_cols:
+                cols.append(col)
+
+        return self.frame[cols]
 
     # --------------------------------------------------------------------------
     #                                    STATS
@@ -230,15 +278,30 @@ class Dataset(dict):
         return (1 - (self.frame.count() / len(self.frame))).order(ascending=ascending)
 
     def variance_explained(self, cols=None):
-        # TODO: is this working?
+        '''
+        NOTE 1: fill/impute missing values before using this
+        NOTE 2: only use columns with dtype int or float
+
+        Parameters
+        ----------
+            cols: list, of columns to use in the calculation, default all inputs
+
+        Returns
+        -------
+            pandas Series and plot it ready to be shown
+        '''
+        import matplotlib.pyplot as plt
         if cols is None:
-            cols = self.inputs.columns
-        U, s, V = np.linalg.svd(self.inputs[cols].values)
-        var = np.square(s) / sum(np.square(s))
-        xlocations = np.array(range(len(var)))+0.5
+            frame = self.filter(role=self.INPUT, type=self.NUMBER)
+        else:
+            frame = self.frame
+
+        U, s, V = np.linalg.svd(frame.values)
+        variance = np.square(s) / sum(np.square(s))
+        xlocations = np.array(range(len(variance)))+0.5
         width = 0.99
-        plt.bar(xlocations, var, width=width)
-        return var
+        plt.bar(xlocations, variance, width=width)
+        return variance
 
     def corr(self, cols=None, ascending=False):
         ''' Calculates correlation matrix of the frame
@@ -327,7 +390,7 @@ class Dataset(dict):
         copper.plot.histogram(self.frame[col], **args)
 
     # --------------------------------------------------------------------------
-    #                              SPECIAL METHODS
+    #                    SPECIAL METHODS / PANDAS API
     # --------------------------------------------------------------------------
 
     def __unicode__(self):
@@ -350,6 +413,13 @@ class Dataset(dict):
 
     def tail(self, n=5):
         return self.frame.tail(n)
+
+    def get_values(self):
+        ''' Returns the values of the dataframe
+        '''
+        return self.frame.values
+
+    values = property(get_values)
 
 if __name__ == "__main__":
     '''

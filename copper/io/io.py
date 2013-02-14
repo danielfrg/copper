@@ -7,18 +7,18 @@ import copper
 import pandas as pd
 
 
-def load(file_path):
+def load(filepath):
     ''' Loads a pickled dataset
 
     Returns
     -------
         copper.Dataset
     '''
-    if len(file_path.split('.')) == 1:
-        file_path = file_path + '.dataset'
+    if len(filepath.split('.')) == 1:
+        filepath = filepath + '.dataset'
 
-    if file_path.endswith('.dataset'):
-        f = os.path.join(copper.project.data, file_path)
+    if filepath.endswith('.dataset'):
+        f = os.path.join(copper.project.data, filepath)
         pkl_file = open(f, 'rb')
         return pickle.load(pkl_file)
 
@@ -31,6 +31,8 @@ def save(dataset, name):
     output.close()
 
 def export(data, name, format='csv'):
+    ''' Exports a Dataset/DataFrame into text formats: csv, json
+    '''
     if type(data) is copper.Dataset:
         df = data.frame
     else:
@@ -45,7 +47,8 @@ def export(data, name, format='csv'):
             json.dumps(df_to_json(df), outfile)
 
 def read_csv(file_path, **args):
-    ''' Reads a csv file, return pandas DataFrame
+    ''' Reads a csv file into a pandas DataFrame
+
     Parameters
     ----------
         same as pandas.read_csv
