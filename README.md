@@ -61,8 +61,12 @@ copper.project.path = '../'
 
 For other suggested folders see: [Project Template](http://www.johnmyleswhite.com/notebook/2010/08/26/projecttemplate/)
 
+For more info about this see the examples below.
+
 Examples
 --------
+
+* [Project structure and histograms](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/donors/src/basics_explore.ipynb)
 
 Catalog:
 * [Custom transformation and basic machine learning](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/catalog/src/ml.ipynb)
