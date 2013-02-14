@@ -160,7 +160,7 @@ class Dataset(dict):
             df: pandas.Series
         '''
         col = self.role[self.role == self.TARGET].index[0]
-        ans = self._category2number(self.frame[col])
+        ans = copper.transform.category2number(self.frame[col])
         ans.name = 'Target'
         return ans
 
