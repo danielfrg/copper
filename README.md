@@ -34,6 +34,10 @@ Features
 Examples
 --------
 
-* [Easy data transformation](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/loans/src/transform.ipynb)
+Catalog:
+* [Custom transformation and basic machine learning](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/catalog/src/ml.ipynb)
 
-For more information and more examples (some are possible outdated) can see my blog: [danielfrg.github.com](danielfrg.github.com)
+Loans:
+* [Automatic data transformation](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/loans/src/transform.ipynb)
+
+For more information and more examples (but some are possible outdated) can see my blog: [danielfrg.github.com](danielfrg.github.com)
