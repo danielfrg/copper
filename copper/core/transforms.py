@@ -15,33 +15,12 @@ def _numberREFun(x):
 def to_number(series):
     return series.apply(_numberREFun)
 
-def _money2number( series):
-    '''
-    Converts a Series with money format to a numbers
-
-    Parameters
-    ----------
-        series: pandas.Series, target to convert
-
-    Returns
-    -------
-        pandas.Series with the converted data
-    '''
-    ans = pd.Series(index=series.index, name=series.name, dtype=float)
-    splits = ''.join(money_symbols) + ','
-
-    for index, value in zip(frame.index, series):
-        if type(value) == str:
-            # number = re.match(r"[0-9]{1,3}(?:\,[0-9]{3})+(?:\.[0-9]{1,10})", value)
-            for split in splits:
-                value = ''.join(value.split(split))
-            ans[index] = float(value)
-    return ans
-
 def category2ml(series):
     '''
     Converts a Series with category format to a format for machine learning
     Represents the same information on different columns of ones and zeros
+
+    Note: Fill/impute/drop missing values before using this.
 
     Parameters
     ----------

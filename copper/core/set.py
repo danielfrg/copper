@@ -10,7 +10,7 @@ import pandas as pd
 class Dataset(dict):
     '''
     Wrapper around pandas to define metadata to a pandas DataFrame.
-    Also introduces a some utils for filling missing data, ploting.
+    Also introduces a some utils for filling missing data, statistics and ploting.
     '''
 
     # Constants
@@ -62,41 +62,29 @@ class Dataset(dict):
         '''
         return col_name.lower() in ['target']
 
-    def load(self, file_path, autoMetadata=True):
+    def load(self, file_path):
         '''
-        Loads a csv file from the project/data directory.
-        Then calls self.set_data to create the metadata
+        Loads a csv file from the project data directory.
 
         Parameters
         ----------
             file_path: str
         '''
         filepath = os.path.join(copper.project.data, file_path)
-        self.set_frame(pd.read_csv(filepath), autoMetadata=autoMetadata)
+        self.set_frame(pd.read_csv(filepath))
 
-    def set_frame(self, dataframe, autoMetadata=True):
-        ''' Sets the frame of the Dataset
+    def set_frame(self, dataframe, metadata=True):
+        ''' Sets the frame of the Dataset and Generates metadata for the frame
 
         Parameters
         ----------
-            dataframe
-            autoMetadata: boolean, Generate the metadata for the frame? default = True
+            dataframe: DataFrame
         '''
         self.frame = dataframe
         self.columns = self.frame.columns.values
         self.role = pd.Series(index=self.columns, name='Role', dtype=str)
         self.type = pd.Series(index=self.columns, name='Type', dtype=str)
-        if autoMetadata:
-            self.generate_metada()
 
-    def generate_metada(self):
-        '''
-        Creates metadata for the data
-
-        Parameters
-        ----------
-            df: pandas.DataFrame
-        '''
         # Roles
         id_cols = [c for c in self.columns if self._id_identifier(c)]
         if len(id_cols) > 0:
@@ -132,21 +120,22 @@ class Dataset(dict):
             df: pandas.DataFrame
         '''
         ans = pd.DataFrame(index=self.frame.index)
-        for col in self.filter(role=self.INPUT).index:
+        for col in self.filter(role=self.INPUT, columns=True):
             if self.type[col] == self.NUMBER and \
                               self.frame[col].dtype in (np.int64, np.float64):
                 ans = ans.join(self.frame[col])
             elif self.type[col] == self.NUMBER and \
-                                        self.frame[col].dtype == object:
+                                            self.frame[col].dtype == object:
                 ans = ans.join(copper.transform.to_number(self.frame[col]))
-            elif col in self.type[self.type == self.CATEGORY] and \
+            elif self.type[col] == self.CATEGORY and \
                             self.frame[col].dtype in (np.int64, np.float64):
-                new_cols = copper.transform.category2ml(self.frame[col])
                 # new_cols = copper.transform.category2number(self.frame[col])
+                new_cols = copper.transform.category2ml(self.frame[col])
                 ans = ans.join(new_cols)
-            elif col in self.type[self.type == self.CATEGORY]:
-                # new_cols = copper.transform.category2ml(self.frame[col])
-                new_cols = copper.transform.category2number(self.frame[col])
+            elif self.type[col] == self.CATEGORY and \
+                                            self.frame[col].dtype == object:
+                # new_cols = copper.transform.category2number(self.frame[col])
+                new_cols = copper.transform.category2ml(self.frame[col])
                 ans = ans.join(new_cols)
             else:
                 # Crazy stuff TODO: generate error
@@ -164,7 +153,7 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        col = self.filter(role=self.TARGET).index[0]
+        col = self.filter(role=self.TARGET, columns=True)[0]
         ans = copper.transform.category2number(self.frame[col])
         ans.name = 'Target'
         return ans
@@ -216,13 +205,14 @@ class Dataset(dict):
                             self.frame[col].dtype in (np.int64, np.float64):
                 self.frame[col] = copper.transform.category2number(self.frame[col])
 
-    def filter(self, role=None, type=None, dtype=None):
+    def filter(self, role=None, type=None, columns=False):
         ''' Filter the columns of the Dataset by Role and Type
 
         Parameters
         ----------
             role: Role constant
             type: Type constant
+            columns: boolean, True if want only the column names
 
         Returns
         -------
@@ -240,7 +230,10 @@ class Dataset(dict):
             if col in role_cols and col in type_cols:
                 cols.append(col)
 
-        return self.frame[cols]
+        if columns:
+            return cols
+        else:
+            return self.frame[cols]
 
     # --------------------------------------------------------------------------
     #                                    STATS
@@ -351,7 +344,7 @@ class Dataset(dict):
         '''
         if cols is None:
             cols = self.columns
-        if cols is str:
+        if type(cols) == str:
             cols = [cols]
 
         if method == 'mean' or method == 'mode':
@@ -360,13 +353,14 @@ class Dataset(dict):
                     if method == 'mean' or method == 'mode':
                         value = self[col].mean()
                 if self.type[col] == self.CATEGORY:
-                    if method == 'mode' or method == 'mode':
-                        pass # TODO
+                    if method == 'mean' or method == 'mode':
+                        value = self[col].value_counts().index[0]
                 self[col] = self[col].fillna(value=value)
         elif method == 'knn':
             for col in cols:
                 imputed = copper.r.imputeKNN(self.frame)
                 self.frame[col] = imputed[col]
+
     # --------------------------------------------------------------------------
     #                                    CHARTS
     # --------------------------------------------------------------------------
