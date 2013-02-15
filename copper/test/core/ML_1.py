@@ -3,14 +3,14 @@ import copper
 import pandas as pd
 
 import unittest
-from copper.tests.CopperTest import CopperTest
+from copper.test.CopperTest import CopperTest
 
-class MLTest(CopperTest):
+class ML_1(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(MLTest('test_models_list'))
-        suite.addTest(MLTest('test_models_list_2'))
+        suite.addTest(ML_1('test_models_list'))
+        suite.addTest(ML_1('test_models_list_2'))
         return suite
 
     def test_models_list_2(self):
@@ -44,11 +44,9 @@ class MLTest(CopperTest):
         except:
             pass
 
-
-
     def test_models_list(self):
         '''
-        Test add_clf and remove_model
+        Test add_clf and rm_clf
         '''
 
         # Test models
@@ -116,5 +114,5 @@ class MLTest(CopperTest):
 
 
 if __name__ == '__main__':
-    suite = MLTest().suite()
+    suite = ML_1().suite()
     unittest.TextTestRunner(verbosity=2).run(suite)

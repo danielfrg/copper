@@ -144,7 +144,7 @@ class Dataset(dict):
 
     inputs = property(get_inputs)
 
-    def get_target(self):
+    def get_target(self, which=0):
         '''
         Generates and returns a DataFrame with the targets ready for doing
         Machine Learning
@@ -153,8 +153,11 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        col = self.filter(role=self.TARGET, columns=True)[0]
-        ans = copper.transform.category2number(self.frame[col])
+        col = self.filter(role=self.TARGET, columns=True)[which]
+        if self.type[col] == self.CATEGORY:
+            ans = copper.transform.category2number(self.frame[col])
+        else:
+            ans = self.frame[col]
         ans.name = 'Target'
         return ans
 
@@ -205,6 +208,12 @@ class Dataset(dict):
                             self.frame[col].dtype in (np.int64, np.float64):
                 self.frame[col] = copper.transform.category2number(self.frame[col])
 
+    def _type(self, obj):
+        ''' Since in some cases type is used inside this class as a variable
+         this function replaces the python.type functionality
+        '''
+        return type(obj)
+
     def filter(self, role=None, type=None, columns=False):
         ''' Filter the columns of the Dataset by Role and Type
 
@@ -218,17 +227,26 @@ class Dataset(dict):
         -------
             pandas.DataFrame
         '''
+        # Note on this funcion python.type(...) is replaced by the type variable
+
         role_cols = self.columns
         type_cols = self.columns
         if role is not None:
-            role_cols = self.columns[self.role == role]
+            if self._type(role) == str:
+                role = [role]
+            role_cols = [c for c in self.columns if self.role[c] in role]
         if type is not None:
-            type_cols = self.columns[self.type == type]
+            if self._type(type) == str:
+                type = [type]
+            type_cols = [c for c in self.columns if self.type[c] in type]
 
-        cols = []
-        for col in self.columns:
-            if col in role_cols and col in type_cols:
-                cols.append(col)
+        if role is not None and type is not None:
+            cols = []
+            for col in self.columns:
+                if col in role_cols and col in type_cols:
+                    cols.append(col)
+        else:
+            cols = role_cols if role is not None else type_cols
 
         if columns:
             return cols

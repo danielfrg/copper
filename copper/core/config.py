@@ -9,9 +9,6 @@ class Project(object):
         self._graphs = ''
         self._logs = ''
 
-    def create_folders():
-        pass # TODO
-
     def set_path(self, value):
         self._path = os.path.realpath(value)
         self._data = os.path.join(self._path, 'data')
@@ -20,12 +17,17 @@ class Project(object):
         self._graphs = os.path.join(self._path, 'graphs')
         self._logs = os.path.join(self._path, 'logs')
 
+    def create_folders():
+        pass # TODO? Useful?
+        '''
+        if not (os.access(self._exported, os.F_OK)):
+            os.makedirs(self._exported)
+        '''
+
     def get_path(self):
         return self._path
 
     def get_exported(self):
-        if not (os.access(self._exported, os.F_OK)):
-            os.makedirs(self._exported)
         return self._exported
 
     def get_cache(self):

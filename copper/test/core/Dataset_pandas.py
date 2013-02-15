@@ -16,7 +16,8 @@ class Dataset_pandas(CopperTest):
         '''
         Test basic functionality of pandas
             1. Get/Set columns
-            2. Values
+            2. Values - numpy array
+            3. Head/Tail
         '''
         self.setUpData()
 
@@ -24,10 +25,11 @@ class Dataset_pandas(CopperTest):
         ds.load('dataset/pandas1/data.csv')
         df = pd.read_csv(os.path.join(copper.project.data, 'dataset/pandas1/data.csv'))
 
-        # 1. Get columns
+        # 1.1 Get columns
         self.assertEqual(ds['Number'], df['Number'])
         self.assertEqual(ds['Date'], df['Date'])
-        # 1. Set columns - already existing only
+
+        # 1.2 Set columns - already existing columns only
         ds['Number'] = ds['Number'] - 10
         df['Number'] = df['Number'] - 10
         self.assertEqual(df, ds.frame)
@@ -39,6 +41,15 @@ class Dataset_pandas(CopperTest):
 
         # 2. Values
         self.assertEqual(ds.values, df.values)
+
+        # 3. Head/Tail
+        self.assertEqual(ds.head(), df.head())
+        self.assertEqual(ds.head(13), df.head(13))
+        self.assertEqual(ds.tail(), df.tail())
+        self.assertEqual(ds.tail(9), df.tail(9))
+
+        # 4. Correlation matrix
+        self.assertEqual(ds.corr(), df.corr())
 
 if __name__ == '__main__':
     # unittest.main()
