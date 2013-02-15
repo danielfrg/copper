@@ -1,0 +1,141 @@
+Final Earthquake Analysis
+========================
+
+Note: This analysis was created on a Mac. Some functions may be altered to be able to run on Windows machines. 
+
+------
+
+## Preliminaries
+
+### Load libraries/data/create new variables
+
+```{r loadData}
+
+# Load libraries
+library(maps)
+library(Hmisc)
+library(RColorBrewer)
+
+# Load data
+load("quakesRaw.rda")
+
+# Define relevant variables - making numeric variables into factors when they should be.
+quakesRaw$latCut <- cut2(quakesRaw$Lat,g=5)
+quakesRaw$lonCut <- cut2(quakesRaw$Lon,g=5)
+quakesRaw$nstCut <- cut2(quakesRaw$NST,g=5)
+quakesRaw$log10Depth <- log10(quakesRaw$Depth + 1)
+quakesRaw$time <- strptime(quakesRaw$Datetime,format="%A, %B %e, %Y %H:%M:%S")
+
+## This is the data set we will use
+quakes <- quakesRaw
+```
+
+
+------
+
+## Exploratory analysis
+
+### Get minimum and maximum times and date downloaded (Methods/Data Collection)
+
+```{r, dependson="loadData"}
+min(quakes$time)
+max(quakes$time)
+dateDownloaded
+```
+
+### Find number of missing values/check ranges (Results paragraph 1)
+
+```{r, dependson="loadData"}
+sum(is.na(quakes))
+summary(quakes)
+```
+Latitude, longitude are within normal ranges. Magnitude has nothing above 7, depth is within the defined range. 
+
+
+### Look at patterns over time (Results paragraph 1)
+```{r, dependson="loadData"}
+plot(quakes$time,quakes$Magnitude,pch=19)
+plot(quakes$time,quakes$Depth,pch=19)
+```
+There does not appear to be a time trend in either variable. 
+
+
+### Look at distribution of magnitudes (Results paragraph 2)
+```{r, dependson="loadData"}
+mean(quakes$Magnitude < 3)
+mean(quakes$Magnitude > 3 & quakes$Magnitude < 5)
+```
+Most earthquakes are small (< 3) or medium (>3 and < 5)
+
+### Look at distribution of depths (Results paragraph 2)
+
+```{r, dependson="loadData"}
+hist(quakes$Depth,col="grey")
+hist(quakes$log10Depth,col="grey")
+```
+
+-------
+
+## Modeling 
+
+### Fit a model with no adjustment (results - paragraph 3)
+
+```{r, dependson="loadData"}
+# Fit model with no adjustment variable
+lmNoAdjust <- lm(quakes$Magnitude ~ quakes$log10Depth)
+
+# Plot residuals, colored by different variables (latitude, longitude, number of sites observing the quake)
+par(mfrow=c(1,3))
+plot(quakes$log10Depth,lmNoAdjust$residuals,col=quakes$latCut,pch=19)
+plot(quakes$log10Depth,lmNoAdjust$residuals,col=quakes$lonCut,pch=19)
+plot(quakes$log10Depth,lmNoAdjust$residuals,col=quakes$nstCut,pch=19)
+```
+It appears there are some non-random patterns here.
+
+
+### Now fit a model with factor adjustment for latitude, longitude, and number of sites (results - paragraph 3)
+
+```{r lmFinalChunk, dependson="loadData"}
+lmFinal <- lm(quakes$Magnitude ~ quakes$log10Depth + quakes$latCut + quakes$lonCut + quakes$NST)
+par(mfrow=c(1,3))
+plot(quakes$log10Depth,lmFinal$residuals,col=quakes$latCut,pch=19)
+plot(quakes$log10Depth,lmFinal$residuals,col=quakes$lonCut,pch=19)
+plot(quakes$log10Depth,lmFinal$residuals,col=quakes$nstCut,pch=19)
+
+```
+Still some clumpiness of color, but much better than it was. 
+
+## Get the estimates and confidence intervals
+
+```{r, dependson="lmFinalChunk"}
+## The estimate from summary
+summary(lmFinal)
+
+## The confidence interval from confint
+confint(lmFinal)
+```
+
+-------
+
+## Figure making
+```{r, dependson="lmFinalChunk"}
+lmNoAdjust <- lm(quakes$Magnitude ~ quakes$log10Depth)
+
+## Set up a function that makes colors prettier
+mypar <- function(a=1,b=1,brewer.n=8,brewer.name="Dark2",...){
+ par(mar=c(2.5,2.5,1.6,1.1),mgp=c(1.5,.5,0))
+ par(mfrow=c(a,b),...)
+ palette(brewer.pal(brewer.n,brewer.name))
+}
+
+## Set size of axes
+cx = 1.3
+
+## Save figure to pdf file
+pdf(file="../../figures/finalfigure.pdf", height=4, width=3*4)
+mypar(mfrow=c(1,3))
+
+hist(quakes$Depth,breaks=100,col=1,xlab="Depth (km)",ylab="Frequency",main="",cex.axis=cx,cex.lab=cx)
+plot(quakes$log10Depth,lmNoAdjust$residuals,col=quakes$latCut,pch=19,xlab="Log Base 10 Depth (km)", ylab="No Adjustment Residuals",cex.axis=cx,cex.lab=cx)
+plot(quakes$log10Depth,lmFinal$residuals,col=quakes$latCut,pch=19,xlab="Log Base 10 Depth (km)", ylab="Full Model Residuals",cex.axis=cx,cex.lab=cx)
+```

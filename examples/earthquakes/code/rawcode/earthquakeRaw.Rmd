@@ -1,0 +1,305 @@
+Raw Earthquake Analysis
+========================
+
+------
+
+### Load libraries
+
+```{r}
+library(maps)
+library(Hmisc)
+```
+
+
+
+------
+
+## Processing
+
+Download the data, read the data in and save the raw data as an RDA file
+
+```{r loadData,cache=TRUE}
+getwd()
+download.file("http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M1.txt",destfile="../../data/earthquakes.csv",method="curl")
+dateDownloaded <- date()
+dateDownloaded
+quakesRaw <- read.csv('../../data/earthquakes.csv')
+save(quakesRaw,dateDownloaded,file="../../data/quakesRaw.rda")
+```
+
+
+### Look at the data set
+
+```{r, dependson="loadData"}
+head(quakesRaw)
+summary(quakesRaw)
+sapply(quakesRaw[1,],class)
+```
+
+### Find out about missing values
+```{r, dependson="loadData"}
+sum(is.na(quakesRaw))
+```
+
+### Find minimum and maximum times
+```{r, dependson="loadData"}
+timeF = strptime(quakesRaw$Datetime,format="%A, %B %e, %Y %H:%M:%S")
+min(timeF)
+max(timeF)
+
+```
+
+
+------
+
+## Exploratory analysis
+
+### Make some univariate plots/summaries
+
+```{r, dependson="loadData"}
+hist(quakesRaw$Magnitude,breaks=100)
+quantile(quakesRaw$Magnitude)
+hist(quakesRaw$Depth,breaks=100)
+quantile(quakesRaw$Depth)
+hist(quakesRaw$Lat,breaks=100)
+hist(quakesRaw$Lon,breaks=100)
+```
+
+### Make some univariate tables
+```{r, dependson="loadData"}
+table(quakesRaw$Src)
+table(quakesRaw$Version)
+table(quakesRaw$Region)
+length(unique(quakesRaw$NST))
+length(unique(quakesRaw$Eqid))
+```
+
+
+### Plot the earthquakes on the globe
+```{r, dependson="loadData"}
+map("world")
+points(quakesRaw$Lon,quakesRaw$Lat,pch=19,col="blue")
+```
+
+
+### Plot the earthquakes on the globe/sized by relative magnitude 
+```{r, dependson="loadData"}
+map("world")
+points(quakesRaw$Lon,quakesRaw$Lat,pch=19,col="blue",cex=quakesRaw$Magnitude/max(quakesRaw$Magnitude))
+```
+
+
+### Plot the earthquakes on the globe/sized by relative depth
+```{r, dependson="loadData"}
+map("world")
+points(quakesRaw$Lon,quakesRaw$Lat,pch=19,col="blue",cex=quakesRaw$Depth/max(quakesRaw$Depth))
+```
+
+
+### Plot depth versus magnitude
+```{r, dependson="loadData"}
+plot(quakesRaw$Depth,quakesRaw$Magnitude,pch=19)
+```
+
+### Looks weird, let's try a transform - need to add one to avoid log(0)
+```{r, dependson="loadData"}
+summary(log10(quakesRaw$Depth),useNA="ifany")
+summary(log10(quakesRaw$Depth+1))
+quakesRaw$log10Depth <- log10(quakesRaw$Depth + 1)
+```
+
+### Plot w/transform
+```{r, dependson="loadData"}
+plot(quakesRaw$log10Depth,quakesRaw$Magnitude,pch=19)
+```
+
+
+
+### Color by Latitute 
+```{r, dependson="loadData"}
+latCut = cut2(quakesRaw$Lat,g=5)
+plot(quakesRaw$log10Depth,quakesRaw$Magnitude,pch=19,col=latCut)
+```
+
+Might be a lot of black in the top right quadrant
+
+### Color by longitude 
+
+```{r, dependson="loadData"}
+lonCut = cut2(quakesRaw$Lon,g=5)
+plot(quakesRaw$log10Depth,quakesRaw$Magnitude,pch=19,col=lonCut)
+```
+Definitely a lot of light blue in the upper right hand quadrant
+
+
+### Color by NST
+
+
+```{r, dependson="loadData"}
+nstCut = cut2(quakesRaw$NST,g=5)
+plot(quakesRaw$log10Depth,quakesRaw$Magnitude,pch=19,col=nstCut)
+```
+
+
+### Check out relationship with Src
+```{r, dependson="loadData"}
+boxplot(quakesRaw$log10Depth ~ quakesRaw$Src)
+boxplot(quakesRaw$Magnitude ~ quakesRaw$Src)
+```
+
+### How do lat/lon correlated with source
+
+```{r, dependson="loadData"}
+
+boxplot(quakesRaw$Lat ~quakesRaw$Src)
+boxplot(quakesRaw$Lon ~quakesRaw$Src)
+
+```
+
+
+
+### Get the formatted time, see earthquakes over time
+
+```{r, dependson="loadData"}
+timeF = strptime(quakesRaw$Datetime,format="%A, %B %e, %Y %H:%M:%S")
+plot(timeF, quakesRaw$log10Depth)
+plot(timeF,quakesRaw$Magnitude)
+```
+
+------
+
+## Modeling
+
+
+## Fit a basic model relating depth to time
+
+```{r, dependson="loadData"}
+lm1 <- lm(quakesRaw$Depth ~ quakesRaw$Magnitude)
+summary(lm1)
+```
+
+
+## Plot the observed ('black') and fitted ('red') points
+
+```{r, dependson="loadData"}
+lm1 <- lm(quakesRaw$Magnitude ~ quakesRaw$Depth)
+plot(quakesRaw$Depth,quakesRaw$Magnitude,pch=19)
+points(quakesRaw$Depth,lm1$fitted,pch=19,col="red")
+```
+
+
+## Look at residuals versus observations, residuals versus fitted values
+
+```{r, dependson="loadData"}
+lm1 <- lm(quakesRaw$Magnitude ~ quakesRaw$Depth)
+par(mfrow=c(1,2))
+plot(quakesRaw$Depth,lm1$residuals,pch=19)
+plot(lm1$fitted,lm1$residuals,pch=19)
+```
+
+## Try the transform
+
+```{r, dependson="loadData"}
+lm2 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth)
+plot(quakesRaw$log10Depth,quakesRaw$Magnitude,pch=19)
+points(quakesRaw$log10Depth,lm2$fitted,pch=19,col="red")
+```
+
+
+## Plot the residuals versus the observed and fitted (little better here)
+
+```{r, dependson="loadData"}
+lm2 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth)
+par(mfrow=c(1,2))
+plot(quakesRaw$log10Depth,lm2$residuals,pch=19)
+plot(lm2$fitted,lm2$residuals,pch=19)
+```
+
+## What if we color residuals by lat (see a pattern)
+
+```{r, dependson="loadData"}
+lm2 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth)
+latCut = cut2(quakesRaw$Lat,g=5)
+par(mfrow=c(1,2))
+plot(quakesRaw$log10Depth,lm2$residuals,pch=19,col=latCut)
+plot(lm2$fitted,lm2$residuals,pch=19,col=latCut)
+```
+
+
+## What if we color residuals by lon (see a pattern)
+
+```{r, dependson="loadData"}
+lm2 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth)
+lonCut = cut2(quakesRaw$Lon,g=5)
+par(mfrow=c(1,2))
+plot(quakesRaw$log10Depth,lm2$residuals,pch=19,col=lonCut)
+plot(lm2$fitted,lm2$residuals,pch=19,col=lonCut)
+```
+
+## Now try fitting a new model with Lat in there
+
+```{r, dependson="loadData"}
+latCut = cut2(quakesRaw$Lat,g=5)
+lm3 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth + latCut)
+par(mfrow=c(1,2))
+plot(quakesRaw$log10Depth,lm3$residuals,pch=19,col=latCut)
+plot(lm3$fitted,lm3$residuals,pch=19,col=latCut)
+```
+
+## How about Lat/Lon
+
+```{r, dependson="loadData"}
+latCut = cut2(quakesRaw$Lat,g=5)
+lonCut = cut2(quakesRaw$Lon,g=5)
+lm4 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth + latCut + lonCut)
+par(mfrow=c(1,2))
+plot(quakesRaw$log10Depth,lm4$residuals,pch=19,col=latCut)
+plot(lm4$fitted,lm4$residuals,pch=19,col=latCut)
+```
+
+
+## Color that model by NST
+
+```{r, dependson="loadData"}
+latCut = cut2(quakesRaw$Lat,g=5)
+lonCut = cut2(quakesRaw$Lon,g=5)
+nstCut = cut2(quakesRaw$NST,g=5)
+lm4 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth + latCut + lonCut)
+par(mfrow=c(1,2))
+plot(quakesRaw$log10Depth,lm4$residuals,pch=19,col=nstCut)
+plot(lm4$fitted,lm4$residuals,pch=19,col=nstCut)
+```
+
+## Include NST 
+
+```{r lm5Chunk, dependson="loadData"}
+latCut = cut2(quakesRaw$Lat,g=5)
+lonCut = cut2(quakesRaw$Lon,g=5)
+nstCut = cut2(quakesRaw$NST,g=5)
+lm5 <- lm(quakesRaw$Magnitude ~ quakesRaw$log10Depth + latCut + lonCut + nstCut)
+par(mfrow=c(1,2))
+plot(quakesRaw$log10Depth,lm5$residuals,pch=19,col=nstCut)
+plot(lm5$fitted,lm5$residuals,pch=19,col=nstCut)
+```
+
+
+
+## Let's use model 5
+
+```{r, dependson="lm5Chunk"}
+summary(lm5)
+confint(lm5)
+```
+
+## Let's plot fitted versus observed magnitudes on the map
+
+```{r, dependson="lm5Chunk"}
+par(mfrow=c(2,1))
+map("world")
+lm5fitted <- lm5$fitted
+points(quakesRaw$Lon,quakesRaw$Lat,pch=19,col="blue",cex=lm5fitted/max(lm5fitted))
+map("world")
+points(quakesRaw$Lon,quakesRaw$Lat,pch=19,col="blue",cex=quakesRaw$Magnitude/max(quakesRaw$Magnitude))
+```
+
+
