@@ -288,7 +288,7 @@ class Dataset(dict):
         '''
         return (1 - (self.frame.count() / len(self.frame))).order(ascending=ascending)
 
-    def variance_explained(self, cols=None):
+    def variance_explained(self, cols=None, plot=False):
         '''
         NOTE 1: fill/impute missing values before using this
         NOTE 2: only use columns with dtype int or float
@@ -296,6 +296,7 @@ class Dataset(dict):
         Parameters
         ----------
             cols: list, of columns to use in the calculation, default all inputs
+            plot: boolean, True want to make a bar plot
 
         Returns
         -------
@@ -309,9 +310,12 @@ class Dataset(dict):
 
         U, s, V = np.linalg.svd(frame.values)
         variance = np.square(s) / sum(np.square(s))
-        xlocations = np.array(range(len(variance)))+0.5
-        width = 0.99
-        plt.bar(xlocations, variance, width=width)
+        if plot:
+            xlocations = np.array(range(len(variance)))+0.5
+            width = 0.95
+            plt.bar(xlocations, variance, width=width)
+            plt.xlabel("Columns")
+            plt.ylabel("Variance Explained")
         return variance
 
     def corr(self, cols=None, ascending=False):
@@ -378,6 +382,21 @@ class Dataset(dict):
             for col in cols:
                 imputed = copper.r.imputeKNN(self.frame)
                 self.frame[col] = imputed[col]
+
+    def fix_names(self):
+        ''' Removes spaces and symbols from column names
+        Those symbols generates error if using patsy
+        '''
+        new_cols = self.columns.tolist()
+        symbols = ' .-'
+        for i, col in enumerate(new_cols):
+            for symbol in symbols:
+                new_cols[i] = ''.join(new_cols[i].split(symbol))
+        self.frame.columns = new_cols
+        self.columns = new_cols
+        self.role.index = new_cols
+        self.type.index = new_cols
+
 
     # --------------------------------------------------------------------------
     #                                    CHARTS

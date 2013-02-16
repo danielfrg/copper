@@ -22,11 +22,10 @@ def histogram(series, bins=20, legend=True, retList=False):
     '''
     plt.hold(True)
     nas = len(series) - len(series.dropna())
+
     series = series.dropna()
     series = series[series != float('-inf')]
     series = series[series != float('inf')]
-
-    print (series)
 
     if series.dtype == object:
         types = copper.transform.category_labels(series)
@@ -67,17 +66,24 @@ def histogram(series, bins=20, legend=True, retList=False):
         return pd.Series(labels)
 
 def scatter(frame, var1, var2, var3=None, reg=False, **args):
+    import matplotlib.cm as cm
+
     if type(frame) is copper.Dataset:
         frame = frame.frame
-    x = frame[var1].values
-    y = frame[var2].values
+    x = frame[var1]
+    y = frame[var2]
 
     if var3 is None:
-        plt.scatter(x, y, **args)
+        plt.scatter(x.values, y.values, **args)
     else:
-        z = frame[var3].values
-        plt.scatter(x, y, c=z, **args)
-        plt.gray()
+        options = list(set(frame[var3]))
+        for i, option in enumerate(options):
+            f = frame[frame[var3] == option]
+            x = f[var1]
+            y = f[var2]
+            c = cm.jet(i/len(options),1)
+            plt.scatter(x, y, c=c, label=option, **args)
+            plt.legend()
 
     if reg:
         slope, intercept, r_value, p_value, std_err = stats.linregress(x,y)
@@ -93,6 +99,16 @@ def show():
     '''
     plt.show()
 
+def draw():
+    ''' For the super lazy
+    Useful if only want to import copper and not matplotlib.
+    '''
+    plt.draw()
 
+def figure():
+    ''' For the super lazy
+    Useful if only want to import copper and not matplotlib.
+    '''
+    plt.figure()
 
 

@@ -1,34 +1,44 @@
 import copper
 import numpy as np
 import matplotlib.pyplot as plt
+import statsmodels.formula.api as sm
 
 copper.project.path = '..'
-
 loans = copper.load('loans')
-loans.role['Interest.Rate'] = loans.TARGET
+loans.fix_names()
+loans.fillna(method='mean')
 
-# print (loans.columns)
+# print(loans.frame)
 # print (loans.metadata)
+# loans.role['InterestRate'] = loans.TARGET
+# print (loans.frame.skew())
 # print (loans.corr())
 
-# print (loans)
-# loans.histogram('Loan.Length')
+# loans.histogram('Employment.Length')
+# plt.draw()
+# plt.figure()
 
-
-# copper.plot.scatter(loans, 'Interest.Rate', 'FICO.Range', reg=True, s=50, alpha=0.1)
-# copper.plot.scatter(loans, 'Interest.Rate', 'FICO.Range', 'Loan.Length')
-# copper.plot.show()
-
-loans.fillna(method='mean')
-print (loans.variance_explained())
-loans.role['Amount.Requested'] = loans.REJECTED
-plt.draw()
-print (loans.variance_explained())
-plt.show()
-# U, s, V = np.linalg.svd(values)
-# var = np.square(s) / sum(np.square(s))
-# print(var)
-# xlocations = np.array(range(len(var)))+0.5
-# width = 0.99
-# plt.bar(xlocations, var, width=width)
+# loans.histogram('MonthlyIncome')
 # plt.show()
+
+
+# mod = sm.ols(formula='InterestRate ~ FICORange + LoanLength', data=loans.frame)
+# mod = sm.ols(formula='InterestRate ~ FICORange + LoanLength + C(LoanPurpose)', data=loans.frame)
+# mod = sm.ols(formula='InterestRate ~ C(LoanPurpose)', data=loans.frame)
+# res = mod.fit()
+# print (res.summary())
+# print (res.pvalues)
+
+
+plt.subplot(131)
+print(loans.variance_explained(plot=True))
+plt.subplot(132)
+copper.plot.scatter(loans, 'FICORange', 'InterestRate', reg=True, s=50, alpha=0.1)
+plt.ylabel('Interest Rate')
+plt.xlabel('FICO Range')
+plt.subplot(133)
+copper.plot.scatter(loans, 'AmountFundedByInvestors', 'InterestRate', 'LoanPurpose')
+plt.ylabel('Interest Rate')
+plt.xlabel('Amount Funded By Investors')
+plt.show()
+
