@@ -453,21 +453,10 @@ class Dataset(dict):
     values = property(get_values)
 
 if __name__ == "__main__":
-    '''
-    copper.project.path = '../../examples/coursera_data_analysis/assignment1'
+    # '''
+    copper.project.path = '../../examples/catalog'
     dataset = copper.Dataset()
-    dataset.load('loansData.csv')
+    dataset.load('training.csv')
 
-    dataset.type['Interest.Rate'] = dataset.NUMBER
-    dataset.type['Loan.Length'] = dataset.NUMBER
-    dataset.type['Debt.To.Income.Ratio'] = dataset.NUMBER
-    dataset.type['Employment.Length'] = dataset.NUMBER
-    # print dataset.metadata
-    dataset.fillna(method='knn')
-    # print dataset.inputs
-    # print dataset.inputs.head()
-
-    # import matplotlib.pyplot as plt
-    # dataset.histogram('FICO.Range', legend=False)
-    # plt.show()
-    '''
+    print dataset
+    # '''

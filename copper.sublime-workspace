@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"lege",
+				"legend"
+			],
+			[
+				"var",
+				"var1"
+			],
+			[
+				"opt",
+				"option"
+			],
+			[
+				"so",
+				"symbols"
+			],
+			[
 				"T",
 				"TARGET"
 			],
@@ -498,27 +514,19 @@
 			[
 				"asser",
 				"assertFrameEqual"
-			],
-			[
-				"ass",
-				"assertArray"
-			],
-			[
-				"d1",
-				"d1_array2"
-			],
-			[
-				"an",
-				"ans"
-			],
-			[
-				"re",
-				"ret_list"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "/home/dfrodriguez/projects/kaggle/salary/src/explore.py",
+			"settings":
+			{
+				"buffer_size": 116,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -624,8 +632,13 @@
 	},
 	"file_history":
 	[
-		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
+		"/home/dfrodriguez/projects/copper/copper.sublime-project",
 		"/home/dfrodriguez/projects/copper/copper/core/set.py",
+		"/home/dfrodriguez/projects/copper/copper/viz/base.py",
+		"/home/dfrodriguez/projects/copper/examples/loans/src/explore.py",
+		"/home/dfrodriguez/.bashrc",
+		"/home/dfrodriguez/projects/copper/examples/loans/src/explore.ipynb",
+		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset_1.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/all.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset_pandas.py",
@@ -636,13 +649,9 @@
 		"/home/dfrodriguez/projects/copper/copper/core/r.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/__init__.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset.py",
-		"/home/dfrodriguez/projects/copper/copper/viz/base.py",
-		"/home/dfrodriguez/projects/copper/examples/loans/src/explore.py",
 		"/home/dfrodriguez/projects/copper/README.md",
-		"/home/dfrodriguez/projects/copper/copper.sublime-project",
 		"/home/dfrodriguez/projects/copper/copper/io/io.py",
 		"/home/dfrodriguez/projects/pelican/content/2013-1-31-new-blog-using-jekyll-and-ipython.md",
-		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/anaconda/fabfile.py",
 		"/home/dfrodriguez/.bash_completion",
 		"/home/dfrodriguez/projects/blog/_source/_utils/fabfile.py",
@@ -750,8 +759,7 @@
 		"/home/dfrodriguez/projects/copper/explore/js/jquery.min.js",
 		"/home/dfrodriguez/projects/copper/explore/backbone.min.js",
 		"/home/dfrodriguez/projects/copper/core/ensemble.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/models.py",
-		"/usr/lib/sublime-text-2/sublime_text_"
+		"/home/dfrodriguez/projects/copper/examples/expedia/models.py"
 	],
 	"find":
 	{
@@ -769,6 +777,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"variance",
+			"dataset",
 			"Dataset",
 			"MLTest",
 			"DatasetTest_1",
@@ -894,9 +904,7 @@
 			"NDFrame",
 			"DataFrame(",
 			"DataFrame",
-			"set_data",
-			"test_1",
-			"test_2"
+			"set_data"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -914,8 +922,35 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/home/dfrodriguez/projects/kaggle/salary/src/explore.py",
+					"settings":
+					{
+						"buffer_size": 116,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								50,
+								50
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -952,7 +987,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 176.0
+		"height": 182.0
 	},
 	"replace":
 	{

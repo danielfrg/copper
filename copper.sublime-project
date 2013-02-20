@@ -4,8 +4,7 @@
 		{
 			"cmd":
 			[
-				"/home/dfrodriguez/.virtualenvs/copper/bin/python",
-				// "/home/dfrodriguez/anaconda/bin/python",
+				"/home/dfrodriguez/anaconda/bin/python",
 				"-u",
 				"$file"
 			],
@@ -19,8 +18,14 @@
 	"folders":
 	[
 		{
-			"path": "/home/dfrodriguez/projects/copper",
-			"folder_exclude_patterns": ["__pycache__"]
+			"folder_exclude_patterns":
+			[
+				"__pycache__"
+			],
+			"path": "/home/dfrodriguez/projects/copper"
+		},
+		{
+			"path": "/home/dfrodriguez/projects/kaggle"
 		}
 	]
 }
