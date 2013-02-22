@@ -22,12 +22,16 @@ def load(filepath):
         pkl_file = open(f, 'rb')
         return pickle.load(pkl_file)
 
-def save(data, name, format=None):
+def save(data, name, format=None, to=''):
     ''' Saves a picke Dataset
     '''
+    fp = os.path.join(copper.project.data, to)
+    if not (os.access(fp, os.F_OK)):
+            os.makedirs(fp)
+
     if format is None:
         # Save pickled version
-        f = os.path.join(copper.project.data, name + '.dataset')
+        f = os.path.join(fp, name + '.dataset')
         output = open(f, 'wb')
         pickle.dump(data, output)
         output.close()
@@ -38,10 +42,10 @@ def save(data, name, format=None):
             df = data
 
         if format == 'csv':
-            fpath = os.path.join(copper.project.exported, name + '.csv')
+            fpath = os.path.join(fp, name + '.csv')
             df.to_csv(fpath, encoding='utf-8')
         elif format == 'json':
-            fpath = os.path.join(copper.project.exported, name + '.json')
+            fpath = os.path.join(fp, name + '.json')
             with io.open(fpath, 'w', encoding='utf-8') as outfile:
                 json.dumps(df_to_json(df), outfile)
 

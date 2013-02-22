@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"dat",
+				"date"
+			],
+			[
+				"titl",
+				"title_fingerprint"
+			],
+			[
+				"for",
+				"format"
+			],
+			[
 				"lege",
 				"legend"
 			],
@@ -78,10 +90,6 @@
 			[
 				"data",
 				"dataframe"
-			],
-			[
-				"dat",
-				"datafra"
 			],
 			[
 				"number",
@@ -270,10 +278,6 @@
 			[
 				"predi",
 				"predict"
-			],
-			[
-				"for",
-				"for	For Loop"
 			],
 			[
 				"predic",
@@ -510,23 +514,11 @@
 			[
 				"de",
 				"decrease"
-			],
-			[
-				"asser",
-				"assertFrameEqual"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "/home/dfrodriguez/projects/kaggle/salary/src/explore.py",
-			"settings":
-			{
-				"buffer_size": 116,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -632,13 +624,19 @@
 	},
 	"file_history":
 	[
+		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
+		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py",
+		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
+		"/home/dfrodriguez/projects/kaggle/salary/src/explore.py",
+		"/home/dfrodriguez/projects/copper/copper/io/io.py",
+		"/home/dfrodriguez/projects/kaggle/salary/data/by_cat/Accounting & Finance Jobs.csv",
+		"/home/dfrodriguez/Downloads/Accounting-Finance-Jobs-csv.csv",
+		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/projects/copper/copper.sublime-project",
 		"/home/dfrodriguez/projects/copper/copper/core/set.py",
 		"/home/dfrodriguez/projects/copper/copper/viz/base.py",
 		"/home/dfrodriguez/projects/copper/examples/loans/src/explore.py",
-		"/home/dfrodriguez/.bashrc",
 		"/home/dfrodriguez/projects/copper/examples/loans/src/explore.ipynb",
-		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset_1.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/all.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset_pandas.py",
@@ -650,7 +648,6 @@
 		"/home/dfrodriguez/projects/copper/copper/test/core/__init__.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset.py",
 		"/home/dfrodriguez/projects/copper/README.md",
-		"/home/dfrodriguez/projects/copper/copper/io/io.py",
 		"/home/dfrodriguez/projects/pelican/content/2013-1-31-new-blog-using-jekyll-and-ipython.md",
 		"/home/dfrodriguez/anaconda/fabfile.py",
 		"/home/dfrodriguez/.bash_completion",
@@ -754,12 +751,7 @@
 		"/home/dfrodriguez/projects/copper/project/export/train.json",
 		"/home/dfrodriguez/projects/copper/project/export/train.csv",
 		"/home/dfrodriguez/projects/copper/explore/js/underscore.min.js",
-		"/home/dfrodriguez/projects/copper/explore/css/chosen.css",
-		"/home/dfrodriguez/projects/copper/explore/js/chosen.jquery.min.js",
-		"/home/dfrodriguez/projects/copper/explore/js/jquery.min.js",
-		"/home/dfrodriguez/projects/copper/explore/backbone.min.js",
-		"/home/dfrodriguez/projects/copper/core/ensemble.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/models.py"
+		"/home/dfrodriguez/projects/copper/explore/css/chosen.css"
 	],
 	"find":
 	{
@@ -777,6 +769,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"of",
 			"variance",
 			"dataset",
 			"Dataset",
@@ -903,8 +896,7 @@
 			"_oframe",
 			"NDFrame",
 			"DataFrame(",
-			"DataFrame",
-			"set_data"
+			"DataFrame"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -922,35 +914,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/home/dfrodriguez/projects/kaggle/salary/src/explore.py",
-					"settings":
-					{
-						"buffer_size": 116,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								50,
-								50
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -987,7 +952,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 182.0
+		"height": 145.0
 	},
 	"replace":
 	{
@@ -1037,7 +1002,7 @@
 		[
 			[
 				"",
-				"/home/dfrodriguez/projects/blog/_source/_blog.sublime-project"
+				"/home/dfrodriguez/projects/blog/__source__/blog.sublime-project"
 			],
 			[
 				"blog",
