@@ -624,6 +624,12 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/copper/copper.sublime-project",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/danielfrg/projects/copper/copper/test/core/all.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
+		"/home/danielfrg/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
 		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py",
 		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
@@ -745,13 +751,7 @@
 		"/home/dfrodriguez/projects/copper/explore/static/js/d3.min.js",
 		"/home/dfrodriguez/projects/copper/explore/js1.html",
 		"/home/dfrodriguez/projects/copper/explore/select_cascade.html",
-		"/home/dfrodriguez/projects/copper/explore/train.csv",
-		"/home/dfrodriguez/projects/copper/explore/select_cascade.py",
-		"/home/dfrodriguez/projects/copper/core/train.json",
-		"/home/dfrodriguez/projects/copper/project/export/train.json",
-		"/home/dfrodriguez/projects/copper/project/export/train.csv",
-		"/home/dfrodriguez/projects/copper/explore/js/underscore.min.js",
-		"/home/dfrodriguez/projects/copper/explore/css/chosen.css"
+		"/home/dfrodriguez/projects/copper/explore/train.csv"
 	],
 	"find":
 	{
@@ -952,7 +952,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 145.0
+		"height": 160.0
 	},
 	"replace":
 	{
@@ -1002,7 +1002,7 @@
 		[
 			[
 				"",
-				"/home/dfrodriguez/projects/blog/__source__/blog.sublime-project"
+				"/home/danielfrg/projects/blog/__source__/blog.sublime-project"
 			],
 			[
 				"blog",

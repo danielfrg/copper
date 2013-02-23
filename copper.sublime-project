@@ -4,13 +4,13 @@
 		{
 			"cmd":
 			[
-				"/home/dfrodriguez/anaconda/bin/python",
+				"/home/danielfrg/.virtualenvs/copper/bin/python",
 				"-u",
 				"$file"
 			],
 			"env":
 			{
-				"PYTHONPATH": "/home/dfrodriguez/projects/copper"
+				"PYTHONPATH": "/home/danielfrg/projects/copper"
 			},
 			"name": "Python Virtual env"
 		}
@@ -18,14 +18,18 @@
 	"folders":
 	[
 		{
+			"file_exclude_patterns":
+			[
+				"*.pyc"
+			],
 			"folder_exclude_patterns":
 			[
 				"__pycache__"
 			],
-			"path": "/home/dfrodriguez/projects/copper"
+			"path": "/home/danielfrg/projects/copper"
 		},
 		{
-			"path": "/home/dfrodriguez/projects/kaggle"
+			"path": "/home/danielfrg/projects/data-analysis"
 		}
 	]
 }

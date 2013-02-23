@@ -458,5 +458,5 @@ if __name__ == "__main__":
     dataset = copper.Dataset()
     dataset.load('training.csv')
 
-    print dataset
+    # print dataset
     # '''
