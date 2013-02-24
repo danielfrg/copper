@@ -29,7 +29,7 @@ def save(data, name, format=None, to=''):
     if not (os.access(fp, os.F_OK)):
             os.makedirs(fp)
 
-    if format is None:
+    if format is None and type(data) is copper.Dataset:
         # Save pickled version
         f = os.path.join(fp, name + '.dataset')
         output = open(f, 'wb')
@@ -40,6 +40,8 @@ def save(data, name, format=None, to=''):
             df = data.frame
         else:
             df = data
+        if format is None:
+            format = 'csv'
 
         if format == 'csv':
             fpath = os.path.join(fp, name + '.csv')

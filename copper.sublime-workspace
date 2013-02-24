@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"train",
+				"train_normal"
+			],
+			[
+				"tra",
+				"train_0_2"
+			],
+			[
 				"dat",
 				"date"
 			],
@@ -106,10 +114,6 @@
 			[
 				"ru",
 				"running"
-			],
-			[
-				"train",
-				"train_imp"
 			],
 			[
 				"file",
@@ -510,15 +514,27 @@
 			[
 				"tes",
 				"testName"
-			],
-			[
-				"de",
-				"decrease"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
+			"settings":
+			{
+				"buffer_size": 354,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "copper/io/io.py",
+			"settings":
+			{
+				"buffer_size": 1661,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -914,8 +930,63 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
+					"settings":
+					{
+						"buffer_size": 354,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								312,
+								312
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "copper/io/io.py",
+					"settings":
+					{
+						"buffer_size": 1661,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1020,
+								1020
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 432.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
