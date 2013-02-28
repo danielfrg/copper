@@ -10,54 +10,27 @@ from sklearn import preprocessing
 #                                  PANDAS API
 # -----------------------------------------------------------------------------
 
-_numberRE = re.compile('[0-9.]+')
-_numberREComp = re.compile(_numberRE)
+numberRE = re.compile('[0-9.]+')
 
 def to_number(x):
     try:
-        return float(_numberRE.search(x).group())
+        return float(numberRE.search(x).group())
     except:
         return np.nan
 
-'''
-def to_number(series, RE='[0-9.]+'):
-    _numberRE = re.compile(RE)
-
-    def _numberREFun(x):
-        try:
-            return float(_numberRE.search(x).group())
-        except:
-            return np.nan
-
-    return series.apply(_numberREFun)
-'''
-
-# def strptime(x, format='%m/%d/%Y'):
 def strptime(x, *args):
     try:
         return datetime.strptime(x, ''.join(args))
     except:
         return np.nan
 
-start_date = datetime(1970, 1, 1)
 
+start_date = datetime(1970, 1, 1)
 def date_to_number(x):
     try:
         return (x - start_date).days
     except:
         return np.nan
-
-'''
-def date2number(series, start_date=None):
-    if start_date is None:
-        start_date = datetime(1970, 1, 1)
-    def _date2number(date):
-        try:
-            return (date - start_date).days
-        except:
-            return np.nan
-    return series.apply(_date2number)
-'''
 
 
 # -----------------------------------------------------------------------------
@@ -87,7 +60,7 @@ def category2ml(series):
         ans = ans.join(n_col)
     return ans
 
-def category2number( series):
+def category2number(series):
     '''
     Convert a Series with categorical information to a Series of numbers
     using the scikit-learn LabelEncoder

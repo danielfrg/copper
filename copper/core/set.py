@@ -126,7 +126,7 @@ class Dataset(dict):
                 ans = ans.join(self.frame[col])
             elif self.type[col] == self.NUMBER and \
                                             self.frame[col].dtype == object:
-                ans = ans.join(copper.transform.to_number(self.frame[col]))
+                ans = ans.join(self.frame[col].apply(copper.transform.to_number))
             elif self.type[col] == self.CATEGORY and \
                             self.frame[col].dtype in (np.int64, np.float64):
                 # new_cols = copper.transform.category2number(self.frame[col])
@@ -203,7 +203,7 @@ class Dataset(dict):
         for col in self.frame.columns:
             if self.type[col] == self.NUMBER and \
                                         self.frame[col].dtype == object:
-                self.frame[col] = copper.transform.to_number(self.frame[col])
+                self.frame[col] = self.frame[col].apply(copper.transform.to_number)
             elif col in self.type[self.type == self.CATEGORY] and \
                             self.frame[col].dtype in (np.int64, np.float64):
                 self.frame[col] = copper.transform.category2number(self.frame[col])
