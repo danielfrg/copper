@@ -6,6 +6,20 @@ from datetime import datetime
 from sklearn import preprocessing
 
 
+# -----------------------------------------------------------------------------
+#                                  PANDAS API
+# -----------------------------------------------------------------------------
+
+_numberRE = re.compile('[0-9.]+')
+_numberREComp = re.compile(_numberRE)
+
+def to_number(x):
+    try:
+        return float(_numberRE.search(x).group())
+    except:
+        return np.nan
+
+'''
 def to_number(series, RE='[0-9.]+'):
     _numberRE = re.compile(RE)
 
@@ -16,6 +30,37 @@ def to_number(series, RE='[0-9.]+'):
             return np.nan
 
     return series.apply(_numberREFun)
+'''
+
+# def strptime(x, format='%m/%d/%Y'):
+def strptime(x, *args):
+    try:
+        return datetime.strptime(x, ''.join(args))
+    except:
+        return np.nan
+
+start_date = datetime(1970, 1, 1)
+
+def date_to_number(x):
+    try:
+        return (x - start_date).days
+    except:
+        return np.nan
+
+'''
+def date2number(series, start_date=None):
+    if start_date is None:
+        start_date = datetime(1970, 1, 1)
+    def _date2number(date):
+        try:
+            return (date - start_date).days
+        except:
+            return np.nan
+    return series.apply(_date2number)
+'''
+
+
+# -----------------------------------------------------------------------------
 
 def category2ml(series):
     '''
@@ -75,22 +120,3 @@ def category_labels( series):
     le = preprocessing.LabelEncoder()
     le.fit(series.values)
     return le.classes_
-
-
-def date2number(series, start_date=None):
-    if start_date is None:
-        start_date = datetime(1970, 1, 1)
-    def _date2number(date):
-        try:
-            return (date - start_date).days
-        except:
-            return np.nan
-    return series.apply(_date2number)
-
-def strptime(series, format='%m/%d/%y'):
-    def parse_date(x):
-        try:
-            return datetime.strptime(x, format)
-        except:
-            return np.nan
-    return series.apply(parse_date)
