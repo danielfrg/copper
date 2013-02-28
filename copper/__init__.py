@@ -1,5 +1,5 @@
 import os
-from copper.io.io import *
+from copper.core.io import *
 from copper.core.set import *
 from copper.core.ml import *
 import copper.viz.base as plot
