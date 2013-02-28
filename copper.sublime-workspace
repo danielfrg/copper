@@ -520,18 +520,18 @@
 	"buffers":
 	[
 		{
-			"file": "/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
+			"file": "copper/core/transforms.py",
 			"settings":
 			{
-				"buffer_size": 354,
+				"buffer_size": 3009,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "copper/io/io.py",
+			"file": "copper/test/core/transforms.py",
 			"settings":
 			{
-				"buffer_size": 1661,
+				"buffer_size": 1332,
 				"line_ending": "Unix"
 			}
 		}
@@ -539,7 +539,7 @@
 	"build_system": "Python Virtual env",
 	"command_palette":
 	{
-		"height": 148.0,
+		"height": 56.0,
 		"selected_items":
 		[
 			[
@@ -640,12 +640,25 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/danielfrg/projects/copper/copper/core/transforms.py",
+		"/home/danielfrg/projects/copper/copper/test/core/transforms.py",
+		"/home/danielfrg/projects/data-analysis/expedia/src/explore.py",
+		"/home/danielfrg/Dropbox/Documents/UTD/Business Economics/mid",
+		"/home/danielfrg/.bashrc",
+		"/home/danielfrg/.virtualenvs/copper/bin/activate.fish",
+		"/home/danielfrg/.virtualenvs/copper/bin/activate",
+		"/home/danielfrg/.virtualenvs/copper/bin/activate_this.py",
+		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/cols_1_12.ipynb",
+		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/f1.py",
+		"/home/danielfrg/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/tmp/ipython_edit_oz6lwr.py",
+		"/home/danielfrg/projects/copper/copper/io/io.py",
+		"/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
 		"/home/danielfrg/projects/copper/copper.sublime-project",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
-		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/danielfrg/projects/copper/copper/test/core/all.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
-		"/home/danielfrg/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
 		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py",
 		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
@@ -754,20 +767,7 @@
 		"/home/dfrodriguez/projects/copper/explore/index.html",
 		"/home/dfrodriguez/projects/copper/explore/static/js/main.js",
 		"/home/dfrodriguez/projects/blog/_source/_layouts/default.html",
-		"/home/dfrodriguez/projects/blog/_source/index.html",
-		"/home/dfrodriguez/projects/copper/explore/explore.py",
-		"/home/dfrodriguez/projects/copper/explore/3.js",
-		"/home/dfrodriguez/projects/copper/explore/static/css/chosen.css",
-		"/home/dfrodriguez/projects/copper/explore/static/css/hint.min.css",
-		"/home/dfrodriguez/projects/copper/explore/5.js",
-		"/home/dfrodriguez/projects/copper/explore/js5.html",
-		"/home/dfrodriguez/projects/copper/explore/js4.js",
-		"/home/dfrodriguez/projects/copper/explore/js1.js",
-		"/home/dfrodriguez/projects/copper/explore/js2.js",
-		"/home/dfrodriguez/projects/copper/explore/static/js/d3.min.js",
-		"/home/dfrodriguez/projects/copper/explore/js1.html",
-		"/home/dfrodriguez/projects/copper/explore/select_cascade.html",
-		"/home/dfrodriguez/projects/copper/explore/train.csv"
+		"/home/dfrodriguez/projects/blog/_source/index.html"
 	],
 	"find":
 	{
@@ -785,6 +785,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"Dataset_1",
+			"copper",
 			"of",
 			"variance",
 			"dataset",
@@ -910,9 +912,7 @@
 			"_targetFilter",
 			"_idFilter",
 			"_oframe",
-			"NDFrame",
-			"DataFrame(",
-			"DataFrame"
+			"NDFrame"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -930,49 +930,23 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
+					"file": "copper/core/transforms.py",
 					"settings":
 					{
-						"buffer_size": 354,
+						"buffer_size": 3009,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								312,
-								312
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "copper/io/io.py",
-					"settings":
-					{
-						"buffer_size": 1661,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1020,
-								1020
+								0,
+								0
 							]
 						],
 						"settings":
@@ -982,7 +956,35 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 432.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "copper/test/core/transforms.py",
+					"settings":
+					{
+						"buffer_size": 1332,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1086,6 +1088,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 213.0,
+	"side_bar_width": 197.0,
 	"status_bar_visible": true
 }
