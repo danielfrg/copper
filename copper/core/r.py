@@ -4,10 +4,13 @@ import os
 import copper
 import numpy as np
 import pandas as pd
-import pandas.rpy.common as com
 
-from rpy2.robjects import r
-from rpy2.robjects.packages import importr
+try :
+    import pandas.rpy.common as com
+    from rpy2.robjects import r
+    from rpy2.robjects.packages import importr
+except:
+    pass
 
 
 def impute(dataframe, col, method='knn'):
@@ -43,10 +46,3 @@ def imputeKNN(dataframe):
 
     return pd.read_csv(filepath)
 
-if __name__ == "__main__":
-    '''
-    copper.project.path = '../../examples/expedia'
-    data = copper.read_csv('raw/train.csv')
-    print data
-    print imputeKNN(data)
-    '''

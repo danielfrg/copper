@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"num",
+				"numberRE"
+			],
+			[
 				"train",
 				"train_normal"
 			],
@@ -86,10 +90,6 @@
 			[
 				"int",
 				"intercept"
-			],
-			[
-				"num",
-				"number_cols"
 			],
 			[
 				"fill",
@@ -519,22 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "copper/core/transforms.py",
-			"settings":
-			{
-				"buffer_size": 3009,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "copper/test/core/transforms.py",
-			"settings":
-			{
-				"buffer_size": 1332,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -640,12 +624,31 @@
 	},
 	"file_history":
 	[
-		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
-		"/home/danielfrg/projects/copper/copper/core/transforms.py",
-		"/home/danielfrg/projects/copper/copper/test/core/transforms.py",
-		"/home/danielfrg/projects/data-analysis/expedia/src/explore.py",
-		"/home/danielfrg/Dropbox/Documents/UTD/Business Economics/mid",
+		"/home/danielfrg/projects/copper/copper/core/r.py",
+		"/home/danielfrg/projects/heroku-data/requirements.txt",
+		"/home/danielfrg/.ssh/id_rsa.pub",
+		"/home/danielfrg/projects/heroku-data/Procfile",
+		"/home/danielfrg/projects/heroku-data/runtime.txt",
 		"/home/danielfrg/.bashrc",
+		"/home/danielfrg/projects/copper/.git/COMMIT_EDITMSG",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
+		"/home/danielfrg/projects/copper/copper/core/transforms.py",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/Dataset_1.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/all.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/transforms.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/Dataset_all.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/ML_1.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/ML_all.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/Dataset_pandas.py",
+		"/home/danielfrg/projects/copper/copper/__init__.py",
+		"/home/danielfrg/projects/copper/copper/test/CopperTest.py",
+		"/home/danielfrg/projects/copper/copper/test/data/transforms/1/data.csv",
+		"/home/danielfrg/projects/copper/copper/test/core/transforms.py",
+		"/home/danielfrg/Dropbox/Documents/UTD/Business Economics/mid",
+		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/danielfrg/projects/data-analysis/expedia/src/explore.py",
 		"/home/danielfrg/.virtualenvs/copper/bin/activate.fish",
 		"/home/danielfrg/.virtualenvs/copper/bin/activate",
 		"/home/danielfrg/.virtualenvs/copper/bin/activate_this.py",
@@ -656,7 +659,6 @@
 		"/home/danielfrg/projects/copper/copper/io/io.py",
 		"/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
 		"/home/danielfrg/projects/copper/copper.sublime-project",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/copper/copper/test/core/all.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
@@ -749,25 +751,7 @@
 		"/home/dfrodriguez/anaconda/bin/launch_instance",
 		"/home/dfrodriguez/projects/bokeh/example1.py",
 		"/home/dfrodriguez/.virtualenvs/get_env_details",
-		"/home/dfrodriguez/anaconda/bin/python",
-		"/home/dfrodriguez/.continuum/license_anacondapro_20130207155036.txt",
-		"/home/dfrodriguez/anaconda/LICENSE.txt",
-		"/home/dfrodriguez/projects/copper/copper/explore/__init__.py",
-		"/home/dfrodriguez/projects/copper/core/set.py",
-		"/home/dfrodriguez/projects/copper/core/ml.py",
-		"/home/dfrodriguez/projects/copper/io/io.py",
-		"/home/dfrodriguez/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
-		"/home/dfrodriguez/projects/copper/examples/donors/src/donors.py",
-		"/home/dfrodriguez/projects/copper/core/config.py",
-		"/home/dfrodriguez/projects/copper/tests/CopperTest.py",
-		"/home/dfrodriguez/projects/copper/tests/core/DataSet.py",
-		"/home/dfrodriguez/projects/copper/tests/core/ML.py",
-		"/home/dfrodriguez/projects/copper/__init__.py",
-		"/home/dfrodriguez/projects/copper/explore/static/css/main.css",
-		"/home/dfrodriguez/projects/copper/explore/index.html",
-		"/home/dfrodriguez/projects/copper/explore/static/js/main.js",
-		"/home/dfrodriguez/projects/blog/_source/_layouts/default.html",
-		"/home/dfrodriguez/projects/blog/_source/index.html"
+		"/home/dfrodriguez/anaconda/bin/python"
 	],
 	"find":
 	{
@@ -785,6 +769,11 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"transform",
+			"test_1_filter",
+			"test_1_role_ml",
+			"test_1_fillna",
+			"test_1_cat_2_num",
 			"Dataset_1",
 			"copper",
 			"of",
@@ -907,12 +896,7 @@
 			"_need_info_repr_",
 			"summary(",
 			"__str",
-			"__unicode",
-			"INPUT",
-			"_targetFilter",
-			"_idFilter",
-			"_oframe",
-			"NDFrame"
+			"__unicode"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -930,65 +914,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "copper/core/transforms.py",
-					"settings":
-					{
-						"buffer_size": 3009,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "copper/test/core/transforms.py",
-					"settings":
-					{
-						"buffer_size": 1332,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

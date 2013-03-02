@@ -23,7 +23,11 @@ def load(filepath):
         return pickle.load(pkl_file)
 
 def save(data, name, format=None, to=''):
-    ''' Saves a picke Dataset
+    ''' Saves a picke Dataset or a csv file
+
+    Parameters
+    ----------
+        to: str, folder to save the file
     '''
     fp = os.path.join(copper.project.data, to)
     if not (os.access(fp, os.F_OK)):
@@ -36,12 +40,14 @@ def save(data, name, format=None, to=''):
         pickle.dump(data, output)
         output.close()
     else:
+        # Save text version
+        # format = 'csv' if format is None else format # TODO, test
+        if format is None:
+            format = 'csv'
         if type(data) is copper.Dataset:
             df = data.frame
         else:
             df = data
-        if format is None:
-            format = 'csv'
 
         if format == 'csv':
             fpath = os.path.join(fp, name + '.csv')

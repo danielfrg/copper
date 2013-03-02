@@ -397,7 +397,6 @@ class Dataset(dict):
         self.role.index = new_cols
         self.type.index = new_cols
 
-
     # --------------------------------------------------------------------------
     #                                    CHARTS
     # --------------------------------------------------------------------------
@@ -451,6 +450,26 @@ class Dataset(dict):
         return self.frame.values
 
     values = property(get_values)
+
+def join(ds1, ds2, others=[], how='outer'):
+    others.insert(0, ds2)
+    others.insert(0, ds1)
+
+    df = None
+    for ds in others:
+        if df is not None:
+            df = df.join(ds.frame, how=how)
+        else:
+            df = ds.frame
+
+    ans = Dataset(df)
+    for ds in others:
+        for index, row in ds.metadata.iterrows():
+            ans.role[index] = row['Role']
+            ans.type[index] = row['Type']
+
+    return ans
+
 
 if __name__ == "__main__":
     # '''

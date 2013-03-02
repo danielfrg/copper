@@ -22,6 +22,9 @@ class CopperTest(unittest.TestCase):
             self.assertSeriesEqual(ans, sol, digits)
         elif type(ans) == pd.DataFrame and type(sol) == pd.DataFrame:
             self.assertFrameEqual(ans, sol, digits)
+        elif type(ans) == copper.Dataset and type(sol) == copper.Dataset:
+            self.assertEqual(ans.frame, sol.frame, digits)
+            self.assertEqual(ans.metadata, sol.metadata, digits)
         else:
             if digits == 0:
                 super().assertEqual(ans, sol)
