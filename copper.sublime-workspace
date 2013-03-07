@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"Data",
+				"Dataset"
+			],
+			[
 				"num",
 				"numberRE"
 			],
@@ -150,10 +154,6 @@
 			[
 				"categori",
 				"categorical"
-			],
-			[
-				"Data",
-				"DataFrame"
 			],
 			[
 				"pred",
@@ -519,6 +519,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "copper/core/set.py",
+			"settings":
+			{
+				"buffer_size": 16001,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -624,10 +632,12 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_1.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_2.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/test.py",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
-		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_2.py",
 		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/f1.py",
 		"/home/danielfrg/projects/copper/copper/core/r.py",
@@ -638,7 +648,6 @@
 		"/home/danielfrg/.bashrc",
 		"/home/danielfrg/projects/copper/.git/COMMIT_EDITMSG",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms.py",
-		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
 		"/home/danielfrg/projects/copper/copper/core/transforms.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/Dataset_1.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/all.py",
@@ -750,8 +759,7 @@
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/mpl.py",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/bokeh.py",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/templates/plot.html",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/pandas_plot_data.py",
-		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/local_example.py"
+		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/pandas_plot_data.py"
 	],
 	"find":
 	{
@@ -759,7 +767,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 95.0,
 		"where_history":
 		[
 		]
@@ -914,8 +922,37 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "copper/core/set.py",
+					"settings":
+					{
+						"buffer_size": 16001,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5066,
+								5066
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -1005,6 +1042,10 @@
 				"/home/danielfrg/projects/blog/__source__/blog.sublime-project"
 			],
 			[
+				"blo",
+				"/home/danielfrg/projects/blog/__source__/blog.sublime-project"
+			],
+			[
 				"blog",
 				"/home/dfrodriguez/projects/blog/blog.sublime-project"
 			]
@@ -1015,6 +1056,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 197.0,
+	"side_bar_width": 204.0,
 	"status_bar_visible": true
 }
