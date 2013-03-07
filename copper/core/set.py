@@ -20,7 +20,8 @@ class Dataset(dict):
     ID = 'ID'
     INPUT = 'Input'
     TARGET = 'Target'
-    REJECTED = 'Rejected'
+    REJECT = 'Reject'
+    REJECTED = 'Reject'
 
     def __init__(self, data=None):
         self.frame = None
@@ -120,7 +121,7 @@ class Dataset(dict):
             df: pandas.DataFrame
         '''
         ans = pd.DataFrame(index=self.frame.index)
-        for col in self.filter(role=self.INPUT, columns=True):
+        for col in self.filter(role=self.INPUT, ret_cols=True):
             if self.type[col] == self.NUMBER and \
                               self.frame[col].dtype in (np.int64, np.float64):
                 ans = ans.join(self.frame[col])
@@ -153,7 +154,7 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        col = self.filter(role=self.TARGET, columns=True)[which]
+        col = self.filter(role=self.TARGET, ret_cols=True)[which]
         if self.type[col] == self.CATEGORY:
             ans = copper.transform.category2number(self.frame[col])
         else:
@@ -214,7 +215,7 @@ class Dataset(dict):
         '''
         return type(obj)
 
-    def filter(self, role=None, type=None, columns=False):
+    def filter(self, role=None, type=None, ret_cols=False, ret_ds=False):
         ''' Filter the columns of the Dataset by Role and Type
 
         Parameters
@@ -248,10 +249,17 @@ class Dataset(dict):
         else:
             cols = role_cols if role is not None else type_cols
 
-        if columns:
+        if ret_cols:
             return cols
+        elif ret_ds:
+            ds = Dataset(self.frame[cols])
+            for col in ds.columns:
+                ds.role[col] = self.role[col]
+                ds.type[col] = self.type[col]
+            return ds
         else:
             return self.frame[cols]
+
 
     # --------------------------------------------------------------------------
     #                                    STATS

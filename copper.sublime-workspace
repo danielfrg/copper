@@ -624,6 +624,12 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/test.py",
+		"/home/danielfrg/projects/copper/copper/core/io.py",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_2.py",
+		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
+		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/f1.py",
 		"/home/danielfrg/projects/copper/copper/core/r.py",
 		"/home/danielfrg/projects/heroku-data/requirements.txt",
 		"/home/danielfrg/.ssh/id_rsa.pub",
@@ -634,7 +640,6 @@
 		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
 		"/home/danielfrg/projects/copper/copper/core/transforms.py",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/Dataset_1.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/all.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/transforms.py",
@@ -653,7 +658,6 @@
 		"/home/danielfrg/.virtualenvs/copper/bin/activate",
 		"/home/danielfrg/.virtualenvs/copper/bin/activate_this.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/cols_1_12.ipynb",
-		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/f1.py",
 		"/home/danielfrg/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/tmp/ipython_edit_oz6lwr.py",
 		"/home/danielfrg/projects/copper/copper/io/io.py",
@@ -747,11 +751,7 @@
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/bokeh.py",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/templates/plot.html",
 		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/pandas_plot_data.py",
-		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/local_example.py",
-		"/home/dfrodriguez/anaconda/bin/launch_instance",
-		"/home/dfrodriguez/projects/bokeh/example1.py",
-		"/home/dfrodriguez/.virtualenvs/get_env_details",
-		"/home/dfrodriguez/anaconda/bin/python"
+		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/local_example.py"
 	],
 	"find":
 	{
@@ -769,6 +769,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"df_ans",
+			"Dataset_1",
 			"transform",
 			"test_1_filter",
 			"test_1_role_ml",
@@ -894,9 +896,7 @@
 			"def to_string(",
 			"to_string",
 			"_need_info_repr_",
-			"summary(",
-			"__str",
-			"__unicode"
+			"summary("
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +952,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 160.0
+		"height": 175.0
 	},
 	"replace":
 	{
