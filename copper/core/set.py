@@ -450,13 +450,3 @@ def join(ds1, ds2, others=[], how='outer'):
             ans.type[index] = row['Type']
 
     return ans
-
-
-if __name__ == "__main__":
-    # '''
-    copper.project.path = '../../examples/catalog'
-    dataset = copper.Dataset()
-    dataset.load('training.csv')
-
-    # print dataset
-    # '''
