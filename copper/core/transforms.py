@@ -78,7 +78,7 @@ def category2number(series):
     vals = le.transform(series.values)
     return pd.Series(vals, index=series.index, name=series.name, dtype=float)
 
-def category_labels( series):
+def category_labels(series):
     '''
     Return the labels for a Series with categorical values
 
@@ -93,3 +93,37 @@ def category_labels( series):
     le = preprocessing.LabelEncoder()
     le.fit(series.values)
     return le.classes_
+
+def inputs2ml(ds):
+    ans = pd.DataFrame(index=ds.frame.index)
+
+    for col in ds.filter(role=ds.INPUT, ret_cols=True):
+        if ds.type[col] == ds.NUMBER and \
+                          ds.frame[col].dtype in (np.int64, np.float64):
+            ans = ans.join(ds.frame[col])
+        elif ds.type[col] == ds.NUMBER and \
+                                        ds.frame[col].dtype == object:
+            ans = ans.join(ds.frame[col].apply(to_number))
+        elif ds.type[col] == ds.CATEGORY and \
+                        ds.frame[col].dtype in (np.int64, np.float64):
+            # new_cols = category2number(ds.frame[col])
+            new_cols = category2ml(ds.frame[col])
+            ans = ans.join(new_cols)
+        elif ds.type[col] == ds.CATEGORY and \
+                                        ds.frame[col].dtype == object:
+            # new_cols = category2number(ds.frame[col])
+            new_cols = category2ml(ds.frame[col])
+            ans = ans.join(new_cols)
+        else:
+            # Crazy stuff TODO: generate error
+            pass
+    return ans
+
+def target2ml(ds, which=0):
+    col = ds.filter(role=ds.TARGET, ret_cols=True)[which]
+    if ds.type[col] == ds.CATEGORY:
+        ans = category2number(ds.frame[col])
+    else:
+        ans = ds.frame[col]
+    # ans.name = 'Target'
+    return ans

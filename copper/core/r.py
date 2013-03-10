@@ -13,7 +13,10 @@ except:
     pass
 
 
-def impute(dataframe, col, method='knn'):
+def install_packages():
+    r('install.packages("imputation")')
+
+def impute(dataframe, method='knn'):
     ''' Imputes data using R imputation package
     This requires the R package imputation to be installed:
         R: install.packages("imputation")
@@ -30,19 +33,22 @@ def impute(dataframe, col, method='knn'):
         pandas.Dataframe with the imputed data
     '''
     if method == 'knn':
-        return _imputeKNN(filename)
+        return imputeKNN(dataframe)
 
 def imputeKNN(dataframe):
+    if type(dataframe) == copper.Dataset:
+        dataframe = dataframe.frame
+
     filename = 'impute.csv'
     filepath = os.path.join('/tmp/', filename)
     dataframe.to_csv(filepath)
 
-    importr("imputation")
-    r('data = read.csv("%s")' % filepath)
-    r('data.imputed = kNNImpute(data, 2, verbose=F)')
-    r('data.imputed = data.imputed[[1]]')
+    # importr("imputation")
+    # r('data = read.csv("%s")' % filepath)
+    # r('data.imputed = kNNImpute(data, 2, verbose=F)')
+    # r('data.imputed = data.imputed[[1]]') # Not necessary
     # print com.load_data('data.imputed') # NOTE: pandas api not working
-    r('write.csv(data.imputed, "%s")' % filepath)
+    # r('write.csv(data.imputed, "%s")' % filepath)
 
     return pd.read_csv(filepath)
 

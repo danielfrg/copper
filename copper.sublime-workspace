@@ -520,10 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "copper/core/set.py",
+			"file": "/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
 			"settings":
 			{
-				"buffer_size": 16001,
+				"buffer_size": 100,
 				"line_ending": "Unix"
 			}
 		}
@@ -632,20 +632,37 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features_info.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/samsungData.csv",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/subject_train.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/test/subject_test.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/README.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/y_train.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/X_train.txt",
+		"/home/danielfrg/projects/copper/README.md",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/activity_labels.txt",
+		"/home/danielfrg/projects/copper/examples/loans/src/Post_4.ipynb",
+		"/home/danielfrg/projects/copper/examples/donors/src/bagging.ipynb",
+		"/home/danielfrg/projects/copper/examples/loans/src/explore.py",
+		"/home/danielfrg/projects/copper/examples/loans/src/explore.ipynb",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/data-mining/kaggle/bulldozers/src/impute.py",
+		"/home/danielfrg/projects/copper/copper/core/r.py",
+		"/home/danielfrg/projects/copper/copper.sublime-project",
+		"/home/danielfrg/.bashrc",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_1.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_2.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/test.py",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/f1.py",
-		"/home/danielfrg/projects/copper/copper/core/r.py",
 		"/home/danielfrg/projects/heroku-data/requirements.txt",
 		"/home/danielfrg/.ssh/id_rsa.pub",
 		"/home/danielfrg/projects/heroku-data/Procfile",
 		"/home/danielfrg/projects/heroku-data/runtime.txt",
-		"/home/danielfrg/.bashrc",
 		"/home/danielfrg/projects/copper/.git/COMMIT_EDITMSG",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms.py",
 		"/home/danielfrg/projects/copper/copper/core/transforms.py",
@@ -671,7 +688,6 @@
 		"/tmp/ipython_edit_oz6lwr.py",
 		"/home/danielfrg/projects/copper/copper/io/io.py",
 		"/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
-		"/home/danielfrg/projects/copper/copper.sublime-project",
 		"/home/danielfrg/projects/copper/copper/test/core/all.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
@@ -743,23 +759,7 @@
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeIPython/install.txt",
 		"/home/dfrodriguez/projects/copper/examples/expedia/src/train_clean.py",
 		"/home/dfrodriguez/projects/copper/examples/expedia/data/test_clean.dataset",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/test_clean.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc-original",
-		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_inputs.csv",
-		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_target.csv",
-		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/test_inputs.csv",
-		"/home/dfrodriguez/projects/copper/copper/explore/explore.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/ggplot.py",
-		"/home/dfrodriguez/projects/bokeh/Bokeh/examples/webplot_example.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/functional.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/protocol.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/properties.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/plot_expr_graph.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/mpl.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/bokeh.py",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/templates/plot.html",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/bokeh/pandas_plot_data.py"
+		"/home/dfrodriguez/projects/copper/examples/expedia/src/test_clean.py"
 	],
 	"find":
 	{
@@ -767,7 +767,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 95.0,
+		"height": 0.0,
 		"where_history":
 		[
 		]
@@ -777,6 +777,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"iner",
 			"df_ans",
 			"Dataset_1",
 			"transform",
@@ -903,8 +904,7 @@
 			"DataFrameFormatter",
 			"def to_string(",
 			"to_string",
-			"_need_info_repr_",
-			"summary("
+			"_need_info_repr_"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -927,25 +927,23 @@
 			[
 				{
 					"buffer": 0,
-					"file": "copper/core/set.py",
+					"file": "/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
 					"settings":
 					{
-						"buffer_size": 16001,
+						"buffer_size": 100,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5066,
-								5066
+								100,
+								100
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -989,7 +987,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 175.0
+		"height": 166.0
 	},
 	"replace":
 	{
@@ -1056,6 +1054,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 204.0,
+	"side_bar_width": 213.0,
 	"status_bar_visible": true
 }

@@ -5,6 +5,7 @@
 			"cmd":
 			[
 				"/home/danielfrg/.virtualenvs/copper/bin/python",
+				// "/home/danielfrg/anaconda/bin/python",
 				"-u",
 				"$file"
 			],
@@ -27,6 +28,9 @@
 				"__pycache__"
 			],
 			"path": "/home/danielfrg/projects/copper"
+		},
+		{
+			"path": "/home/danielfrg/projects/data-mining"
 		}
 	]
 }

@@ -1,0 +1,47 @@
+import os
+import copper
+import pandas as pd
+
+import unittest
+from copper.tests.CopperTest import CopperTest
+
+class ML_1(CopperTest):
+
+    def suite(self):
+        suite = unittest.TestSuite()
+        suite.addTest(ML_1('test_1'))
+        return suite
+
+    def test_1(self):
+        '''
+        Tests that the values used to train and test are correct
+        '''
+        self.setUpData()
+        ds = copper.Dataset('transforms/ml/data.csv')
+        ds.type['Num.as.Cat'] = ds.CATEGORY
+        ds.role['Target.Num'] = ds.TARGET
+        ds.role['Target.Cat'] = ds.REJECTED
+
+        ml = copper.MachineLearning()
+        ml.train = ds
+        ml.test = ds
+        self.assertEqual(ml.X_train, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_train, copper.transform.target2ml(ds).values)
+        self.assertEqual(ml.X_test, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_test, copper.transform.target2ml(ds).values)
+        self.assertEqual(ml.X_train.shape, (25,10))
+
+        # Reject a few variables and test again
+        ds.role['Num.1'] = ds.REJECT
+        ds.role['Cat.1'] = ds.REJECT
+        ml.train = ds
+        ml.test = ds
+        self.assertEqual(ml.X_train.shape, (25,4))
+        self.assertEqual(ml.X_train, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_train, copper.transform.target2ml(ds).values)
+        self.assertEqual(ml.X_test, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_test, copper.transform.target2ml(ds).values)
+        
+if __name__ == '__main__':
+    suite = ML_1().suite()
+    unittest.TextTestRunner(verbosity=2).run(suite)

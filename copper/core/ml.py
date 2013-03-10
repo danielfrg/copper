@@ -35,16 +35,16 @@ class MachineLearning():
         Uses a Dataset to set the values of inputs and targets for training
         In general sets self.X_train and self.y_train
         '''
-        self.X_train = ds.inputs.values
-        self.y_train = ds.target.values
+        self.X_train = copper.transform.inputs2ml(ds).values
+        self.y_train = copper.transform.target2ml(ds).values
 
     def set_test(self, ds):
         '''
         Uses a Dataset to set the values of inputs and targets for testing
         In general sets self.X_test and self.y_test
         '''
-        self.X_test = ds.inputs.values
-        self.y_test = ds.target.values
+        self.X_test = copper.transform.inputs2ml(ds).values
+        self.y_test = copper.transform.target2ml(ds).values
 
     train = property(None, set_train)
     test = property(None, set_test)
@@ -301,6 +301,11 @@ class MachineLearning():
             plt.legend(loc='best')
         if retList:
             return ans.order(ascending=ascending)
+
+
+    def mse():
+        # TODO
+        from sklearn.metrics import mean_squared_error
 
     # --------------------------------------------------------------------------
     #                          Sampling/Crossvalidation

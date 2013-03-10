@@ -11,7 +11,6 @@ class Dataset_1(CopperTest):
         suite = unittest.TestSuite()
         suite.addTest(Dataset_1('test_cat_2_num'))
         suite.addTest(Dataset_1('test_fillna'))
-        suite.addTest(Dataset_1('test_role_ml'))
         suite.addTest(Dataset_1('test_filter'))
         return suite
 
@@ -64,70 +63,6 @@ class Dataset_1(CopperTest):
         # Cat.1 does have missing values
         ds.fillna(cols='Cat.1', method='mode')
         self.assertEqual(ds['Cat.1'], sol['Cat.1'])
-
-    def test_role_ml(self):
-        '''
-        Depends on: test_fillna and test_cat_2_num
-
-        Tests:
-            1. Initial roles are Input
-            2. Modify roles and returned frames are correct
-                * Inputs are correct for machine learning
-            3. Target is correct
-        '''
-        self.setUpData()
-        ds = copper.Dataset('dataset/1/data.csv')
-        df = copper.read_csv('dataset/1/data.csv')
-        ml_df = copper.read_csv('dataset/1/ml.csv')
-
-        # 1. Initial role
-        self.assertEqual(ds.role['Number.1'], ds.INPUT)
-        self.assertEqual(ds.role['Number.2'], ds.INPUT)
-        self.assertEqual(ds.role['Cat.1'], ds.INPUT)
-        self.assertEqual(ds.role['Cat.2'], ds.INPUT)
-        self.assertEqual(ds.role['Num.as.Cat'], ds.INPUT)
-        self.assertEqual(ds.frame, df)
-        # Correct data
-        ds.type['Num.as.Cat'] = ds.NUMBER
-        ds.update()
-        ds.fillna(method='mean')
-        # 2. Inputs values are correct
-        self.assertEqual(ds.inputs, ml_df)
-
-        # 2.1 Modify roles
-        ds.role['Number.1'] = ds.REJECTED
-        self.assertEqual(ds.role['Number.1'], ds.REJECTED)
-        self.assertEqual(ds.inputs, ml_df[ml_df.columns[1:]])
-
-        # 2.2 Modify roles
-        ds.role['Number.2'] = ds.REJECTED
-        self.assertEqual(ds.role['Number.2'], ds.REJECTED)
-        self.assertEqual(ds.inputs, ml_df[ml_df.columns[2:]])
-
-        # 2.3 Modify roles
-        ds.role['Cat.1'] = ds.REJECTED
-        self.assertEqual(ds.role['Cat.1'], ds.REJECTED)
-        self.assertEqual(ds.inputs, ml_df[ml_df.columns[4:]])
-
-        # 2.4 Modify roles
-        ds.role['Cat.2'] = ds.REJECTED
-        self.assertEqual(ds.role['Cat.2'], ds.REJECTED)
-        self.assertEqual(ds.inputs, ml_df[ml_df.columns[6:]])
-        self.assertEqual(ds.inputs, ml_df[['Num.as.Cat']])
-
-        # 3. Target
-        # Back to normal
-        ds.role['Number.1'] = ds.INPUT
-        ds.role['Number.2'] = ds.INPUT
-        ds.role['Cat.1'] = ds.INPUT
-        ds.role['Cat.2'] = ds.INPUT
-        self.assertEqual(ds.inputs, ml_df)
-        # Set Target
-        ds.role['Num.as.Cat'] = ds.TARGET
-        self.assertEqual(ds.inputs, ml_df[ml_df.columns[:-1]])
-        target = ml_df[ml_df.columns[-1]]
-        target.name = 'Target'
-        self.assertEqual(ds.target, target)
 
     def test_filter(self):
         '''

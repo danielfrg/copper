@@ -5,12 +5,12 @@ import pandas as pd
 import unittest
 from copper.tests.CopperTest import CopperTest
 
-class ML_1(CopperTest):
+class ML_basic(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(ML_1('test_models_list'))
-        suite.addTest(ML_1('test_models_list_2'))
+        suite.addTest(ML_basic('test_models_list'))
+        suite.addTest(ML_basic('test_models_list_2'))
         return suite
 
     def test_models_list_2(self):
@@ -110,5 +110,5 @@ class ML_1(CopperTest):
 
 
 if __name__ == '__main__':
-    suite = ML_1().suite()
+    suite = ML_basic().suite()
     unittest.TextTestRunner(verbosity=2).run(suite)

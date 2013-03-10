@@ -111,7 +111,7 @@ class Dataset(dict):
     #                                PROPERTIES
     # --------------------------------------------------------------------------
 
-    def get_inputs(self):
+    def get_inputs(self, ret_cols=False, ret_ds=False):
         '''
         Generates and returns a DataFrame with the inputs ready for doing
         Machine Learning
@@ -120,32 +120,11 @@ class Dataset(dict):
         -------
             df: pandas.DataFrame
         '''
-        ans = pd.DataFrame(index=self.frame.index)
-        for col in self.filter(role=self.INPUT, ret_cols=True):
-            if self.type[col] == self.NUMBER and \
-                              self.frame[col].dtype in (np.int64, np.float64):
-                ans = ans.join(self.frame[col])
-            elif self.type[col] == self.NUMBER and \
-                                            self.frame[col].dtype == object:
-                ans = ans.join(self.frame[col].apply(copper.transform.to_number))
-            elif self.type[col] == self.CATEGORY and \
-                            self.frame[col].dtype in (np.int64, np.float64):
-                # new_cols = copper.transform.category2number(self.frame[col])
-                new_cols = copper.transform.category2ml(self.frame[col])
-                ans = ans.join(new_cols)
-            elif self.type[col] == self.CATEGORY and \
-                                            self.frame[col].dtype == object:
-                # new_cols = copper.transform.category2number(self.frame[col])
-                new_cols = copper.transform.category2ml(self.frame[col])
-                ans = ans.join(new_cols)
-            else:
-                # Crazy stuff TODO: generate error
-                pass
-        return ans
+        return self.filter(role=self.INPUT, ret_cols=ret_cols, ret_ds=ret_ds)
 
     inputs = property(get_inputs)
 
-    def get_target(self, which=0):
+    def get_target(self, which=0, ret_cols=False, ret_ds=False):
         '''
         Generates and returns a DataFrame with the targets ready for doing
         Machine Learning
@@ -154,13 +133,7 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        col = self.filter(role=self.TARGET, ret_cols=True)[which]
-        if self.type[col] == self.CATEGORY:
-            ans = copper.transform.category2number(self.frame[col])
-        else:
-            ans = self.frame[col]
-        ans.name = 'Target'
-        return ans
+        return self.filter(role=self.TARGET, ret_cols=ret_cols, ret_ds=ret_ds)[which]
 
     target = property(get_target)
 
