@@ -12,9 +12,10 @@ class ML_1(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        # suite.addTest(ML_1('test_models_list'))
-        # suite.addTest(ML_1('test_metrics'))
-        suite.addTest(ML_1('test_cm'))
+        suite.addTest(ML_1('test_metrics'))
+        # suite.addTest(ML_1('test_cm'))
+        # suite.addTest(ML_1('test_costs'))
+        # suite.addTest(ML_1('test_predict'))
         return suite
 
     def setup(self):
@@ -52,7 +53,31 @@ class ML_1(CopperTest):
 
             self.ml.fit()
 
+    def test_predict(self):
+        '''
+        Tests the prediction and prediction probabilities
+        Tests that using the defaul option is the same as using the given test Dataset
+        Tests that is possible to predict other datasets
+        '''
+        self.setup()
+
+        predict_train = copper.read_csv('ml/1/predict_train.csv').set_index('Model')
+        predict_test = copper.read_csv('ml/1/predict_test.csv').set_index('Model')
+        predict_proba_train = copper.read_csv('ml/1/predict_proba_train.csv').set_index('Model')
+        predict_proba_test = copper.read_csv('ml/1/predict_proba_test.csv').set_index('Model')
+
+        self.assertEqual(self.ml.predict(), predict_test)
+        self.assertEqual(self.ml.predict(ds=self.test), predict_test)
+        self.assertEqual(self.ml.predict(self.train), predict_train)
+
+        self.assertEqual(self.ml.predict_proba(), predict_proba_test, digits=1)
+        self.assertEqual(self.ml.predict_proba(self.test), predict_proba_test, digits=1)
+        self.assertEqual(self.ml.predict_proba(ds=self.train), predict_proba_train, digits=1)
+
     def test_metrics(self):
+        '''
+        Tests the different metrics
+        '''
         self.setup()
 
         acc = self.ml.accuracy()
@@ -81,10 +106,10 @@ class ML_1(CopperTest):
         self.assertEqual(self.ml.roc(ret_list=True), auc)
 
     def test_cm(self):
+        '''
+        Tests the values of the confusion matrixes
+        '''
         self.setup()
-
-        sol = copper.read_csv('ml/1/cm.csv').set_index('Model')
-        sol.index.name = None
 
         cms = self.ml._cm()
         self.assertEqual(cms['GNB'], np.array([[1196,  236], [ 406,  162]]))
@@ -97,11 +122,31 @@ class ML_1(CopperTest):
         self.assertEqual(self.ml.cm('SVM').values, np.array([[1362,   70], [ 531,   37]]))
         self.assertEqual(self.ml.cm('GB').values, np.array([[1387,   45], [ 515,   53]]))
 
+        sol = copper.read_csv('ml/1/cm.csv').set_index('Model')
+        sol.index.name = None
         self.assertEqual(self.ml.cm_table(), sol)
         cm_0 = sol.ix[:, sol.columns[0:3]].sort(['Rate 0\'s'], ascending=False)
         cm_1 = sol.ix[:, sol.columns[3:]].sort(['Rate 1\'s'], ascending=False)
         self.assertEqual(self.ml.cm_table(0), cm_0)
         self.assertEqual(self.ml.cm_table(1), cm_1)
+
+    def test_costs(self):
+        '''
+        Tests the values of the costs functions
+        '''
+        self.setup()
+
+        self.ml.costs = [[0, 4], [12, 16]]
+
+        profit = copper.read_csv('ml/1/profit.csv').set_index('Model')
+        self.assertEqual(self.ml.profit(), profit)
+
+        oportunity_cost = copper.read_csv('ml/1/oportunity_cost.csv').set_index('Model')['Oportuniy cost']
+        self.assertEqual(self.ml.oportunity_cost(), oportunity_cost)
+
+        cost_no_ml = copper.read_csv('ml/1/cost_no_ml.csv').set_index('Model')['Costs of not using ML']
+        self.assertEqual(self.ml.cost_no_ml(), cost_no_ml)
+
 
 
 if __name__ == '__main__':
