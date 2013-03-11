@@ -133,7 +133,7 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        return self.filter(role=self.TARGET, ret_cols=ret_cols, ret_ds=ret_ds)[which]
+        return self.filter(role=self.TARGET, ret_cols=ret_cols, ret_ds=ret_ds).ix[:, which]
 
     target = property(get_target)
 
@@ -334,7 +334,7 @@ class Dataset(dict):
 
     def fillna(self, cols=None, method='mean'):
         '''
-        Fill missing values using a method
+        Fill missing values
 
         Parameters
         ----------
@@ -351,14 +351,16 @@ class Dataset(dict):
 
         if method == 'mean' or method == 'mode':
             for col in cols:
-                if self.type[col] == self.NUMBER:
-                    if method == 'mean' or method == 'mode':
-                        value = self[col].mean()
-                if self.type[col] == self.CATEGORY:
-                    if method == 'mean' or method == 'mode':
-                        value = self[col].value_counts().index[0]
-                self[col] = self[col].fillna(value=value)
+                if self.role[col] != self.REJECTED:
+                    if self.type[col] == self.NUMBER:
+                        if method == 'mean' or method == 'mode':
+                            value = self[col].mean()
+                    if self.type[col] == self.CATEGORY:
+                        if method == 'mean' or method == 'mode':
+                            value = self[col].value_counts().index[0]
+                    self[col] = self[col].fillna(value=value)
         elif method == 'knn':
+            # TODO: FIX
             for col in cols:
                 imputed = copper.r.imputeKNN(self.frame)
                 self.frame[col] = imputed[col]

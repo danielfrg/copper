@@ -11,6 +11,7 @@ class ML_basic(CopperTest):
         suite = unittest.TestSuite()
         suite.addTest(ML_basic('test_models_list'))
         suite.addTest(ML_basic('test_models_list_2'))
+        suite.addTest(ML_basic('test_transformations'))
         return suite
 
     def test_models_list_2(self):
@@ -108,6 +109,36 @@ class ML_basic(CopperTest):
         except:
             pass
 
+    def test_transformations(self):
+        '''
+        Tests that the values used to train and test are correct
+        Note: tests for the transformation values on transforms
+        '''
+        self.setUpData()
+        ds = copper.Dataset('transforms/ml/data.csv')
+        ds.type['Num.as.Cat'] = ds.CATEGORY
+        ds.role['Target.Num'] = ds.TARGET
+        ds.role['Target.Cat'] = ds.REJECTED
+
+        ml = copper.MachineLearning()
+        ml.train = ds
+        ml.test = ds
+        self.assertEqual(ml.X_train, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_train, copper.transform.target2ml(ds).values)
+        self.assertEqual(ml.X_test, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_test, copper.transform.target2ml(ds).values)
+        self.assertEqual(ml.X_train.shape, (25,10))
+
+        # Reject a few variables and test again
+        ds.role['Num.1'] = ds.REJECT
+        ds.role['Cat.1'] = ds.REJECT
+        ml.train = ds
+        ml.test = ds
+        self.assertEqual(ml.X_train.shape, (25,4))
+        self.assertEqual(ml.X_train, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_train, copper.transform.target2ml(ds).values)
+        self.assertEqual(ml.X_test, copper.transform.inputs2ml(ds).values)
+        self.assertEqual(ml.y_test, copper.transform.target2ml(ds).values)
 
 if __name__ == '__main__':
     suite = ML_basic().suite()
