@@ -24,14 +24,16 @@ class Dataset(dict):
     REJECTED = 'Reject'
 
     def __init__(self, data=None):
+        '''
+        Creates a new Dataset
+
+        Parameters
+        ----------
+            data: str with the path of the data. Or pandas.DataFrame.
+        '''
         self.frame = None
         self.role = None
         self.type = None
-
-        self.unique_values_limit = 20
-        self.percent_filter = 0.9
-        self.money_percent_filter = 0.9
-        self.money_symbols = []
 
         if data is not None:
             if type(data) is pd.DataFrame:
@@ -46,26 +48,17 @@ class Dataset(dict):
     def _id_identifier(self, col_name):
         '''
         Indentifier for Role=ID based on the name of the column
-
-        Returns
-        -------
-            boolean
         '''
         return col_name.lower() in ['id']
 
     def _target_identifier(self, col_name):
         '''
         Indentifier for Role=Target based on the name of the column
-
-        Returns
-        -------
-            boolean
         '''
         return col_name.lower() in ['target']
 
     def load(self, file_path):
-        '''
-        Loads a csv file from the project data directory.
+        ''' Loads a csv file from the project data directory.
 
         Parameters
         ----------
@@ -74,14 +67,14 @@ class Dataset(dict):
         filepath = os.path.join(copper.project.data, file_path)
         self.set_frame(pd.read_csv(filepath))
 
-    def set_frame(self, dataframe, metadata=True):
+    def set_frame(self, frame, metadata=True):
         ''' Sets the frame of the Dataset and Generates metadata for the frame
 
         Parameters
         ----------
-            dataframe: DataFrame
+            frame: pandas.DataFrame
         '''
-        self.frame = dataframe
+        self.frame = frame
         self.columns = self.frame.columns.values
         self.role = pd.Series(index=self.columns, name='Role', dtype=str)
         self.type = pd.Series(index=self.columns, name='Type', dtype=str)
@@ -93,7 +86,7 @@ class Dataset(dict):
 
         target_cols = [c for c in self.columns if self._target_identifier(c)]
         if len(target_cols) > 0:
-            # Set only one target by default
+            # Set only variable to be target
             self.role[target_cols[0]] = self.TARGET
             self.role[target_cols[1:]] = self.REJECTED
 
@@ -111,7 +104,7 @@ class Dataset(dict):
     #                                PROPERTIES
     # --------------------------------------------------------------------------
 
-    def get_inputs(self, ret_cols=False, ret_ds=False):
+    def get_inputs(self):
         '''
         Generates and returns a DataFrame with the inputs ready for doing
         Machine Learning
@@ -120,11 +113,11 @@ class Dataset(dict):
         -------
             df: pandas.DataFrame
         '''
-        return self.filter(role=self.INPUT, ret_cols=ret_cols, ret_ds=ret_ds)
+        return self.filter(role=self.INPUT)
 
     inputs = property(get_inputs)
 
-    def get_target(self, which=0, ret_cols=False, ret_ds=False):
+    def get_target(self):
         '''
         Generates and returns a DataFrame with the targets ready for doing
         Machine Learning
@@ -133,28 +126,9 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        return self.filter(role=self.TARGET, ret_cols=ret_cols, ret_ds=ret_ds).ix[:, which]
+        return self.filter(role=self.TARGET).ix[:, 0]
 
     target = property(get_target)
-
-    def get_metadata(self):
-        '''
-        Generates and return a DataFrame with a summary of the data:
-            * Role
-            * Missing values
-
-        Returns
-        -------
-            pandas.DataFrame with the role and type of each column
-        '''
-        metadata = pd.DataFrame(index=self.columns)
-        metadata['Role'] = self.role
-        metadata['Type'] = self.type
-        metadata['dtype'] = self.frame.dtypes
-        # metadata['nas'] = len(self.frame) - self.frame.count()
-        return metadata
-
-    metadata = property(get_metadata)
 
     def get_numbers(self):
         ''' Returns the columns of type number
@@ -171,6 +145,24 @@ class Dataset(dict):
 
     categories = property(get_categories)
 
+    def get_metadata(self):
+        '''
+        Generates and return a DataFrame with a summary of the data:
+            * Role
+            * Missing values
+
+        Returns
+        -------
+            pandas.DataFrame with the role and type of each column
+        '''
+        metadata = pd.DataFrame(index=self.columns)
+        metadata['Role'] = self.role
+        metadata['Type'] = self.type
+        metadata['dtype'] = self.frame.dtypes
+        return metadata
+
+    metadata = property(get_metadata)
+
     def update(self):
         ''' Updates the frame based on the metadata
         '''
@@ -178,15 +170,6 @@ class Dataset(dict):
             if self.type[col] == self.NUMBER and \
                                         self.frame[col].dtype == object:
                 self.frame[col] = self.frame[col].apply(copper.transform.to_number)
-            elif col in self.type[self.type == self.CATEGORY] and \
-                            self.frame[col].dtype in (np.int64, np.float64):
-                self.frame[col] = copper.transform.category2number(self.frame[col])
-
-    def _type(self, obj):
-        ''' Since in some cases type is used inside this class as a variable
-         this function replaces the python.type functionality
-        '''
-        return type(obj)
 
     def filter(self, role=None, type=None, ret_cols=False, ret_ds=False):
         ''' Filter the columns of the Dataset by Role and Type
@@ -201,27 +184,23 @@ class Dataset(dict):
         -------
             pandas.DataFrame
         '''
-        # Note on this funcion python.type(...) is replaced by the type variable
+        # Note on this funcion python.type(...) is replaced by the type argument
+        def _type(obj):
+            return obj.__class__
 
-        role_cols = self.columns
-        type_cols = self.columns
-        if role is not None:
-            if self._type(role) == str:
-                role = [role]
-            role_cols = [c for c in self.columns if self.role[c] in role]
-        if type is not None:
-            if self._type(type) == str:
-                type = [type]
-            type_cols = [c for c in self.columns if self.type[c] in type]
+        if role is None:
+            role = [self.ID, self.INPUT, self.TARGET, self.REJECTED]
+        elif _type(role) == str:
+            role = [role]
 
-        if role is not None and type is not None:
-            cols = []
-            for col in self.columns:
-                if col in role_cols and col in type_cols:
-                    cols.append(col)
-        else:
-            cols = role_cols if role is not None else type_cols
+        if type is None:
+            type = [self.NUMBER, self.CATEGORY]
+        elif _type(type) == str:
+            type = [type]
 
+        cols = [col for col in self.columns.tolist() 
+                        if self.role[col] in role and self.type[col] in type]
+        
         if ret_cols:
             return cols
         elif ret_ds:
@@ -366,9 +345,11 @@ class Dataset(dict):
                 self.frame[col] = imputed[col]
 
     def fix_names(self):
-        ''' Removes spaces and symbols from column names
+        ''' 
+        Removes spaces and symbols from column names
         Those symbols generates error if using patsy
         '''
+        # TODO: change to regexp
         new_cols = self.columns.tolist()
         symbols = ' .-'
         for i, col in enumerate(new_cols):

@@ -10,12 +10,12 @@ class Dataset_1(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(Dataset_1('test_create'))
-        suite.addTest(Dataset_1('test_pandas'))
-        suite.addTest(Dataset_1('test_cat2num'))
-        suite.addTest(Dataset_1('test_fillna'))
-        suite.addTest(Dataset_1('test_fillna_2'))
-        suite.addTest(Dataset_1('test_join'))
+        # suite.addTest(Dataset_1('test_create'))
+        # suite.addTest(Dataset_1('test_pandas'))
+        # suite.addTest(Dataset_1('test_cat2num'))
+        # suite.addTest(Dataset_1('test_fillna'))
+        # suite.addTest(Dataset_1('test_fillna_2'))
+        # suite.addTest(Dataset_1('test_join'))
         suite.addTest(Dataset_1('test_filter'))
         return suite
 
@@ -251,7 +251,8 @@ class Dataset_1(CopperTest):
 
         # # Multiple roles and types
         self.assertEqual(ds.filter(role=[ds.INPUT, ds.TARGET], type=[ds.NUMBER, ds.CATEGORY]), df)
-
+        '''
+        '''
 
 if __name__ == '__main__':
     # unittest.main()
