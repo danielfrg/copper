@@ -251,9 +251,8 @@ class Dataset_1(CopperTest):
 
         # # Multiple roles and types
         self.assertEqual(ds.filter(role=[ds.INPUT, ds.TARGET], type=[ds.NUMBER, ds.CATEGORY]), df)
-        '''
-        '''
-
+        
+        
 if __name__ == '__main__':
     # unittest.main()
     suite = Dataset_1().suite()
