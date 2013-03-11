@@ -7,5 +7,7 @@ import copper.viz.base as plot
 import copper.core.transforms as transform
 import copper.core.r as r
 
+import copper.utils.frame
+
 from copper.core.config import Project
 project = Project()

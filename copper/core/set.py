@@ -241,6 +241,7 @@ class Dataset(dict):
     def unique_values(self, ascending=False):
         '''
         Generetas a Series with the number of unique values of each column
+        Note: Excludes NA
 
         Parameters
         ----------
@@ -250,10 +251,7 @@ class Dataset(dict):
         -------
             pandas.Series
         '''
-        ans = pd.Series(index=self.frame.columns)
-        for col in self.frame.columns:
-            ans[col] = len(self.frame[col].value_counts())
-        return ans.order(ascending=ascending)
+        return copper.utils.frame.unique_values(self.frame, ascending=ascending)
 
     def percent_missing(self, ascending=False):
         '''
@@ -267,7 +265,7 @@ class Dataset(dict):
         -------
             pandas.Series
         '''
-        return (1 - (self.frame.count() / len(self.frame))).order(ascending=ascending)
+        return copper.utils.frame.percent_missing(self.frame, ascending=ascending)
 
     def variance_explained(self, cols=None, plot=False):
         '''
@@ -300,8 +298,9 @@ class Dataset(dict):
         return variance
 
     def corr(self, cols=None, ascending=False):
-        ''' Calculates correlation matrix of the frame
-        If a column has a role of target only values for that column are returned
+        ''' Correlation between inputs and target
+        If a column has a role of target only values for that column are returned.
+        If not columns then the pandas.corr is called on the inputs.
 
         Parameters
         ----------
