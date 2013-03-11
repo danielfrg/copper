@@ -7,15 +7,18 @@ import unittest
 from copper.tests.CopperTest import CopperTest
 
 class ML_1(CopperTest):
+    '''
+    This tests covers an example using the catalog dataset
+    '''
 
     ml = None
 
     def suite(self):
         suite = unittest.TestSuite()
         suite.addTest(ML_1('test_metrics'))
-        # suite.addTest(ML_1('test_cm'))
-        # suite.addTest(ML_1('test_costs'))
-        # suite.addTest(ML_1('test_predict'))
+        suite.addTest(ML_1('test_cm'))
+        suite.addTest(ML_1('test_costs'))
+        suite.addTest(ML_1('test_predict'))
         return suite
 
     def setup(self):
