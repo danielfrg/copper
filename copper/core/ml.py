@@ -82,8 +82,9 @@ class MachineLearning():
         '''
         clfs = list(self._clfs.keys())
         values = list(self._clfs.values())
-        func = lambda x: str(type(x))[8:-2]
-        return pd.Series(values, index=clfs).apply(func)
+        # func = lambda x: str(type(x))[8:-2]
+        # return pd.Series(values, index=clfs).apply(func)
+        return pd.Series(values, index=clfs)
 
     clfs = property(list_clfs, None)
 

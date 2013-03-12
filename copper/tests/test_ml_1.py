@@ -15,10 +15,11 @@ class ML_1(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(ML_1('test_metrics'))
-        suite.addTest(ML_1('test_cm'))
-        suite.addTest(ML_1('test_costs'))
-        suite.addTest(ML_1('test_predict'))
+        # suite.addTest(ML_1('test_metrics'))
+        # suite.addTest(ML_1('test_cm'))
+        # suite.addTest(ML_1('test_costs'))
+        # suite.addTest(ML_1('test_predict'))
+        suite.addTest(ML_1('test_bag'))
         return suite
 
     def setup(self):
@@ -84,6 +85,7 @@ class ML_1(CopperTest):
         self.setup()
 
         acc = self.ml.accuracy()
+        self.assertEqual(len(acc), 4)
         self.assertEqual(acc['GB'], 0.72)
         self.assertEqual(acc['DT'], 0.7135)
         self.assertEqual(acc['SVM'], 0.6995)
@@ -91,6 +93,7 @@ class ML_1(CopperTest):
         self.assertEqual(acc.name, 'Accuracy')
 
         auc = self.ml.auc()
+        self.assertEqual(len(auc), 4)
         self.assertEqual(auc['GNB'], 0.589258, digits=3)
         self.assertEqual(auc['GB'], 0.577164, digits=3)
         self.assertEqual(auc['DT'], 0.547310, digits=3)
@@ -98,6 +101,7 @@ class ML_1(CopperTest):
         self.assertEqual(auc.name, 'Area Under the Curve')
 
         mse = self.ml.mse()
+        self.assertEqual(len(mse), 4)
         self.assertEqual(mse['GNB'], 0.3210)
         self.assertEqual(mse['SVM'], 0.3005)
         self.assertEqual(mse['DT'], 0.2865)
@@ -149,6 +153,27 @@ class ML_1(CopperTest):
 
         cost_no_ml = copper.read_csv('ml/1/cost_no_ml.csv').set_index('Model')['Costs of not using ML']
         self.assertEqual(self.ml.cost_no_ml(), cost_no_ml)
+
+    def test_bag(self):
+        '''
+        Tests the creation of a Bag using the utils
+        '''
+        self.setup()
+
+        bag = copper.utils.ml.Bagging(self.ml.clfs)
+        self.ml.add_clf(bag, "bag")
+
+        acc = self.ml.accuracy()
+        self.assertEqual(len(acc), 5)
+        self.assertEqual(acc['bag'], 0.7190)
+
+        auc = self.ml.auc()
+        self.assertEqual(len(auc), 5)
+        self.assertEqual(auc['bag'], 0.58, 2)
+            
+        mse = self.ml.mse()
+        self.assertEqual(len(mse), 5)
+        self.assertEqual(mse['bag'], 0.2810)
 
 if __name__ == '__main__':
     suite = ML_1().suite()
