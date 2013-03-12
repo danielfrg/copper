@@ -150,8 +150,6 @@ class ML_1(CopperTest):
         cost_no_ml = copper.read_csv('ml/1/cost_no_ml.csv').set_index('Model')['Costs of not using ML']
         self.assertEqual(self.ml.cost_no_ml(), cost_no_ml)
 
-
-
 if __name__ == '__main__':
     suite = ML_1().suite()
     unittest.TextTestRunner(verbosity=2).run(suite)
