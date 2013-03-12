@@ -4,8 +4,44 @@
 		"selected_items":
 		[
 			[
+				"ty",
+				"Type"
+			],
+			[
+				"t",
+				"type"
+			],
+			[
+				"to",
+				"tolist"
+			],
+			[
 				"Data",
-				"Dataset"
+				"DataFrame"
+			],
+			[
+				"per",
+				"predict_proba_test"
+			],
+			[
+				"me",
+				"metric_wrapper"
+			],
+			[
+				"uni",
+				"test_unique_values"
+			],
+			[
+				"percent",
+				"percent_missing"
+			],
+			[
+				"wh",
+				"which"
+			],
+			[
+				"ret",
+				"ret_cols"
 			],
 			[
 				"num",
@@ -53,10 +89,6 @@
 			],
 			[
 				"typ",
-				"type_cols"
-			],
-			[
-				"ty",
 				"type_cols"
 			],
 			[
@@ -134,10 +166,6 @@
 			[
 				"X_",
 				"X_test"
-			],
-			[
-				"per",
-				"percent_nas"
 			],
 			[
 				"y_T",
@@ -254,10 +282,6 @@
 			[
 				"wi",
 				"width"
-			],
-			[
-				"uni",
-				"unique_values"
 			],
 			[
 				"impo",
@@ -490,43 +514,11 @@
 			[
 				"returns",
 				"returns"
-			],
-			[
-				"asse",
-				"assertEqual"
-			],
-			[
-				"Da",
-				"DataFrame"
-			],
-			[
-				"sel",
-				"self_dir"
-			],
-			[
-				"da",
-				"data_access"
-			],
-			[
-				"em",
-				"empty_dir"
-			],
-			[
-				"tes",
-				"testName"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
-			"settings":
-			{
-				"buffer_size": 100,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -632,13 +624,48 @@
 	},
 	"file_history":
 	[
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features_info.txt",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/tests/test_panel.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/tests/test_frame.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/tests/test_series.py",
+		"/home/danielfrg/projects/copper/copper/core/ml.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset.py",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/core/transforms.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_test.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_train.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/oportunity_cost.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predit_proba_test.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_proba_train.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predit_test.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/cost_no_ml.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/profit.csv",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_ml.py",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/cm.csv",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms_ml.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms.py",
+		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_2.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_utils_frame.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_1.py",
+		"/home/danielfrg/projects/copper/copper/utils/frame.py",
+		"/home/danielfrg/projects/copper/copper/utils/__init__.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_pandas.py",
+		"/home/danielfrg/projects/copper/copper/viz/base.py",
+		"/home/danielfrg/projects/copper/copper/core/config.py",
+		"/home/danielfrg/projects/copper/copper/tests/core/test_ml.py_1",
+		"/home/danielfrg/projects/copper/copper.sublime-project",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/features.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/features_info.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/README.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/activity_labels.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features.txt",
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features_info.txt",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/samsungData.csv",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/subject_train.txt",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/test/subject_test.txt",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/README.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features.txt",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/y_train.txt",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/X_train.txt",
 		"/home/danielfrg/projects/copper/README.md",
@@ -647,25 +674,17 @@
 		"/home/danielfrg/projects/copper/examples/donors/src/bagging.ipynb",
 		"/home/danielfrg/projects/copper/examples/loans/src/explore.py",
 		"/home/danielfrg/projects/copper/examples/loans/src/explore.ipynb",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/data-mining/kaggle/bulldozers/src/impute.py",
 		"/home/danielfrg/projects/copper/copper/core/r.py",
-		"/home/danielfrg/projects/copper/copper.sublime-project",
 		"/home/danielfrg/.bashrc",
-		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
-		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_1.py",
-		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_2.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/test.py",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
-		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/f1.py",
 		"/home/danielfrg/projects/heroku-data/requirements.txt",
 		"/home/danielfrg/.ssh/id_rsa.pub",
 		"/home/danielfrg/projects/heroku-data/Procfile",
 		"/home/danielfrg/projects/heroku-data/runtime.txt",
 		"/home/danielfrg/projects/copper/.git/COMMIT_EDITMSG",
-		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms.py",
-		"/home/danielfrg/projects/copper/copper/core/transforms.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/Dataset_1.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/all.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/transforms.py",
@@ -732,34 +751,7 @@
 		"/home/dfrodriguez/projects/copper/examples/coursera_data_analysis/assignment1/data/loansData.csv",
 		"/home/dfrodriguez/test.py",
 		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/SublimeREPL.sublime-settings",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/SublimeREPL.sublime-settings",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Main.sublime-menu",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/ipy_repl.py",
-		"/home/dfrodriguez/.bash_history",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/Package Control/Package Control.sublime-settings",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/config/Python/Default.sublime-commands",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
-		"/home/dfrodriguez/Dropbox/Documents/Coursera/Data Analysis/Quizes/quiz4/quiz4.r",
-		"/home/dfrodriguez/Dropbox/Documents/Coursera/Data Analysis/Quizes/quiz4/data/movies.txt",
-		"/home/dfrodriguez/q4.r",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/clfs.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/clean_imputed.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/explore.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/impute.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/data/exported/train_imp.csv",
-		"/home/dfrodriguez/projects/copper/examples/expedia/data/train.csv",
-		"/home/dfrodriguez/anaconda/lib/python2.7/site-packages/pandas/rpy/common.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/clean.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/forest.py",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Distraction Free.sublime-settings",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeIPython/SublimeIPython.py",
-		"/home/dfrodriguez/.config/sublime-text-2/Packages/SublimeIPython/install.txt",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/train_clean.py",
-		"/home/dfrodriguez/projects/copper/examples/expedia/data/test_clean.dataset",
-		"/home/dfrodriguez/projects/copper/examples/expedia/src/test_clean.py"
+		"/home/dfrodriguez/.config/sublime-text-2/Packages/User/Preferences.sublime-settings"
 	],
 	"find":
 	{
@@ -774,9 +766,40 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"test_dropna",
+			"dropna",
+			"DataFrame",
+			"dataframe",
+			"clf_name",
+			"metric_wrapper",
+			"cms",
+			"self.ml._cm()",
+			"self.ml._cm()['",
+			"auc",
+			"acc",
+			"test",
+			"train",
+			"ML_basic",
+			"self._clfs",
+			"probas_",
+			"ds_test",
+			"self",
+			"Dataset_2",
+			"self",
+			"ML_1",
+			"copper",
+			"ML_1",
+			"self",
+			"roc",
+			"tBodyAccMag\n\n\n\n\n\n\n\n\n\n",
+			"tBodyAccMag",
+			"jerk",
+			"freque",
+			"values",
+			"ml",
 			"iner",
 			"df_ans",
 			"Dataset_1",
@@ -873,38 +896,7 @@
 			"money",
 			"clf",
 			"add_model",
-			"pl",
-			"clf",
-			"_id",
-			"remove_clf",
-			"remove",
-			"add_model",
-			"model",
-			"models",
-			"probas",
-			"classes_",
-			"print",
-			"self.X_test",
-			"self.probas",
-			"def predict",
-			"def fit",
-			"fit(",
-			"class ",
-			"class",
-			"self.models",
-			"n_data",
-			"print",
-			"cat_col",
-			"test1",
-			"_oframe",
-			"_frame",
-			"test_type_1",
-			"test_metadata_type_1",
-			"test1",
-			"DataFrameFormatter",
-			"def to_string(",
-			"to_string",
-			"_need_info_repr_"
+			"pl"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -922,35 +914,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
-					"settings":
-					{
-						"buffer_size": 100,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								100,
-								100
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -987,7 +952,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 166.0
+		"height": 165.0
 	},
 	"replace":
 	{

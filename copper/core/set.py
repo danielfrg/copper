@@ -260,7 +260,6 @@ class Dataset(dict):
         -------
             pandas Series and plot it ready to be shown
         '''
-        import matplotlib.pyplot as plt
         if cols is None:
             frame = self.filter(role=self.INPUT, type=self.NUMBER)
         else:
@@ -268,6 +267,7 @@ class Dataset(dict):
 
         U, s, V = np.linalg.svd(frame.values)
         variance = np.square(s) / sum(np.square(s))
+        
         if plot:
             xlocations = np.array(range(len(variance)))+0.5
             width = 0.95

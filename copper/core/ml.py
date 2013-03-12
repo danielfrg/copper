@@ -4,7 +4,6 @@ import copper
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from copper.core.ensemble import *
 
 from sklearn import cross_validation
 from sklearn.metrics import auc
@@ -22,7 +21,6 @@ class MachineLearning():
     def __init__(self):
         self.dataset = None
         self._clfs = {}
-        self._ensembled = {}
         self.costs = [[1,-1],[-1,1]]
         self.X_train = None
         self.y_train = None
@@ -60,10 +58,7 @@ class MachineLearning():
         '''
         Removes a classifier
         '''
-        try:
-            del self._clfs[name]
-        except:
-            del self._ensembled[name]
+        del self._clfs[name]
 
     def clear_clfs(self):
         '''
@@ -80,9 +75,7 @@ class MachineLearning():
             pandas.Series
         '''
         clfs = list(self._clfs.keys())
-        clfs = clfs + list(self._ensembled.keys())
         values = list(self._clfs.values())
-        values = values + list(self._ensembled.values())
         return pd.Series(values, index=clfs)
 
     clfs = property(list_clfs, None)
@@ -120,10 +113,7 @@ class MachineLearning():
 
         ans = pd.DataFrame(np.zeros((len(X_test), len(clfs))), columns=clfs, index=range(len(X_test)))
         for clf_name in clfs:
-            if clf_name in self._clfs.keys():
-                clf = self._clfs[clf_name]
-            else:
-                clf = self._ensembled[clf_name]
+            clf = self._clfs[clf_name]
             scores = clf.predict(X_test)
             ans[clf_name][:] = pd.Series(scores)
         return ans
@@ -149,10 +139,7 @@ class MachineLearning():
 
         ans = pd.DataFrame(np.zeros((len(X_test), len(clfs))), columns=clfs, index=range(len(X_test)))
         for clf_name in clfs:
-            if clf_name in self._clfs.keys():
-                clf = self._clfs[clf_name]
-            else:
-                clf = self._ensembled[clf_name]
+            clf = self._clfs[clf_name]
             scores = clf.predict_proba(X_test)[:,0]
             ans[clf_name][:] = pd.Series(scores)
         return ans
@@ -167,10 +154,7 @@ class MachineLearning():
         '''
         ans = pd.Series(index=self._clfs, name=name)
         for clf_name in self._clfs:
-            if clf_name in self._clfs.keys():
-                clf = self._clfs[clf_name]
-            else:
-                clf = self._ensembled[clf_name]
+            clf = self._clfs[clf_name]
             ans[clf_name] = fnc(clf, X_test=self.X_test, y_test=self.y_test)
         return ans.order(ascending=ascending)
 
@@ -226,7 +210,7 @@ class MachineLearning():
             y_pred = clf.predict(X_test)
             return mean_squared_error(y_test, y_pred)
 
-        return self._metric_wrapper(fnc, name='Mean Squared Error', **args)
+        return self._metric_wrapper(fnc, name='Mean Squared Error', ascending=True, **args)
 
     # --------------------------------------------------------------------------
     #                          Sampling / Crossvalidation
@@ -257,59 +241,6 @@ class MachineLearning():
         self.y_train = y_train
         self.y_test = y_test
 
-    def bootstrap(self, clf_class, clf_name, n_iter, ds=None, **args):
-        '''
-        Use bootstrap cross validation to create classifiers
-
-        Parameters
-        ----------
-            clf_class: scikit-learn classifier
-            clf_name: str - prefix for the classifiers: clf_name + "_" + itertation
-            n_iter: int - number of iterations
-            X_train: np.array, inputs for the training, default is self.X_train
-            y_train: np.array, targets for the training, default is self.y_train
-            ds: copper.Dataset, dataset for the training, default is self.train
-            **args: - arguments of the classifier
-
-        Returns
-        -------
-            nothing, classifiers are added to the list
-        '''
-        if ds is not None:
-            X_train = copper.transform.inputs2ml(ds).values
-            y_train = copper.transform.target2ml(ds).values
-
-        bs = cross_validation.Bootstrap(len(X_train), n_iter=n_iter)
-        i = 0
-        for train_index, test_index in bs:
-            _X_train = X_train[train_index]
-            _y_train = y_train[train_index]
-            clf = clf_class(**args)
-            clf.fit(_X_train, _y_train)
-            self.add_clf(clf, "%s_%i" % (clf_name, i + 1))
-            i += 1
-
-    def bagging(self, name, clfs=None):
-        '''
-        Create a new bag with target classifiers
-
-        Parameters
-        ----------
-            name: str, name of the new classifier
-            clfs: list, of classifiers to include in the bag
-
-        Returns
-        -------
-            nothing, new classifier is added to the list
-        '''
-        if clfs is None:
-            clfs = self.clfs.index.tolist()
-
-        new = copper.Bagging()
-        _clfs = { key: self._clfs[key] for key in clfs }
-        new.clfs = _clfs.values()
-        self._ensembled[name] = new
-
     # --------------------------------------------------------------------------
     #                            CONFUSION MATRIX
     # --------------------------------------------------------------------------
@@ -334,10 +265,7 @@ class MachineLearning():
 
         ans = {}
         for clf_name in clfs:
-            if clf_name in self._clfs.keys():
-                clf = self._clfs[clf_name]
-            else:
-                clf = self._ensembled[clf_name]
+            clf = self._clfs[clf_name]
             y_pred = clf.predict(self.X_test)
             ans[clf_name] = confusion_matrix(self.y_test, y_pred)
         return ans
@@ -493,10 +421,7 @@ class MachineLearning():
         '''
         aucs = self.auc(ascending=ascending)
         for clf_name in aucs.index:
-            if clf_name in self._clfs.keys():
-                clf = self._clfs[clf_name]
-            else:
-                clf = self._ensembled[clf_name]
+            clf = self._clfs[clf_name]
             try:
                 probas_ = clf.predict_proba(self.X_test)
                 fpr, tpr, thresholds = roc_curve(self.y_test, probas_[:, 1])

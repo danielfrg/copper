@@ -10,41 +10,9 @@ class ML_basic(CopperTest):
     def suite(self):
         suite = unittest.TestSuite()
         suite.addTest(ML_basic('test_models_list'))
-        suite.addTest(ML_basic('test_models_list_2'))
         suite.addTest(ML_basic('test_transformations'))
         return suite
-
-    def test_models_list_2(self):
-        '''
-        Test the creation of bagged model and remove that model
-        '''
-        # Test models
-        from sklearn import svm
-        svm_clf = svm.SVC(probability=True)
-        from sklearn import tree
-        tree_clf = tree.DecisionTreeClassifier(max_depth=6)
-
-        # Add models
-        ml = copper.MachineLearning()
-        ml.add_clf(svm_clf, 'SVM')
-        ml.add_clf(tree_clf, 'Decision Tree')
-        ml.bagging("Bag 1")
-
-        df = ml.clfs
-        self.assertEqual(df['SVM'], svm_clf)
-        self.assertEqual(df['Decision Tree'], tree_clf)
-        self.assertNotEqual(df['Bag 1'], None)
-
-        # Remove the essembled
-        ml.rm_clf('Bag 1')
-        self.assertEqual(df['SVM'], svm_clf)
-        self.assertEqual(df['Decision Tree'], tree_clf)
-        try:
-            self.assertNotEqual(df['Bag 1'], None)
-            self.fail("should generate error")
-        except:
-            pass
-
+        
     def test_models_list(self):
         '''
         Test add_clf and rm_clf
