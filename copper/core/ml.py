@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from sklearn import cross_validation
 from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 from sklearn.metrics import confusion_matrix
@@ -54,6 +53,13 @@ class MachineLearning():
         '''
         self._clfs[name] = clf
 
+    def add_clfs(self, clfs, prefix):
+        '''
+        Adds a list of classifiers
+        '''
+        for i, clf in enumerate(clfs):
+            self.add_clf(clf, prefix + '_' + str(i))
+
     def rm_clf(self, name):
         '''
         Removes a classifier
@@ -76,7 +82,8 @@ class MachineLearning():
         '''
         clfs = list(self._clfs.keys())
         values = list(self._clfs.values())
-        return pd.Series(values, index=clfs)
+        func = lambda x: str(type(x))[8:-2]
+        return pd.Series(values, index=clfs).apply(func)
 
     clfs = property(list_clfs, None)
 
