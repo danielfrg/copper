@@ -67,14 +67,14 @@ For more info about this see the examples below.
 
 Examples
 --------
-
+Donors:
 * [Project structure and histograms](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/donors/src/explore.ipynb)
 
 Loans:
 * [Automatic data transformation](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/loans/src/transform.ipynb)
 
 Catalog:
-* [Custom transformation and basic machine learning](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/catalog/src/ml.ipynb
+* [Custom transformation and basic machine learning](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/catalog/src/ml.ipynb)
 
 Kaggle Bulldozers:
 * Post: [Basic feature selection and join Datasets](http://danielfrg.github.com/blog/2013/03/07/kaggle-bulldozers-basic-cleaning/)
