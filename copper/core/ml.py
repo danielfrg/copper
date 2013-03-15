@@ -462,7 +462,7 @@ class MachineLearning():
             y_test: np.array, targets for the prediction, default is self.y_test
             ds: copper.Dataset, dataset for the prediction, default is self.test
         '''
-        plt.matshow(self.cm()[clf])
+        plt.matshow(self.cm(clf))
         plt.title('%s Confusion matrix' % clf)
         plt.colorbar()
 

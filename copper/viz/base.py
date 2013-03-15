@@ -5,7 +5,7 @@ from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def histogram(series, bins=20, legend=True, retList=False):
+def histogram(series, bins=20, legend=True, ret_list=False):
     '''
     Draws a histogram for the selected column on matplotlib
 
@@ -62,7 +62,7 @@ def histogram(series, bins=20, legend=True, retList=False):
     if legend:
         plt.legend(loc='best')
 
-    if retList:
+    if ret_list:
         return pd.Series(labels)
 
 def scatter(frame, var1, var2, var3=None, reg=False, **args):
