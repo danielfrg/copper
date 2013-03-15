@@ -224,7 +224,7 @@ class MachineLearning():
     #                          Sampling / Crossvalidation
     # --------------------------------------------------------------------------
 
-    def sample(self, ds, trainSize=0.5):
+    def sample(self, ds, train_size=0.5):
         '''
         Samples the dataset into training and testing
 
@@ -238,12 +238,13 @@ class MachineLearning():
         -------
             nothing, self.X_train, self.y_train, self.X_test, self.y_test are set
         '''
+        from sklearn import cross_validation
         inputs = copper.transform.inputs2ml(ds).values
         target = copper.transform.target2ml(ds).values
 
         X_train, X_test, y_train, y_test = cross_validation.train_test_split(
-                        inputs.values, target.values,
-                        test_size=(1-trainSize), random_state=0)
+                        inputs, target,
+                        test_size=(1-train_size), random_state=0)
         self.X_train = X_train
         self.X_test = X_test
         self.y_train = y_train

@@ -311,7 +311,7 @@ class Dataset(dict):
         else:
             return corrs
 
-    def fillna(self, cols=None, method='mean'):
+    def fillna(self, cols=None, method='mean', value=None):
         '''
         Fill missing values
 
@@ -343,6 +343,15 @@ class Dataset(dict):
             for col in cols:
                 imputed = copper.r.imputeKNN(self.frame)
                 self.frame[col] = imputed[col]
+        elif value is not None:
+            for col in cols:
+                if self.role[col] != self.REJECTED:
+                    if type(value) is str:
+                        if self.role[col] != self.CATEGORY:
+                            self[col] = self[col].fillna(value=value)
+                    elif type(value) is int or type(value) is float:
+                        if self.role[col] != self.NUMBER:
+                            self[col] = self[col].fillna(value=value)
 
     def fix_names(self):
         ''' 
