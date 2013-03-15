@@ -68,15 +68,15 @@ For more info about this see the examples below.
 Examples
 --------
 
-* [Project structure and histograms](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/donors/src/explore.ipynb)
-
-Catalog:
-* [Custom transformation and basic machine learning](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/catalog/src/ml.ipynb)
+* [Project structure and histograms](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/donors/src/explore.ipynb)
 
 Loans:
-* [Automatic data transformation](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/examples/loans/src/transform.ipynb)
+* [Automatic data transformation](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/loans/src/transform.ipynb)
+
+Catalog:
+* [Custom transformation and basic machine learning](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/catalog/src/ml.ipynb
 
 Kaggle Bulldozers:
-* Post: [Cleaning - Datasets metadata and join Datasets](http://danielfrg.github.com/blog/2013/03/07/kaggle-bulldozers-basic-cleaning/)
+* Post: [Basic feature selection and join Datasets](http://danielfrg.github.com/blog/2013/03/07/kaggle-bulldozers-basic-cleaning/)
 
 For more information and more examples (but some are possible outdated) can see my blog: [danielfrg.github.com](http://danielfrg.github.com)
