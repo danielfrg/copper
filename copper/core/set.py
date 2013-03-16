@@ -49,13 +49,13 @@ class Dataset(dict):
         '''
         Indentifier for Role=ID based on the name of the column
         '''
-        return col_name.lower() in ['id']
+        return str(col_name).lower() in ['id']
 
     def _target_identifier(self, col_name):
         '''
         Indentifier for Role=Target based on the name of the column
         '''
-        return col_name.lower() in ['target']
+        return str(col_name).lower() in ['target']
 
     def load(self, file_path):
         ''' Loads a csv file from the project data directory.
@@ -205,9 +205,7 @@ class Dataset(dict):
             return cols
         elif ret_ds:
             ds = Dataset(self.frame[cols])
-            for col in ds.columns:
-                ds.role[col] = self.role[col]
-                ds.type[col] = self.type[col]
+            ds.match(self)
             return ds
         else:
             return self.frame[cols]
@@ -368,6 +366,15 @@ class Dataset(dict):
         self.columns = new_cols
         self.role.index = new_cols
         self.type.index = new_cols
+
+    def match(self, ds):
+        '''
+        Makes the Dataset match the others Datasets metadata
+        '''
+        self.role[:] = ds.REJECTED
+        for col in ds.columns:
+            self.role[col] = ds.role[col]
+            self.type[col] = ds.type[col]
 
     # --------------------------------------------------------------------------
     #                                    CHARTS

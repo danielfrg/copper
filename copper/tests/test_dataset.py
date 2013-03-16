@@ -16,7 +16,8 @@ class Dataset_1(CopperTest):
         # suite.addTest(Dataset_1('test_fillna'))
         # suite.addTest(Dataset_1('test_fillna_2'))
         # suite.addTest(Dataset_1('test_join'))
-        suite.addTest(Dataset_1('test_filter'))
+        # suite.addTest(Dataset_1('test_filter'))
+        suite.addTest(Dataset_1('test_match'))
         return suite
 
     def test_create(self):
@@ -252,6 +253,31 @@ class Dataset_1(CopperTest):
         # # Multiple roles and types
         self.assertEqual(ds.filter(role=[ds.INPUT, ds.TARGET], type=[ds.NUMBER, ds.CATEGORY]), df)
         
+    def test_match(self):
+        '''
+        Test the match function of the dataset.
+        Matches the metadata of other dataset.
+        '''
+        df = pd.DataFrame(np.random.randn(10, 10))
+        train = copper.Dataset(df)
+        test = copper.Dataset(df)
+
+        train.role[1] = train.ID
+        train.type[2] = train.CATEGORY
+        train.role[4] = train.REJECT
+        train.role[6] = train.REJECT
+        train.type[7] = train.CATEGORY
+
+        test.match(train)
+        # Test indivitual changes
+        self.assertEqual(test.role[1], test.ID)
+        self.assertEqual(test.type[2], test.CATEGORY)
+        self.assertEqual(test.role[4], test.REJECT)
+        self.assertEqual(test.role[6], test.REJECT)
+        self.assertEqual(test.type[7], test.CATEGORY)
+
+        # Test whole metadata
+        self.assertEqual(train.metadata, test.metadata)
         
 if __name__ == '__main__':
     # unittest.main()
