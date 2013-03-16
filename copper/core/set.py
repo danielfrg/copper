@@ -274,7 +274,7 @@ class Dataset(dict):
             plt.ylabel("Variance Explained")
         return variance
 
-    def corr(self, cols=None, ascending=False):
+    def corr(self, cols=None, limit=None, ascending=False):
         ''' Correlation between inputs and target
         If a column has a role of target only values for that column are returned.
         If not columns then the pandas.corr is called on the inputs.
@@ -295,6 +295,7 @@ class Dataset(dict):
                 # If there is a target column use that
                 cols = self.role[self.role == self.TARGET].index[0]
             except:
+                # If not use number cols
                 cols = [c for c in self.columns
                               if self.frame.dtypes[c] in (np.int64, np.float64)]
         elif cols == 'all':
@@ -305,6 +306,10 @@ class Dataset(dict):
         corrs = corrs[cols]
         if type(corrs) is pd.Series:
             corrs = corrs[corrs.index != cols]
+
+            if limit is not None:
+                corrs = corrs[(corrs >= abs(limit)) | (corrs <= -abs(limit))]
+
             return corrs.order(ascending=ascending)
         else:
             return corrs
