@@ -322,9 +322,16 @@ class Dataset(dict):
         else:
             return corrs
 
-    def skew(self):
+    def skew(self, ascending=False):
         # TODO: same as corr but for skew()
         pass
+
+    def outlier_count(self, width=1.5, ascending=False):
+        ans = pd.Series(np.zeros(len(self.columns)), index=self.columns)
+        for row, value in ans.iteritems():
+            ans[row] = copper.utils.frame.outlier_count(self.frame[row], width=width)
+        return ans.order(ascending=ascending)
+
 
 
     def fillna(self, cols=None, method='mean', value=None):

@@ -38,3 +38,36 @@ def unique_values(frame, ascending=False):
     for col in frame.columns:
         ans[col] = len(frame[col].value_counts())
     return ans.order(ascending=ascending)
+
+# -------------------------------------------------------------------------------------------
+#                                          OUTLIERS
+
+def outlier_rows(series_or_frame, width=1.5):
+    '''
+    Get the outliers filter array [Trues and Falses]
+    '''
+    if type(series_or_frame) is pd.Series:
+        q1 = series_or_frame.describe()[4]
+        q3 = series_or_frame.describe()[6]
+        iqr = q3 - q1
+        lower_limit = q1 - width * iqr
+        upper_limit = q3 + width * iqr
+        return (series_or_frame < lower_limit) | (series_or_frame > upper_limit)
+    elif type(series_or_frame) is pd.DataFrame:
+        ans = pd.Series(np.zeros(len(series_or_frame)), dtype=object)
+        ans[:] = False
+        for col, series in series_or_frame.iteritems():
+            ans = ans | outlier_rows(series, width=width)
+        return ans
+
+def outliers(series, width=1.5):
+    '''
+    Get the outliers of that column
+    '''
+    return series[outlier_rows(series, width=width)]
+
+def outlier_count(series, width=1.5):
+    '''
+    Get the number of outliers of that colums
+    '''
+    return len(outliers(series, width=width))
