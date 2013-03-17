@@ -126,7 +126,7 @@ class MachineLearning():
             ans[clf_name][:] = pd.Series(scores)
         return ans
 
-    def predict_proba(self, ds=None, clfs=None, ):
+    def predict_proba(self, ds=None, clfs=None):
         '''
         Make the classifiers predict probabilities of inputs
         Parameters
@@ -145,11 +145,14 @@ class MachineLearning():
         else:
             X_test = self.X_test
 
-        ans = pd.DataFrame(np.zeros((len(X_test), len(clfs))), columns=clfs, index=range(len(X_test)))
+        ans = pd.DataFrame(index=range(len(X_test)))
         for clf_name in clfs:
             clf = self._clfs[clf_name]
-            scores = clf.predict_proba(X_test)[:,0]
-            ans[clf_name][:] = pd.Series(scores)
+            probas = clf.predict_proba(X_test)
+            for val in range(np.shape(probas)[1]):
+                new = pd.Series(probas[:,val], index=ans.index)
+                new.name = '%s [%d]' % (clf_name, val)
+                ans = ans.join(new)
         return ans
 
     # ----------------------------------------------------------------------------------------
