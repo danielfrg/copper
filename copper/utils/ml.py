@@ -34,8 +34,12 @@ class Bagging(Ensemble):
             self.clfs = []
 
     def add_clf(self, new):
-        if type(new) is list:
-            pass # TODO
+        if type(new) is pd.Series:
+            # Comes from ml.clfs
+            self.add_clf(new.values.tolist())
+        elif type(new) is list:
+            for clf in new:
+                self.add_clf(clf)
         else:            
             self.clfs.append(new)
 

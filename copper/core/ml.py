@@ -244,7 +244,7 @@ class MachineLearning():
 
         X_train, X_test, y_train, y_test = cross_validation.train_test_split(
                         inputs, target,
-                        test_size=(1-train_size), random_state=0)
+                        test_size=(1-train_size))
         self.X_train = X_train
         self.X_test = X_test
         self.y_train = y_train

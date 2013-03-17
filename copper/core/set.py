@@ -378,8 +378,11 @@ class Dataset(dict):
         '''
         self.role[:] = ds.REJECTED
         for col in ds.columns:
-            self.role[col] = ds.role[col]
-            self.type[col] = ds.type[col]
+            try :
+                self.role[col] = ds.role[col]
+                self.type[col] = ds.type[col]
+            except:
+                pass # This can happen is some col is not on self, and is OK
 
     # --------------------------------------------------------------------------
     #                                    CHARTS
