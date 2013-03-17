@@ -274,7 +274,7 @@ class Dataset(dict):
             plt.ylabel("Variance Explained")
         return variance
 
-    def corr(self, cols=None, limit=None, ascending=False):
+    def corr(self, cols=None, limit=None, two_tails=False, ascending=False):
         ''' Correlation between inputs and target
         If a column has a role of target only values for that column are returned.
         If not columns then the pandas.corr is called on the inputs.
@@ -308,11 +308,24 @@ class Dataset(dict):
             corrs = corrs[corrs.index != cols]
 
             if limit is not None:
-                corrs = corrs[(corrs >= abs(limit)) | (corrs <= -abs(limit))]
+                if two_tails:
+                    corrs = corrs[(corrs >= abs(limit)) | (corrs <= -abs(limit))]
+                else:
+                    if limit < 0:
+                        corrs = corrs[corrs <= -abs(limit)]
+                    else:
+                        corrs = corrs[corrs >= abs(limit)]
+
+
 
             return corrs.order(ascending=ascending)
         else:
             return corrs
+
+    def skew(self):
+        # TODO: same as corr but for skew()
+        pass
+
 
     def fillna(self, cols=None, method='mean', value=None):
         '''
@@ -437,6 +450,9 @@ class Dataset(dict):
         return self.frame.values
 
     values = property(get_values)
+
+    def describe(self):
+        return self.frame.describe()
 
 def join(ds1, ds2, others=[], how='outer'):
     others.insert(0, ds2)
