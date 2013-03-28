@@ -39,6 +39,17 @@ def bootstrap(clf_class, n, ds, **args):
         ans.append(clf)
     return ans
     
+def grid(clf_cls, ds):
+    pass
+
+
+if __name__ == '__main__':
+    copper.project.path = '../../../data-mining/data-science-london/'
+    train = copper.load('train')
+    from sklearn import svm.SVC
+    clf = svm.SVC()
+    print(train)
+    
 
 # --------------------------------------------------------------------------------------------
 #                                        ENSEMBLE/BAGS

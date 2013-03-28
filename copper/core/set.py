@@ -332,7 +332,29 @@ class Dataset(dict):
             ans[row] = copper.utils.frame.outlier_count(self.frame[row], width=width)
         return ans.order(ascending=ascending)
 
+    def chi2(self):
+        from sklearn.feature_selection import chi2
+        # return self.inputs.values, self.target.values)
+        return chi2(self.inputs.values, self.target.values)
 
+    def features_weight(self):
+        from sklearn.feature_selection import SelectPercentile, f_classif
+        selector = SelectPercentile(f_classif)
+        X = copper.transform.inputs2ml(self)
+        y = copper.transform.target2ml(self)
+        selector.fit(X, y)
+        scores = -np.log10(selector.pvalues_)
+        scores /= scores.max()
+        return pd.Series(scores, index=self.filter(role=self.INPUT, ret_cols=True)).order(ascending=False)
+
+    def RCE_rank(self, n_features_to_select=None, estimator=None):
+        from sklearn.feature_selection import RFE
+        if estimator is None:
+            from sklearn.svm import SVC
+            estimator = SVC(kernel="linear")
+        selector = RFE(estimator, n_features_to_select, step=1)
+        selector = selector.fit(self.inputs.values, self.target.values)
+        return pd.Series(selector.ranking_, index=self.filter(role=self.INPUT, ret_cols=True)).order(ascending=False)
 
     def fillna(self, cols=None, method='mean', value=None):
         '''
@@ -425,6 +447,11 @@ class Dataset(dict):
             nothing, figure is ready to be shown
         '''
         copper.plot.histogram(self.frame[col], **args)
+
+    def scatter_pca(self):
+        X = copper.transform.inputs2ml(self)
+        y = copper.transform.target2ml(self)
+        copper.plot.scatter_pca(X, y)
 
     # --------------------------------------------------------------------------
     #                    SPECIAL METHODS / PANDAS API

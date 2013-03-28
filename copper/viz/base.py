@@ -93,6 +93,17 @@ def scatter(frame, var1, var2, var3=None, reg=False, **args):
     plt.xlabel(var1)
     plt.ylabel(var2)
 
+def scatter_pca(X, y):
+    from itertools import cycle
+    from sklearn.decomposition import RandomizedPCA
+    X_pca = RandomizedPCA(n_components=2).fit_transform(X)
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+    for i, c in zip(np.unique(y), cycle(colors)):
+        plt.scatter(X_pca[y == i, 0], X_pca[y == i, 1],
+            c=c, label=i, alpha=0.5)
+        
+    plt.legend(loc='best')
+
 def show():
     ''' For the super lazy
     Useful if only want to import copper and not matplotlib.
