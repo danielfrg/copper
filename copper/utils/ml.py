@@ -3,11 +3,13 @@ from __future__ import division
 import copper
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
-from sklearn.metrics import accuracy_score
+from sklearn import grid_search
 from sklearn import cross_validation
+from sklearn.metrics import accuracy_score
 
-def bootstrap(clf_class, n, ds, **args):
+def bootstrap(clf_class, n_iter, ds, **args):
     '''
     Use bootstrap cross validation to create classifiers
 
@@ -15,7 +17,7 @@ def bootstrap(clf_class, n, ds, **args):
     ----------
         clf_class: scikit-learn classifier
         clf_name: str - prefix for the classifiers: clf_name + "_" + itertation
-        n: int - number of iterations
+        n_iter: int - number of iterations
         X_train: np.array, inputs for the training, default is self.X_train
         y_train: np.array, targets for the training, default is self.y_train
         ds: copper.Dataset, dataset for the training, default is self.train
@@ -25,31 +27,72 @@ def bootstrap(clf_class, n, ds, **args):
     -------
         nothing, classifiers are added to the list
     '''
-    if ds is not None:
-        X_train = copper.transform.inputs2ml(ds).values
-        y_train = copper.transform.target2ml(ds).values
+    X = copper.transform.inputs2ml(ds).values
+    y = copper.transform.target2ml(ds).values
 
     ans = []
-    bs = cross_validation.Bootstrap(len(X_train), n_iter=n)
+    bs = cross_validation.Bootstrap(len(X), n_iter=n_iter)
     for train_index, test_index in bs:
-        _X_train = X_train[train_index]
-        _y_train = y_train[train_index]
+        _X = X[train_index]
+        _y = y[train_index]
         clf = clf_class(**args)
         clf.fit(_X_train, _y_train)
         ans.append(clf)
     return ans
     
-def grid(clf_cls, ds):
-    pass
+def grid(ds, clf, param, values, cv=None, plot=False, **args):
+    random.seed(12345)
+    X = copper.transform.inputs2ml(ds).values
+    y = copper.transform.target2ml(ds).values
+    if cv is None:
+        cv = cross_validation.ShuffleSplit(len(X), **args)
+    else:
+        cv = cv(len(X), **args)
+    parameters = {param: values}
+    grid = grid_search.GridSearchCV(clf, parameters, cv=cv)
+    grid.fit(X, y)
+
+    # train_scores = np.zeros((len(values), cv.n_iter))
+    # test_scores = np.zeros((len(values), cv.n_iter))
+    # for i, value in enumerate(values):
+    #     for j, (train, test) in enumerate(cv):
+    #         parameters = clf.get_params()
+    #         parameters[param] = value
+    #         # print(clf.get_params)
+    #         clf.set_params(param=value) # FIX!
+    #         clf.fit(X[train], y[train])
+    #         train_scores[i, j] = clf.score(X[train], y[train])
+    #         test_scores[i, j] = clf.score(X[test], y[test])
+    # return train_scores, test_scores
+
+    if plot:
+        test_scores = np.zeros((len(values), cv.n_iter))
+        for i in range(cv.n_iter):
+            test_scores[i, :] = grid.grid_scores_[i][2]
+        for i in range(cv.n_iter):
+            # plt.semilogx(gammas, train_scores[:, i], alpha=0.4, lw=2, c='b')
+            plt.semilogx(values, test_scores[:, i], alpha=0.4, lw=2, c='g')
+            plt.show()
+            # print(test_scores)
+    return grid.grid_scores_
 
 
 if __name__ == '__main__':
+    from sklearn import svm
+    import pprint
+    import random
+    
     copper.project.path = '../../../data-mining/data-science-london/'
     train = copper.load('train')
-    from sklearn import svm.SVC
     clf = svm.SVC()
-    print(train)
-    
+    ans = grid(train, clf, 'C', [0.1, 1, 10, 100], plot=True, n_iter=3, random_state=123)
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(ans)
+    # copper.plot.show()
+    # print(ans.grid_scores_)
+    # clf = svm.SVC()
+    # print(train)
+
 
 # --------------------------------------------------------------------------------------------
 #                                        ENSEMBLE/BAGS

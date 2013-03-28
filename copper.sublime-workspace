@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"n",
+				"n_iter"
+			],
+			[
+				"gi",
+				"grid_scores_"
+			],
+			[
+				"para",
+				"Parameters"
+			],
+			[
 				"pre",
 				"predict_proba"
 			],
@@ -502,44 +514,24 @@
 			[
 				"q12_",
 				"q12_amzn"
-			],
-			[
-				"err",
-				"errorfill"
-			],
-			[
-				"order",
-				"orders"
-			],
-			[
-				"test",
-				"testName"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "copper/utils/ml.py",
+			"file": "test.py",
 			"settings":
 			{
-				"buffer_size": 3142,
+				"buffer_size": 71,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "copper/core/ml.py",
+			"file": "copper.sublime-project",
 			"settings":
 			{
-				"buffer_size": 16810,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "copper/core/set.py",
-			"settings":
-			{
-				"buffer_size": 15307,
+				"buffer_size": 620,
 				"line_ending": "Unix"
 			}
 		}
@@ -648,24 +640,27 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/.bashrc",
+		"/home/danielfrg/projects/copper/copper/viz/base.py",
+		"/home/danielfrg/projects/copper/copper/utils/ml.py",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/grid_search.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
+		"/home/danielfrg/projects/copper/copper/core/ml.py",
 		"/home/danielfrg/.config/sublime-text-2/Packages/Web Inspector/Default (Linux).sublime-keymap",
 		"/home/danielfrg/.config/sublime-text-2/Packages/Web Inspector/swi.sublime-settings",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
-		"/home/danielfrg/projects/copper/copper/core/ml.py",
 		"/home/danielfrg/projects/copper/copper/utils/frame.py",
 		"/home/danielfrg/projects/data-mining/data-science-london/data/pred.csv",
 		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/data-mining/data-science-london/README.md",
-		"/home/danielfrg/projects/copper/copper/utils/ml.py",
 		"/home/danielfrg/projects/copper/README.md",
-		"/home/danielfrg/projects/copper/copper/viz/base.py",
 		"/home/danielfrg/projects/data-mining/copper-examples/README.md",
 		"/home/danielfrg/projects/data-mining/kaggle/dont-get-kicked/README.md",
-		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
 		"/home/danielfrg/projects/data-mining/kaggle/bulldozers/data/valid.csv",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
 		"/home/danielfrg/projects/copper/copper/core/config.py",
-		"/home/danielfrg/.bashrc",
 		"/home/danielfrg/.bash_completion",
 		"/home/danielfrg/projects/copper/CHANGES.txt",
 		"/home/danielfrg/projects/copper/setup.py",
@@ -748,7 +743,6 @@
 		"/home/danielfrg/projects/copper/copper/io/io.py",
 		"/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
 		"/home/danielfrg/projects/copper/copper/test/core/all.py",
-		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
 		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py",
 		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
@@ -773,9 +767,7 @@
 		"/home/dfrodriguez/projects/copper/copper/test/core/__init__.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset.py",
 		"/home/dfrodriguez/projects/copper/README.md",
-		"/home/dfrodriguez/projects/pelican/content/2013-1-31-new-blog-using-jekyll-and-ipython.md",
-		"/home/dfrodriguez/anaconda/fabfile.py",
-		"/home/dfrodriguez/.bash_completion"
+		"/home/dfrodriguez/projects/pelican/content/2013-1-31-new-blog-using-jekyll-and-ipython.md"
 	],
 	"find":
 	{
@@ -793,6 +785,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"clone",
+			"set_param",
+			"gamma",
+			"y_train",
+			"X_train",
+			"figsi",
+			"proper",
 			"        #",
 			"\n        ",
 			"join",
@@ -913,14 +912,7 @@
 			"histogramData",
 			"color",
 			"histData",
-			"color",
-			"30",
-			"columnData",
-			"ColumnData",
-			"alert",
-			"ColumnsList",
-			"folders-select",
-			"locations"
+			"color"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -943,93 +935,53 @@
 			[
 				{
 					"buffer": 0,
-					"file": "copper/utils/ml.py",
+					"file": "test.py",
 					"settings":
 					{
-						"buffer_size": 3142,
+						"buffer_size": 71,
 						"regions":
 						{
-							"bookmarks":
-							{
-								"flags": 144,
-								"icon": "bookmark",
-								"regions":
-								[
-								],
-								"scope": "bookmarks"
-							}
 						},
 						"selection":
 						[
 							[
-								2802,
-								2802
+								70,
+								70
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1160.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "copper/core/ml.py",
+					"file": "copper.sublime-project",
 					"settings":
 					{
-						"buffer_size": 16810,
+						"buffer_size": 620,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4311,
-								4311
+								179,
+								179
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2311.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "copper/core/set.py",
-					"settings":
-					{
-						"buffer_size": 15307,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1711,
-								1711
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1188.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
