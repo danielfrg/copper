@@ -3,6 +3,8 @@ from __future__ import division
 import numpy as np
 import pandas as pd
 
+from sklearn.decomposition import RandomizedPCA
+
 '''
 Util for a pandas Dataframe
 '''
@@ -38,6 +40,11 @@ def unique_values(frame, ascending=False):
     for col in frame.columns:
         ans[col] = len(frame[col].value_counts())
     return ans.order(ascending=ascending)
+
+def PCA(frame, n_components):
+    X = frame.values
+    X_pca = RandomizedPCA(n_components=n_components).fit_transform(X)
+    return X_pca
 
 # -------------------------------------------------------------------------------------------
 #                                          OUTLIERS

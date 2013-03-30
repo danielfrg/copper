@@ -1,9 +1,37 @@
 # coding=utf-8
 import copper
 import numpy as np
-from scipy import stats
 import pandas as pd
+from scipy import stats
+from itertools import cycle
+
+import matplotlib.cm as cm
 import matplotlib.pyplot as plt
+
+from sklearn import preprocessing
+from sklearn.decomposition import RandomizedPCA
+
+def grid(values, train_scores, test_scores, log=False):
+    if type(values[0]) == str:
+        colors = cm.rainbow(np.linspace(0, 1, len(values) * 2))
+        colors = cycle(colors)
+        x = np.zeros(train_scores.shape[1])
+        for i in range(train_scores.shape[0]):
+            x[:] = i
+            plt.scatter(x, train_scores[i, :], c=next(colors), s=60, alpha=0.7, label='train: %s'%values[i])
+        for i in range(train_scores.shape[0]):
+            x[:] = i
+            plt.scatter(x, test_scores[i, :], c=next(colors), s=60, alpha=0.7, label='test: %s'%values[i])            
+        plt.legend(loc='best')
+    else:
+        for i in range(train_scores.shape[1]):
+            if log:
+                plt.semilogx(values, train_scores[:, i], alpha=0.4, lw=2, c='b')
+                plt.semilogx(values, test_scores[:, i], alpha=0.4, lw=2, c='g')
+            else:
+                plt.plot(values, train_scores[:, i], alpha=0.4, lw=2, c='b')
+                plt.plot(values, test_scores[:, i], alpha=0.4, lw=2, c='g')
+    plt.ylim([0,1.05])
 
 def histogram(series, bins=20, legend=True, ret_list=False):
     '''
@@ -94,8 +122,6 @@ def scatter(frame, var1, var2, var3=None, reg=False, **args):
     plt.ylabel(var2)
 
 def scatter_pca(X, y):
-    from itertools import cycle
-    from sklearn.decomposition import RandomizedPCA
     X_pca = RandomizedPCA(n_components=2).fit_transform(X)
     colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
     for i, c in zip(np.unique(y), cycle(colors)):

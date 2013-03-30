@@ -453,6 +453,17 @@ class Dataset(dict):
         y = copper.transform.target2ml(self)
         copper.plot.scatter_pca(X, y)
 
+    def PCA(self, n_components, ret_array=False):
+        values = copper.utils.frame.PCA(self.inputs, n_components)
+        if ret_array:
+            return values, copper.transform.target2ml(self).values
+
+        frame = pd.DataFrame(values)
+        frame = frame.join(self.target)
+        ds = copper.Dataset(frame)
+        ds.role[self.filter(role=self.TARGET, ret_cols=True)] = self.TARGET
+        return ds
+
     # --------------------------------------------------------------------------
     #                    SPECIAL METHODS / PANDAS API
     # --------------------------------------------------------------------------

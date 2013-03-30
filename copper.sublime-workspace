@@ -519,22 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "test.py",
-			"settings":
-			{
-				"buffer_size": 71,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "copper.sublime-project",
-			"settings":
-			{
-				"buffer_size": 620,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -640,7 +624,11 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/.matplotlib/matplotlibrc",
+		"/home/danielfrg/projects/copper/test.py",
+		"/home/danielfrg/projects/copper/copper.sublime-project",
 		"/home/danielfrg/.bashrc",
+		"/home/danielfrg/projects/copper/matplotlib",
 		"/home/danielfrg/projects/copper/copper/viz/base.py",
 		"/home/danielfrg/projects/copper/copper/utils/ml.py",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
@@ -693,7 +681,6 @@
 		"/home/danielfrg/projects/copper/copper/utils/__init__.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_pandas.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_ml.py_1",
-		"/home/danielfrg/projects/copper/copper.sublime-project",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/features.txt",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/features_info.txt",
@@ -764,10 +751,7 @@
 		"/home/dfrodriguez/projects/copper/copper/test/core/ML_all.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/ML.py",
 		"/home/dfrodriguez/projects/copper/copper/core/r.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/__init__.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset.py",
-		"/home/dfrodriguez/projects/copper/README.md",
-		"/home/dfrodriguez/projects/pelican/content/2013-1-31-new-blog-using-jekyll-and-ipython.md"
+		"/home/dfrodriguez/projects/copper/copper/test/core/__init__.py"
 	],
 	"find":
 	{
@@ -785,6 +769,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"mono",
 			"clone",
 			"set_param",
 			"gamma",
@@ -911,8 +896,7 @@
 			"max",
 			"histogramData",
 			"color",
-			"histData",
-			"color"
+			"histData"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -930,62 +914,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "test.py",
-					"settings":
-					{
-						"buffer_size": 71,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								70,
-								70
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "copper.sublime-project",
-					"settings":
-					{
-						"buffer_size": 620,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								179,
-								179
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1072,7 +1002,7 @@
 		[
 			[
 				"",
-				"/home/danielfrg/projects/blog/__source__/blog.sublime-project"
+				"/home/danielfrg/projects/django_hospital/hospital.sublime-project"
 			],
 			[
 				"blo",

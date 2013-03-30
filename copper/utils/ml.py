@@ -8,8 +8,9 @@ import matplotlib.pyplot as plt
 from sklearn import grid_search
 from sklearn import cross_validation
 from sklearn.metrics import accuracy_score
+from sklearn.base import clone
 
-def bootstrap(clf_class, n_iter, ds, **args):
+def bootstrap(base_clf, n_iter, ds, score=False):
     '''
     Use bootstrap cross validation to create classifiers
 
@@ -30,51 +31,53 @@ def bootstrap(clf_class, n_iter, ds, **args):
     X = copper.transform.inputs2ml(ds).values
     y = copper.transform.target2ml(ds).values
 
-    ans = []
+    clfs = []
+    scores = []
     bs = cross_validation.Bootstrap(len(X), n_iter=n_iter)
     for train_index, test_index in bs:
-        _X = X[train_index]
-        _y = y[train_index]
-        clf = clf_class(**args)
-        clf.fit(_X_train, _y_train)
-        ans.append(clf)
-    return ans
-    
-def grid(ds, clf, param, values, cv=None, plot=False, **args):
-    random.seed(12345)
+        X_train = X[train_index]
+        y_train = y[train_index]
+        X_test = X[test_index]
+        y_test = y[test_index]
+        clf_params = base_clf.get_params()
+        clf = clone(base_clf)
+        clf.set_params(**clf_params)
+        clf.fit(X_train, y_train)
+        clfs.append(clf)
+        if score:
+            scores.append(clf.score(X_test, y_test))
+    if score:
+        return clfs, scores
+    else:
+        return clfs
+
+def cv_pca(ds, clf, cv=None, **args):
+    X, y = ds.PCA(2, ret_array=True)
+    if cv is None:
+        cv = cross_validation.ShuffleSplit(len(ds), **args)
+
+    scores = cross_validation.cross_val_score(clf, X, y, cv=cv)
+    return np.mean(scores)
+
+def grid(ds, base_clf, param, values, cv=None, **args):
     X = copper.transform.inputs2ml(ds).values
     y = copper.transform.target2ml(ds).values
     if cv is None:
-        cv = cross_validation.ShuffleSplit(len(X), **args)
-    else:
-        cv = cv(len(X), **args)
-    parameters = {param: values}
-    grid = grid_search.GridSearchCV(clf, parameters, cv=cv)
-    grid.fit(X, y)
+        cv = cross_validation.ShuffleSplit(len(ds), **args)
 
-    # train_scores = np.zeros((len(values), cv.n_iter))
-    # test_scores = np.zeros((len(values), cv.n_iter))
-    # for i, value in enumerate(values):
-    #     for j, (train, test) in enumerate(cv):
-    #         parameters = clf.get_params()
-    #         parameters[param] = value
-    #         # print(clf.get_params)
-    #         clf.set_params(param=value) # FIX!
-    #         clf.fit(X[train], y[train])
-    #         train_scores[i, j] = clf.score(X[train], y[train])
-    #         test_scores[i, j] = clf.score(X[test], y[test])
-    # return train_scores, test_scores
+    train_scores = np.zeros((len(values), cv.n_iter))
+    test_scores = np.zeros((len(values), cv.n_iter))
+    for i, value in enumerate(values):
+        for j, (train, test) in enumerate(cv):
+            clf_params = base_clf.get_params()
+            clf_params[param] = value
+            clf = clone(base_clf)
+            clf.set_params(**clf_params)
+            clf.fit(X[train], y[train])
+            train_scores[i, j] = clf.score(X[train], y[train])
+            test_scores[i, j] = clf.score(X[test], y[test])
 
-    if plot:
-        test_scores = np.zeros((len(values), cv.n_iter))
-        for i in range(cv.n_iter):
-            test_scores[i, :] = grid.grid_scores_[i][2]
-        for i in range(cv.n_iter):
-            # plt.semilogx(gammas, train_scores[:, i], alpha=0.4, lw=2, c='b')
-            plt.semilogx(values, test_scores[:, i], alpha=0.4, lw=2, c='g')
-            plt.show()
-            # print(test_scores)
-    return grid.grid_scores_
+    return train_scores, test_scores
 
 
 if __name__ == '__main__':
