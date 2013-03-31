@@ -4,8 +4,60 @@
 		"selected_items":
 		[
 			[
+				"class",
+				"classifier"
+			],
+			[
+				"max",
+				"max_clf"
+			],
+			[
+				"pre",
+				"predict_proba"
+			],
+			[
+				"Ma",
+				"MaxProbaBag"
+			],
+			[
+				"ba",
+				"base_clf"
+			],
+			[
+				"inputs",
+				"inputs2ml"
+			],
+			[
 				"n",
-				"n_iter"
+				"n_components"
+			],
+			[
+				"PCA",
+				"PCA_clf"
+			],
+			[
+				"add",
+				"add_clf"
+			],
+			[
+				"inpu",
+				"inputs2ml"
+			],
+			[
+				"ret",
+				"ret_np"
+			],
+			[
+				"j",
+				"j"
+			],
+			[
+				"tran",
+				"train_scores"
+			],
+			[
+				"tra",
+				"train_scores"
 			],
 			[
 				"gi",
@@ -14,10 +66,6 @@
 			[
 				"para",
 				"Parameters"
-			],
-			[
-				"pre",
-				"predict_proba"
 			],
 			[
 				"clf",
@@ -76,20 +124,12 @@
 				"which"
 			],
 			[
-				"ret",
-				"ret_cols"
-			],
-			[
 				"num",
 				"numberRE"
 			],
 			[
 				"train",
 				"train_normal"
-			],
-			[
-				"tra",
-				"train_0_2"
 			],
 			[
 				"dat",
@@ -248,10 +288,6 @@
 				"cm_s"
 			],
 			[
-				"class",
-				"classifiers"
-			],
-			[
 				"c",
 				"classifiers"
 			],
@@ -316,10 +352,6 @@
 				"importances"
 			],
 			[
-				"max",
-				"max_depth"
-			],
-			[
 				"ense",
 				"_ensembled"
 			],
@@ -382,10 +414,6 @@
 			[
 				"money",
 				"money_symbol"
-			],
-			[
-				"tran",
-				"transformation"
 			],
 			[
 				"au",
@@ -486,34 +514,6 @@
 			[
 				"p",
 				"p_XY"
-			],
-			[
-				"Y",
-				"Y_Ey"
-			],
-			[
-				"E",
-				"X_Ex"
-			],
-			[
-				"x",
-				"x"
-			],
-			[
-				"q15",
-				"q15_cost"
-			],
-			[
-				"q11_",
-				"q11_cost"
-			],
-			[
-				"q",
-				"q15_amzn"
-			],
-			[
-				"q12_",
-				"q12_amzn"
 			]
 		]
 	},
@@ -624,22 +624,26 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/copper/copper/core/ml.py",
+		"/home/danielfrg/projects/copper/copper/utils/frame.py",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/utils/ml.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/svm/base.py",
+		"/home/danielfrg/projects/copper/copper/viz/base.py",
+		"/home/danielfrg/Downloads/pred.csv",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/decomposition/pca.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/grid_search.py",
+		"/home/danielfrg/.bashrc",
 		"/home/danielfrg/.matplotlib/matplotlibrc",
 		"/home/danielfrg/projects/copper/test.py",
 		"/home/danielfrg/projects/copper/copper.sublime-project",
-		"/home/danielfrg/.bashrc",
 		"/home/danielfrg/projects/copper/matplotlib",
-		"/home/danielfrg/projects/copper/copper/viz/base.py",
-		"/home/danielfrg/projects/copper/copper/utils/ml.py",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
-		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/grid_search.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
-		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
-		"/home/danielfrg/projects/copper/copper/core/ml.py",
 		"/home/danielfrg/.config/sublime-text-2/Packages/Web Inspector/Default (Linux).sublime-keymap",
 		"/home/danielfrg/.config/sublime-text-2/Packages/Web Inspector/swi.sublime-settings",
-		"/home/danielfrg/projects/copper/copper/utils/frame.py",
 		"/home/danielfrg/projects/data-mining/data-science-london/data/pred.csv",
 		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/data-mining/data-science-london/README.md",
@@ -747,11 +751,7 @@
 		"/home/dfrodriguez/projects/copper/copper/test/core/all.py",
 		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset_pandas.py",
 		"/home/dfrodriguez/projects/copper/copper/core/config.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/ML_1.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/ML_all.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/ML.py",
-		"/home/dfrodriguez/projects/copper/copper/core/r.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/__init__.py"
+		"/home/dfrodriguez/projects/copper/copper/test/core/ML_1.py"
 	],
 	"find":
 	{
@@ -769,6 +769,28 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ans",
+			"y_test",
+			"X_test",
+			"y_test",
+			"X_test",
+			"bse_clf",
+			"clf",
+			"base_clf",
+			"BaseEstimator",
+			"PCA(",
+			"PCA",
+			"PCA(",
+			"Frame",
+			"frame",
+			"_y_train",
+			"_X_train",
+			"ans",
+			"encodestring",
+			"clone",
+			"copy",
+			"**params",
+			"grid",
 			"mono",
 			"clone",
 			"set_param",
@@ -874,29 +896,7 @@
 			"perce",
 			"percent",
 			"export",
-			"accurac",
-			"geom",
-			"ggplot",
-			"no_ml",
-			"layout",
-			"copper.config",
-			"figures",
-			"export",
-			"graphs",
-			"TODO",
-			"category",
-			"train",
-			"DataSet",
-			"print",
-			"TODO",
-			"todo",
-			"of",
-			"clf",
-			"nbins",
-			"max",
-			"histogramData",
-			"color",
-			"histData"
+			"accurac"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +952,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 174.0
+		"height": 193.0
 	},
 	"replace":
 	{
@@ -1019,6 +1019,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 213.0,
+	"side_bar_width": 197.0,
 	"status_bar_visible": true
 }

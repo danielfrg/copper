@@ -79,4 +79,6 @@ Catalog:
 Kaggle Bulldozers:
 * Post: [Basic feature selection and join Datasets](http://danielfrg.github.com/blog/2013/03/07/kaggle-bulldozers-basic-cleaning/)
 
+[https://github.com/danielfrg/kaggle-data-science-london](Kaggle data science london): Repo with a lot of examples.
+
 For more information and more examples (but some are possible outdated) can see my blog: [danielfrg.github.com](http://danielfrg.github.com)
