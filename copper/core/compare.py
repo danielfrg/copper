@@ -42,7 +42,8 @@ class ModelComparison():
         Uses a Dataset to set the values of inputs and targets for testing
         '''
         self.X_test = copper.transform.inputs2ml(ds).values
-        self.y_test = copper.transform.target2ml(ds).values
+        y_test = copper.transform.target2ml(ds)
+        self.y_test = None if y_test is None else y_test.values
 
     train = property(None, set_train)
     test = property(None, set_test)

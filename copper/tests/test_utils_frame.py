@@ -10,9 +10,9 @@ class UtilsFrame(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        # suite.addTest(UtilsFrame('test_percent_missing'))
-        # suite.addTest(UtilsFrame('test_unique_values'))
-        # suite.addTest(UtilsFrame('test_outliers'))
+        suite.addTest(UtilsFrame('test_percent_missing'))
+        suite.addTest(UtilsFrame('test_unique_values'))
+        suite.addTest(UtilsFrame('test_outliers'))
         suite.addTest(UtilsFrame('test_pca'))
         return suite
 

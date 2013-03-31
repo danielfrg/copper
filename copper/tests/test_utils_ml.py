@@ -15,41 +15,27 @@ class UtilsML(CopperTest):
         suite.addTest(UtilsML('test_bootstrap'))
         return suite
 
-    def setup(self):
-        if self.ml is None:
-            self.setUpData()
-
-            self.train = copper.Dataset('ml/1/train.csv')
-            self.train.role['CustomerID'] = self.train.ID
-            self.train.role['Order'] = self.train.TARGET
-            fnc = lambda x: 12*(2007 - int(str(x)[0:4])) - int(str(x)[4:6]) + 2
-            self.train['LASD'] = self.train['LASD'].apply(fnc)
-
-            self.test = copper.Dataset('ml/1/test.csv')
-            self.test.role['CustomerID'] = self.test.ID
-            self.test.role['Order'] = self.test.TARGET
-            self.test['LASD'] = self.test['LASD'].apply(fnc)
-
-            self.ml = copper.MachineLearning()
-            self.ml.train = self.train
-            self.ml.test = self.test
-
     def test_bootstrap(self):
-        '''
-
-        '''
-        self.setup()
+        train = copper.Dataset(pd.DataFrame(np.random.rand(10,10)))
+        train.role[0] = train.TARGET
+        mc = copper.ModelComparison()
+        mc.train = train
 
         from sklearn import tree
-        bootstraped = copper.utils.ml.bootstrap(tree.DecisionTreeClassifier, 5, self.train, max_depth=6)
-        self.ml.add_clfs(bootstraped, 'tree')
-        self.assertEqual(len(self.ml.clfs), 5)
+        dt = tree.DecisionTreeClassifier()
+        trees = copper.utils.ml.bootstrap(dt, 5, train)
+        mc.add_clfs(trees, 'tree')
+        self.assertEqual(len(trees), 5)
+        for t in trees:
+            self.assertEqual(type(t), tree.DecisionTreeClassifier)
 
         from sklearn.naive_bayes import GaussianNB
-        bootstraped = copper.utils.ml.bootstrap(GaussianNB, 5, self.train)
-        self.ml.add_clfs(bootstraped, 'GNB')
-        self.assertEqual(len(self.ml.clfs), 10)
-
+        gnb = GaussianNB()
+        gnbs = copper.utils.ml.bootstrap(gnb, 5, train)
+        mc.add_clfs(gnbs, 'GNB')
+        self.assertEqual(len(gnbs), 5)
+        for gnb in gnbs:
+            self.assertEqual(type(gnb), GaussianNB)
 
 if __name__ == '__main__':
     suite = UtilsML().suite()

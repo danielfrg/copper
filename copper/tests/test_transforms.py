@@ -10,13 +10,13 @@ class TransformsTest(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        # suite.addTest(TransformsTest('test_to_number'))
-        # suite.addTest(TransformsTest('test_strptime'))
-        # suite.addTest(TransformsTest('test_date2number'))
-        # suite.addTest(TransformsTest('test_category2ml'))
-        # suite.addTest(TransformsTest('test_category2number'))
-        # suite.addTest(TransformsTest('test_category_labels'))
-        # suite.addTest(TransformsTest('test_inputs2ml'))
+        suite.addTest(TransformsTest('test_to_number'))
+        suite.addTest(TransformsTest('test_strptime'))
+        suite.addTest(TransformsTest('test_date2number'))
+        suite.addTest(TransformsTest('test_category2ml'))
+        suite.addTest(TransformsTest('test_category2number'))
+        suite.addTest(TransformsTest('test_category_labels'))
+        suite.addTest(TransformsTest('test_inputs2ml'))
         suite.addTest(TransformsTest('test_target2ml'))
         return suite
 

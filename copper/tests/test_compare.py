@@ -1,16 +1,17 @@
 import os
 import copper
+import numpy as np
 import pandas as pd
 
 import unittest
 from copper.tests.CopperTest import CopperTest
 
-class ML_basic(CopperTest):
+class ModelComparison(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(ML_basic('test_models_list'))
-        suite.addTest(ML_basic('test_transformations'))
+        suite.addTest(ModelComparison('test_models_list'))
+        suite.addTest(ModelComparison('test_transformations'))
         return suite
         
     def test_models_list(self):
@@ -18,94 +19,106 @@ class ML_basic(CopperTest):
         '''
         # Test models
         from sklearn import svm
-        svm_clf = svm.SVC(probability=True)
         from sklearn import tree
-        tree_clf = tree.DecisionTreeClassifier(max_depth=6)
         from sklearn.naive_bayes import GaussianNB
-        gnb_clf = GaussianNB()
         from sklearn.ensemble import GradientBoostingClassifier
-        gr_bst_clf = GradientBoostingClassifier()
+        svm_clf = svm.SVC(probability=True)
+        tree_clf = tree.DecisionTreeClassifier(max_depth=6)
+        gnb_clf = GaussianNB()
+        gb_clf = GradientBoostingClassifier()
 
         # Add all models
-        ml = copper.ModelComparison()
-        ml.add_clf(svm_clf, 'SVM')
-        ml.add_clf(tree_clf, 'Decision Tree')
-        ml.add_clf(gnb_clf, 'GaussianNB')
-        ml.add_clf(gr_bst_clf, 'Grad Boosting')
+        mc = copper.ModelComparison()
+        mc.add_clf(svm_clf, 'SVM')
+        mc.add_clf(tree_clf, 'DT')
+        mc.add_clf(gnb_clf, 'GNB')
+        mc.add_clf(gb_clf, 'GB')
 
-        df = ml.clfs
+        df = mc.clfs
         self.assertEqual(df['SVM'], svm_clf)
-        self.assertEqual(df['Decision Tree'], tree_clf)
-        self.assertEqual(df['GaussianNB'], gnb_clf)
-        self.assertEqual(df['Grad Boosting'], gr_bst_clf)
+        self.assertEqual(df['DT'], tree_clf)
+        self.assertEqual(df['GNB'], gnb_clf)
+        self.assertEqual(df['GB'], gb_clf)
 
-        # Remove 1 model
-        ml.rm_clf('SVM')
-        df = ml.clfs
+        # Remove one model
+        mc.rm_clf('DT')
+        df = mc.clfs
         try:
-            self.assertEqual(df['SVM'], svm_clf)
+            self.assertEqual(df['DT'], dt_clf)
             self.fail("should generate error")
         except:
             pass
-        self.assertEqual(df['Decision Tree'], tree_clf)
-        self.assertEqual(df['GaussianNB'], gnb_clf)
-        self.assertEqual(df['Grad Boosting'], gr_bst_clf)
+        self.assertEqual(df['SVM'], svm_clf)
+        self.assertEqual(df['GNB'], gnb_clf)
+        self.assertEqual(df['GB'], gb_clf)
 
         # Remove all models
-        ml.clear_clfs()
-        df = ml.clfs
+        mc.clear_clfs()
+        df = mc.clfs
         try:
             self.assertEqual(df['SVM'], svm_clf)
             self.fail("should generate error")
         except:
             pass
         try:
-            self.assertEqual(df['Decision Tree'], tree_clf)
+            self.assertEqual(df['DT'], tree_clf)
             self.fail("should generate error")
         except:
             pass
         try:
-            self.assertEqual(df['GaussianNB'], gnb_clf)
+            self.assertEqual(df['GNB'], gnb_clf)
             self.fail("should generate error")
         except:
             pass
         try:
-            self.assertEqual(df['Grad Boosting'], gr_bst_clf)
+            self.assertEqual(df['GB'], gb_clf)
             self.fail("should generate error")
         except:
             pass
 
     def test_transformations(self):
+        ''' Tests that the values used to train and test are correct
+        Note: tests for the transformation values on test_transforms
         '''
-        Tests that the values used to train and test are correct
-        Note: tests for the transformation values on transforms
-        '''
-        self.setUpData()
-        ds = copper.Dataset('transforms/ml/data.csv')
-        ds.type['Num.as.Cat'] = ds.CATEGORY
-        ds.role['Target.Num'] = ds.TARGET
-        ds.role['Target.Cat'] = ds.REJECTED
+        dic = { 'Cat.1': ['A','B','A','A','B'],
+                'Cat.2' :['f','g','h','g','f'],
+                'Num.1': np.random.rand(5),
+                'Num.2': np.random.rand(5),
+                'Target': [1,0,0,1,1]}
+        train = copper.Dataset(pd.DataFrame(dic))
+        dic = { 'Cat.1': ['B','B','B','A','A'],
+                'Cat.2' :['g','h','f','g','g'],
+                'Num.1': np.random.rand(5),
+                'Num.2': np.random.rand(5),
+                'Target': [0,1,1,0,1]}
+        test = copper.Dataset(pd.DataFrame(dic))
 
-        ml = copper.ModelComparison()
-        ml.train = ds
-        ml.test = ds
-        self.assertEqual(ml.X_train, copper.transform.inputs2ml(ds).values)
-        self.assertEqual(ml.y_train, copper.transform.target2ml(ds).values)
-        self.assertEqual(ml.X_test, copper.transform.inputs2ml(ds).values)
-        self.assertEqual(ml.y_test, copper.transform.target2ml(ds).values)
-        self.assertEqual(ml.X_train.shape, (25,10))
+        train.role['Target'] = train.TARGET
+        test.role['Target'] = train.REJECT
 
-        # Reject a few variables and test again
-        ds.role['Num.1'] = ds.REJECT
-        ds.role['Cat.1'] = ds.REJECT
-        ml.train = ds
-        ml.test = ds
-        self.assertEqual(ml.X_train.shape, (25,4))
-        self.assertEqual(ml.X_train, copper.transform.inputs2ml(ds).values)
-        self.assertEqual(ml.y_train, copper.transform.target2ml(ds).values)
-        self.assertEqual(ml.X_test, copper.transform.inputs2ml(ds).values)
-        self.assertEqual(ml.y_test, copper.transform.target2ml(ds).values)
+        mc = copper.ModelComparison()
+        mc.train = train
+        mc.test = test
+        self.assertEqual(mc.X_train, copper.transform.inputs2ml(train).values)
+        self.assertEqual(mc.y_train, copper.transform.target2ml(train).values)
+        self.assertEqual(mc.y_train, train['Target'].values)
+        self.assertEqual(mc.X_train.shape, (5,7))
+        self.assertEqual(mc.X_test, copper.transform.inputs2ml(test).values)
+        self.assertEqual(mc.y_test, None)
+        self.assertEqual(mc.X_test.shape, (5,7))
+
+        test.role['Target'] = test.TARGET
+        mc.test = test
+        self.assertEqual(mc.y_test, copper.transform.target2ml(test).values)
+        self.assertEqual(mc.y_test, test['Target'].values)
+        
+        train.role['Num.1'] = train.REJECT
+        mc.train = train
+        self.assertEqual(mc.X_train.shape, (5,6))
+        train.role['Cat.1'] = train.REJECT
+        mc.train = train
+        self.assertEqual(mc.X_train.shape, (5,4))
 
 if __name__ == '__main__':
-    suite = ML_basic().suite()
+    suite = ModelComparison().suite()
     unittest.TextTestRunner(verbosity=2).run(suite)
