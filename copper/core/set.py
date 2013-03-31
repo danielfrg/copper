@@ -31,9 +31,7 @@ class Dataset(dict):
         ----------
             data: str with the path of the data. Or pandas.DataFrame.
         '''
-        self.frame = None
-        self.role = None
-        self.type = None
+        self.pca_model = None
 
         if data is not None:
             if type(data) is pd.DataFrame:
@@ -126,7 +124,10 @@ class Dataset(dict):
         -------
             df: pandas.Series
         '''
-        return self.filter(role=self.TARGET).ix[:, 0]
+        try:
+            return self.filter(role=self.TARGET).ix[:, 0]
+        except:
+            return None
 
     target = property(get_target)
 
@@ -209,7 +210,6 @@ class Dataset(dict):
             return ds
         else:
             return self.frame[cols]
-
 
     # --------------------------------------------------------------------------
     #                                    STATS
@@ -454,7 +454,7 @@ class Dataset(dict):
         copper.plot.scatter_pca(X, y)
 
     def PCA(self, n_components, ret_array=False):
-        values = copper.utils.frame.PCA(self.inputs, n_components)
+        values, pca_model = copper.utils.frame.PCA(self, n_components, ret_model=True)
         if ret_array:
             return values, copper.transform.target2ml(self).values
 
@@ -462,6 +462,18 @@ class Dataset(dict):
         frame = frame.join(self.target)
         ds = copper.Dataset(frame)
         ds.role[self.filter(role=self.TARGET, ret_cols=True)] = self.TARGET
+        ds.pca_model = pca_model
+        return ds
+
+    def match_pca(self, ds):
+        values = copper.transform.inputs2ml(self).values
+        values = ds.pca_model.transform(values)
+        frame = pd.DataFrame(values)
+        if self.target is not None:
+            frame = frame.join(self.target)
+        ds = copper.Dataset(frame)
+        if self.target is not None:
+            ds.role[self.filter(role=ds.TARGET, ret_cols=True)] = self.TARGET    
         return ds
 
     # --------------------------------------------------------------------------

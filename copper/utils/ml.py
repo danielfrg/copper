@@ -6,9 +6,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn import grid_search
+from sklearn import decomposition
 from sklearn import cross_validation
 from sklearn.metrics import accuracy_score
-from sklearn.base import clone
+from sklearn.base import clone, BaseEstimator
 
 def bootstrap(base_clf, n_iter, ds, score=False):
     '''
@@ -41,7 +42,6 @@ def bootstrap(base_clf, n_iter, ds, score=False):
         y_test = y[test_index]
         clf_params = base_clf.get_params()
         clf = clone(base_clf)
-        clf.set_params(**clf_params)
         clf.fit(X_train, y_train)
         clfs.append(clf)
         if score:
@@ -51,19 +51,25 @@ def bootstrap(base_clf, n_iter, ds, score=False):
     else:
         return clfs
 
-def cv_pca(ds, clf, cv=None, **args):
-    X, y = ds.PCA(2, ret_array=True)
+def cv_pca(ds, clf, range_=None, cv=None, **args):
     if cv is None:
         cv = cross_validation.ShuffleSplit(len(ds), **args)
-
-    scores = cross_validation.cross_val_score(clf, X, y, cv=cv)
-    return np.mean(scores)
+    if range_ is None:
+        range_ = range(len(ds.inputs.columns))
+    
+    ans = pd.Series(index=range_)
+    for i in range_:
+        X, y = ds.PCA(i, ret_array=True)
+        scores = cross_validation.cross_val_score(clf, X, y, cv=cv)
+        ans[i] = np.mean(scores)
+    return ans
 
 def grid(ds, base_clf, param, values, cv=None, **args):
-    X = copper.transform.inputs2ml(ds).values
-    y = copper.transform.target2ml(ds).values
     if cv is None:
         cv = cross_validation.ShuffleSplit(len(ds), **args)
+    
+    X = copper.transform.inputs2ml(ds).values
+    y = copper.transform.target2ml(ds).values
 
     train_scores = np.zeros((len(values), cv.n_iter))
     test_scores = np.zeros((len(values), cv.n_iter))
@@ -80,44 +86,11 @@ def grid(ds, base_clf, param, values, cv=None, **args):
     return train_scores, test_scores
 
 
-if __name__ == '__main__':
-    from sklearn import svm
-    import pprint
-    import random
-    
-    copper.project.path = '../../../data-mining/data-science-london/'
-    train = copper.load('train')
-    clf = svm.SVC()
-    ans = grid(train, clf, 'C', [0.1, 1, 10, 100], plot=True, n_iter=3, random_state=123)
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(ans)
-    # copper.plot.show()
-    # print(ans.grid_scores_)
-    # clf = svm.SVC()
-    # print(train)
-
-
 # --------------------------------------------------------------------------------------------
 #                                        ENSEMBLE/BAGS
 # --------------------------------------------------------------------------------------------
 
-class Ensemble(object):
-    def __init__(self):
-        pass
-
-    def fit(self, X_train, y_train):
-        pass
-
-    def score(self, X_test, y_test):
-        raise NotImplementedError("Should have implemented this")
-
-    def predict(self, X_test):
-        raise NotImplementedError("Should have implemented this")
-
-    def predict_proba(self, X_test):
-        raise NotImplementedError("Should have implemented this")
-
-class AverageBag(Ensemble):
+class Bag(BaseEstimator):
     def __init__(self, clfs=None):
         if type(clfs) is pd.Series:
             # Comes from ml.clfs
@@ -136,27 +109,112 @@ class AverageBag(Ensemble):
         else:            
             self.clfs.append(new)
 
-    def score(self, X_test, y_test):
-        y_pred = self.predict(X_test)
-        return accuracy_score(y_test, y_pred)
+    def fit(self, X, y):
+        pass
 
-    def predict(self, X_test):
-        return np.argmax(self.predict_proba(X_test), axis=1)
+    def score(self, X, y):
+        y_pred = self.predict(X)
+        return accuracy_score(y, y_pred)
 
-    def predict_proba(self, X_test):
-        options = np.shape(self.clfs[0].predict_proba(X_test[:1]))[1]
-        
-        ans = np.zeros((len(X_test), options))
+
+class AverageBag(Bag):
+    '''
+    Implementation idea:
+    for each classifier 
+        for each option e.g.: (0,1,2)
+            sum each predicted probability
+    divide by the number of clfs
+    '''
+
+    def predict(self, X):
+        return np.argmax(self.predict_proba(X), axis=1)
+
+    def predict_proba(self, X):
+        if type(X) is copper.Dataset:
+            X = copper.transform.inputs2ml(X).values
+        options = len(self.clfs[0].predict_proba(X[:1])[0])
+        ans = np.zeros((len(X), options))
         for clf in self.clfs:
-            probas = clf.predict_proba(X_test)
+            probas = clf.predict_proba(X)
             for option in range(options):
                 ans[:, option] = ans[:, option] + probas[:,option]
 
         ans = ans / len(self.clfs)
         return ans
 
+class MaxProbaBag(Bag):
+    '''
+    Create a big array with all the predicted probabilities for 
+    each classifier.
 
-class MaxProbaBag(Ensemble):
-    pass
+    Calculate the max of each row and find the classifier that
+    has that probability
 
+    Iterate over the big array and slice each row to create the ans
+    ''' 
+    def predict(self, X):
+        return np.argmax(self.predict_proba(X), axis=1)
 
+    def predict_proba(self, X):
+        if type(X) is copper.Dataset:
+            X = copper.transform.inputs2ml(X).values
+        options = len(self.clfs[0].predict_proba(X[:1])[0])
+        temp = np.zeros((len(X), options*len(self.clfs)))
+        for i, clf in enumerate(self.clfs):
+            probas = clf.predict_proba(X) 
+            temp[:, i*options:i*options+2] = probas
+
+        ans = np.zeros((len(X), options))
+        max_pos = np.argmax(temp, axis=1)
+        max_clf = np.floor(max_pos / options)
+        for i, row in enumerate(temp):
+            iclf = max_clf[i]
+            ans[i, ] = temp[i, iclf * options:iclf * options + 2]
+        return ans
+
+class PCA_wrapper(BaseEstimator):
+
+    def __init__(self, base_clf, n_components=None):
+        self.base_clf = clone(base_clf)
+        self.n_components = n_components
+        self.pca_model = None
+
+    def fit(self, X, y):
+        self.pca_model = decomposition.PCA(n_components=self.n_components)
+        self.pca_model.fit(X)
+        _X = self.pca_model.transform(X)
+        self.base_clf.fit(_X, y)
+    
+    def score(self, X, y):
+        _X = self.pca_model.transform(X)
+        y_pred = self.base_clf.predict(_X)
+        return accuracy_score(y, y_pred)
+
+    def predict(self, X):
+        _X = self.pca_model.transform(X)
+        return self.base_clf.predict(_X)
+
+    def predict_proba(self, X):
+        _X = self.pca_model.transform(X)
+        return self.base_clf.predict_proba(_X)
+
+if __name__ == '__main__':
+    from sklearn import svm
+    import pprint
+    import random
+    
+    copper.project.path = '../../../data-mining/data-science-london/'
+    train = copper.load('train')
+    test = copper.load('test')
+    clf = svm.SVC(kernel='rbf', gamma=0.02, C=10, probability=True)
+    pca_clf = PCA_wrapper(clf, n_components=13)
+    ml = copper.MachineLearning()
+    ml.train = train
+    ml.add_clf(clf, 'svm')
+    ml.add_clf(pca_clf, 'pca')
+    ml.fit()
+    bag = MaxProbaBag()
+    bag.add_clf(ml.clfs)
+    # print(ml.predict_proba(test).head(3))
+    print(bag.predict_proba(test))
+    

@@ -9,7 +9,7 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 
 from sklearn import preprocessing
-from sklearn.decomposition import RandomizedPCA
+from sklearn.decomposition import PCA
 
 def grid(values, train_scores, test_scores, log=False):
     if type(values[0]) == str:
@@ -122,7 +122,7 @@ def scatter(frame, var1, var2, var3=None, reg=False, **args):
     plt.ylabel(var2)
 
 def scatter_pca(X, y):
-    X_pca = RandomizedPCA(n_components=2).fit_transform(X)
+    X_pca = PCA(n_components=2).fit_transform(X)
     colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
     for i, c in zip(np.unique(y), cycle(colors)):
         plt.scatter(X_pca[y == i, 0], X_pca[y == i, 1],

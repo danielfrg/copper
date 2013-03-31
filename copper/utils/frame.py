@@ -1,9 +1,10 @@
 # coding=utf-8
 from __future__ import division
+import copper
 import numpy as np
 import pandas as pd
 
-from sklearn.decomposition import RandomizedPCA
+from sklearn import decomposition
 
 '''
 Util for a pandas Dataframe
@@ -41,10 +42,19 @@ def unique_values(frame, ascending=False):
         ans[col] = len(frame[col].value_counts())
     return ans.order(ascending=ascending)
 
-def PCA(frame, n_components):
-    X = frame.values
-    X_pca = RandomizedPCA(n_components=n_components).fit_transform(X)
-    return X_pca
+def PCA(data, n_components, ret_model=False):
+    X = None
+    if type(data) is copper.Dataset:
+        X = copper.transform.inputs2ml(data)
+    elif type(data) is pd.DataFrame:
+        X = data.values
+
+    model = decomposition.PCA(n_components=n_components)
+    model.fit(X)
+    if ret_model:
+        return model.transform(X), model
+    else:
+        return model.transform(X)
 
 # -------------------------------------------------------------------------------------------
 #                                          OUTLIERS

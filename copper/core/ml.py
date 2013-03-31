@@ -99,7 +99,7 @@ class MachineLearning():
         for clf_name in self.clfs.index:
             self._clfs[clf_name].fit(self.X_train, self.y_train)
 
-    def predict(self, ds=None, clfs=None, ):
+    def predict(self, ds=None, clfs=None):
         '''
         Make the classifiers predict the testing inputs
 
@@ -163,6 +163,7 @@ class MachineLearning():
         '''
         Wraper to not repeat code on all the possible metrics
         '''
+        # TODO: generate custom error when X_test is missing
         ans = pd.Series(index=self._clfs, name=name)
         for clf_name in self._clfs:
             clf = self._clfs[clf_name]
