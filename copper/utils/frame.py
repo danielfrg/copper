@@ -83,7 +83,7 @@ def outliers(series, width=1.5):
     '''
     return series[outlier_rows(series, width=width)]
 
-def outlier_count(data, width=1.5):
+def outlier_count(data, width=1.5, ascending=False):
     ''' Returns a series/int with the number of outliers of each column
     
     Parameters
@@ -96,4 +96,4 @@ def outlier_count(data, width=1.5):
         ans = pd.Series(index=data.columns)
         for col in data.columns:
             ans[col] = outlier_count(data[col])
-        return ans
+        return ans.order(ascending=ascending)

@@ -15,10 +15,10 @@ class ML_1(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        # suite.addTest(ML_1('test_metrics'))
-        # suite.addTest(ML_1('test_cm'))
-        # suite.addTest(ML_1('test_costs'))
-        # suite.addTest(ML_1('test_predict'))
+        suite.addTest(ML_1('test_metrics'))
+        suite.addTest(ML_1('test_cm'))
+        suite.addTest(ML_1('test_costs'))
+        suite.addTest(ML_1('test_predict'))
         suite.addTest(ML_1('test_bag'))
         return suite
 

@@ -379,10 +379,8 @@ class Dataset(dict):
         pass
 
     def outlier_count(self, width=1.5, ascending=False):
-        ans = pd.Series(np.zeros(len(self.columns)), index=self.columns)
-        for row, value in ans.iteritems():
-            ans[row] = copper.utils.frame.outlier_count(self._frame[row], width=width)
-        return ans.order(ascending=ascending)
+        return copper.utils.frame.outlier_count(self.frame, width=width,
+                                                            ascending=ascending)
 
     def features_weight(self):
         from sklearn.feature_selection import SelectPercentile, f_classif
