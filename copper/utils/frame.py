@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn import decomposition
 
 '''
-Util for a pandas Dataframe
+Utils for a pandas Dataframe
 '''
 
 def percent_missing(frame, ascending=False):
@@ -43,38 +43,38 @@ def unique_values(frame, ascending=False):
     return ans.order(ascending=ascending)
 
 def PCA(data, n_components, ret_model=False):
-    X = None
-    if type(data) is copper.Dataset:
-        X = copper.transform.inputs2ml(data)
-    elif type(data) is pd.DataFrame:
-        X = data.values
-
+    ''' Calculates the PCA Decomposition of the frame
+    '''
+    X = data.values
     model = decomposition.PCA(n_components=n_components)
     model.fit(X)
+    transformed = pd.DataFrame(model.transform(X), index=data.index)
     if ret_model:
-        return model.transform(X), model
+        return transformed, model
     else:
-        return model.transform(X)
+        return transformed
 
-# -------------------------------------------------------------------------------------------
-#                                          OUTLIERS
+#-----------------------  OUTLIERS  --------------------------------------------
 
-def outlier_rows(series_or_frame, width=1.5):
+def outlier_rows(data, width=1.5):
+    ''' Returna a series/frame with the outliers filter array [Trues and Falses]
+
+    Parameters
+    ----------
+        data: pd.Series or pd.Frame
     '''
-    Get the outliers filter array [Trues and Falses]
-    '''
-    if type(series_or_frame) is pd.Series:
-        q1 = series_or_frame.describe()[4]
-        q3 = series_or_frame.describe()[6]
+    if type(data) is pd.Series:
+        q1 = data.describe()[4]
+        q3 = data.describe()[6]
         iqr = q3 - q1
         lower_limit = q1 - width * iqr
         upper_limit = q3 + width * iqr
-        return (series_or_frame < lower_limit) | (series_or_frame > upper_limit)
-    elif type(series_or_frame) is pd.DataFrame:
-        ans = pd.Series(np.zeros(len(series_or_frame)), dtype=object)
-        ans[:] = False
-        for col, series in series_or_frame.iteritems():
-            ans = ans | outlier_rows(series, width=width)
+        return (data < lower_limit) | (data > upper_limit)
+    elif type(data) is pd.DataFrame:
+        ans = pd.DataFrame(index=data.index)
+        for col in data.columns:
+            new = outlier_rows(data[col])
+            ans = ans.join(new)
         return ans
 
 def outliers(series, width=1.5):
@@ -83,8 +83,17 @@ def outliers(series, width=1.5):
     '''
     return series[outlier_rows(series, width=width)]
 
-def outlier_count(series, width=1.5):
+def outlier_count(data, width=1.5):
+    ''' Returns a series/int with the number of outliers of each column
+    
+    Parameters
+    ----------
+        data: pd.Series or pd.DataFrame
     '''
-    Get the number of outliers of that colums
-    '''
-    return len(outliers(series, width=width))
+    if type(data) is pd.Series:
+        return len(outliers(data, width=width))
+    elif type(data) is pd.DataFrame:
+        ans = pd.Series(index=data.columns)
+        for col in data.columns:
+            ans[col] = outlier_count(data[col])
+        return ans

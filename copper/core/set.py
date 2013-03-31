@@ -12,16 +12,13 @@ class Dataset(dict):
     Wrapper around pandas to define metadata to a pandas DataFrame.
     Also introduces a some utils for filling missing data, statistics and ploting.
     '''
-
-    # Constants
-    NUMBER = 'Number'
-    CATEGORY = 'Category'
-
     ID = 'ID'
     INPUT = 'Input'
     TARGET = 'Target'
+    NUMBER = 'Number'
     REJECT = 'Reject'
     REJECTED = 'Reject'
+    CATEGORY = 'Category'
 
     def __init__(self, data=None):
         '''
@@ -65,6 +62,10 @@ class Dataset(dict):
         filepath = os.path.join(copper.project.data, file_path)
         self.set_frame(pd.read_csv(filepath))
 
+    # --------------------------------------------------------------------------
+    #                                PROPERTIES
+    # --------------------------------------------------------------------------
+
     def set_frame(self, frame, metadata=True):
         ''' Sets the frame of the Dataset and Generates metadata for the frame
 
@@ -72,8 +73,8 @@ class Dataset(dict):
         ----------
             frame: pandas.DataFrame
         '''
-        self.frame = frame
-        self.columns = self.frame.columns.values
+        self._frame = frame
+        self.columns = self._frame.columns.values
         self.role = pd.Series(index=self.columns, name='Role', dtype=str)
         self.type = pd.Series(index=self.columns, name='Type', dtype=str)
 
@@ -94,63 +95,58 @@ class Dataset(dict):
 
         # Types
         number_cols = [c for c in self.columns
-                              if self.frame.dtypes[c] in (np.int64, np.float64)]
+                            if self._frame.dtypes[c] in (np.int64, np.float64)]
         self.type[number_cols] = self.NUMBER
         self.type = self.type.fillna(value=self.CATEGORY)
 
-    # --------------------------------------------------------------------------
-    #                                PROPERTIES
-    # --------------------------------------------------------------------------
+    def get_frame(self):
+        return self._frame
+
+    frame = property(get_frame, set_frame)
 
     def get_inputs(self):
-        '''
-        Generates and returns a DataFrame with the inputs ready for doing
-        Machine Learning
+        ''' Return a DataFrame with the colums with role=INPUT
 
         Returns
         -------
             df: pandas.DataFrame
         '''
-        return self.filter(role=self.INPUT)
+        ans = self.filter(role=self.INPUT)
+        return None if ans.empty else ans
 
     inputs = property(get_inputs)
 
     def get_target(self):
-        '''
-        Generates and returns a DataFrame with the targets ready for doing
-        Machine Learning
+        ''' Returns a DataFrame with the first column with role=TARGET
 
         Returns
         -------
             df: pandas.Series
         '''
-        try:
-            return self.filter(role=self.TARGET).ix[:, 0]
-        except:
-            return None
+        ans = self.filter(role=self.TARGET)
+        return None if ans.empty else ans[[ans.columns[0]]]
 
     target = property(get_target)
 
-    def get_numbers(self):
-        ''' Returns the columns of type number
+    def get_numerical(self):
+        ''' Returns a DataFrame with the first column with type=NUMBER
         '''
-        return self.filter(type=self.NUMBER)
+        ans = self.filter(type=self.NUMBER)
+        return None if ans.empty else ans
 
-    numbers = property(get_numbers)
+    numerical = property(get_numerical)
 
 
-    def get_categories(self):
-        ''' Returns the columns of type category
+    def get_categorical(self):
+        ''' Returns a DataFrame with the first column with type=CATEGORY
         '''
-        return self.filter(type=self.CATEGORY)
+        ans = self.filter(type=self.CATEGORY)
+        return None if ans.empty else ans
 
-    categories = property(get_categories)
+    categorical = property(get_categorical)
 
     def get_metadata(self):
-        '''
-        Generates and return a DataFrame with a summary of the data:
-            * Role
-            * Missing values
+        ''' Returns a DataFrame with the metadata
 
         Returns
         -------
@@ -159,18 +155,22 @@ class Dataset(dict):
         metadata = pd.DataFrame(index=self.columns)
         metadata['Role'] = self.role
         metadata['Type'] = self.type
-        metadata['dtype'] = self.frame.dtypes
+        metadata['dtype'] = self._frame.dtypes
         return metadata
 
     metadata = property(get_metadata)
 
+    # --------------------------------------------------------------------------
+    #                             FUNCTIONALITY
+    # --------------------------------------------------------------------------
+
     def update(self):
         ''' Updates the frame based on the metadata
         '''
-        for col in self.frame.columns:
+        for col in self._frame.columns:
             if self.type[col] == self.NUMBER and \
-                                        self.frame[col].dtype == object:
-                self.frame[col] = self.frame[col].apply(copper.transform.to_number)
+                                        self._frame[col].dtype == object:
+                self._frame[col] = self._frame[col].apply(copper.transform.to_number)
 
     def filter(self, role=None, type=None, ret_cols=False, ret_ds=False):
         ''' Filter the columns of the Dataset by Role and Type
@@ -205,11 +205,93 @@ class Dataset(dict):
         if ret_cols:
             return cols
         elif ret_ds:
-            ds = Dataset(self.frame[cols])
+            ds = Dataset(self._frame[cols])
             ds.match(self)
             return ds
         else:
-            return self.frame[cols]
+            return self._frame[cols]
+
+    def fix_names(self):
+        '''  Removes spaces and symbols from column names
+        Those symbols generates error if using patsy
+        '''
+        # TODO: change to regexp
+        new_cols = self.columns.tolist()
+        symbols = ' .-'
+        for i, col in enumerate(new_cols):
+            for symbol in symbols:
+                new_cols[i] = ''.join(new_cols[i].split(symbol))
+        self._frame.columns = new_cols
+        self.columns = new_cols
+        self.role.index = new_cols
+        self.type.index = new_cols
+
+    def match(self, other_ds):
+        '''
+        Makes the Dataset match other Datasets metadata
+        '''
+        self.role[:] = other_ds.REJECTED
+        for col in other_ds.columns:
+            try :
+                self.role[col] = other_ds.role[col]
+                self.type[col] = other_ds.type[col]
+            except:
+                pass # This can happen is some col is not on self, and is OK
+
+    def join(self, other_ds, how='outer'):
+        ans = self.frame.join(other_ds.frame)
+        ans = Dataset(ans)
+
+        for index, row in self.metadata.iterrows():
+            ans.role[index] = row['Role']
+            ans.type[index] = row['Type']
+        for index, row in other_ds.metadata.iterrows():
+            ans.role[index] = row['Role']
+            ans.type[index] = row['Type']
+
+        return ans
+
+    def fillna(self, cols=None, method='mean', value=None):
+        '''
+        Fill missing values
+
+        Parameters
+        ----------
+            cols: list, of columns to fill missing values
+            method: str, method to use to fill missing values
+                * mean(numerical,money)/mode(categorical): use the mean or most
+                  repeted value of the column
+                * knn
+        '''
+        if cols is None:
+            cols = self.columns
+        elif type(cols) is not list:
+            cols = [cols]
+
+        if method == 'mean' or method == 'mode':
+            for col in cols:
+                if self.role[col] != self.REJECTED:
+                    if self.type[col] == self.NUMBER:
+                        if method == 'mean' or method == 'mode':
+                            value = self[col].mean()
+                    if self.type[col] == self.CATEGORY:
+                        if method == 'mean' or method == 'mode':
+                            value = self[col].value_counts().index[0]
+                    self[col] = self[col].fillna(value=value)
+        elif method == 'knn':
+            # TODO: FIX
+            for col in cols:
+                imputed = copper.r.imputeKNN(self._frame)
+                self._frame[col] = imputed[col]
+        elif value is not None:
+            for col in cols:
+                if self.role[col] != self.REJECTED:
+                    if type(value) is str:
+                        if self.role[col] != self.CATEGORY:
+                            self[col] = self[col].fillna(value=value)
+                    elif type(value) is int or type(value) is float:
+                        if self.role[col] != self.NUMBER:
+                            self[col] = self[col].fillna(value=value)
 
     # --------------------------------------------------------------------------
     #                                    STATS
@@ -228,7 +310,7 @@ class Dataset(dict):
         -------
             pandas.Series
         '''
-        return copper.utils.frame.unique_values(self.frame, ascending=ascending)
+        return copper.utils.frame.unique_values(self._frame, ascending=ascending)
 
     def percent_missing(self, ascending=False):
         '''
@@ -242,37 +324,7 @@ class Dataset(dict):
         -------
             pandas.Series
         '''
-        return copper.utils.frame.percent_missing(self.frame, ascending=ascending)
-
-    def variance_explained(self, cols=None, plot=False):
-        '''
-        NOTE 1: fill/impute missing values before using this
-        NOTE 2: only use columns with dtype int or float
-
-        Parameters
-        ----------
-            cols: list, of columns to use in the calculation, default all inputs
-            plot: boolean, True want to make a bar plot
-
-        Returns
-        -------
-            pandas Series and plot it ready to be shown
-        '''
-        if cols is None:
-            frame = self.filter(role=self.INPUT, type=self.NUMBER)
-        else:
-            frame = self.frame
-
-        U, s, V = np.linalg.svd(frame.values)
-        variance = np.square(s) / sum(np.square(s))
-        
-        if plot:
-            xlocations = np.array(range(len(variance)))+0.5
-            width = 0.95
-            plt.bar(xlocations, variance, width=width)
-            plt.xlabel("Columns")
-            plt.ylabel("Variance Explained")
-        return variance
+        return copper.utils.frame.percent_missing(self._frame, ascending=ascending)
 
     def corr(self, cols=None, limit=None, two_tails=False, ascending=False):
         ''' Correlation between inputs and target
@@ -297,12 +349,12 @@ class Dataset(dict):
             except:
                 # If not use number cols
                 cols = [c for c in self.columns
-                              if self.frame.dtypes[c] in (np.int64, np.float64)]
+                              if self._frame.dtypes[c] in (np.int64, np.float64)]
         elif cols == 'all':
             cols = [c for c in self.columns
-                              if self.frame.dtypes[c] in (np.int64, np.float64)]
+                              if self._frame.dtypes[c] in (np.int64, np.float64)]
 
-        corrs = self.frame.corr()
+        corrs = self._frame.corr()
         corrs = corrs[cols]
         if type(corrs) is pd.Series:
             corrs = corrs[corrs.index != cols]
@@ -329,13 +381,8 @@ class Dataset(dict):
     def outlier_count(self, width=1.5, ascending=False):
         ans = pd.Series(np.zeros(len(self.columns)), index=self.columns)
         for row, value in ans.iteritems():
-            ans[row] = copper.utils.frame.outlier_count(self.frame[row], width=width)
+            ans[row] = copper.utils.frame.outlier_count(self._frame[row], width=width)
         return ans.order(ascending=ascending)
-
-    def chi2(self):
-        from sklearn.feature_selection import chi2
-        # return self.inputs.values, self.target.values)
-        return chi2(self.inputs.values, self.target.values)
 
     def features_weight(self):
         from sklearn.feature_selection import SelectPercentile, f_classif
@@ -355,76 +402,6 @@ class Dataset(dict):
         selector = RFE(estimator, n_features_to_select, step=1)
         selector = selector.fit(self.inputs.values, self.target.values)
         return pd.Series(selector.ranking_, index=self.filter(role=self.INPUT, ret_cols=True)).order(ascending=False)
-
-    def fillna(self, cols=None, method='mean', value=None):
-        '''
-        Fill missing values
-
-        Parameters
-        ----------
-            cols: list, of columns to fill missing values
-            method: str, method to use to fill missing values
-                * mean(numerical,money)/mode(categorical): use the mean or most
-                  repeted value of the column
-                * knn
-        '''
-        if cols is None:
-            cols = self.columns
-        if type(cols) == str:
-            cols = [cols]
-
-        if method == 'mean' or method == 'mode':
-            for col in cols:
-                if self.role[col] != self.REJECTED:
-                    if self.type[col] == self.NUMBER:
-                        if method == 'mean' or method == 'mode':
-                            value = self[col].mean()
-                    if self.type[col] == self.CATEGORY:
-                        if method == 'mean' or method == 'mode':
-                            value = self[col].value_counts().index[0]
-                    self[col] = self[col].fillna(value=value)
-        elif method == 'knn':
-            # TODO: FIX
-            for col in cols:
-                imputed = copper.r.imputeKNN(self.frame)
-                self.frame[col] = imputed[col]
-        elif value is not None:
-            for col in cols:
-                if self.role[col] != self.REJECTED:
-                    if type(value) is str:
-                        if self.role[col] != self.CATEGORY:
-                            self[col] = self[col].fillna(value=value)
-                    elif type(value) is int or type(value) is float:
-                        if self.role[col] != self.NUMBER:
-                            self[col] = self[col].fillna(value=value)
-
-    def fix_names(self):
-        ''' 
-        Removes spaces and symbols from column names
-        Those symbols generates error if using patsy
-        '''
-        # TODO: change to regexp
-        new_cols = self.columns.tolist()
-        symbols = ' .-'
-        for i, col in enumerate(new_cols):
-            for symbol in symbols:
-                new_cols[i] = ''.join(new_cols[i].split(symbol))
-        self.frame.columns = new_cols
-        self.columns = new_cols
-        self.role.index = new_cols
-        self.type.index = new_cols
-
-    def match(self, ds):
-        '''
-        Makes the Dataset match the others Datasets metadata
-        '''
-        self.role[:] = ds.REJECTED
-        for col in ds.columns:
-            try :
-                self.role[col] = ds.role[col]
-                self.type[col] = ds.type[col]
-            except:
-                pass # This can happen is some col is not on self, and is OK
 
     # --------------------------------------------------------------------------
     #                                    CHARTS
@@ -446,7 +423,7 @@ class Dataset(dict):
         ------
             nothing, figure is ready to be shown
         '''
-        copper.plot.histogram(self.frame[col], **args)
+        copper.plot.histogram(self._frame[col], **args)
 
     def scatter_pca(self):
         X = copper.transform.inputs2ml(self)
@@ -487,29 +464,29 @@ class Dataset(dict):
         return str(self.__unicode__())
 
     def __getitem__(self, name):
-        return self.frame[name]
+        return self._frame[name]
 
     def __setitem__(self, name, value):
-        self.frame[name] = value
+        self._frame[name] = value
 
     def __len__(self):
-        return len(self.frame)
+        return len(self._frame)
 
     def head(self, n=5):
-        return self.frame.head(n)
+        return self._frame.head(n)
 
     def tail(self, n=5):
-        return self.frame.tail(n)
+        return self._frame.tail(n)
 
     def get_values(self):
         ''' Returns the values of the dataframe
         '''
-        return self.frame.values
+        return self._frame.values
 
     values = property(get_values)
 
     def describe(self):
-        return self.frame.describe()
+        return self._frame.describe()
 
 def join(ds1, ds2, others=[], how='outer'):
     others.insert(0, ds2)
