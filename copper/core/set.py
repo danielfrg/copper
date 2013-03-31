@@ -104,6 +104,11 @@ class Dataset(dict):
 
     frame = property(get_frame, set_frame)
 
+    def get_index(self):
+        return self._frame.index
+
+    index = property(get_index)
+
     def get_inputs(self):
         ''' Return a DataFrame with the colums with role=INPUT
 
@@ -135,7 +140,6 @@ class Dataset(dict):
         return None if ans.empty else ans
 
     numerical = property(get_numerical)
-
 
     def get_categorical(self):
         ''' Returns a DataFrame with the first column with type=CATEGORY
