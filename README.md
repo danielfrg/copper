@@ -70,6 +70,8 @@ Examples
 Donors:
 * [Project structure and histograms](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/donors/src/explore.ipynb)
 
+* [Bootstrap and Bagging](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/donors/src/bagging.ipynb)
+
 Loans:
 * [Automatic data transformation](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/loans/src/transform.ipynb)
 
