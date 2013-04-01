@@ -51,15 +51,17 @@ def bootstrap(base_clf, n_iter, ds, score=False):
     else:
         return clfs
 
-def cv_pca(ds, clf, range_=None, cv=None, **args):
+def cv_pca(ds, clf, range_=None, cv=None, n_iter=3):
     if cv is None:
-        cv = cross_validation.ShuffleSplit(len(ds), **args)
+        cv = cross_validation.ShuffleSplit(len(ds), n_iter=n_iter)
     if range_ is None:
-        range_ = range(len(ds.inputs.columns))
+        range_ = range(1, len(ds.inputs.columns))
     
     ans = pd.Series(index=range_)
+    y = copper.transform.target2ml(ds).values
     for i in range_:
-        X, y = ds.PCA(i, ret_array=True)
+        pca = ds.PCA(n_components=i)
+        X = pca.inputs
         scores = cross_validation.cross_val_score(clf, X, y, cv=cv)
         ans[i] = np.mean(scores)
     return ans

@@ -28,11 +28,12 @@ class Dataset(dict):
         ----------
             data: str with the path of the data. Or pandas.DataFrame.
         '''
+        self._frame = None
         self.pca_model = None
 
         if data is not None:
             if type(data) is pd.DataFrame:
-                self.set_frame(data)
+                self.frame = data
             elif type(data) is str:
                 self.load(data)
 
@@ -60,7 +61,7 @@ class Dataset(dict):
             file_path: str
         '''
         filepath = os.path.join(copper.project.data, file_path)
-        self.set_frame(pd.read_csv(filepath))
+        self.frame = pd.read_csv(filepath)
 
     # --------------------------------------------------------------------------
     #                                PROPERTIES
@@ -400,11 +401,11 @@ class Dataset(dict):
         values, pca_model = copper.utils.frame.PCA(X, ret_model=True, **args)
 
         frame = pd.DataFrame(values)
-        if self.target:
+        if self.target is not None:
             frame = frame.join(self.target)
         
         ds = copper.Dataset(frame)
-        if self.target:
+        if self.target is not None:
             ds.role[self.filter(role=self.TARGET, ret_cols=True)] = self.TARGET
         ds.pca_model = pca_model
         return ds

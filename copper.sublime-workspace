@@ -4,6 +4,82 @@
 		"selected_items":
 		[
 			[
+				"ret",
+				"ret_model"
+			],
+			[
+				"re",
+				"ret_model"
+			],
+			[
+				"Data",
+				"DataFrame"
+			],
+			[
+				"wi",
+				"weights"
+			],
+			[
+				"pro",
+				"profit"
+			],
+			[
+				"ra",
+				"rates_0"
+			],
+			[
+				"cm",
+				"cm_table"
+			],
+			[
+				"Xt",
+				"X_train"
+			],
+			[
+				"A",
+				"A"
+			],
+			[
+				"cat",
+				"test_category2ml"
+			],
+			[
+				"date",
+				"dates_3"
+			],
+			[
+				"ou",
+				"outliers"
+			],
+			[
+				"uni",
+				"unique"
+			],
+			[
+				"uniq",
+				"test_unique_values"
+			],
+			[
+				"df",
+				"df"
+			],
+			[
+				"ran",
+				"random"
+			],
+			[
+				"ds",
+				"ds"
+			],
+			[
+				"numer",
+				"numberical"
+			],
+			[
+				"Cate",
+				"CATEGORY"
+			],
+			[
 				"class",
 				"classifier"
 			],
@@ -42,10 +118,6 @@
 			[
 				"inpu",
 				"inputs2ml"
-			],
-			[
-				"ret",
-				"ret_np"
 			],
 			[
 				"j",
@@ -104,16 +176,8 @@
 				"tolist"
 			],
 			[
-				"Data",
-				"DataFrame"
-			],
-			[
 				"me",
 				"metric_wrapper"
-			],
-			[
-				"uni",
-				"test_unique_values"
 			],
 			[
 				"percent",
@@ -170,10 +234,6 @@
 			[
 				"in",
 				"inputs"
-			],
-			[
-				"cat",
-				"categories"
 			],
 			[
 				"Num",
@@ -284,10 +344,6 @@
 				"clfs"
 			],
 			[
-				"cm",
-				"cm_s"
-			],
-			[
 				"c",
 				"classifiers"
 			],
@@ -338,14 +394,6 @@
 			[
 				"Column",
 				"ColumnData"
-			],
-			[
-				"pro",
-				"propertyName"
-			],
-			[
-				"wi",
-				"width"
 			],
 			[
 				"impo",
@@ -448,20 +496,12 @@
 				"encodeCategory"
 			],
 			[
-				"Cate",
-				"Category"
-			],
-			[
 				"exte",
 				"extend"
 			],
 			[
 				"n_",
 				"n_df"
-			],
-			[
-				"ds",
-				"ds"
 			],
 			[
 				"fi",
@@ -474,46 +514,6 @@
 			[
 				"mon",
 				"money_symbol"
-			],
-			[
-				"n_co",
-				"n_cols"
-			],
-			[
-				"get_",
-				"get_data"
-			],
-			[
-				"self",
-				"self_dir"
-			],
-			[
-				"_",
-				"_frame"
-			],
-			[
-				"set",
-				"set_data"
-			],
-			[
-				"bin",
-				"binary_cols"
-			],
-			[
-				"meta",
-				"meta_data"
-			],
-			[
-				"auto_",
-				"auto_fix"
-			],
-			[
-				"it",
-				"it"
-			],
-			[
-				"p",
-				"p_XY"
 			]
 		]
 	},
@@ -624,11 +624,38 @@
 	},
 	"file_history":
 	[
-		"/home/danielfrg/projects/copper/README.md",
-		"/home/danielfrg/projects/copper/copper/core/ml.py",
-		"/home/danielfrg/projects/copper/copper/utils/frame.py",
+		"/home/danielfrg/projects/copper/copper/core/compare.py",
+		"/home/danielfrg/projects/copper/copper/core/io.py",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/__init__.py",
+		"/home/danielfrg/projects/copper/copper/utils/frame.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_utils_frame.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/utils/ml.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_utils_ml.py",
+		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_transforms.py",
+		"/home/danielfrg/projects/data-mining/nba/README.md",
+		"/home/danielfrg/projects/copper/README.md",
+		"/home/danielfrg/projects/copper/copper/tests/test_compare_1.py",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/cost_no_ml.csv",
+		"/home/danielfrg/projects/copper/copper/tests/test_compare.py",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/oportunity_cost.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/profit.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/cm.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_proba_train.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_proba_test.csv",
+		"/home/danielfrg/projects/copper/copper/tests/data/predict_proba.csv",
+		"/home/danielfrg/projects/copper/LICENSE.txt",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/core/frame.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_transforms_ml.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_ml_1.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_ml.py",
+		"/home/danielfrg/projects/copper/copper/core/r.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/tests/test_frame.py",
+		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
+		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/danielfrg/projects/copper/copper/core/ml.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/svm/base.py",
 		"/home/danielfrg/projects/copper/copper/viz/base.py",
@@ -641,44 +668,33 @@
 		"/home/danielfrg/projects/copper/test.py",
 		"/home/danielfrg/projects/copper/copper.sublime-project",
 		"/home/danielfrg/projects/copper/matplotlib",
-		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/matplotlib/mpl-data/matplotlibrc",
 		"/home/danielfrg/.config/sublime-text-2/Packages/Web Inspector/Default (Linux).sublime-keymap",
 		"/home/danielfrg/.config/sublime-text-2/Packages/Web Inspector/swi.sublime-settings",
 		"/home/danielfrg/projects/data-mining/data-science-london/data/pred.csv",
-		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/data-mining/data-science-london/README.md",
 		"/home/danielfrg/projects/data-mining/copper-examples/README.md",
 		"/home/danielfrg/projects/data-mining/kaggle/dont-get-kicked/README.md",
 		"/home/danielfrg/projects/data-mining/kaggle/bulldozers/data/valid.csv",
-		"/home/danielfrg/projects/copper/copper/core/io.py",
 		"/home/danielfrg/projects/copper/copper/core/config.py",
 		"/home/danielfrg/.bash_completion",
 		"/home/danielfrg/projects/copper/CHANGES.txt",
 		"/home/danielfrg/projects/copper/setup.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_ml_1.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_utils_ml.py",
-		"/home/danielfrg/projects/copper/copper/__init__.py",
 		"/home/danielfrg/Downloads/DataGov_VHA_Hospital_Quality_of_Care_Hospital.csv",
 		"/home/danielfrg/projects/copper/copper/core/ensemble.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_ml.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/tests/test_panel.py",
-		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/tests/test_frame.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/pandas/tests/test_series.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/core/transforms.py",
 		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_test.csv",
 		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_train.csv",
-		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/oportunity_cost.csv",
 		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predit_proba_test.csv",
-		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predict_proba_train.csv",
 		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/predit_test.csv",
-		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/cost_no_ml.csv",
-		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/profit.csv",
-		"/home/danielfrg/projects/copper/copper/tests/data/ml/1/cm.csv",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms_ml.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_transforms.py",
-		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_2.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_utils_frame.py",
 		"/home/danielfrg/projects/copper/copper/tests/core/test_dataset_1.py",
@@ -704,7 +720,6 @@
 		"/home/danielfrg/projects/copper/examples/loans/src/explore.py",
 		"/home/danielfrg/projects/copper/examples/loans/src/explore.ipynb",
 		"/home/danielfrg/projects/data-mining/kaggle/bulldozers/src/impute.py",
-		"/home/danielfrg/projects/copper/copper/core/r.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/test.py",
 		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/f1.py",
 		"/home/danielfrg/projects/heroku-data/requirements.txt",
@@ -723,7 +738,6 @@
 		"/home/danielfrg/projects/copper/copper/test/data/transforms/1/data.csv",
 		"/home/danielfrg/projects/copper/copper/test/core/transforms.py",
 		"/home/danielfrg/Dropbox/Documents/UTD/Business Economics/mid",
-		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/danielfrg/projects/data-analysis/expedia/src/explore.py",
 		"/home/danielfrg/.virtualenvs/copper/bin/activate.fish",
 		"/home/danielfrg/.virtualenvs/copper/bin/activate",
@@ -737,21 +751,7 @@
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
 		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py",
 		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
-		"/home/dfrodriguez/projects/kaggle/salary/src/explore.py",
-		"/home/dfrodriguez/projects/copper/copper/io/io.py",
-		"/home/dfrodriguez/projects/kaggle/salary/data/by_cat/Accounting & Finance Jobs.csv",
-		"/home/dfrodriguez/Downloads/Accounting-Finance-Jobs-csv.csv",
-		"/home/dfrodriguez/.bashrc",
-		"/home/dfrodriguez/projects/copper/copper.sublime-project",
-		"/home/dfrodriguez/projects/copper/copper/core/set.py",
-		"/home/dfrodriguez/projects/copper/copper/viz/base.py",
-		"/home/dfrodriguez/projects/copper/examples/loans/src/explore.py",
-		"/home/dfrodriguez/projects/copper/examples/loans/src/explore.ipynb",
-		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset_1.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/all.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/Dataset_pandas.py",
-		"/home/dfrodriguez/projects/copper/copper/core/config.py",
-		"/home/dfrodriguez/projects/copper/copper/test/core/ML_1.py"
+		"/home/dfrodriguez/projects/kaggle/salary/src/explore.py"
 	],
 	"find":
 	{
@@ -769,6 +769,53 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"data",
+			"mod",
+			"pca_model",
+			"test_bag",
+			"self.ml",
+			"ML_1",
+			"bootstraped",
+			"assertEqual",
+			"ml",
+			"self",
+			"Grad Boosting",
+			"GNB",
+			"GaussianNB",
+			"Decision Tree",
+			"gr_bst_clf",
+			"ml",
+			"ML_basic",
+			"df",
+			" ",
+			"date",
+			"data",
+			".",
+			"MachineLearning",
+			"series",
+			"copper.utils.frame",
+			"series_or_frame",
+			"copper.utils.frame.percent_missing(frame)",
+			"ans",
+			"test_fillna_single",
+			"ones",
+			"zeros",
+			"test_fillna_single_2",
+			"test_fillna",
+			"role",
+			"'",
+			"test_cat2num",
+			"'",
+			"ds",
+			"apply",
+			"numberical",
+			"get_numbers",
+			"get_categories",
+			"empty",
+			"self.frame",
+			"frame",
+			"seed",
+			"test_frame",
 			"ans",
 			"y_test",
 			"X_test",
@@ -849,54 +896,7 @@
 			"test_1_filter",
 			"test_1_role_ml",
 			"test_1_fillna",
-			"test_1_cat_2_num",
-			"Dataset_1",
-			"copper",
-			"of",
-			"variance",
-			"dataset",
-			"Dataset",
-			"MLTest",
-			"DatasetTest_1",
-			"DatasetTest_pandas",
-			"DatasetTest",
-			"test_1_role",
-			"sol.csv",
-			"'''\n",
-			"var",
-			"update",
-			"prope",
-			"variance",
-			"self",
-			"col",
-			"file_path",
-			"pd",
-			"MONEY",
-			"self.colu",
-			"dataframe",
-			"create_metadata",
-			"metada",
-			"transforms",
-			"data",
-			"self",
-			"type",
-			"col",
-			"values",
-			"x",
-			"train",
-			"convert_robj",
-			"DataFra",
-			"train",
-			"histro",
-			"nans",
-			"repl_python_ipython",
-			"train",
-			"x14",
-			"percent_nas",
-			"perce",
-			"percent",
-			"export",
-			"accurac"
+			"test_1_cat_2_num"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +952,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 193.0
+		"height": 192.0
 	},
 	"replace":
 	{
@@ -1002,7 +1002,7 @@
 		[
 			[
 				"",
-				"/home/danielfrg/projects/django_hospital/hospital.sublime-project"
+				"/home/danielfrg/projects/data-mining/nba/nba.sublime-project"
 			],
 			[
 				"blo",
@@ -1019,6 +1019,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 197.0,
+	"side_bar_width": 213.0,
 	"status_bar_visible": true
 }
