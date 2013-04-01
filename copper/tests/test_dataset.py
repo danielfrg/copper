@@ -18,6 +18,9 @@ class Dataset_1(CopperTest):
         suite.addTest(Dataset_1('test_match'))
         suite.addTest(Dataset_1('test_join'))
         suite.addTest(Dataset_1('test_fillna'))
+        suite.addTest(Dataset_1('test_feature_wheight'))
+        suite.addTest(Dataset_1('test_rce_rank'))
+        suite.addTest(Dataset_1('test_pca'))
         return suite
 
     def test_create(self):
@@ -292,12 +295,46 @@ class Dataset_1(CopperTest):
         ds.fillna(method='mean')
         self.assertEqual(ds[1], ans_1)
         self.assertEqual(ds[3], ans_3)
+
+    # --------------------------------------------------------------------------
+    #                             FRAME UTILITIES
+    # --------------------------------------------------------------------------
         
+    def test_feature_wheight(self):
+        '''
+        Only checks that the values matches the frame.utils values
+        '''
+        X = pd.DataFrame(np.random.randn(10, 5))
+        y = pd.Series(np.round(np.random.rand(10, )), name='Target')
+        
+        ds = copper.Dataset(X.join(y))
+        sol = copper.utils.frame.features_weight(X,y)
+        self.assertEqual(ds.features_weight(), sol)
+
+    def test_rce_rank(self):
+        '''
+        Only checks that the values matches the frame.utils values
+        '''
+        X = pd.DataFrame(np.random.randn(10, 2))
+        y = pd.Series(np.round(np.random.rand(10, )), name='Target')
+
+        ds = copper.Dataset(X.join(y))
+        sol = copper.utils.frame.rce_rank(X,y)
+        self.assertEqual(ds.rce_rank(), sol)
+
+    def test_pca(self):
+        '''
+        Only checks that the values matches the frame.utils values
+        '''
+        X = pd.DataFrame(np.random.randn(100, 50))
+
+        ds = copper.Dataset(X)
+        ds.role[0]
+        sol = copper.utils.frame.PCA(X, n_components=10)
+        sol = copper.Dataset(sol)
+        self.assertEqual(ds.PCA(n_components=10), sol)
         
 if __name__ == '__main__':
     # unittest.main()
     suite = Dataset_1().suite()
     unittest.TextTestRunner(verbosity=2).run(suite)
-
-    # import nose
-    # nose.runmodule(argv=[__file__, '-vvs', '-x', '--pdb', '--pdb-failure'])

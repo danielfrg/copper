@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from sklearn import decomposition
-
+from sklearn.feature_selection import RFE, SelectPercentile, f_classif
 '''
 Utils for a pandas Dataframe
 '''
@@ -42,17 +42,44 @@ def unique_values(frame, ascending=False):
         ans[col] = len(frame[col].value_counts())
     return ans.order(ascending=ascending)
 
-def PCA(data, n_components, ret_model=False):
+def PCA(data, ret_model=False, **args):
     ''' Calculates the PCA Decomposition of the frame
     '''
     X = data.values
-    model = decomposition.PCA(n_components=n_components)
+    model = decomposition.PCA(**args)
     model.fit(X)
     transformed = pd.DataFrame(model.transform(X), index=data.index)
-    if ret_model:
-        return transformed, model
-    else:
-        return transformed
+    return (transformed, model) if ret_model else transformed
+
+def features_weight(X, y, ascending=False):
+    '''
+    Paremeters
+    ----------
+        X: pd.DataFrame
+        y: pd.Series
+    '''
+    selector = SelectPercentile(f_classif)
+    selector.fit(X.values, y.values)
+    scores = -np.log10(selector.pvalues_)
+    scores /= scores.max()
+    ans = pd.Series(scores, index=X.columns)
+    return ans.order(ascending=ascending)
+
+def rce_rank(X, y, n_features_to_select=None, estimator=None):
+    '''
+    Paremeters
+    ----------
+        X: pd.DataFrame
+        y: pd.Series
+    '''
+    if estimator is None:
+        from sklearn.svm import SVC
+        estimator = SVC(kernel="linear")
+    selector = RFE(estimator, n_features_to_select, step=1)
+    selector = selector.fit(X.values, y.values)
+    ans = pd.Series(selector.ranking_, index=X.columns)
+    return ans.order(ascending=False)
+    
 
 #-----------------------  OUTLIERS  --------------------------------------------
 

@@ -10,10 +10,12 @@ class UtilsFrame(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(UtilsFrame('test_percent_missing'))
-        suite.addTest(UtilsFrame('test_unique_values'))
-        suite.addTest(UtilsFrame('test_outliers'))
+        # suite.addTest(UtilsFrame('test_percent_missing'))
+        # suite.addTest(UtilsFrame('test_unique_values'))
+        # suite.addTest(UtilsFrame('test_outliers'))
         suite.addTest(UtilsFrame('test_pca'))
+        # suite.addTest(UtilsFrame('test_feature_weight'))
+        # suite.addTest(UtilsFrame('test_rce_rank'))
         return suite
 
     def test_percent_missing(self):
@@ -105,16 +107,51 @@ class UtilsFrame(CopperTest):
         self.assertEqual(outliers[7], 5000)
 
     def test_pca(self):
-        index = np.arange(5,15)
-        df = pd.DataFrame(np.random.randn(10, 20), index=index)
-        
+        np.random.seed(123)
+        index = np.arange(5,10)
+        df = pd.DataFrame(np.random.randn(5, 5), index=index)
+
         pca = copper.utils.frame.PCA(df, n_components=2)
         self.assertEqual(len(pca.columns), 2)
         self.assertEqual(list(pca.index), list(df.index))
+        self.assertEqual(pca[0][5], -1.308208, 5)
+        self.assertEqual(pca[0][8], -2.130776, 5)
+        self.assertEqual(pca[1][7], -1.377485, 5)
 
-        pca = copper.utils.frame.PCA(df, n_components=10)
-        self.assertEqual(len(pca.columns), 10)
+        pca = copper.utils.frame.PCA(df, n_components=4)
+        self.assertEqual(len(pca.columns), 4)
         self.assertEqual(list(pca.index), list(df.index))
+        self.assertEqual(pca[0][5], -1.308208, 5)
+        self.assertEqual(pca[1][8], 1.077598, 5)
+        self.assertEqual(pca[3][9], -0.112868, 5)
+
+
+
+        # values
+
+    def test_feature_weight(self):
+        np.random.seed(123)
+        X = pd.DataFrame(np.random.randn(10, 5))
+        y = pd.Series(np.round(np.random.rand(10, )), name='Target')
+        
+        ds = copper.Dataset(X.join(y))
+        weights = copper.utils.frame.features_weight(X,y)
+        self.assertEqual(weights[0],0.181199, 5)
+        self.assertEqual(weights[1],0.410150, 5)
+        self.assertEqual(weights[2],0.452251, 5)
+        self.assertEqual(weights[3],0.545589, 5)
+        self.assertEqual(weights[4],1.000000, 5)
+
+    def test_rce_rank(self):
+        np.random.seed(123)
+        X = pd.DataFrame(np.random.randn(10, 2))
+        y = pd.Series(np.round(np.random.rand(10, )), name='Target')
+        
+        ds = copper.Dataset(X.join(y))
+        weights = copper.utils.frame.rce_rank(X,y)
+        
+        self.assertEqual(weights[0],1)
+        self.assertEqual(weights[1],2)
 
 if __name__ == '__main__':
     suite = UtilsFrame().suite()

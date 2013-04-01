@@ -382,29 +382,43 @@ class Dataset(dict):
         # TODO: same as corr but for skew()
         pass
 
-    def outlier_count(self, width=1.5, ascending=False):
-        return copper.utils.frame.outlier_count(self.frame, width=width,
-                                                            ascending=ascending)
+    def outlier_count(self, **args):
+        return copper.utils.frame.outlier_count(self.frame, **args)
 
-    def features_weight(self):
-        from sklearn.feature_selection import SelectPercentile, f_classif
-        selector = SelectPercentile(f_classif)
+    def features_weight(self, **args):
         X = copper.transform.inputs2ml(self)
         y = copper.transform.target2ml(self)
-        selector.fit(X, y)
-        scores = -np.log10(selector.pvalues_)
-        scores /= scores.max()
-        return pd.Series(scores, index=self.filter(role=self.INPUT, ret_cols=True)).order(ascending=False)
+        return copper.utils.frame.features_weight(X, y, **args)
 
-    def RCE_rank(self, n_features_to_select=None, estimator=None):
-        from sklearn.feature_selection import RFE
-        if estimator is None:
-            from sklearn.svm import SVC
-            estimator = SVC(kernel="linear")
-        selector = RFE(estimator, n_features_to_select, step=1)
-        selector = selector.fit(self.inputs.values, self.target.values)
-        return pd.Series(selector.ranking_, index=self.filter(role=self.INPUT, ret_cols=True)).order(ascending=False)
+    def rce_rank(self, **args):
+        X = copper.transform.inputs2ml(self)
+        y = copper.transform.target2ml(self)
+        return copper.utils.frame.rce_rank(X, y, **args)
+    
+    def PCA(self, **args):
+        X = copper.transform.inputs2ml(self)
+        values, pca_model = copper.utils.frame.PCA(X, ret_model=True, **args)
 
+        frame = pd.DataFrame(values)
+        if self.target:
+            frame = frame.join(self.target)
+        
+        ds = copper.Dataset(frame)
+        if self.target:
+            ds.role[self.filter(role=self.TARGET, ret_cols=True)] = self.TARGET
+        ds.pca_model = pca_model
+        return ds
+
+    def match_pca(self, ds):
+        values = copper.transform.inputs2ml(self).values
+        values = ds.pca_model.transform(values)
+        frame = pd.DataFrame(values)
+        if self.target is not None:
+            frame = frame.join(self.target)
+        ds = copper.Dataset(frame)
+        if self.target is not None:
+            ds.role[self.filter(role=ds.TARGET, ret_cols=True)] = self.TARGET    
+        return ds
     # --------------------------------------------------------------------------
     #                                    CHARTS
     # --------------------------------------------------------------------------
@@ -431,29 +445,6 @@ class Dataset(dict):
         X = copper.transform.inputs2ml(self)
         y = copper.transform.target2ml(self)
         copper.plot.scatter_pca(X, y)
-
-    def PCA(self, n_components, ret_array=False):
-        values, pca_model = copper.utils.frame.PCA(self, n_components, ret_model=True)
-        if ret_array:
-            return values, copper.transform.target2ml(self).values
-
-        frame = pd.DataFrame(values)
-        frame = frame.join(self.target)
-        ds = copper.Dataset(frame)
-        ds.role[self.filter(role=self.TARGET, ret_cols=True)] = self.TARGET
-        ds.pca_model = pca_model
-        return ds
-
-    def match_pca(self, ds):
-        values = copper.transform.inputs2ml(self).values
-        values = ds.pca_model.transform(values)
-        frame = pd.DataFrame(values)
-        if self.target is not None:
-            frame = frame.join(self.target)
-        ds = copper.Dataset(frame)
-        if self.target is not None:
-            ds.role[self.filter(role=ds.TARGET, ret_cols=True)] = self.TARGET    
-        return ds
 
     # --------------------------------------------------------------------------
     #                    SPECIAL METHODS / PANDAS API
