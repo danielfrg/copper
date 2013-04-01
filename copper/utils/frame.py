@@ -100,7 +100,7 @@ def outlier_rows(data, width=1.5):
     elif type(data) is pd.DataFrame:
         ans = pd.DataFrame(index=data.index)
         for col in data.columns:
-            new = outlier_rows(data[col])
+            new = outlier_rows(data[col], width=width)
             ans = ans.join(new)
         return ans
 
@@ -122,5 +122,5 @@ def outlier_count(data, width=1.5, ascending=False):
     elif type(data) is pd.DataFrame:
         ans = pd.Series(index=data.columns)
         for col in data.columns:
-            ans[col] = outlier_count(data[col])
+            ans[col] = outlier_count(data[col], width=width)
         return ans.order(ascending=ascending)
