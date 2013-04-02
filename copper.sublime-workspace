@@ -624,18 +624,18 @@
 	},
 	"file_history":
 	[
-		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
-		"/home/danielfrg/projects/data-mining/digit-recognizer/data/train.csv",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
+		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_transforms.py",
+		"/home/danielfrg/projects/data-mining/digit-recognizer/data/train.csv",
 		"/home/danielfrg/projects/copper/copper/utils/frame.py",
 		"/home/danielfrg/projects/copper/copper/utils/ml.py",
-		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/core/compare.py",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
 		"/home/danielfrg/projects/copper/copper/__init__.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_frame.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_ml.py",
-		"/home/danielfrg/projects/copper/copper/tests/test_transforms.py",
 		"/home/danielfrg/projects/data-mining/nba/README.md",
 		"/home/danielfrg/projects/copper/README.md",
 		"/home/danielfrg/projects/copper/copper/tests/test_compare_1.py",
@@ -769,6 +769,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"role",
 			"1.5",
 			"FRAMe",
 			"FRAME",
@@ -895,8 +896,7 @@
 			"iner",
 			"df_ans",
 			"Dataset_1",
-			"transform",
-			"test_1_filter"
+			"transform"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +952,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 192.0
+		"height": 222.0
 	},
 	"replace":
 	{

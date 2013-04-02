@@ -317,7 +317,7 @@ class Dataset(dict):
         '''
         return copper.utils.frame.unique_values(self._frame, ascending=ascending)
 
-    def percent_missing(self, ascending=False):
+    def percent_missing(self, role=None, type=None, ascending=False):
         '''
         Generetas a Series with the percent of missing values of each column
 
@@ -329,7 +329,9 @@ class Dataset(dict):
         -------
             pandas.Series
         '''
-        return copper.utils.frame.percent_missing(self._frame, ascending=ascending)
+        print(type)
+        data = self.filter(role=role, type=type)
+        return copper.utils.frame.percent_missing(data, ascending=ascending)
 
     def corr(self, cols=None, limit=None, two_tails=False, ascending=False):
         ''' Correlation between inputs and target
