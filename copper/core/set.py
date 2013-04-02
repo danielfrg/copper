@@ -236,7 +236,7 @@ class Dataset(dict):
         Makes the Dataset match other Datasets metadata
         '''
         self.role[:] = other_ds.REJECTED
-        for col in other_ds.columns:
+        for col in self.columns:
             try :
                 self.role[col] = other_ds.role[col]
                 self.type[col] = other_ds.type[col]

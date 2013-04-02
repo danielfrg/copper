@@ -10,17 +10,17 @@ class Dataset_1(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(Dataset_1('test_create'))
-        suite.addTest(Dataset_1('test_properties'))
-        suite.addTest(Dataset_1('test_pandas'))
-        suite.addTest(Dataset_1('test_update_cat2num'))
-        suite.addTest(Dataset_1('test_filter'))
+        # suite.addTest(Dataset_1('test_create'))
+        # suite.addTest(Dataset_1('test_properties'))
+        # suite.addTest(Dataset_1('test_pandas'))
+        # suite.addTest(Dataset_1('test_update_cat2num'))
+        # suite.addTest(Dataset_1('test_filter'))
         suite.addTest(Dataset_1('test_match'))
-        suite.addTest(Dataset_1('test_join'))
-        suite.addTest(Dataset_1('test_fillna'))
-        suite.addTest(Dataset_1('test_feature_wheight'))
-        suite.addTest(Dataset_1('test_rce_rank'))
-        suite.addTest(Dataset_1('test_pca'))
+        # suite.addTest(Dataset_1('test_join'))
+        # suite.addTest(Dataset_1('test_fillna'))
+        # suite.addTest(Dataset_1('test_feature_wheight'))
+        # suite.addTest(Dataset_1('test_rce_rank'))
+        # suite.addTest(Dataset_1('test_pca'))
         return suite
 
     def test_create(self):
@@ -218,8 +218,9 @@ class Dataset_1(CopperTest):
         Matches the metadata of another dataset.
         '''
         df = pd.DataFrame(np.random.randn(10, 10))
+        df2 = pd.DataFrame(np.random.randn(10, 11))
         train = copper.Dataset(df)
-        test = copper.Dataset(df)
+        test = copper.Dataset(df2)
 
         train.role[1] = train.ID
         train.type[2] = train.CATEGORY
@@ -228,15 +229,29 @@ class Dataset_1(CopperTest):
         train.type[7] = train.CATEGORY
 
         test.match(train)
-        # Test indivitual changes
-        self.assertEqual(test.role[1], test.ID)
-        self.assertEqual(test.type[2], test.CATEGORY)
-        self.assertEqual(test.role[4], test.REJECT)
-        self.assertEqual(test.role[6], test.REJECT)
-        self.assertEqual(test.type[7], test.CATEGORY)
+        # Test roles
+        self.assertEqual(test.role[0], train.role[0])
+        self.assertEqual(test.role[1], train.role[1])
+        self.assertEqual(test.role[2], train.role[2])
+        self.assertEqual(test.role[3], train.role[3])
+        self.assertEqual(test.role[4], train.role[4])
+        self.assertEqual(test.role[5], train.role[5])
+        self.assertEqual(test.role[6], train.role[6])
+        self.assertEqual(test.role[7], train.role[7])
+        self.assertEqual(test.role[8], train.role[8])
+        self.assertEqual(test.role[9], train.role[9])
+        self.assertEqual(test.role[10], test.REJECT)
 
-        # Test whole metadata
-        self.assertEqual(train.metadata, test.metadata)
+        self.assertEqual(test.type[0], train.type[0])
+        self.assertEqual(test.type[1], train.type[1])
+        self.assertEqual(test.type[2], train.type[2])
+        self.assertEqual(test.type[3], train.type[3])
+        self.assertEqual(test.type[4], train.type[4])
+        self.assertEqual(test.type[5], train.type[5])
+        self.assertEqual(test.type[6], train.type[6])
+        self.assertEqual(test.type[7], train.type[7])
+        self.assertEqual(test.type[8], train.type[8])
+        self.assertEqual(test.type[9], train.type[9])
 
     def test_join(self):
         ''' Tests join of different datasets

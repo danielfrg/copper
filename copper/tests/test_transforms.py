@@ -132,13 +132,13 @@ class TransformsTest(CopperTest):
         ds = copper.Dataset(pd.DataFrame(dic))
 
         sol = pd.DataFrame(index=ds.index)
+        sol['Num.1'] = ds['Num.1']
+        sol['Num.2'] = ds['Num.2']
         sol['Cat.1 [A]'] = [1,0,1,1,0]
         sol['Cat.1 [B]'] = [0,1,0,0,1]
         sol['Cat.2 [f]'] = [1,0,0,0,1]
         sol['Cat.2 [g]'] = [0,1,0,1,0]
         sol['Cat.2 [h]'] = [0,0,1,0,0]
-        sol['Num.1'] = ds['Num.1']
-        sol['Num.2'] = ds['Num.2']
 
         tr = copper.transform.inputs2ml(ds)
         self.assertEqual(tr, sol)
@@ -146,11 +146,11 @@ class TransformsTest(CopperTest):
         # Change the role of a column to REJECT
         ds.role['Cat.1'] = ds.REJECT
         sol = pd.DataFrame(index=ds.index)
+        sol['Num.1'] = ds['Num.1']
+        sol['Num.2'] = ds['Num.2']
         sol['Cat.2 [f]'] = [1,0,0,0,1]
         sol['Cat.2 [g]'] = [0,1,0,1,0]
         sol['Cat.2 [h]'] = [0,0,1,0,0]
-        sol['Num.1'] = ds['Num.1']
-        sol['Num.2'] = ds['Num.2']
 
         tr = copper.transform.inputs2ml(ds)
         self.assertEqual(tr, sol)

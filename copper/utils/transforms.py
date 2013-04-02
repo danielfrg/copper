@@ -116,7 +116,7 @@ def inputs2ml(ds):
     ans = ans.join(ds.frame[numcols])
     catcols = ds.filter(role=ds.INPUT, type=ds.CATEGORY, ret_cols=True)
     for catcol in catcols:
-        new_cols = category2ml(ds.frame[col])
+        new_cols = category2ml(ds.frame[catcol])
         ans = ans.join(new_cols)
     return ans
     

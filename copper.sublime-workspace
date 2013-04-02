@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"cat",
+				"catcols"
+			],
+			[
+				"num",
+				"numcols"
+			],
+			[
 				"inp",
 				"inputs"
 			],
@@ -42,10 +50,6 @@
 			[
 				"A",
 				"A"
-			],
-			[
-				"cat",
-				"test_category2ml"
 			],
 			[
 				"date",
@@ -190,10 +194,6 @@
 			[
 				"wh",
 				"which"
-			],
-			[
-				"num",
-				"numberRE"
 			],
 			[
 				"train",
@@ -624,6 +624,8 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
+		"/home/danielfrg/projects/data-mining/digit-recognizer/data/train.csv",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/copper/copper/utils/frame.py",
 		"/home/danielfrg/projects/copper/copper/utils/ml.py",
@@ -633,7 +635,6 @@
 		"/home/danielfrg/projects/copper/copper/__init__.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_frame.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_ml.py",
-		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_transforms.py",
 		"/home/danielfrg/projects/data-mining/nba/README.md",
 		"/home/danielfrg/projects/copper/README.md",
@@ -750,8 +751,7 @@
 		"/home/danielfrg/projects/copper/copper/test/core/all.py",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
 		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py",
-		"/home/dfrodriguez/projects/copper/copper/core/transforms.py",
-		"/home/dfrodriguez/projects/kaggle/salary/src/explore.py"
+		"/home/dfrodriguez/projects/copper/copper/core/transforms.py"
 	],
 	"find":
 	{
