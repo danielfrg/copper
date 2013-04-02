@@ -280,11 +280,9 @@ class Dataset(dict):
             for col in cols:
                 if self.role[col] == self.INPUT:
                     if self.type[col] == self.NUMBER:
-                        if method == 'mean' or method == 'mode':
-                            value = self[col].mean()
+                        value = self[col].mean()
                     if self.type[col] == self.CATEGORY:
-                        if method == 'mean' or method == 'mode':
-                            value = self[col].value_counts().index[0]
+                        value = self[col].value_counts().index[0]
                     self[col] = self[col].fillna(value=value)
         elif method == 'knn':
             # TODO: FIX
