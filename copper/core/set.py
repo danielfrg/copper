@@ -337,8 +337,10 @@ class Dataset(dict):
 
     def corr(self, cols=None, limit=None, two_tails=False, ascending=False):
         ''' Correlation between inputs and target
-        If a column has a role of target that colum is returned.
-        If not columns then the pandas.corr is called on the inputs.
+        If a column has a role of target only the correlations to that colum 
+        are returned.
+        If not columns have a role of target then the pandas.corr is called 
+        on the inputs.
 
         Parameters
         ----------
