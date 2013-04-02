@@ -303,7 +303,7 @@ class Dataset(dict):
     #                                    STATS
     # --------------------------------------------------------------------------
 
-    def unique_values(self, ascending=False):
+    def unique_values(self, role=None, type=None, ascending=False):
         '''
         Generetas a Series with the number of unique values of each column
         Note: Excludes NA
@@ -316,7 +316,8 @@ class Dataset(dict):
         -------
             pandas.Series
         '''
-        return copper.utils.frame.unique_values(self._frame, ascending=ascending)
+        data = self.filter(role=role, type=type)
+        return copper.utils.frame.unique_values(data, ascending=ascending)
 
     def percent_missing(self, role=None, type=None, ascending=False):
         '''
