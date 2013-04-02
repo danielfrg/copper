@@ -2,6 +2,7 @@ import os
 from copper.core.io import *
 from copper.core.set import *
 from copper.core.compare import *
+from copper.core.estimators import *
 
 import copper.viz.base as plot
 

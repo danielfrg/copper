@@ -4,7 +4,7 @@ import copper
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from sklearn.base import clone, BaseEstimator
 
 class Bag(BaseEstimator):
     def __init__(self, clfs=None):
@@ -89,6 +89,17 @@ class MaxProbaBag(Bag):
         return ans
 
 class DivWrapper(BaseEstimator):
+    def __init__(self, base_clf, variable):
+        self.base_clf = clone(base_clf)
+        self.variable = variable
+        self.models = {}
+
+    def fit(self, X, y):
+        self.pca_model = decomposition.PCA(n_components=self.n_components)
+        self.pca_model.fit(X)
+        _X = self.pca_model.transform(X)
+        self.base_clf.fit(_X, y)
+
     def predict(self, X):
         return np.argmax(self.predict_proba(X), axis=1)
 

@@ -9,7 +9,7 @@ from sklearn import grid_search
 from sklearn import decomposition
 from sklearn import cross_validation
 from sklearn.metrics import accuracy_score
-from sklearn.base import clone, BaseEstimator
+from sklearn.base import clone
 
 def bootstrap(base_clf, n_iter, ds, score=False):
     '''
@@ -88,26 +88,3 @@ def grid(ds, base_clf, param, values, cv=None, verbose=False, **args):
             test_scores[i, j] = clf.score(X[test], y[test])
 
     return train_scores, test_scores
-
-
-
-if __name__ == '__main__':
-    from sklearn import svm
-    import pprint
-    import random
-    
-    copper.project.path = '../../../data-mining/data-science-london/'
-    train = copper.load('train')
-    test = copper.load('test')
-    clf = svm.SVC(kernel='rbf', gamma=0.02, C=10, probability=True)
-    pca_clf = PCA_wrapper(clf, n_components=13)
-    ml = copper.MachineLearning()
-    ml.train = train
-    ml.add_clf(clf, 'svm')
-    ml.add_clf(pca_clf, 'pca')
-    ml.fit()
-    bag = MaxProbaBag()
-    bag.add_clf(ml.clfs)
-    # print(ml.predict_proba(test).head(3))
-    print(bag.predict_proba(test))
-    
