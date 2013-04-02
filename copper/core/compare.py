@@ -120,11 +120,12 @@ class ModelComparison():
         else:
             X_test = self.X_test
 
-        ans = pd.DataFrame(np.zeros((len(X_test), len(clfs))), columns=clfs, index=range(len(X_test)))
+        ans = pd.DataFrame(index=range(len(X_test)))
         for clf_name in clfs:
             clf = self._clfs[clf_name]
             scores = clf.predict(X_test)
-            ans[clf_name][:] = pd.Series(scores)
+            new = pd.Series(scores, index=ans.index, name=clf_name, dtype=int)
+            ans = ans.join(new)
         return ans
 
     def predict_proba(self, ds=None, clfs=None):
