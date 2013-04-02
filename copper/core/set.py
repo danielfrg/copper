@@ -388,7 +388,8 @@ class Dataset(dict):
         pass
 
     def outlier_count(self, **args):
-        return copper.utils.frame.outlier_count(self.frame, **args)
+        data = self.filter(role=self.INPUT, type=self.NUMBER)
+        return copper.utils.frame.outlier_count(data, **args)
 
     def features_weight(self, **args):
         X = copper.transform.inputs2ml(self)

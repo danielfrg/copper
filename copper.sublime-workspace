@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"data",
+				"data"
+			],
+			[
 				"cat",
 				"catcols"
 			],
@@ -272,10 +276,6 @@
 				"fillna"
 			],
 			[
-				"data",
-				"dataframe"
-			],
-			[
 				"number",
 				"number_cols"
 			],
@@ -519,6 +519,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "copper/core/set.py",
+			"settings":
+			{
+				"buffer_size": 16537,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "copper/utils/ml.py",
+			"settings":
+			{
+				"buffer_size": 7093,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -624,6 +640,7 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
@@ -750,8 +767,7 @@
 		"/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
 		"/home/danielfrg/projects/copper/copper/test/core/all.py",
 		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
-		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py",
-		"/home/dfrodriguez/projects/copper/copper/core/transforms.py"
+		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py"
 	],
 	"find":
 	{
@@ -769,6 +785,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"fillna",
+			"encodestring",
+			"print",
 			"role",
 			"1.5",
 			"FRAMe",
@@ -893,10 +912,7 @@
 			"freque",
 			"values",
 			"ml",
-			"iner",
-			"df_ans",
-			"Dataset_1",
-			"transform"
+			"iner"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -914,8 +930,65 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "copper/core/set.py",
+					"settings":
+					{
+						"buffer_size": 16537,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7673,
+								7673
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4169.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "copper/utils/ml.py",
+					"settings":
+					{
+						"buffer_size": 7093,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2580,
+								2580
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1148.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

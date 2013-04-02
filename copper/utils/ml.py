@@ -66,7 +66,7 @@ def cv_pca(ds, clf, range_=None, cv=None, n_iter=3):
         ans[i] = np.mean(scores)
     return ans
 
-def grid(ds, base_clf, param, values, cv=None, **args):
+def grid(ds, base_clf, param, values, cv=None, verbose=False, **args):
     if cv is None:
         cv = cross_validation.ShuffleSplit(len(ds), **args)
     
@@ -76,6 +76,8 @@ def grid(ds, base_clf, param, values, cv=None, **args):
     train_scores = np.zeros((len(values), cv.n_iter))
     test_scores = np.zeros((len(values), cv.n_iter))
     for i, value in enumerate(values):
+        if verbose:
+            print('%s= %s' % (param, str(value)))
         for j, (train, test) in enumerate(cv):
             clf_params = base_clf.get_params()
             clf_params[param] = value
