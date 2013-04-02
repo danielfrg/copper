@@ -235,8 +235,7 @@ class Dataset(dict):
         self.type.index = new_cols
 
     def match(self, other_ds):
-        '''
-        Makes the Dataset match other Datasets metadata
+        ''' Makes this Dataset match other Dataset metadata
         '''
         self.role[:] = other_ds.REJECTED
         for col in self.columns:
@@ -244,7 +243,7 @@ class Dataset(dict):
                 self.role[col] = other_ds.role[col]
                 self.type[col] = other_ds.type[col]
             except:
-                pass # This can happen is some col is not on self, and is OK
+                pass # This can happen is some col is not on the other ds
 
     def join(self, other_ds, how='outer'):
         ans = self.frame.join(other_ds.frame)
