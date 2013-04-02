@@ -332,13 +332,12 @@ class Dataset(dict):
         -------
             pandas.Series
         '''
-        print(type)
         data = self.filter(role=role, type=type)
         return copper.utils.frame.percent_missing(data, ascending=ascending)
 
     def corr(self, cols=None, limit=None, two_tails=False, ascending=False):
         ''' Correlation between inputs and target
-        If a column has a role of target only values for that column are returned.
+        If a column has a role of target that colum is returned.
         If not columns then the pandas.corr is called on the inputs.
 
         Parameters
