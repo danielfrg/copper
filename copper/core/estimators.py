@@ -109,7 +109,7 @@ class DivWrapper(BaseEstimator):
             ans[i, ] = temp[i, iclf * options:iclf * options + 2]
         return ans
 
-class PCA_wrapper(BaseEstimator):
+class PCAWrapper(BaseEstimator):
 
     def __init__(self, base_clf, n_components=None):
         self.base_clf = clone(base_clf)
