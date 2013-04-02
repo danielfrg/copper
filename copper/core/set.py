@@ -275,7 +275,7 @@ class Dataset(dict):
 
         if method == 'mean' or method == 'mode':
             for col in cols:
-                if self.role[col] != self.REJECTED:
+                if self.role[col] == self.INPUT:
                     if self.type[col] == self.NUMBER:
                         if method == 'mean' or method == 'mode':
                             value = self[col].mean()
