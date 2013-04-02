@@ -112,27 +112,14 @@ def inputs2ml(ds):
     '''
     num_options = (np.int64, np.float64)
     ans = pd.DataFrame(index=ds.index)
-
-    for col in ds.filter(role=ds.INPUT, ret_cols=True):
-        if ds.type[col] == ds.NUMBER and ds.frame[col].dtype in num_options:
-            ans = ans.join(ds.frame[col])
-
-        elif ds.type[col] == ds.NUMBER and ds.frame[col].dtype == object:
-            ans = ans.join(ds.frame[col].apply(to_number))
-
-        elif ds.type[col] == ds.CATEGORY and ds.frame[col].dtype in num_options:
-            new_cols = category2ml(ds.frame[col])
-            ans = ans.join(new_cols)
-
-        elif ds.type[col] == ds.CATEGORY and ds.frame[col].dtype == object:
-            new_cols = category2ml(ds.frame[col])
-            ans = ans.join(new_cols)
-
-        else:
-            # Crazy stuff TODO: generate error
-            pass
+    numcols = ds.filter(role=ds.INPUT, type=ds.NUMBER, ret_cols=True)
+    ans = ans.join(ds.frame[numcols])
+    catcols = ds.filter(role=ds.INPUT, type=ds.CATEGORY, ret_cols=True)
+    for catcol in catcols:
+        new_cols = category2ml(ds.frame[col])
+        ans = ans.join(new_cols)
     return ans
-
+    
 def target2ml(ds, which=0):
     ''' Takes a Dataset target and generates a Dataframe with values ready for 
     doing machine learning.

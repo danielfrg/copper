@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"inp",
+				"inputs"
+			],
+			[
 				"ret",
 				"ret_model"
 			],
@@ -510,10 +514,6 @@
 			[
 				"co",
 				"copper"
-			],
-			[
-				"mon",
-				"money_symbol"
 			]
 		]
 	},
@@ -624,14 +624,14 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/copper/copper/utils/frame.py",
+		"/home/danielfrg/projects/copper/copper/utils/ml.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/core/compare.py",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/copper/copper/__init__.py",
-		"/home/danielfrg/projects/copper/copper/utils/frame.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_frame.py",
-		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
-		"/home/danielfrg/projects/copper/copper/utils/ml.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_ml.py",
 		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_transforms.py",
@@ -769,6 +769,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"1.5",
+			"FRAMe",
+			"FRAME",
 			"data",
 			"mod",
 			"pca_model",
@@ -893,10 +896,7 @@
 			"df_ans",
 			"Dataset_1",
 			"transform",
-			"test_1_filter",
-			"test_1_role_ml",
-			"test_1_fillna",
-			"test_1_cat_2_num"
+			"test_1_filter"
 		],
 		"highlight": true,
 		"in_selection": false,
