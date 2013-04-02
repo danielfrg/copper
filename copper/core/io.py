@@ -24,7 +24,7 @@ def load(filepath):
         pkl_file = open(f, 'rb')
         return pickle.load(pkl_file)
 
-def save(data, name, format=None, to=''):
+def save(data, filename, to='', **args):
     ''' Saves a picke Dataset or a csv file
 
     Parameters
@@ -35,29 +35,26 @@ def save(data, name, format=None, to=''):
     if not (os.access(fp, os.F_OK)):
             os.makedirs(fp)
 
-    if format is None and type(data) is copper.Dataset:
-        # Save pickled version
-        f = os.path.join(fp, name + '.dataset')
-        output = open(f, 'wb')
-        pickle.dump(data, output)
-        output.close()
-    else:
-        # Save text version
-        # format = 'csv' if format is None else format # TODO, test
-        if format is None:
-            format = 'csv'
+    format = filename.split('.')[-1]
+
+    if format == 'csv':
         if type(data) is copper.Dataset:
             df = data.frame
         else:
             df = data
+        fpath = os.path.join(fp, filename)
+        df.to_csv(fpath, encoding='utf-8', **args)
 
-        if format == 'csv':
-            fpath = os.path.join(fp, name + '.csv')
-            df.to_csv(fpath, encoding='utf-8')
-        elif format == 'json':
-            fpath = os.path.join(fp, name + '.json')
-            with io.open(fpath, 'w', encoding='utf-8') as outfile:
-                json.dumps(df_to_json(df), outfile)
+    elif format == 'json':
+        fpath = os.path.join(fp, filename + '.json')
+        with io.open(fpath, 'w', encoding='utf-8') as outfile:
+            json.dumps(df_to_json(df), outfile)
+
+    elif type(data) is copper.Dataset:
+        f = os.path.join(fp, filename)
+        output = open(f, 'wb')
+        pickle.dump(data, output)
+        output.close()
 
 def read_csv(file_path, **args):
     ''' Reads a csv file into a pandas DataFrame
