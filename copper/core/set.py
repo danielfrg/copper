@@ -177,6 +177,9 @@ class Dataset(dict):
                                         self._frame[col].dtype == object:
                 self._frame[col] = self._frame[col].apply(copper.transform.to_number)
 
+    def save(self, filename):
+        copper.save(self, filename)
+
     def filter(self, role=None, type=None, ret_cols=False, ret_ds=False):
         ''' Filter the columns of the Dataset by Role and Type
 
