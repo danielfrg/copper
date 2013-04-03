@@ -9,13 +9,10 @@ from sklearn.base import clone, BaseEstimator
 
 class Bag(BaseEstimator):
     def __init__(self, clfs=None):
-        if type(clfs) is pd.Series:
-            # Comes from ml.clfs
-            self.clfs = clfs.values
-        elif type(clfs) is list:
-            self.clfs = clfs
-        else:
-            self.clfs = []
+        self.clfs = []
+        if clfs is not None:
+            self.add_clf(clfs)
+            
 
     def add_clf(self, new):
         if type(new) is pd.Series:
