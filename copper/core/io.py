@@ -17,9 +17,9 @@ def load(filepath):
         copper.Dataset
     '''
     if len(filepath.split('.')) == 1:
-        filepath = filepath + '.dataset'
+        filepath = filepath + '.ds'
 
-    if filepath.endswith('.dataset'):
+    if filepath.endswith('.ds'):
         f = os.path.join(copper.project.data, filepath)
         pkl_file = open(f, 'rb')
         return pickle.load(pkl_file)
