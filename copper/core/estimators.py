@@ -111,22 +111,26 @@ class SplitWrapper(BaseEstimator):
         # print(self.var_indexes)
 
     def fit(self, X, y):
+        self.models = {}
+        # print(self.variable, X.shape)
         for option, index in zip(self.var_options, self.var_indexes):
             var_cols = X[:, self.var_indexes]
             col_with_1 = np.argmax(var_cols, axis=1)
             col_with_1 = col_with_1 + self.var_indexes[0]
-            X_filtered = X[col_with_1 == index, :]
-            X_filtered = np.delete(X_filtered, self.var_indexes, 1)
-            y_filtered = y[col_with_1 == index, :]
-            # print(X_filtered.shape, y_filtered.shape)
+            X_f = X[col_with_1 == index, :]
+            X_f = np.delete(X_f, self.var_indexes, 1)
+            y_f = y[col_with_1 == index, :]
+            # print(self.variable, X_f.shape, y_f.shape)
             clf = clone(self.base_clf)
-            clf.fit(X_filtered, y_filtered)
+            clf.fit(X_f, y_f)
             # print(option, index)
+            # print(self.variable, X_f.shape, clf) ##
             self.models[index] = clf
             # return
 
     def predict(self, X):
         X_f = np.delete(X, self.var_indexes, 1)
+
         first_index = self.var_indexes[0]
         predictions = np.zeros((len(X), len(self.var_options)))
         predictions[:] = np.nan
@@ -136,6 +140,7 @@ class SplitWrapper(BaseEstimator):
             # break
         # print(predictions)
 
+        # print(X.shape)
         ans = np.zeros((len(X)))
         ans[:] = np.nan
         for option, index in zip(self.var_options, self.var_indexes):
@@ -218,18 +223,21 @@ if __name__ == '__main__':
     copper.project.path = '../../../data-mining/titanic/'
     train = copper.load('train')
     from sklearn.ensemble import RandomForestClassifier
-    clf = RandomForestClassifier()
+    clf = RandomForestClassifier(max_depth=1)
+    clf2 = RandomForestClassifier(max_depth=2)
     sw1 = copper.SplitWrapper(clf, train, 'sex')
-    # sw2 = copper.SplitWrapper(clf, train, 'embarked')
+    sw2 = copper.SplitWrapper(clf2, train, 'embarked')
+    
     mc = copper.ModelComparison()
     mc.train = train
     mc.add_clf(clf, 'clf')
     mc.add_clf(sw1, 'sw1')
     # mc.add_clf(sw2, 'sw2')
+    
     bag = AverageBag(mc.clfs)
     mc.add_clf(bag, 'bag')
     mc.fit()
-    scores = mc.cv_accuracy()
+    scores = mc.cv_accuracy(cv=20)
     print(scores)
     # clone(bag)
 

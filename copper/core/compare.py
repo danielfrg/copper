@@ -229,22 +229,43 @@ class ModelComparison():
 
         return self._metric_wrapper(fnc, name='Mean Squared Error', ascending=True, **args)
 
-    def _cv_metric_wrapper(self, fnc, name='', cv=5, ascending=False):
+    def _cv_metric_wrapper(self, fnc, name='', cv=3, ascending=False):
         ''' Wraper to not repeat code on all the possible crossvalidated metrics
         '''
+        # Custom cross_val_score: TODO IPython.Parallel
+        # ans = pd.Series(index=self._clfs, name=name)
+        # cv = cross_validation.check_cv(cv, self.X_train, self.y_train)
+        # for clf_name in self._clfs:
+        #     clf = self._clfs[clf_name]            
+        #     scores = np.array([])
+        #     for train, test in cv:
+        #         n_score = fnc(clf,  X_train=self.X_train[train], 
+        #                             y_train=self.y_train[train],
+        #                             X_test=self.X_train[test],
+        #                             y_test=self.y_train[test])
+        #         scores = np.append(scores, n_score)
+        #         # scores.append(n_score)
+        #     ans[clf_name] = np.mean(scores)
+        # return ans.order(ascending=ascending)
+
+        # WITH sklearn.cross_val_score
         ans = pd.Series(index=self._clfs, name=name)
         for clf_name in self._clfs:
             clf = self._clfs[clf_name]
-            ans[clf_name] = fnc(clf, X=self.X_train, y=self.y_train)
-            pass
+            ans[clf_name] = fnc(clf, X=self.X_train, y=self.y_train, cv=cv)
         return ans.order(ascending=ascending)
 
-    def cv_accuracy(self, cv=5, **args):
+    def cv_accuracy(self, **args):
+        # Custom cross_val_score: TODO IPython.Parallel
+        # def fnc (clf, X_train, y_train, X_test, y_test):
+        #     clf.fit(X_train, y_train)
+        #     return clf.score(X_test, y_test)
+
+        # WITH sklearn.cross_val_score
         def fnc (clf, X, y, cv):
             scores = cross_validation.cross_val_score(clf, X, y, cv=cv)
             return np.mean(scores)
-
-        return self._cv_metric_wrapper(fnc, name='CV Accuracy', cv=cv, **args)
+        return self._cv_metric_wrapper(fnc, name='CV Accuracy', **args)
 
 
     # --------------------------------------------------------------------------
