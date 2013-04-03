@@ -50,7 +50,7 @@ def save(data, filename, to='', **args):
         with io.open(fpath, 'w', encoding='utf-8') as outfile:
             json.dumps(df_to_json(df), outfile)
 
-    elif type(data) is copper.Dataset:
+    elif format == 'ds':
         f = os.path.join(fp, filename)
         output = open(f, 'wb')
         pickle.dump(data, output)
