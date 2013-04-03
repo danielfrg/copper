@@ -92,14 +92,15 @@ class MaxProbaBag(Bag):
         return ans
 
 class SplitWrapper(BaseEstimator):
-    def __init__(self, base_clf, ds_labels, variable):
+    def __init__(self, base_clf, ds_labels, variable, models={}):
         self.base_clf = base_clf
         self.variable = variable
         self.remove_index = []
-        self.models = {}
+        self.models = models
 
         if type(ds_labels) is copper.Dataset:
             ds_labels = copper.transform.ml_input_labels(ds_labels)
+        self.ds_labels = ds_labels
 
         self.var_options = [col.split('#')[1] for col in ds_labels 
                                             if col.startswith(variable+'#')]
@@ -155,6 +156,7 @@ class SplitWrapper(BaseEstimator):
         X_f = np.delete(X, self.var_indexes, 1)
 
         # create a list of the group columns
+        print(self.models)
         any_key = list(self.models.keys())[0]
         any_clf = self.models[any_key]
         num_options = len(any_clf.predict_proba(X_f[:1])[0])
@@ -217,9 +219,21 @@ if __name__ == '__main__':
     train = copper.load('train')
     from sklearn.ensemble import RandomForestClassifier
     clf = RandomForestClassifier()
-    pca = copper.PCAWrapper(clf, n_components=6)
-    # print(pca.get_params())
-    clone(pca)
+    sw1 = copper.SplitWrapper(clf, train, 'sex')
+    # sw2 = copper.SplitWrapper(clf, train, 'embarked')
+    mc = copper.ModelComparison()
+    mc.train = train
+    mc.add_clf(clf, 'clf')
+    mc.add_clf(sw1, 'sw1')
+    # mc.add_clf(sw2, 'sw2')
+    mc.fit()
+    bag = AverageBag(mc.clfs)
+
+    # mc.add_clf(bag, 'bag')
+    mc.cv_accuracy()
+
+    # from sklearn.cross_validation import check_cv
+    # print(check_cv(3, mc.X_train))
 
 
 
