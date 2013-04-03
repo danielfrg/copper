@@ -50,7 +50,7 @@ def bootstrap(base_clf, n_iter, ds, score=False):
     else:
         return clfs
 
-def cv_pca(ds, clf, range_=None, cv=None, n_iter=3):
+def cv_pca(ds, clf, range_=None, cv=None, n_iter=3, ascending=False):
     if cv is None:
         cv = cross_validation.ShuffleSplit(len(ds), n_iter=n_iter)
     if range_ is None:
@@ -63,7 +63,7 @@ def cv_pca(ds, clf, range_=None, cv=None, n_iter=3):
         X = pca.inputs
         scores = cross_validation.cross_val_score(clf, X, y, cv=cv)
         ans[i] = np.mean(scores)
-    return ans
+    return ans.order(ascending=ascending)
 
 def grid(ds, base_clf, param, values, cv=None, verbose=False, **args):
     if cv is None:
