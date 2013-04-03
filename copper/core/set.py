@@ -383,8 +383,10 @@ class Dataset(dict):
         else:
             return corrs
 
-    def skew(self, ascending=False):
-        return self._frame.skew().order(ascending=ascending)
+    def skew(self, role=None, type=None, ascending=False):
+        data = self.filter(role=role, type=type)
+        return data.skew().order(ascending=ascending)
+        # return self._frame.skew().order(ascending=ascending)
 
     def outlier_count(self, **args):
         data = self.filter(role=self.INPUT, type=self.NUMBER)
