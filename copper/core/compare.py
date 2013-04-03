@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.metrics import auc
+from sklearn import cross_validation
 from sklearn.metrics import roc_curve
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import mean_squared_error
@@ -21,8 +22,7 @@ class ModelComparison():
         self.dataset = None
         self._clfs = {}
         self.costs = [[1,-1],[-1,1]]
-        self.variables = None
-        self.columns = None
+        self.labels = None
         self.X_train = None
         self.y_train = None
         self.X_test  = None
@@ -38,8 +38,7 @@ class ModelComparison():
         '''
         transformed = copper.transform.inputs2ml(ds)
         self.X_train = transformed.values
-        self.columns = ds.columns
-        self.variables = transformed.columns
+        self.labels = transformed.columns
         self.y_train = copper.transform.target2ml(ds).values
 
     def set_test(self, ds):
@@ -249,8 +248,9 @@ class ModelComparison():
         -------
             nothing, self.X_train, self.y_train, self.X_test, self.y_test are set
         '''
-        from sklearn import cross_validation
-        inputs = copper.transform.inputs2ml(ds).values
+        transformed = copper.transform.inputs2ml(ds)
+        inputs = transformed.values
+        self.labels = transformed.columns
         target = copper.transform.target2ml(ds).values
 
         X_train, X_test, y_train, y_test = cross_validation.train_test_split(
@@ -477,4 +477,3 @@ class ModelComparison():
         plt.title('%s Confusion matrix' % clf)
         plt.colorbar()
 
-        
