@@ -50,6 +50,19 @@ def date_to_number(x):
 
 # ---------------------    MACHINE LEARNING    ---------------------------------
 
+def ml_input_labels(ds):
+    ans = []
+    for col in ds.filter(role=ds.INPUT, type=ds.NUMBER, ret_cols=True):
+        ans.append(col)
+    for col in ds.filter(role=ds.INPUT, type=ds.CATEGORY, ret_cols=True):
+        if ds.type[col] == ds.CATEGORY:
+            categories = list(set(ds[col]))
+            categories.sort()
+            for category in categories:
+                new = '%s#%s' % (col, category)
+                ans.append(new)
+    return ans
+
 def category2ml(series):
     ''' Converts a Series with category format to a format for machine learning
     Represents the same information on different columns of ones and zeros
@@ -69,7 +82,7 @@ def category2ml(series):
     categories.sort()
     for category in categories:
         n_col = pd.Series(np.zeros(len(series)), index=series.index, dtype=int)
-        n_col.name = '%s [%s]' % (series.name, category)
+        n_col.name = '%s#%s' % (series.name, category)
         n_col[series == category] = 1
         ans = ans.join(n_col)
     return ans

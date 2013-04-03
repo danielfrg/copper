@@ -21,6 +21,8 @@ class ModelComparison():
         self.dataset = None
         self._clfs = {}
         self.costs = [[1,-1],[-1,1]]
+        self.variables = None
+        self.columns = None
         self.X_train = None
         self.y_train = None
         self.X_test  = None
@@ -34,7 +36,10 @@ class ModelComparison():
         '''
         Uses a Dataset to set the values of inputs and targets for training
         '''
-        self.X_train = copper.transform.inputs2ml(ds).values
+        transformed = copper.transform.inputs2ml(ds)
+        self.X_train = transformed.values
+        self.columns = ds.columns
+        self.variables = transformed.columns
         self.y_train = copper.transform.target2ml(ds).values
 
     def set_test(self, ds):

@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from sklearn import grid_search
 from sklearn import decomposition
 from sklearn import cross_validation
-from sklearn.metrics import accuracy_score
 from sklearn.base import clone
 
 def bootstrap(base_clf, n_iter, ds, score=False):
