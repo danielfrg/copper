@@ -23,6 +23,7 @@ class ModelComparison():
         self._clfs = {}
         self.costs = [[1,-1],[-1,1]]
         self.feature_labels = None
+        self.target_labels = None
         self.X_train = None
         self.y_train = None
         self.X_test  = None
@@ -40,6 +41,7 @@ class ModelComparison():
         self.X_train = transformed.values
         self.feature_labels = transformed.columns
         self.y_train = copper.transform.target2ml(ds).values
+        self.target_labels = list(set(self.y_train))
 
     def set_test(self, ds):
         '''
@@ -290,6 +292,7 @@ class ModelComparison():
         inputs = transformed.values
         self.feature_labels = transformed.columns
         target = copper.transform.target2ml(ds).values
+        self.target_labels = list(set(self.y_train))
 
         X_train, X_test, y_train, y_test = cross_validation.train_test_split(
                         inputs, target,
