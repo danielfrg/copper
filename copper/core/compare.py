@@ -163,10 +163,33 @@ class ModelComparison():
                 ans = ans.join(new)
         return ans
 
+    def cutoff_predict(self, target=0, cutoff=0.5, ds=None, clfs=None):
+        if clfs is None:
+            clfs = self.clfs.index
+
+        # Create a list with the indexes of the target columns
+        index = self.target_labels.index(target)
+        num_options = len(self.target_labels)
+        target_cols = [index]
+        for row in self.clfs[1:]:
+            target_cols.append(target_cols[-1] + num_options)
+        
+        # Get all the probabilities and get only the columns with target=target
+        probas = self.predict_proba(ds=ds, clfs=clfs)
+        probas = probas[probas.columns[target_cols]]
+        probas.columns = self.clfs.index
+        
+        for col in probas.columns:
+            probas[col][probas[col] < cutoff] = 0
+            probas[col][probas[col] > cutoff] = 1
+            # break
+        return probas
+
+
     # --------------------------------------------------------------------------
     #                               METRICS
     # --------------------------------------------------------------------------
-    
+
     def _metric_wrapper(self, fnc, name='', ascending=False):
         ''' Wraper to not repeat code on all the possible metrics
         '''
@@ -292,7 +315,7 @@ class ModelComparison():
         inputs = transformed.values
         self.feature_labels = transformed.columns
         target = copper.transform.target2ml(ds).values
-        self.target_labels = list(set(self.y_train))
+        self.target_labels = list(set(target))
 
         X_train, X_test, y_train, y_test = cross_validation.train_test_split(
                         inputs, target,
