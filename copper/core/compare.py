@@ -166,8 +166,7 @@ class ModelComparison():
     # ----------------------------------------------------------------------------------------
 
     def _metric_wrapper(self, fnc, name='', ascending=False):
-        '''
-        Wraper to not repeat code on all the possible metrics
+        ''' Wraper to not repeat code on all the possible metrics
         '''
         # TODO: generate custom error when X_test is missing
         ans = pd.Series(index=self._clfs, name=name)
@@ -190,6 +189,14 @@ class ModelComparison():
         '''
         def fnc (clf, X_test=None, y_test=None):
             return clf.score(X_test, y_test)
+
+        return self._metric_wrapper(fnc, name='Accuracy', **args)
+
+    def cv_accuracy(self, **args):
+        def fnc (clf, X_test=None, y_test=None):
+            scores = cross_validation.cross_val_score(clf, X_test, y_test, cv=5)
+            print(scores)
+            return np.mean(scores)
 
         return self._metric_wrapper(fnc, name='Accuracy', **args)
 

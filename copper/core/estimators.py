@@ -188,16 +188,17 @@ class SplitWrapper(BaseEstimator):
         return ans
 
 class PCAWrapper(BaseEstimator):
-    def __init__(self, base_clf, n_components=None):
-        self.base_clf = clone(base_clf)
+    def __init__(self, base_clf, n_components=None, **args):
+        self.base_clf = base_clf
         self.n_components = n_components
         self.pca_model = None
 
     def fit(self, X, y):
         self.pca_model = decomposition.PCA(n_components=self.n_components)
         self.pca_model.fit(X)
+        self.estimator = clone(self.base_clf)
         _X = self.pca_model.transform(X)
-        self.base_clf.fit(_X, y)
+        self.estimator.fit(_X, y)
     
     def score(self, X, y):
         y_pred = self.predict(X)
@@ -205,8 +206,29 @@ class PCAWrapper(BaseEstimator):
 
     def predict(self, X):
         _X = self.pca_model.transform(X)
-        return self.base_clf.predict(_X)
+        return self.estimator.predict(_X)
 
     def predict_proba(self, X):
         _X = self.pca_model.transform(X)
         return self.base_clf.predict_proba(_X)
+
+if __name__ == '__main__':
+    copper.project.path = '../../../data-mining/titanic/'
+    train = copper.load('train')
+    from sklearn.ensemble import RandomForestClassifier
+    clf = RandomForestClassifier()
+    pca = copper.PCAWrapper(clf, n_components=6)
+    # print(pca.get_params())
+    clone(pca)
+
+
+
+
+
+
+
+
+
+
+
+
