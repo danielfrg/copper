@@ -188,7 +188,6 @@ class SplitWrapper(BaseEstimator):
         return ans
 
 class PCAWrapper(BaseEstimator):
-
     def __init__(self, base_clf, n_components=None):
         self.base_clf = clone(base_clf)
         self.n_components = n_components
@@ -201,7 +200,7 @@ class PCAWrapper(BaseEstimator):
         self.base_clf.fit(_X, y)
     
     def score(self, X, y):
-        y_pred = self.base_clf.predict(X)
+        y_pred = self.predict(X)
         return accuracy_score(y, y_pred)
 
     def predict(self, X):
