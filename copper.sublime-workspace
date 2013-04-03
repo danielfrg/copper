@@ -4,6 +4,50 @@
 		"selected_items":
 		[
 			[
+				"max",
+				"max_pos"
+			],
+			[
+				"pred",
+				"predictions"
+			],
+			[
+				"num",
+				"num_options"
+			],
+			[
+				"y",
+				"y_pred"
+			],
+			[
+				"var",
+				"var_options"
+			],
+			[
+				"va",
+				"var_cols"
+			],
+			[
+				"clf",
+				"clf"
+			],
+			[
+				"X_",
+				"X_filtered"
+			],
+			[
+				"col",
+				"col_with_1"
+			],
+			[
+				"re",
+				"remove_index"
+			],
+			[
+				"NU",
+				"NUMBER"
+			],
+			[
 				"data",
 				"data"
 			],
@@ -12,19 +56,11 @@
 				"catcols"
 			],
 			[
-				"num",
-				"numcols"
-			],
-			[
 				"inp",
 				"inputs"
 			],
 			[
 				"ret",
-				"ret_model"
-			],
-			[
-				"re",
 				"ret_model"
 			],
 			[
@@ -96,10 +132,6 @@
 				"classifier"
 			],
 			[
-				"max",
-				"max_clf"
-			],
-			[
 				"pre",
 				"predict_proba"
 			],
@@ -150,10 +182,6 @@
 			[
 				"para",
 				"Parameters"
-			],
-			[
-				"clf",
-				"clf_name"
 			],
 			[
 				"out",
@@ -218,10 +246,6 @@
 			[
 				"lege",
 				"legend"
-			],
-			[
-				"var",
-				"var1"
 			],
 			[
 				"opt",
@@ -300,14 +324,6 @@
 				"target_name"
 			],
 			[
-				"col",
-				"columns"
-			],
-			[
-				"X_",
-				"X_test"
-			],
-			[
 				"y_T",
 				"y_train"
 			],
@@ -322,10 +338,6 @@
 			[
 				"categori",
 				"categorical"
-			],
-			[
-				"pred",
-				"prediction"
 			],
 			[
 				"X",
@@ -366,10 +378,6 @@
 			[
 				"clasi",
 				"classifier"
-			],
-			[
-				"y",
-				"ymax"
 			],
 			[
 				"hist",
@@ -506,24 +514,24 @@
 			[
 				"n_",
 				"n_df"
-			],
-			[
-				"fi",
-				"filepath"
-			],
-			[
-				"co",
-				"copper"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "copper/core/set.py",
+			"file": "copper/core/compare.py",
 			"settings":
 			{
-				"buffer_size": 16537,
+				"buffer_size": 17104,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "copper/core/estimators.py",
+			"settings":
+			{
+				"buffer_size": 7259,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +539,7 @@
 			"file": "copper/utils/ml.py",
 			"settings":
 			{
-				"buffer_size": 7093,
+				"buffer_size": 2931,
 				"line_ending": "Unix"
 			}
 		}
@@ -640,17 +648,18 @@
 	},
 	"file_history":
 	[
-		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
-		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
+		"/home/danielfrg/projects/copper/copper/__init__.py",
+		"/home/danielfrg/projects/copper/copper/utils/ml.py",
+		"/home/danielfrg/projects/copper/copper/core/compare.py",
+		"/home/danielfrg/projects/data-mining/titanic/data/pred.csv",
+		"/home/danielfrg/projects/copper/copper/core/io.py",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
+		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_transforms.py",
 		"/home/danielfrg/projects/data-mining/digit-recognizer/data/train.csv",
 		"/home/danielfrg/projects/copper/copper/utils/frame.py",
-		"/home/danielfrg/projects/copper/copper/utils/ml.py",
-		"/home/danielfrg/projects/copper/copper/core/compare.py",
-		"/home/danielfrg/projects/copper/copper/core/io.py",
-		"/home/danielfrg/projects/copper/copper/__init__.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_frame.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_utils_ml.py",
 		"/home/danielfrg/projects/data-mining/nba/README.md",
@@ -766,8 +775,7 @@
 		"/home/danielfrg/projects/copper/copper/io/io.py",
 		"/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
 		"/home/danielfrg/projects/copper/copper/test/core/all.py",
-		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid",
-		"/home/dfrodriguez/projects/kaggle/bulldozers/src/f1.py"
+		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid"
 	],
 	"find":
 	{
@@ -785,6 +793,21 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"print",
+			"i",
+			"option",
+			"options",
+			"temp",
+			"options",
+			"print",
+			"X_filtered",
+			"labels",
+			"var_index",
+			"columns",
+			"[",
+			"'[",
+			"[",
+			"name",
 			"fillna",
 			"encodestring",
 			"print",
@@ -897,22 +920,7 @@
 			"ML_basic",
 			"self._clfs",
 			"probas_",
-			"ds_test",
-			"self",
-			"Dataset_2",
-			"self",
-			"ML_1",
-			"copper",
-			"ML_1",
-			"self",
-			"roc",
-			"tBodyAccMag\n\n\n\n\n\n\n\n\n\n",
-			"tBodyAccMag",
-			"jerk",
-			"freque",
-			"values",
-			"ml",
-			"iner"
+			"ds_test"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -935,18 +943,18 @@
 			[
 				{
 					"buffer": 0,
-					"file": "copper/core/set.py",
+					"file": "copper/core/compare.py",
 					"settings":
 					{
-						"buffer_size": 16537,
+						"buffer_size": 17104,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7673,
-								7673
+								16928,
+								16928
 							]
 						],
 						"settings":
@@ -956,25 +964,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4169.0,
+						"translation.y": 9240.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "copper/utils/ml.py",
+					"file": "copper/core/estimators.py",
 					"settings":
 					{
-						"buffer_size": 7093,
+						"buffer_size": 7259,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2580,
-								2580
+								5518,
+								5518
 							]
 						],
 						"settings":
@@ -984,7 +992,35 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1148.0,
+						"translation.y": 2978.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "copper/utils/ml.py",
+					"settings":
+					{
+						"buffer_size": 2931,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2490,
+								2490
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1184.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

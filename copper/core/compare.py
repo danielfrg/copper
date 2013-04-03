@@ -477,42 +477,4 @@ class ModelComparison():
         plt.title('%s Confusion matrix' % clf)
         plt.colorbar()
 
-
-if __name__ == '__main__':
-    copper.project.path = '../tests/'
-
-    train = copper.Dataset('ml/1/train.csv')
-    train.role['CustomerID'] = train.ID
-    train.role['Order'] = train.TARGET
-    fnc = lambda x: 12*(2007 - int(str(x)[0:4])) - int(str(x)[4:6]) + 2
-    train['LASD'] = train['LASD'].apply(fnc)
-
-    test = copper.Dataset('ml/1/test.csv')
-    test.role['CustomerID'] = test.ID
-    test.role['Order'] = test.TARGET
-    test['LASD'] = test['LASD'].apply(fnc)
-
-    ml = copper.ModelComparison()
-    ml.set_train(train)
-    ml.set_test(test)
-
-    from sklearn import svm
-    svm_clf = svm.SVC(probability=True)
-    from sklearn import tree
-    tree_clf = tree.DecisionTreeClassifier(max_depth=6)
-    from sklearn.naive_bayes import GaussianNB
-    gnb_clf = GaussianNB()
-    from sklearn.ensemble import GradientBoostingClassifier
-    gr_bst_clf = GradientBoostingClassifier()
-
-    ml.add_clf(svm_clf, 'SVM')
-    ml.add_clf(tree_clf, 'DT')
-    ml.add_clf(gnb_clf, 'GNB')
-    ml.add_clf(gr_bst_clf, 'GB')
-
-    ml.fit()
-
-    print(ml.predict().dtypes)
-    # print(copper.save(ml.predict_proba(), 'predit_proba_test'))
-    # print(copper.save(ml.predict_proba(ds=train), 'predict_proba_train'))
-
+        

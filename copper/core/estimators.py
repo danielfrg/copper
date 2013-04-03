@@ -12,7 +12,6 @@ class Bag(BaseEstimator):
         self.clfs = []
         if clfs is not None:
             self.add_clf(clfs)
-            
 
     def add_clf(self, new):
         if type(new) is pd.Series:
@@ -155,7 +154,9 @@ class SplitWrapper(BaseEstimator):
         X_f = np.delete(X, self.var_indexes, 1)
 
         # create a list of the group columns
-        num_options = len(self.var_options)
+        any_key = list(self.models.keys())[0]
+        any_clf = self.models[any_key]
+        num_options = len(any_clf.predict_proba(X_f[:1])[0])
         groups = []
         for i, option in enumerate(self.var_options):
             groups.append((i*num_options, i*num_options+num_options))
@@ -167,22 +168,23 @@ class SplitWrapper(BaseEstimator):
         predictions[:] = np.nan
         for i, index in enumerate(self.var_indexes):
             clf = self.models[index]
+            # print(clf.predict_proba(X_f).shape)
             predictions[:, groups[i][0]:groups[i][1]] = clf.predict_proba(X_f)
             # break
         # print(predictions)
 
         num_cols = len(self.models)
-        ans = np.zeros((len(X), num_cols))
+        ans = np.zeros((len(X), num_options))
         ans[:] = np.nan
         for i, index in enumerate(self.var_indexes):
             var_cols = X[:, self.var_indexes]
             col_with_1 = np.argmax(var_cols, axis=1)
             col_with_1 = col_with_1 + self.var_indexes[0]
-            print(ans[col_with_1 == index].shape)
+            # print(ans[col_with_1 == index].shape)
             ans[col_with_1 == index] = predictions[col_with_1 == index, groups[i][0]:groups[i][1]]
             # break
         # print(ans)
-        return
+        return ans
 
 class PCAWrapper(BaseEstimator):
 
