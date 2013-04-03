@@ -229,21 +229,22 @@ class ModelComparison():
 
         return self._metric_wrapper(fnc, name='Mean Squared Error', ascending=True, **args)
 
-    def _cv_metric_wrapper(self, fnc, name='', ascending=False):
+    def _cv_metric_wrapper(self, fnc, name='', cv=5, ascending=False):
         ''' Wraper to not repeat code on all the possible crossvalidated metrics
         '''
         ans = pd.Series(index=self._clfs, name=name)
         for clf_name in self._clfs:
             clf = self._clfs[clf_name]
             ans[clf_name] = fnc(clf, X=self.X_train, y=self.y_train)
+            pass
         return ans.order(ascending=ascending)
 
     def cv_accuracy(self, cv=5, **args):
-        def fnc (clf, X, y):
+        def fnc (clf, X, y, cv):
             scores = cross_validation.cross_val_score(clf, X, y, cv=cv)
             return np.mean(scores)
 
-        return self._cv_metric_wrapper(fnc, name='CV Accuracy', **args)
+        return self._cv_metric_wrapper(fnc, name='CV Accuracy', cv=cv, **args)
 
 
     # --------------------------------------------------------------------------

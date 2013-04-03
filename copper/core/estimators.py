@@ -24,7 +24,8 @@ class Bag(BaseEstimator):
             self.clfs.append(new)
 
     def fit(self, X, y):
-        pass
+        for clf in self.clfs:
+            clf.fit(X, y)
 
     def score(self, X, y):
         y_pred = self.predict(X)
@@ -39,7 +40,7 @@ class AverageBag(Bag):
             sum each predicted probability
     divide by the number of clfs
     '''
-
+        
     def predict(self, X):
         return np.argmax(self.predict_proba(X), axis=1)
 
@@ -156,7 +157,6 @@ class SplitWrapper(BaseEstimator):
         X_f = np.delete(X, self.var_indexes, 1)
 
         # create a list of the group columns
-        print(self.models)
         any_key = list(self.models.keys())[0]
         any_clf = self.models[any_key]
         num_options = len(any_clf.predict_proba(X_f[:1])[0])
@@ -226,11 +226,12 @@ if __name__ == '__main__':
     mc.add_clf(clf, 'clf')
     mc.add_clf(sw1, 'sw1')
     # mc.add_clf(sw2, 'sw2')
-    mc.fit()
     bag = AverageBag(mc.clfs)
-
-    # mc.add_clf(bag, 'bag')
-    mc.cv_accuracy()
+    mc.add_clf(bag, 'bag')
+    mc.fit()
+    scores = mc.cv_accuracy()
+    print(scores)
+    # clone(bag)
 
     # from sklearn.cross_validation import check_cv
     # print(check_cv(3, mc.X_train))
