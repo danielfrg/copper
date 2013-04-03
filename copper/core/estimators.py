@@ -94,7 +94,7 @@ class MaxProbaBag(Bag):
         # print(ans)
         return ans
 
-class DivWrapper(BaseEstimator):
+class SplitWrapper(BaseEstimator):
     def __init__(self, base_clf, ds_labels, variable):
         self.base_clf = base_clf
         self.variable = variable
