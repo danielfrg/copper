@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"cl",
+				"clf_name"
+			],
+			[
+				"clf",
+				"clfs"
+			],
+			[
+				"tar",
+				"target"
+			],
+			[
+				"y",
+				"y_train"
+			],
+			[
+				"any",
+				"any_clf"
+			],
+			[
+				"y_",
+				"y_train"
+			],
+			[
+				"col",
+				"columns"
+			],
+			[
+				"bas",
+				"base_clf"
+			],
+			[
+				"PCA",
+				"PCAWrapper"
+			],
+			[
 				"max",
 				"max_pos"
 			],
@@ -16,10 +52,6 @@
 				"num_options"
 			],
 			[
-				"y",
-				"y_pred"
-			],
-			[
 				"var",
 				"var_options"
 			],
@@ -28,16 +60,8 @@
 				"var_cols"
 			],
 			[
-				"clf",
-				"clf"
-			],
-			[
 				"X_",
 				"X_filtered"
-			],
-			[
-				"col",
-				"col_with_1"
 			],
 			[
 				"re",
@@ -150,10 +174,6 @@
 			[
 				"n",
 				"n_components"
-			],
-			[
-				"PCA",
-				"PCA_clf"
 			],
 			[
 				"add",
@@ -320,10 +340,6 @@
 				"filename"
 			],
 			[
-				"tar",
-				"target_name"
-			],
-			[
 				"y_T",
 				"y_train"
 			],
@@ -332,20 +348,12 @@
 				"MONEY"
 			],
 			[
-				"y_",
-				"y_test"
-			],
-			[
 				"categori",
 				"categorical"
 			],
 			[
 				"X",
 				"X_test"
-			],
-			[
-				"cl",
-				"clfs"
 			],
 			[
 				"X_T",
@@ -506,43 +514,11 @@
 			[
 				"enco",
 				"encodeCategory"
-			],
-			[
-				"exte",
-				"extend"
-			],
-			[
-				"n_",
-				"n_df"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "copper/core/compare.py",
-			"settings":
-			{
-				"buffer_size": 17104,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "copper/core/estimators.py",
-			"settings":
-			{
-				"buffer_size": 7259,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "copper/utils/ml.py",
-			"settings":
-			{
-				"buffer_size": 2931,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Python Virtual env",
 	"command_palette":
@@ -648,13 +624,24 @@
 	},
 	"file_history":
 	[
-		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
-		"/home/danielfrg/projects/copper/copper/__init__.py",
-		"/home/danielfrg/projects/copper/copper/utils/ml.py",
-		"/home/danielfrg/projects/copper/copper/core/compare.py",
-		"/home/danielfrg/projects/data-mining/titanic/data/pred.csv",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/data-mining/titanic/data/raw/train.csv",
+		"/home/danielfrg/projects/copper/copper/utils/ml.py",
+		"/home/danielfrg/projects/copper/copper/core/compare.py",
+		"/home/danielfrg/projects/copper/copper/core/estimators.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
+		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/cross_validation.py",
+		"/home/danielfrg/projects/data-mining/titanic/data/pred_bag_2splits.csv",
+		"/home/danielfrg/projects/data-mining/titanic/README.md",
+		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/sklearn/base.py",
+		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/sklearn/tree/tree.py",
+		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/sklearn/ensemble/forest.py",
+		"/home/danielfrg/projects/copper/copper/viz/base.py",
+		"/home/danielfrg/Downloads/gendermodel.py",
+		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
+		"/home/danielfrg/projects/copper/copper/__init__.py",
+		"/home/danielfrg/projects/data-mining/titanic/data/pred.csv",
 		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_dataset.py",
 		"/home/danielfrg/projects/copper/copper/tests/test_transforms.py",
@@ -683,9 +670,7 @@
 		"/home/danielfrg/projects/copper/copper/tests/CopperTest.py",
 		"/home/danielfrg/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/danielfrg/projects/copper/copper/core/ml.py",
-		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/svm/base.py",
-		"/home/danielfrg/projects/copper/copper/viz/base.py",
 		"/home/danielfrg/Downloads/pred.csv",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/decomposition/pca.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/IPython/utils/jsonutil.py",
@@ -766,16 +751,7 @@
 		"/home/danielfrg/projects/copper/copper/test/core/transforms.py",
 		"/home/danielfrg/Dropbox/Documents/UTD/Business Economics/mid",
 		"/home/danielfrg/projects/data-analysis/expedia/src/explore.py",
-		"/home/danielfrg/.virtualenvs/copper/bin/activate.fish",
-		"/home/danielfrg/.virtualenvs/copper/bin/activate",
-		"/home/danielfrg/.virtualenvs/copper/bin/activate_this.py",
-		"/home/danielfrg/projects/data-analysis/kaggle/bulldozers/src/cols_1_12.ipynb",
-		"/home/danielfrg/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
-		"/tmp/ipython_edit_oz6lwr.py",
-		"/home/danielfrg/projects/copper/copper/io/io.py",
-		"/home/danielfrg/projects/data-analysis/expedia/src/normalize.py",
-		"/home/danielfrg/projects/copper/copper/test/core/all.py",
-		"/home/dfrodriguez/Dropbox/Documents/UTD/Business Economics/mid"
+		"/home/danielfrg/.virtualenvs/copper/bin/activate.fish"
 	],
 	"find":
 	{
@@ -793,6 +769,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"TODO",
+			"groups",
+			"feature",
+			"labels",
+			"print",
+			"y_filtered",
+			"X_filtered",
+			"print",
+			"check_cv",
+			"cross_val_score",
+			"base_clf",
+			"x",
 			"print",
 			"i",
 			"option",
@@ -908,19 +896,7 @@
 			"dropna",
 			"DataFrame",
 			"dataframe",
-			"clf_name",
-			"metric_wrapper",
-			"cms",
-			"self.ml._cm()",
-			"self.ml._cm()['",
-			"auc",
-			"acc",
-			"test",
-			"train",
-			"ML_basic",
-			"self._clfs",
-			"probas_",
-			"ds_test"
+			"clf_name"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -938,93 +914,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "copper/core/compare.py",
-					"settings":
-					{
-						"buffer_size": 17104,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								16928,
-								16928
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 9240.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "copper/core/estimators.py",
-					"settings":
-					{
-						"buffer_size": 7259,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5518,
-								5518
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2978.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "copper/utils/ml.py",
-					"settings":
-					{
-						"buffer_size": 2931,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2490,
-								2490
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1184.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

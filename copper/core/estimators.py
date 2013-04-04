@@ -92,6 +92,47 @@ class MaxProbaBag(Bag):
         # print(ans)
         return ans
 
+class PriorityBag(Bag):
+    def __init__(self, range=0.1, clfs=None):
+        self.range = range
+        super().__init__(clfs)
+
+    def predict(self, X):
+        return np.argmax(self.predict_proba(X), axis=1)
+
+    def predict_proba(self, X):
+        num_options = len(self.clfs[0].predict_proba(X[:1])[0])
+
+        # create a list of the group columns
+        groups = []
+        for i, option in enumerate(self.clfs):
+            groups.append((i*num_options, i*num_options+num_options))
+        # print(groups)
+
+        # create a huge matrix with all the predictions
+        num_cols = num_options * len(self.clfs)
+        predictions = np.zeros((len(X), num_cols))
+        predictions[:] = np.nan
+        for i, clf in enumerate(self.clfs):
+            predictions[:, groups[i][0]:groups[i][1]] = clf.predict_proba(X)
+            # break
+        # print(predictions)
+
+        ans = np.zeros((len(X), num_options))
+        for i, row in enumerate(predictions):
+            for group in groups:
+                g = row[group[0]:group[1]]
+                m = np.max(g)
+                if m > 0.5 + self.range:
+                    ans[i, :] = g
+                    break
+                elif group == groups[-1]:
+                    g = row[group[0]:group[1]]
+                    ans[i, :] = row[groups[0][0]:groups[0][1]]
+                    # ans[i, :] = -1
+        # print(ans)
+        return ans
+
 class SplitWrapper(BaseEstimator):
     def __init__(self, base_clf, ds_labels, variable, models={}):
         self.base_clf = base_clf
@@ -102,7 +143,7 @@ class SplitWrapper(BaseEstimator):
         if type(ds_labels) is copper.Dataset:
             ds_labels = copper.transform.ml_input_labels(ds_labels)
         self.ds_labels = ds_labels
-
+        # print(self.ds_labels)
         self.var_options = [col.split('#')[1] for col in ds_labels 
                                             if col.startswith(variable+'#')]
         self.var_indexes = [i for i, col in enumerate(ds_labels) 
@@ -230,16 +271,16 @@ if __name__ == '__main__':
     
     mc = copper.ModelComparison()
     mc.train = train
-    mc.add_clf(clf, 'clf')
+    mc.add_clf(clf, 'rf')
     mc.add_clf(sw1, 'sw1')
     # mc.add_clf(sw2, 'sw2')
-    
-    bag = AverageBag(mc.clfs)
+    # bag = AverageBag(clfs=mc.clfs)
+    bag = PriorityBag(clfs=mc.clfs)
     mc.add_clf(bag, 'bag')
     mc.fit()
-    scores = mc.cv_accuracy(cv=20)
-    print(scores)
-    # clone(bag)
+    # scores = mc.cv_accuracy(cv=20)
+    # print(scores)
+    clone(bag)
 
     # from sklearn.cross_validation import check_cv
     # print(check_cv(3, mc.X_train))
