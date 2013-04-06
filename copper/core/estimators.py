@@ -279,7 +279,7 @@ if __name__ == '__main__':
     mc.add_clf(bag, 'bag')
     mc.fit()
     # scores = mc.cv_accuracy(cv=20)
-    # print(scores)
+    print(scores)
     clone(bag)
 
     # from sklearn.cross_validation import check_cv
