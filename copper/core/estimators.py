@@ -1,4 +1,3 @@
-# coding=utf-8
 from __future__ import division
 import copper
 import numpy as np
@@ -259,31 +258,6 @@ class PCAWrapper(BaseEstimator):
     def predict_proba(self, X):
         _X = self.pca_model.transform(X)
         return self.base_clf.predict_proba(_X)
-
-if __name__ == '__main__':
-    copper.project.path = '../../../data-mining/titanic/'
-    train = copper.load('train')
-    from sklearn.ensemble import RandomForestClassifier
-    clf = RandomForestClassifier(max_depth=1)
-    clf2 = RandomForestClassifier(max_depth=2)
-    sw1 = copper.SplitWrapper(clf, train, 'sex')
-    sw2 = copper.SplitWrapper(clf2, train, 'embarked')
-    
-    mc = copper.ModelComparison()
-    mc.train = train
-    mc.add_clf(clf, 'rf')
-    mc.add_clf(sw1, 'sw1')
-    # mc.add_clf(sw2, 'sw2')
-    # bag = AverageBag(clfs=mc.clfs)
-    bag = PriorityBag(clfs=mc.clfs)
-    mc.add_clf(bag, 'bag')
-    mc.fit()
-    # scores = mc.cv_accuracy(cv=20)
-    print(scores)
-    clone(bag)
-
-    # from sklearn.cross_validation import check_cv
-    # print(check_cv(3, mc.X_train))
 
 
 

@@ -1,4 +1,3 @@
-# coding=utf-8
 from __future__ import division
 import os
 import io
@@ -7,7 +6,6 @@ import pickle
 
 import copper
 import pandas as pd
-
 
 def load(filepath):
     ''' Loads a pickled dataset

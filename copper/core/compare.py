@@ -1,4 +1,3 @@
-# coding=utf-8
 from __future__ import division
 import copper
 import numpy as np
@@ -34,6 +33,7 @@ class ModelComparison():
     # --------------------------------------------------------------------------
 
     def set_train(self, ds):
+        print 1
         '''
         Uses a Dataset to set the values of inputs and targets for training
         '''
@@ -43,6 +43,8 @@ class ModelComparison():
         self.y_train = copper.transform.target2ml(ds).values
         self.target_labels = list(set(self.y_train))
 
+    train = property(None, set_train)
+
     def set_test(self, ds):
         '''
         Uses a Dataset to set the values of inputs and targets for testing
@@ -51,7 +53,6 @@ class ModelComparison():
         y_test = copper.transform.target2ml(ds)
         self.y_test = None if y_test is None else y_test.values
 
-    train = property(None, set_train)
     test = property(None, set_test)
 
     def add_clf(self, clf, name):
