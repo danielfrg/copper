@@ -15,10 +15,10 @@ class ModelComparion_1(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(ModelComparion_1('test_metrics'))
-        suite.addTest(ModelComparion_1('test_cm'))
-        suite.addTest(ModelComparion_1('test_costs'))
-        suite.addTest(ModelComparion_1('test_predict'))
+        # suite.addTest(ModelComparion_1('test_metrics'))
+        # suite.addTest(ModelComparion_1('test_cm'))
+        # suite.addTest(ModelComparion_1('test_costs'))
+        # suite.addTest(ModelComparion_1('test_predict'))
         suite.addTest(ModelComparion_1('test_average_bag'))
         return suite
 
@@ -157,7 +157,7 @@ class ModelComparion_1(CopperTest):
         '''
         self.setup()
 
-        bag = copper.utils.ml.AverageBag(self.mc.clfs)
+        bag = copper.AverageBag(self.mc.clfs)
         self.mc.add_clf(bag, "bag")
 
         acc = self.mc.accuracy()

@@ -624,12 +624,15 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/projects/data-mining/cause-effect-pairs/data/raw/CEdata_train_pairs.csv",
+		"/home/danielfrg/projects/data-mining/cause-effect-pairs/data/README.txt",
+		"/home/danielfrg/projects/copper/copper/core/estimators.py",
+		"/home/danielfrg/projects/data-mining/titanic/data/raw/Dataset.data",
 		"/home/danielfrg/projects/copper/copper/core/io.py",
 		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/data-mining/titanic/data/raw/train.csv",
 		"/home/danielfrg/projects/copper/copper/utils/ml.py",
 		"/home/danielfrg/projects/copper/copper/core/compare.py",
-		"/home/danielfrg/projects/copper/copper/core/estimators.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/base.py",
 		"/home/danielfrg/.virtualenvs/copper/lib/python3.2/site-packages/sklearn/cross_validation.py",
 		"/home/danielfrg/projects/data-mining/titanic/data/pred_bag_2splits.csv",
@@ -748,10 +751,7 @@
 		"/home/danielfrg/projects/copper/copper/tests/core/Dataset_pandas.py",
 		"/home/danielfrg/projects/copper/copper/test/CopperTest.py",
 		"/home/danielfrg/projects/copper/copper/test/data/transforms/1/data.csv",
-		"/home/danielfrg/projects/copper/copper/test/core/transforms.py",
-		"/home/danielfrg/Dropbox/Documents/UTD/Business Economics/mid",
-		"/home/danielfrg/projects/data-analysis/expedia/src/explore.py",
-		"/home/danielfrg/.virtualenvs/copper/bin/activate.fish"
+		"/home/danielfrg/projects/copper/copper/test/core/transforms.py"
 	],
 	"find":
 	{

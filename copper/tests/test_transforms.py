@@ -10,14 +10,14 @@ class TransformsTest(CopperTest):
 
     def suite(self):
         suite = unittest.TestSuite()
-        suite.addTest(TransformsTest('test_to_number'))
-        suite.addTest(TransformsTest('test_strptime'))
-        suite.addTest(TransformsTest('test_date2number'))
+        # suite.addTest(TransformsTest('test_to_number'))
+        # suite.addTest(TransformsTest('test_strptime'))
+        # suite.addTest(TransformsTest('test_date2number'))
         suite.addTest(TransformsTest('test_category2ml'))
-        suite.addTest(TransformsTest('test_category2number'))
-        suite.addTest(TransformsTest('test_category_labels'))
-        suite.addTest(TransformsTest('test_inputs2ml'))
-        suite.addTest(TransformsTest('test_target2ml'))
+        # suite.addTest(TransformsTest('test_category2number'))
+        # suite.addTest(TransformsTest('test_category_labels'))
+        # suite.addTest(TransformsTest('test_inputs2ml'))
+        # suite.addTest(TransformsTest('test_target2ml'))
         return suite
 
     def test_to_number(self):
@@ -101,7 +101,7 @@ class TransformsTest(CopperTest):
         df = pd.DataFrame(d)
         sol = np.array([[1, 0, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0], [0, 0, 1],
                         [1, 0, 0], [0, 1, 0], [1, 0, 0], [0, 0, 1], [0, 1, 0]] )
-        sol = pd.DataFrame(sol, columns=['0 [A]', '0 [B]', '0 [C]'])
+        sol = pd.DataFrame(sol, columns=['0#A', '0#B', '0#C'])
         
         tr = copper.transform.category2ml(df[0])
         self.assertEqual(tr, sol)
@@ -134,11 +134,11 @@ class TransformsTest(CopperTest):
         sol = pd.DataFrame(index=ds.index)
         sol['Num.1'] = ds['Num.1']
         sol['Num.2'] = ds['Num.2']
-        sol['Cat.1 [A]'] = [1,0,1,1,0]
-        sol['Cat.1 [B]'] = [0,1,0,0,1]
-        sol['Cat.2 [f]'] = [1,0,0,0,1]
-        sol['Cat.2 [g]'] = [0,1,0,1,0]
-        sol['Cat.2 [h]'] = [0,0,1,0,0]
+        sol['Cat.1#A'] = [1,0,1,1,0]
+        sol['Cat.1#B'] = [0,1,0,0,1]
+        sol['Cat.2#f'] = [1,0,0,0,1]
+        sol['Cat.2#g'] = [0,1,0,1,0]
+        sol['Cat.2#h'] = [0,0,1,0,0]
 
         tr = copper.transform.inputs2ml(ds)
         self.assertEqual(tr, sol)
@@ -148,10 +148,9 @@ class TransformsTest(CopperTest):
         sol = pd.DataFrame(index=ds.index)
         sol['Num.1'] = ds['Num.1']
         sol['Num.2'] = ds['Num.2']
-        sol['Cat.2 [f]'] = [1,0,0,0,1]
-        sol['Cat.2 [g]'] = [0,1,0,1,0]
-        sol['Cat.2 [h]'] = [0,0,1,0,0]
-
+        sol['Cat.2#f'] = [1,0,0,0,1]
+        sol['Cat.2#g'] = [0,1,0,1,0]
+        sol['Cat.2#h'] = [0,0,1,0,0]
         tr = copper.transform.inputs2ml(ds)
         self.assertEqual(tr, sol)
 
