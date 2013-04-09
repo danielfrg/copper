@@ -5,6 +5,7 @@
 			"name": "Python Virtual env",
 			"selector": "source.python",
         	// "path":"/home/danielfrg/.virtualenvs/copper/bin/:$PATH",
+        	// "path":"/home/danielfrg/.virtualenvs/nba/bin/:$PATH",
         	"path":"/home/danielfrg/anaconda/bin/:$PATH",
 			"cmd": ["python", "-u", "$file"],
 			"env": {"PYTHONPATH": "/home/danielfrg/projects/copper"},

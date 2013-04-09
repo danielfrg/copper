@@ -33,7 +33,6 @@ class ModelComparison():
     # --------------------------------------------------------------------------
 
     def set_train(self, ds):
-        print 1
         '''
         Uses a Dataset to set the values of inputs and targets for training
         '''
@@ -191,12 +190,15 @@ class ModelComparison():
     #                               METRICS
     # --------------------------------------------------------------------------
 
-    def _metric_wrapper(self, fnc, name='', ascending=False):
+    def _metric_wrapper(self, fnc, name='', clfs=None, ascending=False):
         ''' Wraper to not repeat code on all the possible metrics
         '''
         # TODO: generate custom error when X_test is missing
-        ans = pd.Series(index=self._clfs, name=name)
-        for clf_name in self._clfs:
+        if clfs is None:
+            clfs = self.clfs.index
+
+        ans = pd.Series(index=clfs, name=name)
+        for clf_name in clfs:
             clf = self._clfs[clf_name]
             ans[clf_name] = fnc(clf, X_test=self.X_test, y_test=self.y_test)
         return ans.order(ascending=ascending)
@@ -254,6 +256,25 @@ class ModelComparison():
             return mean_squared_error(y_test, y_pred)
 
         return self._metric_wrapper(fnc, name='Mean Squared Error', ascending=True, **args)
+
+
+    def rmsle(self, **args):
+        '''
+        Calculates the Root mean Mean Squared Logaritmic Error (RMSLE)
+
+        Parameters
+        ----------
+            ascending: boolean, sort the Series on this direction
+
+        Returns
+        -------
+            pandas.Series with the RMSLE
+        '''
+        def fnc (clf, X_test=None, y_test=None):
+            y_pred = clf.predict(X_test)
+            return copper.utils.ml.rmsle(y_test, y_pred)
+
+        return self._metric_wrapper(fnc, name='RMSLE', ascending=True, **args)
 
     def _cv_metric_wrapper(self, fnc, name='', cv=3, ascending=False):
         ''' Wraper to not repeat code on all the possible crossvalidated metrics

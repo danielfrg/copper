@@ -195,7 +195,6 @@ class Dataset(dict):
         # Note on this funcion python.type(...) is replaced by the type argument
         def _type(obj):
             return obj.__class__
-
         if role is None:
             role = [self.ID, self.INPUT, self.TARGET, self.REJECTED]
         elif _type(role) == str:

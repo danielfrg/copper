@@ -86,3 +86,10 @@ def grid(ds, base_clf, param, values, cv=None, verbose=False, **args):
             test_scores[i, j] = clf.score(X[test], y[test])
 
     return train_scores, test_scores
+
+
+def rmsle(y_test, y_pred):
+    ans = np.log1p(y_pred) - np.log1p(y_test)
+    ans = np.power(ans, 2)
+    ans = ans.mean()
+    return np.sqrt(ans)
