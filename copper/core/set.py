@@ -428,6 +428,14 @@ class Dataset(dict):
     #                                    CHARTS
     # --------------------------------------------------------------------------
 
+    def plot(self, kind=None, col=None, col2=None, col3=None, **args):
+        if kind is None:
+            return
+        if kind == 'hist' or kind == 'histogram':
+            return self.histogram(col, **args)
+        if kind == 'scatter':
+            return self.scatter(col, col2, col3, **args)
+
     def histogram(self, col, **args):
         '''
         Draws a histogram for the selected column on matplotlib
@@ -444,7 +452,10 @@ class Dataset(dict):
         ------
             nothing, figure is ready to be shown
         '''
-        copper.plot.histogram(self._frame[col], **args)
+        return copper.plot.histogram(self._frame[col], **args)
+
+    def scatter(self, col1, col2, col3, **args):
+        copper.plot.scatter(self.frame, col1, col2, col3, **args)
 
     def scatter_pca(self):
         X = copper.transform.inputs2ml(self)

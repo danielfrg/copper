@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"y_",
+				"y_test"
+			],
+			[
 				"cl",
 				"clf_name"
 			],
@@ -22,10 +26,6 @@
 			[
 				"any",
 				"any_clf"
-			],
-			[
-				"y_",
-				"y_train"
 			],
 			[
 				"col",
@@ -624,6 +624,19 @@
 	},
 	"file_history":
 	[
+		"/home/danielfrg/.virtualenvs/pydata/lib/python3.2/site-packages/sklearn/metrics/metrics.py",
+		"/home/danielfrg/projects/data-mining/yelp/data/training/review_sentiment.csv",
+		"/home/danielfrg/projects/data-mining/yelp/data/training/review.csv",
+		"/home/danielfrg/projects/data-mining/yelp/data/training/review_sentiment_api.csv",
+		"/home/danielfrg/projects/copper/copper/utils/ml.py",
+		"/home/danielfrg/projects/copper/copper/core/compare.py",
+		"/home/danielfrg/projects/copper/copper/core/io.py",
+		"/home/danielfrg/nltk_data/corpora/movie_reviews/neg/cv000_29416.txt",
+		"/home/danielfrg/projects/data-mining/yelp/README.md",
+		"/home/danielfrg/projects/copper/copper/core/set.py",
+		"/home/danielfrg/projects/data-mining/yelp/data/test/yelp_test_set_business.json",
+		"/home/danielfrg/projects/data-mining/yelp/data/test/yelp_test_set_user.json",
+		"/home/danielfrg/projects/data-mining/yelp/data/training/yelp_training_set_user.json",
 		"/home/danielfrg/projects/data-mining/yelp/data/training_set/review.csv",
 		"/home/danielfrg/projects/data-mining/yelp/src/convert.py",
 		"/home/danielfrg/projects/copper/copper.sublime-project",
@@ -636,7 +649,6 @@
 		"/home/danielfrg/Downloads/yelp_training_set/yelp_training_set_business.json",
 		"/home/danielfrg/projects/data-mining/nba/src/scrap/get_games.py",
 		"/home/danielfrg/projects/data-mining/nba/src/scrap/get_teams.py",
-		"/home/danielfrg/projects/copper/copper/core/compare.py",
 		"/home/danielfrg/.bashrc",
 		"/home/danielfrg/.starcluster/config",
 		"/home/danielfrg/Downloads/node-v0.10.3-linux-x64/README.md",
@@ -649,11 +661,8 @@
 		"/home/danielfrg/.ssh/known_hosts",
 		"/home/danielfrg/projects/copper/copper/tests/test_compare.py",
 		"/home/danielfrg/projects/copper/copper/utils/transforms.py",
-		"/home/danielfrg/projects/copper/copper/utils/ml.py",
 		"/home/danielfrg/projects/copper/copper/utils/frame.py",
 		"/home/danielfrg/projects/copper/copper/core/estimators.py",
-		"/home/danielfrg/projects/copper/copper/core/io.py",
-		"/home/danielfrg/projects/copper/copper/core/set.py",
 		"/home/danielfrg/projects/data-mining/test.py",
 		"/home/danielfrg/.continuum/license_anacondapro_20130207155036.txt",
 		"/home/danielfrg/projects/copper/copper/utils/r.py",
@@ -742,16 +751,7 @@
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/src/assigment2.py",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/features.txt",
 		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/features_info.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/README.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/activity_labels.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/features_info.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/samsungData.csv",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/subject_train.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/test/subject_test.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/README.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/y_train.txt",
-		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/data/train/X_train.txt"
+		"/home/danielfrg/projects/data-mining/coursera-data-analysis/assignment2/docs/data/README.txt"
 	],
 	"find":
 	{
@@ -769,6 +769,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"LVc6c7dS2EtO7PY4MfKcEg",
 			"keypair",
 			"mycluster",
 			"smallcluster",
@@ -895,8 +896,7 @@
 			"UtilsFrame",
 			"add",
 			"accuracy_score",
-			"bootstra",
-			"mse"
+			"bootstra"
 		],
 		"highlight": true,
 		"in_selection": false,

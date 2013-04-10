@@ -89,7 +89,6 @@ def histogram(series, bins=20, legend=True, ret_list=False):
 
     if legend:
         plt.legend(loc='best')
-
     if ret_list:
         return pd.Series(labels)
 
