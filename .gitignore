@@ -1,9 +1,8 @@
 # Python Specific
 *.py[cod]
 __pycache__
-
-# Translations
-*.mo
+.coverage
+htmlcov
 
 # Mr Developer
 *.sublime*

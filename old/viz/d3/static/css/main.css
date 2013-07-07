@@ -1,0 +1,42 @@
+body {
+    font: 10px sans-serif;
+}
+
+.navbar-inner{
+    padding-top: 7px;
+}
+
+input[type="number"] {
+    margin-bottom: 0px;
+}
+
+.content {
+    padding: 70px 0 0 0;
+}
+
+/* Chart */
+
+svg {
+    background: #fff;
+    border: 1px solid #DEDEDE;
+}
+
+.bar rect {
+    fill: #348ABD;
+    shape-rendering: crispEdges;
+}
+
+.bar-nans rect {
+    fill: #ff0000;
+    shape-rendering: crispEdges;
+}
+
+.bar text {
+    fill: #fff;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}

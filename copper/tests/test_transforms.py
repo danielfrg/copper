@@ -1,192 +1,199 @@
-import os
+from __future__ import division
 import copper
-import pandas as pd
 import numpy as np
+import pandas as pd
+from nose.tools import raises
+from copper.tests.utils import eq_
+from copper.utils import transforms
 
-import unittest
-from copper.tests.CopperTest import CopperTest
+def test_transform_int_regex():
+    eq_(transforms.to_int('0.2'), 0)
+    eq_(transforms.to_int('.8753'), 8753)
+    eq_(transforms.to_int('3.2'), 3)
+    eq_(transforms.to_int('1.2'), 1)
+    eq_(transforms.to_int('1.0'), 1)
+    eq_(transforms.to_int('NN1.0'), 1)
+    eq_(transforms.to_int('NN3.4DD'), 3)
+    eq_(transforms.to_int('(35.2)'), 35)
+    eq_(transforms.to_int('FAKE') is np.nan, True)
+    eq_(transforms.to_int('FAKE.') is np.nan, True)
+    eq_(transforms.to_int('FAKE.321'), 321)
+    eq_(transforms.to_int('FAKE.321.111'), 321)
 
-class TransformsTest(CopperTest):
 
-    def suite(self):
-        suite = unittest.TestSuite()
-        # suite.addTest(TransformsTest('test_to_number'))
-        # suite.addTest(TransformsTest('test_strptime'))
-        # suite.addTest(TransformsTest('test_date2number'))
-        suite.addTest(TransformsTest('test_category2ml'))
-        # suite.addTest(TransformsTest('test_category2number'))
-        # suite.addTest(TransformsTest('test_category_labels'))
-        # suite.addTest(TransformsTest('test_inputs2ml'))
-        # suite.addTest(TransformsTest('test_target2ml'))
-        return suite
+def test_transform_float_regex():
+    eq_(transforms.to_float('0.2'), 0.2)
+    eq_(transforms.to_float('.8753'), 0.8753)
+    eq_(transforms.to_float('3.2'), 3.2)
+    eq_(transforms.to_float('1.2'), 1.2)
+    eq_(transforms.to_float('1.0'), 1.0)
+    eq_(transforms.to_float('NN1.0'), 1.0)
+    eq_(transforms.to_float('NN3.4DD'), 3.4)
+    eq_(transforms.to_float('(35.2)'), 35.2)
+    eq_(transforms.to_float('FAKE') is np.nan, True)
+    eq_(transforms.to_float('FAKE.') is np.nan, True)
+    eq_(transforms.to_float('FAKE.321'), 0.321)
+    eq_(transforms.to_float('FAKE.321.111'), 0.321)
 
-    def test_to_number(self):
-        self.setUpData()
-        rands = np.round(np.random.rand(5) * 100)
-        money = ['$%d'%num for num in rands]
-        dic = { 'Money': money,
-                'Cat.1': ['A', 'B', 'A', 'A', 'B'],
-                'Num.as.Cat': ['1', '0', '1', '0', '1'],
-                'Num.1': np.random.rand(5)}
-        df = pd.DataFrame(dic)
 
-        dic = { 'Money': rands,
-                'Cat.1': [np.nan, np.nan, np.nan, np.nan, np.nan],
-                'Num.as.Cat': [1, 0, 1, 0, 1]}
-        sol = pd.DataFrame(dic)
+def test_transform_int():
+    array = np.arange(10)
+    strings = []
+    for i, item in enumerate(array):
+        strings.append("STRING(%i)" % item)
+    ser = pd.Series(strings)
+    sol = pd.Series(array)
+    eq_(ser.apply(transforms.to_int), sol)
 
-        tr = df['Num.as.Cat'].apply(copper.transform.to_number)
-        self.assertEqual(tr.dtype, float)
-        self.assertEqual(tr, sol['Num.as.Cat'])
-        tr = df['Cat.1'].apply(copper.transform.to_number)
-        self.assertEqual(tr.dtype, float)
-        self.assertEqual(tr, sol['Cat.1'])
-        tr = df['Money'].apply(copper.transform.to_number)
-        self.assertEqual(tr.dtype, float)
-        self.assertEqual(tr, sol['Money'])
 
-    def test_strptime(self):
-        from datetime import datetime
-        dates_1 = ['2000-1-12', '2001-12-31', '2002-3-3']
-        dates_2 = ['2000.1.12', '2001.12.31', '2002.3.3']
-        dates_3 = ['20000112', '20011231', '20020303']
-        dates_4 = ['12/1/00', '31/12/01', '3/3/02']
-        dic = {1:dates_1, 2:dates_2, 3:dates_3, 4:dates_4}
-        df = pd.DataFrame(dic)
+def test_transform_float():
+    array = np.arange(10) / 10
+    strings = []
+    for i, item in enumerate(array):
+        strings.append("STRING(%f)" % item)
+    ser = pd.Series(strings)
+    sol = pd.Series(array)
+    eq_(ser.apply(transforms.to_float), sol)
 
-        sol = [datetime(2000,1,12), datetime(2001,12,31), datetime(2002,3,3)]
-        t1 = df[1].apply(copper.transform.strptime, args='%Y-%m-%d')
-        t2 = df[2].apply(copper.transform.strptime, args='%Y.%m.%d')
-        t3 = df[3].apply(copper.transform.strptime, args='%Y%m%d')
-        t4 = df[4].apply(copper.transform.strptime, args='%d/%m/%y')
 
-        self.assertEqual(t1.values.tolist(), sol)
-        self.assertEqual(t2.values.tolist(), sol)
-        self.assertEqual(t3.values.tolist(), sol)
-        self.assertEqual(t4.values.tolist(), sol)
+def test_cat_encode_simple():
+    strings = np.array(['1', '2', '1', '3', '5', '2', '1', '5'])
+    sol = np.array([[1., 0, 0, 0], [0, 1, 0, 0], [1, 0, 0, 0],
+                    [0, 0, 1, 0], [0, 0, 0, 1], [0, 1, 0, 0],
+                    [1, 0, 0, 0], [0, 0, 0, 1]])
+    eq_(transforms.cat_encode(strings), sol)
 
-    def test_date2number(self):
-        '''
-        Requires:
-            transforms.strptime
-        '''
-        from datetime import datetime
-        dates1 = [datetime(1970,1,1), datetime(1970,1,2), datetime(1971,1,1)]
-        dates2 = [datetime(2000,1,1), datetime(2001,12,31), datetime(2002,3,3)]
-        dates = dates1 + dates2
-        df = pd.DataFrame(dates)
 
-        t = df[0].apply(copper.transform.date_to_number)
+def test_cat_encode_big():
+    abc = 'abcdefghijklmnopqrstuvwxyz'
+    array = np.floor(np.random.rand(100000) * 26)
+    strings = np.array([abc[int(i)] for i in array])
+    ans = transforms.cat_encode(strings)
+    eq_(len(ans), 100000)
+    eq_(ans.sum(axis=1), np.ones(100000))
+    eq_(ans.sum(), 100000)
 
-        self.assertEqual(t[0], 0)
-        self.assertEqual(t[1], 1)
-        self.assertEqual(t[2], 365)
-        self.assertEqual(t[3], 10957)
-        self.assertEqual(t[4], 11687)
-        self.assertEqual(t[5], 11749)
 
-        # Custom startdate
-        copper.transform.start_date = datetime(2000, 1, 1)
-        t = df[0].apply(copper.transform.date_to_number)
-        
-        self.assertEqual(t[0], -10957)
-        self.assertEqual(t[1], -10956)
-        self.assertEqual(t[2], -10592)
-        self.assertEqual(t[3], 0)
-        self.assertEqual(t[4], 730)
-        self.assertEqual(t[5], 792)
-    
-    def test_category2ml(self):
-        d = ['A', 'B', 'A', 'A', 'C', 'A', 'B', 'A', 'C', 'B']
-        df = pd.DataFrame(d)
-        sol = np.array([[1, 0, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0], [0, 0, 1],
-                        [1, 0, 0], [0, 1, 0], [1, 0, 0], [0, 0, 1], [0, 1, 0]] )
-        sol = pd.DataFrame(sol, columns=['0#A', '0#B', '0#C'])
-        
-        tr = copper.transform.category2ml(df[0])
-        self.assertEqual(tr, sol)
+def test_ml_inputs_simple():
+    df = pd.DataFrame(np.random.rand(8, 6))
+    strings = ['1', '2', '1', '3', '5', '2', '1', '5']
+    df[1] = np.array(strings)
+    df[3] = np.array(strings)
+    ds = copper.Dataset(df)
+    ds.type[[1, 3]] = ds.CATEGORY
 
-    def test_category2number(self):
-        d = ['A','B','A','A','C','A','B','A','C','B','D','A']
-        df = pd.DataFrame(d)
-        sol = [0,1,0,0,2,0,1,0,2,1,3,0]
-        sol = pd.DataFrame(sol)
+    ans = transforms.ml_inputs(ds)
+    eq_(ans.shape, (8, 6 - 2 + 4 * 2))
+    eq_(ans[:, 0], df[0].values)
+    eq_(ans[:, [1, 2, 3, 4]], transforms.cat_encode(df[1].values))
+    eq_(ans[:, 5], df[2].values)
+    eq_(ans[:, [6, 7, 8, 9]], transforms.cat_encode(df[3].values))
+    eq_(ans[:, 10], df[4].values)
+    eq_(ans[:, 11], df[5].values)
 
-        tr = copper.transform.category2number(df[0])
-        self.assertEqual(tr, sol[0])
 
-    def test_category_labels(self):
-        d = ['A','B','A','C','B','C','B','D','A','Z','A','X','D']
-        df = pd.DataFrame(d)
-        sol = ['A','B','C','D','X','Z']
+def test_ml_inputs_simple_with_target():
+    df = pd.DataFrame(np.random.rand(8, 6))
+    strings = ['1', '2', '1', '3', '5', '2', '1', '5']
+    df[1] = np.array(strings)
+    df[3] = np.array(strings)
+    ds = copper.Dataset(df)
+    ds.type[[1, 3]] = ds.CATEGORY
+    ds.role[[2]] = ds.TARGET
 
-        labels = copper.transform.category_labels(df[0])
-        tr = copper.transform.category2number(df[0])
-        self.assertEqual(labels.tolist(), sol)
+    ans = transforms.ml_inputs(ds)
+    eq_(ans.shape, (8, 5 - 2 + 4 * 2))
+    eq_(ans[:, 0], df[0].values)
+    eq_(ans[:, [1, 2, 3, 4]], transforms.cat_encode(df[1].values))
+    eq_(ans[:, [5, 6, 7, 8]], transforms.cat_encode(df[3].values))
+    eq_(ans[:, 9], df[4].values)
+    eq_(ans[:, 10], df[5].values)
 
-    def test_inputs2ml(self):
-        dic = { 'Cat.1': ['A','B','A','A','B'],
-                'Cat.2' :['f','g','h','g','f'],
-                'Num.1': np.random.rand(5),
-                'Num.2': np.random.rand(5)}
-        ds = copper.Dataset(pd.DataFrame(dic))
 
-        sol = pd.DataFrame(index=ds.index)
-        sol['Num.1'] = ds['Num.1']
-        sol['Num.2'] = ds['Num.2']
-        sol['Cat.1#A'] = [1,0,1,1,0]
-        sol['Cat.1#B'] = [0,1,0,0,1]
-        sol['Cat.2#f'] = [1,0,0,0,1]
-        sol['Cat.2#g'] = [0,1,0,1,0]
-        sol['Cat.2#h'] = [0,0,1,0,0]
+def test_ml_inputs_simple_with_ignore():
+    df = pd.DataFrame(np.random.rand(8, 6))
+    strings = ['1', '2', '1', '3', '5', '2', '1', '5']
+    df[1] = np.array(strings)
+    df[3] = np.array(strings)
+    ds = copper.Dataset(df)
+    ds.type[[1, 3]] = ds.CATEGORY
+    ds.role[[2]] = ds.IGNORE
 
-        tr = copper.transform.inputs2ml(ds)
-        self.assertEqual(tr, sol)
+    ans = transforms.ml_inputs(ds)
+    eq_(ans.shape, (8, 5 - 2 + 4 * 2))
+    eq_(ans[:, 0], df[0].values)
+    eq_(ans[:, [1, 2, 3, 4]], transforms.cat_encode(df[1].values))
+    eq_(ans[:, [5, 6, 7, 8]], transforms.cat_encode(df[3].values))
+    eq_(ans[:, 9], df[4].values)
+    eq_(ans[:, 10], df[5].values)
 
-        # Change the role of a column to REJECT
-        ds.role['Cat.1'] = ds.REJECT
-        sol = pd.DataFrame(index=ds.index)
-        sol['Num.1'] = ds['Num.1']
-        sol['Num.2'] = ds['Num.2']
-        sol['Cat.2#f'] = [1,0,0,0,1]
-        sol['Cat.2#g'] = [0,1,0,1,0]
-        sol['Cat.2#h'] = [0,0,1,0,0]
-        tr = copper.transform.inputs2ml(ds)
-        self.assertEqual(tr, sol)
 
-        # Change the role of a column to TARGET
-        ds.role['Cat.2'] = ds.TARGET
-        sol = pd.DataFrame(index=ds.index)
-        sol['Num.1'] = ds['Num.1']
-        sol['Num.2'] = ds['Num.2']
+def test_ml_inputs_big():
+    abc = 'abcdefghijklmnopqrstuvwxyz'
+    m, n = 1000, 10
+    array = np.floor(np.random.rand(m) * 26)
+    strings = np.array([abc[int(i)] for i in array])
+    df = pd.DataFrame(np.random.rand(m, 100))
+    abc_cols = np.arange(n) * 10
+    for col in abc_cols:
+        df[col] = strings
+    ds = copper.Dataset(df)
+    ds.type[abc_cols.tolist()] = ds.CATEGORY
 
-        tr = copper.transform.inputs2ml(ds)
-        self.assertEqual(tr, sol)
+    ans = transforms.ml_inputs(ds)
+    eq_(ans.shape, (m, 100 - n + 26 * n))
+    encoded = transforms.cat_encode(strings)
+    for i, abc_col in enumerate(abc_cols):
+        s = abc_col + 25 * i
+        f = abc_col + 25 * i + 26
+        eq_(ans[:, s:f], encoded)
 
-    def test_target2ml(self):
-        dic = { 'Cat.1': ['A','B','A','A','B'],
-                'Cat.2' :['f','g','h','g','f'],
-                'Num.1': np.random.rand(5),
-                'Num.2': np.random.rand(5)}
-        ds = copper.Dataset(pd.DataFrame(dic))
-        
-        tr = copper.transform.target2ml(ds)
-        self.assertEqual(tr, None)
 
-        # Numerical target
-        ds.role['Num.1'] = ds.TARGET
-        tr = copper.transform.target2ml(ds)
-        self.assertEqual(tr, ds['Num.1'])
+@raises(Exception)
+def test_ml_target_error():
+    df = pd.DataFrame(np.random.rand(8, 6))
+    ds = copper.Dataset(df)
+    transforms.ml_target(ds)
 
-        # Categorical target
-        ds.role['Num.1'] = ds.INPUT
-        ds.role['Cat.1'] = ds.TARGET
-        sol = pd.DataFrame(index=ds.index)
-        sol['Cat.1'] = [0,1,0,0,1]
-        tr = copper.transform.target2ml(ds)
-        self.assertEqual(tr, sol['Cat.1'])
-        
+
+def test_ml_target_number():
+    df = pd.DataFrame(np.random.rand(8, 6))
+    ds = copper.Dataset(df)
+
+    target_col = np.floor(np.random.random(1)[0] * 6)
+    ds.role[target_col] = ds.TARGET
+
+    target = transforms.ml_target(ds)
+    eq_(target, ds[target_col].values)
+
+
+def test_ml_target_string():
+    df = pd.DataFrame(np.random.rand(6, 6))
+    strings = ['z', 'h', 'z', 'c', 'h', 'c']
+    sol = [2, 1, 2, 0, 1, 0]
+    df['T'] = strings
+
+    ds = copper.Dataset(df)
+    ds.role['T'] = ds.TARGET
+
+    target = transforms.ml_target(ds)
+    eq_(target, np.array(sol))
+
+
+def test_ml_target_only_one():
+    df = pd.DataFrame(np.random.rand(8, 6))
+    ds = copper.Dataset(df)
+
+    ds.role[3] = ds.TARGET
+    ds.role[5] = ds.TARGET
+
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        target = transforms.ml_target(ds)
+        eq_(target, ds[3].values)
+
 
 if __name__ == '__main__':
-    suite = TransformsTest().suite()
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    import nose
+    nose.runmodule(argv=[__file__, '-vs', '--nologcapture'], exit=False)

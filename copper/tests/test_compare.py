@@ -1,124 +1,169 @@
-import os
+from __future__ import division
 import copper
 import numpy as np
 import pandas as pd
+from nose.tools import raises, ok_
+from copper.tests.utils import eq_
+from sklearn import cross_validation
 
-import unittest
-from copper.tests.CopperTest import CopperTest
+def get_iris():
+    from sklearn import datasets
+    iris = datasets.load_iris()
 
-class ModelComparison(CopperTest):
+    X = iris.data
+    Y = iris.target
+    return X, Y
 
-    def suite(self):
-        suite = unittest.TestSuite()
-        suite.addTest(ModelComparison('test_models_list'))
-        suite.addTest(ModelComparison('test_transformations'))
-        return suite
-        
-    def test_models_list(self):
-        ''' Test add_clf and rm_clf
-        '''
-        # Test models
-        from sklearn import svm
-        from sklearn import tree
-        from sklearn.naive_bayes import GaussianNB
-        from sklearn.ensemble import GradientBoostingClassifier
-        svm_clf = svm.SVC(probability=True)
-        tree_clf = tree.DecisionTreeClassifier(max_depth=6)
-        gnb_clf = GaussianNB()
-        gb_clf = GradientBoostingClassifier()
 
-        # Add all models
-        mc = copper.ModelComparison()
-        mc.add_clf(svm_clf, 'SVM')
-        mc.add_clf(tree_clf, 'DT')
-        mc.add_clf(gnb_clf, 'GNB')
-        mc.add_clf(gb_clf, 'GB')
+def get_iris_ds():
+    X, Y = get_iris()
+    df = pd.DataFrame(X)
+    df['Target'] = pd.Series(Y, name='Target')
 
-        df = mc.clfs
-        self.assertEqual(df['SVM'], svm_clf)
-        self.assertEqual(df['DT'], tree_clf)
-        self.assertEqual(df['GNB'], gnb_clf)
-        self.assertEqual(df['GB'], gb_clf)
+    ds = copper.Dataset(df)
+    ds.role['Target'] = ds.TARGET
+    return ds
 
-        # Remove one model
-        mc.rm_clf('DT')
-        df = mc.clfs
-        try:
-            self.assertEqual(df['DT'], dt_clf)
-            self.fail("should generate error")
-        except:
-            pass
-        self.assertEqual(df['SVM'], svm_clf)
-        self.assertEqual(df['GNB'], gnb_clf)
-        self.assertEqual(df['GB'], gb_clf)
 
-        # Remove all models
-        mc.clear_clfs()
-        df = mc.clfs
-        try:
-            self.assertEqual(df['SVM'], svm_clf)
-            self.fail("should generate error")
-        except:
-            pass
-        try:
-            self.assertEqual(df['DT'], tree_clf)
-            self.fail("should generate error")
-        except:
-            pass
-        try:
-            self.assertEqual(df['GNB'], gnb_clf)
-            self.fail("should generate error")
-        except:
-            pass
-        try:
-            self.assertEqual(df['GB'], gb_clf)
-            self.fail("should generate error")
-        except:
-            pass
+def test_get_set_train_test_directly():
+    X, Y = get_iris()
+    X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, Y, test_size=0.2)
 
-    def test_transformations(self):
-        ''' Tests that the values used to train and test are correct
-        Note: tests for the transformation values on test_transforms
-        '''
-        dic = { 'Cat.1': ['A','B','A','A','B'],
-                'Cat.2' :['f','g','h','g','f'],
-                'Num.1': np.random.rand(5),
-                'Num.2': np.random.rand(5),
-                'Target': [1,0,0,1,1]}
-        train = copper.Dataset(pd.DataFrame(dic))
-        dic = { 'Cat.1': ['B','B','B','A','A'],
-                'Cat.2' :['g','h','f','g','g'],
-                'Num.1': np.random.rand(5),
-                'Num.2': np.random.rand(5),
-                'Target': [0,1,1,0,1]}
-        test = copper.Dataset(pd.DataFrame(dic))
+    mc = copper.ModelComparison()
+    mc.X_train = X_train
+    mc.y_train = y_train
+    mc.X_test = X_test
+    mc.y_test = y_test
 
-        train.role['Target'] = train.TARGET
-        test.role['Target'] = train.REJECT
+    eq_(mc.X_train.shape, (150 * 0.8, 4))
+    eq_(mc.y_train.shape, (150 * 0.8, ))
+    eq_(mc.X_test.shape, (150 * 0.2, 4))
+    eq_(mc.y_test.shape, (150 * 0.2, ))
+    eq_(mc.X_train, X_train)
+    eq_(mc.y_train, y_train)
+    eq_(mc.X_test, X_test)
+    eq_(mc.y_test, y_test)
 
-        mc = copper.ModelComparison()
-        mc.train = train
-        mc.test = test
-        self.assertEqual(mc.X_train, copper.transform.inputs2ml(train).values)
-        self.assertEqual(mc.y_train, copper.transform.target2ml(train).values)
-        self.assertEqual(mc.y_train, train['Target'].values)
-        self.assertEqual(mc.X_train.shape, (5,7))
-        self.assertEqual(mc.X_test, copper.transform.inputs2ml(test).values)
-        self.assertEqual(mc.y_test, None)
-        self.assertEqual(mc.X_test.shape, (5,7))
 
-        test.role['Target'] = test.TARGET
-        mc.test = test
-        self.assertEqual(mc.y_test, copper.transform.target2ml(test).values)
-        self.assertEqual(mc.y_test, test['Target'].values)
-        
-        train.role['Num.1'] = train.REJECT
-        mc.train = train
-        self.assertEqual(mc.X_train.shape, (5,6))
-        train.role['Cat.1'] = train.REJECT
-        mc.train = train
-        self.assertEqual(mc.X_train.shape, (5,4))
+def test_get_set_train_test_dataset():
+    X, Y = get_iris()
+    X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, Y, test_size=0.6)
+    train = np.hstack((X_train, y_train[np.newaxis].T))
+    test = np.hstack((X_test, y_test[np.newaxis].T))
+    train = pd.DataFrame(train)
+    test = pd.DataFrame(test)
+    train = copper.Dataset(train)
+    train.role[4] = train.TARGET
+    test = copper.Dataset(test)
+    test.role[4] = test.TARGET
+
+    mc = copper.ModelComparison()
+    mc.train = train
+    mc.test = test
+
+    eq_(mc.X_train.shape, (150 * 0.4, 4))
+    eq_(mc.y_train.shape, (150 * 0.4, ))
+    eq_(mc.X_test.shape, (150 * 0.6, 4))
+    eq_(mc.y_test.shape, (150 * 0.6, ))
+    eq_(mc.X_train, X_train)
+    eq_(mc.y_train, y_train)
+    eq_(mc.X_test, X_test)
+    eq_(mc.y_test, y_test)
+
+
+def test_sample_iris():
+    mc = copper.ModelComparison()
+    mc.sample(get_iris_ds(), test_size=0.4)
+    eq_(mc.X_train.shape, (150 * 0.6, 4))
+    eq_(mc.y_train.shape, (150 * 0.6, ))
+    eq_(mc.X_test.shape, (150 * 0.4, 4))
+    eq_(mc.y_test.shape, (150 * 0.4, ))
+    eq_((mc.X_train, mc.y_train), mc.train)
+    eq_((mc.X_test, mc.y_test), mc.test)
+
+
+def test_get_set_algorithms():
+    mc = copper.ModelComparison()
+    mc.sample(get_iris_ds(), test_size=0.4)
+
+    from sklearn.linear_model import LogisticRegression
+    lr = LogisticRegression()
+    mc['LR'] = lr
+    eq_(mc['LR'], lr)
+
+    lr2 = LogisticRegression(penalty='l1')
+    mc['LR l1'] = lr2
+    eq_(mc['LR l1'], lr2)
+    eq_(len(mc), 2)
+
+
+def test_del_algorithm():
+    mc = copper.ModelComparison()
+    mc.sample(get_iris_ds(), test_size=0.4)
+
+    from sklearn.linear_model import LogisticRegression
+    lr = LogisticRegression()
+    mc['LR'] = lr
+    eq_(mc['LR'], lr)
+
+    lr2 = LogisticRegression(penalty='l1')
+    mc['LR l1'] = lr2
+    eq_(mc['LR l1'], lr2)
+    eq_(len(mc), 2)
+
+    del mc['LR']
+    eq_(mc['LR l1'], lr2)
+    eq_(len(mc), 1)
+
+    del mc['LR l1']
+    eq_(len(mc), 0)
+
+
+@raises(Exception)
+def test_del_algorithm_raise():
+    mc = copper.ModelComparison()
+    mc.sample(get_iris_ds(), test_size=0.4)
+
+    from sklearn.linear_model import LogisticRegression
+    lr = LogisticRegression()
+    mc['LR'] = lr
+    eq_(mc['LR'], lr)
+
+    lr2 = LogisticRegression(penalty='l1')
+    mc['LR l1'] = lr2
+    eq_(mc['LR l1'], lr2)
+
+    del mc['LR']
+    mc['LR']
+
+
+@raises(Exception)
+def test_no_auto_fit():
+    mc = copper.ModelComparison()
+    mc.sample(get_iris_ds(), test_size=0.4)
+
+    from sklearn.linear_model import LogisticRegression
+    lr = LogisticRegression()
+    mc['LR'] = lr
+
+    mc['LR'].coef_  # Doesn't exist yet
+
+
+def test_fit():
+    mc = copper.ModelComparison()
+    mc.sample(get_iris_ds(), test_size=0.4)
+
+    from sklearn.linear_model import LogisticRegression
+    lr = LogisticRegression()
+    lr2 = LogisticRegression(penalty='l1')
+    mc['LR'] = lr
+    mc['LR l1'] = lr2
+
+    mc.fit()
+    ok_(mc['LR'].coef_ is not None)
+    ok_(mc['LR l1'].coef_ is not None)
+    ok_(mc['LR'] != mc['LR l1'])
 
 if __name__ == '__main__':
-    suite = ModelComparison().suite()
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    import nose
+    nose.runmodule(argv=[__file__, '-vs', '--nologcapture'], exit=False)
