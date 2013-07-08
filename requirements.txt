@@ -1,10 +1,8 @@
 distribute==0.6.31
-matplotlib==1.2.0
 numpy==1.6.2
-pandas==0.10.0
-python-dateutil==2.1
-pytz==2012j
-scikit-learn==0.14-git
 scipy==0.11.0
+python-dateutil==2.1
+pandas==0.10.0
+scikit-learn==0.13.1
+pytz==2012j
 six==1.2.0
-wsgiref==0.1.2
