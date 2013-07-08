@@ -16,6 +16,5 @@ Subpackages
 
     copper.core
     copper.ml
-    copper.tests
     copper.utils
 
