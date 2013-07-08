@@ -1,4 +1,6 @@
 from __future__ import division
+import math
+import random
 import copper
 import numpy as np
 import pandas as pd
@@ -160,7 +162,7 @@ def test_ml_target_number():
     df = pd.DataFrame(np.random.rand(8, 6))
     ds = copper.Dataset(df)
 
-    target_col = np.floor(np.random.random(1)[0] * 6)
+    target_col = math.floor(random.random() * 6)
     ds.role[target_col] = ds.TARGET
 
     target = transforms.ml_target(ds)

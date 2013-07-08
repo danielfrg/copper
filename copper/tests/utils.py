@@ -14,6 +14,8 @@ def eq_(ans, sol, digits=0):
         series_eq(ans, sol, digits)
     elif type(ans) == pd.DataFrame and type(sol) == pd.DataFrame:
         frame_eq(ans, sol, digits)
+    elif isinstance(ans, pd.Index) and isinstance(sol, pd.Index):
+        array_eq(ans.values, sol.values, digits)
     else:
         nose_eq(ans, sol, digits)
 

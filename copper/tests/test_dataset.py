@@ -1,10 +1,13 @@
 from __future__ import division
 import os
+import math
+import random
 import tempfile
+import copper
 import numpy as np
 import pandas as pd
 from copper.tests.utils import eq_
-import copper
+from nose.tools import raises
 
 
 def test_create_empty():
@@ -26,26 +29,74 @@ def test_create_noempty():
     eq_(ds.metadata['Type'], ds.type)
 
 
-def test_set_metadata():
+def test_default_type():
     df = pd.DataFrame(np.random.rand(10, 10))
+    rand_col = math.floor(random.random() * 5) + 1
+    df[rand_col] = df[rand_col].apply(lambda x: str(x))
+    df[0] = df[0].apply(lambda x: str(x))
     ds = copper.Dataset(df)
-    meta = ds.metadata
 
-    meta['Role'][5] = ds.TARGET
-    ds.metadata = meta
-    eq_(ds.role[5], ds.TARGET)
+    eq_(ds.type[0], ds.CATEGORY)
+    eq_(ds.type[rand_col], ds.CATEGORY)
+    for col in ds.columns:
+        if col not in [0, rand_col]:
+            eq_(ds.type[col], ds.NUMBER)
 
-    meta['Role'][5] = ds.INPUT
-    ds.metadata = meta
-    eq_(ds.role[5], ds.INPUT)
+    print
+    print ds.frame
 
-    meta['Type'][3] = ds.CATEGORY
-    ds.metadata = meta
-    eq_(ds.type[3], ds.CATEGORY)
 
-    meta['Type'][3] = ds.NUMBER
+def test_set_metadata():
+    df = pd.DataFrame(np.random.rand(5, 5))
+    ds = copper.Dataset(df)
+
+    rand_col = math.floor(random.random() * 5)
+    meta = ds.metadata.copy()
+    meta['Role'][rand_col] = ds.TARGET
+    eq_(ds.role[rand_col], ds.INPUT)  # Not changes until reasigment
     ds.metadata = meta
-    eq_(ds.type[3], ds.NUMBER)
+    eq_(ds.role[rand_col], ds.TARGET)  # Change
+
+    for i in range(5):
+        rand_col = math.floor(random.random() * 5)
+        meta = ds.metadata.copy()
+        meta['Role'][rand_col] = ds.TARGET
+        ds.metadata = meta
+        eq_(ds.role[rand_col], ds.TARGET)
+
+    rand_col = math.floor(random.random() * 5)
+    meta = ds.metadata.copy()
+    meta['Type'][rand_col] = ds.CATEGORY
+    eq_(ds.type[rand_col], ds.NUMBER)  # Not changes until reasigment
+    ds.metadata = meta
+    eq_(ds.type[rand_col], ds.CATEGORY)  # Change
+
+    for i in range(5):
+        rand_col = math.floor(random.random() * 5)
+        meta = ds.metadata.copy()
+        meta['Type'][rand_col] = ds.CATEGORY
+        ds.metadata = meta
+        eq_(ds.type[rand_col], ds.CATEGORY)
+
+
+@raises(Exception)
+def test_set_metadata_fail_length():
+    df = pd.DataFrame(np.random.rand(5, 5))
+    ds = copper.Dataset(df)
+
+    meta = ds.metadata.copy()
+    meta = meta.drop(0)
+    ds.metadata = meta
+
+
+@raises(Exception)
+def test_set_metadata_fail_index():
+    df = pd.DataFrame(np.random.rand(5, 5))
+    ds = copper.Dataset(df)
+
+    meta = ds.metadata.copy()
+    meta = meta.reindex([11, 1, 2, 3, 4])
+    ds.metadata = meta
 
 
 def test_save_load_metadata():
