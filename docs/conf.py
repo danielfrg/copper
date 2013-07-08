@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # copper documentation build configuration file, created by
-# sphinx-quickstart on Sun Jul  7 16:14:37 2013.
+# sphinx-quickstart on Sun Jul  7 21:29:06 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
 #
@@ -16,7 +16,7 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../copper'))
+sys.path.insert(0, os.path.abspath('../copper'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -64,7 +64,7 @@ release = '0.0.5'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = []
+exclude_patterns = ['_build']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
