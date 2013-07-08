@@ -2,13 +2,37 @@ import copper
 # import numpy as np
 from sklearn import cross_validation
 
+
 class ModelComparison(dict):
+    """ Utility for easy model(algorithm) comparison.
+    Can use only numpy arrays or copper.Dataset to generate the training and
+    testing datasets.
+
+    Note: Designed to work with sklearn algorithms (extending BaseEstimator)
+    but not necesary if the algorithm matches the basic skelarn API:
+    algo.fit, algo.predict, algo.predict_proba
+
+    Parameters
+    ----------
+
+    Examples
+    --------
+    >>> train = copper.Dataset(...)
+    >>> test = copper.Dataset(...)
+    >>> mc = copper.ModelComparison(...)
+    >>> from sklearn.linear_model import LogisticRegression
+    >>> mc['LR'] = LogisticRegression()
+    >>> mc['LR with p=l1'] = LogisticRegression(penalty='l1')
+    >>> mc.fit()
+    >>> mc.predict()
+    np.array([[...]])
+    """
 
     def __init__(self):
         self.algorithms = {}
         self.X_train = None
         self.y_train = None
-        self.X_test  = None
+        self.X_test = None
         self.y_test = None
 
     def get_train(self):
@@ -30,7 +54,18 @@ class ModelComparison(dict):
     train = property(get_train, set_train, None)
     test = property(get_test, set_test, None)
 
-    def sample(self, dataset, **args):
+    def train_test_split(self, dataset, **args):
+        """ Random split of a copper.Datasetinto a training and testing
+        datasets
+
+        Arguments are the same as: sklearn.cross_validation.train_test_split
+        only test_size is necessary.
+
+        Parameters
+        ----------
+        test_size: float percentage of the dataset used for testing
+            between 0 and 1.
+        """
         assert type(dataset) is copper.Dataset, "Should be a copper.Dataset"
         inputs = copper.utils.transforms.ml_inputs(dataset)
         target = copper.utils.transforms.ml_target(dataset)

@@ -71,9 +71,9 @@ def test_get_set_train_test_dataset():
     eq_(mc.y_test, y_test)
 
 
-def test_sample_iris():
+def test_train_test_split_iris():
     mc = copper.ModelComparison()
-    mc.sample(get_iris_ds(), test_size=0.4)
+    mc.train_test_split(get_iris_ds(), test_size=0.4)
     eq_(mc.X_train.shape, (150 * 0.6, 4))
     eq_(mc.y_train.shape, (150 * 0.6, ))
     eq_(mc.X_test.shape, (150 * 0.4, 4))
@@ -84,7 +84,7 @@ def test_sample_iris():
 
 def test_get_set_algorithms():
     mc = copper.ModelComparison()
-    mc.sample(get_iris_ds(), test_size=0.4)
+    mc.train_test_split(get_iris_ds(), test_size=0.4)
 
     from sklearn.linear_model import LogisticRegression
     lr = LogisticRegression()
@@ -99,7 +99,7 @@ def test_get_set_algorithms():
 
 def test_del_algorithm():
     mc = copper.ModelComparison()
-    mc.sample(get_iris_ds(), test_size=0.4)
+    mc.train_test_split(get_iris_ds(), test_size=0.4)
 
     from sklearn.linear_model import LogisticRegression
     lr = LogisticRegression()
@@ -151,7 +151,7 @@ def test_no_auto_fit():
 
 def test_fit():
     mc = copper.ModelComparison()
-    mc.sample(get_iris_ds(), test_size=0.4)
+    mc.train_test_split(get_iris_ds(), test_size=0.4)
 
     from sklearn.linear_model import LogisticRegression
     lr = LogisticRegression()
