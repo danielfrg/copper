@@ -1,3 +1,4 @@
 numpydoc==0.4
+numpy==1.7.1
 pandas==0.11.0
 scikit-learn==0.13.1
