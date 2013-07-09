@@ -86,8 +86,7 @@ def cat_encode(values):
     """
     if type(values) is list:
         values = np.array(values)
-    labels = list(set(values))
-    labels.sort()
+    labels = np.unique(values)
     ans = np.zeros((len(values), len(labels)))
     for i, label in enumerate(labels):
         ans[:, i][values == label] = 1
