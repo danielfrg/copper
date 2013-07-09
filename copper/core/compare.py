@@ -139,42 +139,6 @@ class ModelComparison(dict):
                 ans = ans.join(new)
         return ans
 
-
-# ------------------------- CONFUSION MATRIX ----------------------------------
-
-    def _cm(self, X_test=None, y_test=None):
-        '''
-        Calculates the confusion matrixes of the classifiers
-
-        Parameters
-        ----------
-            clfs: list or str, of the classifiers to calculate the cm
-
-        Returns
-        -------
-            python dictionary
-        '''
-        X_test, y_test = self.parse_entries(X_test, y_test)
-
-        ans = {}
-        for alg_name in self.algorithms:
-            algo = self.algorithms[alg_name]
-            y_pred = algo.predict(self.X_test)
-            ans[alg_name] = confusion_matrix(y_test, y_pred)
-        return ans
-
-    def cm(self, clf, X_test=None, y_test=None):
-        '''
-        Return a pandas.DataFrame version of a confusion matrix
-
-        Parameters
-        ----------
-            clf: str, classifier identifier
-        '''
-        cm = self._cm(X_test, y_test)[clf]
-        values = np.unique(self.y_test)
-        return pd.DataFrame(cm, index=values, columns=values)
-
 # ------------------------- SKLEARN METRICS -----------------------------------
 
     def metric(self, func, X_test=None, y_test=None, name='', ascending=False, **args):
@@ -225,6 +189,41 @@ class ModelComparison(dict):
 
     def zero_one_loss(self, **args):
         return self.metric(zero_one_loss, name='Zero one loss', **args)
+
+# ------------------------- CONFUSION MATRIX ----------------------------------
+
+    def _cm(self, X_test=None, y_test=None):
+        '''
+        Calculates the confusion matrixes of the classifiers
+
+        Parameters
+        ----------
+            clfs: list or str, of the classifiers to calculate the cm
+
+        Returns
+        -------
+            python dictionary
+        '''
+        X_test, y_test = self.parse_entries(X_test, y_test)
+
+        ans = {}
+        for alg_name in self.algorithms:
+            algo = self.algorithms[alg_name]
+            y_pred = algo.predict(self.X_test)
+            ans[alg_name] = confusion_matrix(y_test, y_pred)
+        return ans
+
+    def cm(self, clf, X_test=None, y_test=None):
+        '''
+        Return a pandas.DataFrame version of a confusion matrix
+
+        Parameters
+        ----------
+            clf: str, classifier identifier
+        '''
+        cm = self._cm(X_test, y_test)[clf]
+        values = np.unique(self.y_test)
+        return pd.DataFrame(cm, index=values, columns=values)
 
 #           ---------    TESTS
 import numpy as np
