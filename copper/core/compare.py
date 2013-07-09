@@ -10,7 +10,7 @@ class ModelComparison(dict):
     testing datasets.
 
     Note: Designed to work with sklearn algorithms (extending BaseEstimator)
-    but not necesary if the algorithm matches the basic skelarn API:
+    but not necesary if the algorithm matches the basic sklearn API:
     algo.fit, algo.predict, algo.predict_proba
 
     Parameters
@@ -165,9 +165,9 @@ class ModelComparison(dict):
         values = set(self.y_test)
         return pd.DataFrame(cm, index=values, columns=values)
 
-# ----------------------------- METRICS ---------------------------------------
+# ------------------------- SKLEARN METRICS -----------------------------------
 
-    def metric(self, func, X_test=None, y_test=None, name='', ascending=False):
+    def metric(self, func, X_test=None, y_test=None, name='', ascending=False, **args):
         if X_test is None and y_test is None:
             X_test = self.X_test
             y_test = self.y_test
@@ -180,12 +180,59 @@ class ModelComparison(dict):
         for alg_name in self.algorithms:
             algo = self.algorithms[alg_name]
             y_pred = algo.predict(X_test)
-            ans[alg_name] = func(y_test, y_pred)
+            # Prolly inset multi-class fix here: for i in y_pred ...
+            ans[alg_name] = func(y_test, y_pred, **args)
         return ans.order(ascending=ascending)
 
-    def accuracy(self, *args):
+    def accuracy_score(self, **args):
         from sklearn.metrics import accuracy_score
-        return self.metric_wrapper(accuracy_score, name='Accuracy', *args)
+        return self.metric_wrapper(accuracy_score, name='Accuracy', **args)
+
+    def auc(self, **args):
+        # FIX
+        from sklearn.metrics import auc
+        return self.metric(auc, name='AUC', **args)
+
+    def auc_score(self, **args):
+        from sklearn.metrics import auc_score
+        return self.metric(auc_score, name='', **args)
+
+    def average_precision_score(self, **args):
+        from sklearn.metrics import average_precision_score
+        return self.metric(average_precision_score, name='', **args)
+
+    def f1_score(self, **args):
+        # FIX for multiclass?
+        from sklearn.metrics import f1_score
+        return self.metric(f1_score, name='', **args)
+
+    def fbeta_score(self, **args):
+        # FIX for multiclass?
+        from sklearn.metrics import fbeta_score
+        return self.metric(fbeta_score, name='', **args)
+
+    def hinge_loss(self, **args):
+        from sklearn.metrics import hinge_loss
+        return self.metric(hinge_loss, name='', **args)
+
+    def matthews_corrcoef(self, **args):
+        from sklearn.metrics import matthews_corrcoef
+        return self.metric(matthews_corrcoef, name='', **args)
+
+    def precision_score(self, **args):
+        # FIX for multiclass?
+        from sklearn.metrics import precision_score
+        return self.metric(precision_score, name='', **args)
+
+    def recall_score(self, **args):
+        # FIX for multiclass?
+        from sklearn.metrics import recall_score
+        return self.metric(recall_score, name='', **args)
+
+    def zero_one_loss(self, **args):
+        from sklearn.metrics import zero_one_loss
+        return self.metric(zero_one_loss, name='', **args)
+
 
 
 #           ---------    TESTS
@@ -221,7 +268,7 @@ def test_metric_wrapper():
     mc['LR'] = LogisticRegression()
     mc['SVM'] = SVC(probability=True)
     mc.fit()
-    print mc.accuracy()
+    print mc.recall_score()
 
 if __name__ == '__main__':
     import nose
