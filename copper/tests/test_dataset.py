@@ -6,8 +6,9 @@ import tempfile
 import copper
 import numpy as np
 import pandas as pd
-from copper.tests.utils import eq_
+
 from nose.tools import raises
+from copper.tests.utils import eq_
 
 
 def test_create_empty():

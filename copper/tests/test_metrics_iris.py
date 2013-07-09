@@ -1,6 +1,7 @@
 from __future__ import division
 import copper
 import pandas as pd
+
 from nose.tools import raises
 from copper.tests.utils import eq_
 

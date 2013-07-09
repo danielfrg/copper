@@ -4,10 +4,12 @@ import random
 import copper
 import numpy as np
 import pandas as pd
-from nose.tools import raises, ok_
-from copper.tests.utils import eq_
 from sklearn import cross_validation
 from sklearn.linear_model import LogisticRegression
+
+from nose.tools import raises, ok_
+from copper.tests.utils import eq_
+
 
 def get_iris():
     from sklearn import datasets
@@ -26,6 +28,7 @@ def get_iris_ds():
     ds = copper.Dataset(df)
     ds.role['Target'] = ds.TARGET
     return ds
+
 
 # -----------------------------------------------------------------------------
 #                           Train and test values

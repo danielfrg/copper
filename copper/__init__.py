@@ -1,2 +1,3 @@
-from copper.core.set import Dataset
-from copper.core.compare import ModelComparison
+import copper.transform as t
+from copper.dataset import Dataset
+from copper.ml.compare import ModelComparison
