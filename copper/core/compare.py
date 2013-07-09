@@ -1,6 +1,7 @@
 import copper
 # import numpy as np
 from sklearn import cross_validation
+from sklearn.metrics import confusion_matrix
 
 
 class ModelComparison(dict):
@@ -72,10 +73,6 @@ class ModelComparison(dict):
         self.X_train, self.X_test, self.y_train, self.y_test = \
             cross_validation.train_test_split(inputs, target, **args)
 
-    def fit(self):
-        for algorithm in self.algorithms:
-            self.algorithms[algorithm].fit(self.X_train, self.y_train)
-
     def __getitem__(self, name):
         return self.algorithms[name]
 
@@ -87,6 +84,109 @@ class ModelComparison(dict):
 
     def __len__(self):
         return len(self.algorithms)
+
+# --------------------------- SKLEARN API -------------------------------------
+
+    def fit(self):
+        for algorithm in self.algorithms:
+            self.algorithms[algorithm].fit(self.X_train, self.y_train)
+
+    def predict(self, X_test=None):
+        if X_test is None:
+            X_test = self.X_test
+        elif isinstance(X_test, copper.Dataset):
+            X_test = copper.transforms.ml_inputs(X_test)
+        assert X_test is not None, 'Nothing to predict'
+
+        ans = pd.DataFrame(index=range(len(X_test)))
+        for alg_name in self.algorithms:
+            algo = self.algorithms[alg_name]
+            scores = algo.predict(X_test)
+            new = pd.Series(scores, index=ans.index, name=alg_name, dtype=int)
+            ans = ans.join(new)
+        return ans
+
+    def predict_proba(self, X_test=None):
+        if X_test is None:
+            X_test = self.X_test
+        elif isinstance(X_test, copper.Dataset):
+            X_test = copper.transforms.ml_inputs(X_test)
+        assert X_test is not None, 'Nothing to predict'
+
+        ans = pd.DataFrame(index=range(len(X_test)))
+        for alg_name in self.algorithms:
+            algo = self.algorithms[alg_name]
+            probas = algo.predict_proba(X_test)
+            for val in range(probas.shape[1]):
+                new = pd.Series(probas[:, val], index=ans.index)
+                new.name = '%s [%d]' % (alg_name, val)
+                ans = ans.join(new)
+        return ans
+
+
+# ------------------------- CONFUSION MATRIX ----------------------------------
+
+    def _cm(self, X_test=None, y_test=None):
+        '''
+        Calculates the confusion matrixes of the classifiers
+
+        Parameters
+        ----------
+            clfs: list or str, of the classifiers to calculate the cm
+
+        Returns
+        -------
+            python dictionary
+        '''
+        if X_test is None and y_test is None:
+            X_test = self.X_test
+            y_test = self.y_test
+        elif isinstance(X_test, copper.Dataset):
+            X_test = copper.transforms.ml_inputs(X_test)
+            y_test = copper.transforms.ml_target(X_test)
+        assert X_test is not None, 'Nothing to predict'
+
+        ans = {}
+        for alg_name in self.algorithms:
+            algo = self.algorithms[alg_name]
+            y_pred = algo.predict(self.X_test)
+            ans[alg_name] = confusion_matrix(y_test, y_pred)
+        return ans
+
+    def cm(self, clf, X_test=None, y_test=None):
+        '''
+        Return a pandas.DataFrame version of a confusion matrix
+
+        Parameters
+        ----------
+            clf: str, classifier identifier
+        '''
+        cm = self._cm(X_test, y_test)[clf]
+        values = set(self.y_test)
+        return pd.DataFrame(cm, index=values, columns=values)
+
+# ----------------------------- METRICS ---------------------------------------
+
+    def metric(self, func, X_test=None, y_test=None, name='', ascending=False):
+        if X_test is None and y_test is None:
+            X_test = self.X_test
+            y_test = self.y_test
+        elif isinstance(X_test, copper.Dataset):
+            X_test = copper.transforms.ml_inputs(X_test)
+            y_test = copper.transforms.ml_target(X_test)
+        assert X_test is not None, 'Nothing to predict'
+
+        ans = pd.Series(index=self.algorithms.keys(), name=name)
+        for alg_name in self.algorithms:
+            algo = self.algorithms[alg_name]
+            y_pred = algo.predict(X_test)
+            ans[alg_name] = func(y_test, y_pred)
+        return ans.order(ascending=ascending)
+
+    def accuracy(self, *args):
+        from sklearn.metrics import accuracy_score
+        return self.metric_wrapper(accuracy_score, name='Accuracy', *args)
+
 
 #           ---------    TESTS
 import numpy as np
@@ -103,7 +203,6 @@ def get_iris():
     Y = iris.target
     return X, Y
 
-
 def get_iris_ds():
     X, Y = get_iris()
     df = pd.DataFrame(X)
@@ -113,7 +212,16 @@ def get_iris_ds():
     ds.role['Target'] = ds.TARGET
     return ds
 
-
+def test_metric_wrapper():
+    ds = get_iris_ds()
+    mc = ModelComparison()
+    mc.train_test_split(ds)
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.svm import SVC
+    mc['LR'] = LogisticRegression()
+    mc['SVM'] = SVC(probability=True)
+    mc.fit()
+    print mc.accuracy()
 
 if __name__ == '__main__':
     import nose
