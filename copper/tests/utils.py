@@ -16,6 +16,8 @@ def eq_(ans, sol, digits=0):
         frame_eq(ans, sol, digits)
     elif isinstance(ans, pd.Index) and isinstance(sol, pd.Index):
         array_eq(ans.values, sol.values, digits)
+    elif digits != 0:
+        nose_eq(round(ans-sol, digits), 0)
     else:
         nose_eq(ans, sol, digits)
 

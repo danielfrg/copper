@@ -130,7 +130,7 @@ def ml_target(dataset):
 
     Returns
     -------
-    np.array
+    (label_encoder, np.array)
 
     Notes
     -----
@@ -144,9 +144,11 @@ def ml_target(dataset):
         warnings.warn("Dataset contains more than one target, %s was choosed" % cols[0])
 
     if dataset[cols[0]].dtype in (np.int, np.float):
-        return dataset[cols[0]].values
+        return None, dataset[cols[0]].values
     else:
-        return LabelEncoder().fit_transform(dataset[cols[0]].values)
+        le = LabelEncoder()
+        encoded = le.fit_transform(dataset[cols[0]].values)
+        return le, encoded
 
 
 # TESTS

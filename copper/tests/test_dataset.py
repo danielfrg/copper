@@ -27,6 +27,8 @@ def test_create_noempty():
     eq_(len(ds.metadata), 10)
     eq_(ds.metadata['Role'], ds.role)
     eq_(ds.metadata['Type'], ds.type)
+    eq_(ds.index, df.index)
+    eq_(ds.columns, df.columns)
 
 
 def test_default_type():
@@ -41,9 +43,6 @@ def test_default_type():
     for col in ds.columns:
         if col not in [0, rand_col]:
             eq_(ds.type[col], ds.NUMBER)
-
-    print
-    print ds.frame
 
 
 def test_set_metadata():

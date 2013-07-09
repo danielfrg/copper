@@ -5,6 +5,7 @@ import copper
 import numpy as np
 import pandas as pd
 from nose.tools import raises
+from nose.tools import ok_
 from copper.tests.utils import eq_
 from copper.utils import transforms
 
@@ -60,6 +61,14 @@ def test_transform_float():
 
 def test_cat_encode_simple():
     strings = np.array(['1', '2', '1', '3', '5', '2', '1', '5'])
+    sol = np.array([[1., 0, 0, 0], [0, 1, 0, 0], [1, 0, 0, 0],
+                    [0, 0, 1, 0], [0, 0, 0, 1], [0, 1, 0, 0],
+                    [1, 0, 0, 0], [0, 0, 0, 1]])
+    eq_(transforms.cat_encode(strings), sol)
+
+
+def test_cat_encode_simple_list():
+    strings = ['1', '2', '1', '3', '5', '2', '1', '5']
     sol = np.array([[1., 0, 0, 0], [0, 1, 0, 0], [1, 0, 0, 0],
                     [0, 0, 1, 0], [0, 0, 0, 1], [0, 1, 0, 0],
                     [1, 0, 0, 0], [0, 0, 0, 1]])
@@ -165,8 +174,9 @@ def test_ml_target_number():
     target_col = math.floor(random.random() * 6)
     ds.role[target_col] = ds.TARGET
 
-    target = transforms.ml_target(ds)
+    le, target = transforms.ml_target(ds)
     eq_(target, ds[target_col].values)
+    eq_(le, None)
 
 
 def test_ml_target_string():
@@ -178,11 +188,12 @@ def test_ml_target_string():
     ds = copper.Dataset(df)
     ds.role['T'] = ds.TARGET
 
-    target = transforms.ml_target(ds)
+    le, target = transforms.ml_target(ds)
     eq_(target, np.array(sol))
+    ok_(le is not None)
 
 
-def test_ml_target_only_one():
+def test_ml_target_more_than_one():
     df = pd.DataFrame(np.random.rand(8, 6))
     ds = copper.Dataset(df)
 
@@ -192,7 +203,8 @@ def test_ml_target_only_one():
     import warnings
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        target = transforms.ml_target(ds)
+        le, target = transforms.ml_target(ds)
+        eq_(le, None)
         eq_(target, ds[3].values)
 
 

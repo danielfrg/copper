@@ -47,6 +47,7 @@ class ModelComparison(dict):
         self.y_train = None
         self.X_test = None
         self.y_test = None
+        self.le = None
 
     def get_train(self):
         return self.X_train, self.y_train
@@ -54,7 +55,7 @@ class ModelComparison(dict):
     def set_train(self, dataset):
         assert type(dataset) is copper.Dataset, "Should be a copper.Dataset"
         self.X_train = copper.utils.transforms.ml_inputs(dataset)
-        self.y_train = copper.utils.transforms.ml_target(dataset)
+        self.le, self.y_train = copper.utils.transforms.ml_target(dataset)
 
     def get_test(self):
         return self.X_test, self.y_test
@@ -62,7 +63,7 @@ class ModelComparison(dict):
     def set_test(self, dataset):
         assert type(dataset) is copper.Dataset, "Should be a copper.Dataset"
         self.X_test = copper.utils.transforms.ml_inputs(dataset)
-        self.y_test = copper.utils.transforms.ml_target(dataset)
+        _, self.y_test = copper.utils.transforms.ml_target(dataset)
 
     train = property(get_train, set_train, None)
     test = property(get_test, set_test, None)
@@ -81,7 +82,7 @@ class ModelComparison(dict):
         """
         assert type(dataset) is copper.Dataset, "Should be a copper.Dataset"
         inputs = copper.utils.transforms.ml_inputs(dataset)
-        target = copper.utils.transforms.ml_target(dataset)
+        self.le, target = copper.utils.transforms.ml_target(dataset)
         self.X_train, self.X_test, self.y_train, self.y_test = \
             cross_validation.train_test_split(inputs, target, **args)
 
@@ -105,7 +106,7 @@ class ModelComparison(dict):
             y_test = self.y_test
         elif isinstance(X_test, copper.Dataset):
             X_test = copper.transforms.ml_inputs(X_test)
-            y_test = copper.transforms.ml_target(X_test)
+            _, y_test = copper.transforms.ml_target(X_test)
         assert X_test is not None, 'Nothing to predict'
         return X_test, y_test
 
@@ -172,8 +173,8 @@ class ModelComparison(dict):
     def f1_score(self, **args):
         return self.metric(f1_score, name='F1', **args)
 
-    def fbeta_score(self, **args):
-        return self.metric(fbeta_score, name='Fbeta', **args)
+    def fbeta_score(self, beta=1, **args):
+        return self.metric(fbeta_score, name='Fbeta', beta=beta, **args)
 
     def hinge_loss(self, **args):
         return self.metric(hinge_loss, name='Hinge loss', **args)
@@ -188,7 +189,7 @@ class ModelComparison(dict):
         return self.metric(recall_score, name='Recall', **args)
 
     def zero_one_loss(self, **args):
-        return self.metric(zero_one_loss, name='Zero one loss', **args)
+        return self.metric(zero_one_loss, name='Zero one loss', ascending=True, **args)
 
 # ------------------------- CONFUSION MATRIX ----------------------------------
 
@@ -248,18 +249,6 @@ def get_iris_ds():
     ds = copper.Dataset(df)
     ds.role['Target'] = ds.TARGET
     return ds
-
-def test_metric_wrapper():
-    ds = get_iris_ds()
-    mc = ModelComparison()
-    mc.train_test_split(ds, random_state=0)
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.svm import SVC
-    mc['LR'] = LogisticRegression()
-    mc['SVM'] = SVC(probability=True)
-    mc.fit()
-    print mc.accuracy_score()
-    # print mc.recall_score(average=None)
 
 if __name__ == '__main__':
     import nose
