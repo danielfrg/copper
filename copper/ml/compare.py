@@ -1,5 +1,4 @@
 import copper
-# import numpy as np
 from sklearn import cross_validation
 
 # Metrics
@@ -54,16 +53,16 @@ class ModelComparison(dict):
 
     def set_train(self, dataset):
         assert type(dataset) is copper.Dataset, "Should be a copper.Dataset"
-        self.X_train = copper.utils.transforms.ml_inputs(dataset)
-        self.le, self.y_train = copper.utils.transforms.ml_target(dataset)
+        self.X_train = copper.t.ml_inputs(dataset)
+        self.le, self.y_train = copper.t.ml_target(dataset)
 
     def get_test(self):
         return self.X_test, self.y_test
 
     def set_test(self, dataset):
         assert type(dataset) is copper.Dataset, "Should be a copper.Dataset"
-        self.X_test = copper.utils.transforms.ml_inputs(dataset)
-        _, self.y_test = copper.utils.transforms.ml_target(dataset)
+        self.X_test = copper.t.ml_inputs(dataset)
+        _, self.y_test = copper.t.ml_target(dataset)
 
     train = property(get_train, set_train, None)
     test = property(get_test, set_test, None)
@@ -81,8 +80,8 @@ class ModelComparison(dict):
             between 0 and 1.
         """
         assert type(dataset) is copper.Dataset, "Should be a copper.Dataset"
-        inputs = copper.utils.transforms.ml_inputs(dataset)
-        self.le, target = copper.utils.transforms.ml_target(dataset)
+        inputs = copper.t.ml_inputs(dataset)
+        self.le, target = copper.t.ml_target(dataset)
         self.X_train, self.X_test, self.y_train, self.y_test = \
             cross_validation.train_test_split(inputs, target, **args)
 
