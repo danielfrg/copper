@@ -192,7 +192,7 @@ class ModelComparison(dict):
                     ans_index.append('%s (%i)' % (alg_name, i))  # Change i for label
                     ans_value.append(score)
             else:
-                ans_index.append(alg_name)  # Change i for label
+                ans_index.append(alg_name)
                 ans_value.append(scores)
         return pd.Series(ans_value, index=ans_index).order(ascending=ascending)
 
@@ -218,11 +218,9 @@ class ModelComparison(dict):
         return self.metric(matthews_corrcoef, name='Matthews Coef', **args)
 
     def precision_score(self, **args):
-        # FIX for multiclass?
         return self.metric(precision_score, name='Precision', **args)
 
     def recall_score(self, **args):
-        # FIX for multiclass?
         return self.metric(recall_score, name='Recall', **args)
 
     def zero_one_loss(self, **args):
