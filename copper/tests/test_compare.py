@@ -184,6 +184,9 @@ def get_iris_ds_string():
     ds = get_iris_ds()
     ds.type['Target'] = ds.CATEGORY
     ds['Target'] = ds['Target'].apply(lambda x: str(x))
+    ds['Target'][ds['Target'] == '0'] = 'Iris-A'
+    ds['Target'][ds['Target'] == '1'] = 'Iris-B'
+    ds['Target'][ds['Target'] == '2'] = 'Iris-C'
     eq_(ds.metadata['dtype']['Target'], object)
     return ds
 
@@ -199,7 +202,7 @@ def test_train_test_split_string():
     eq_(mc.y_test.shape, (150 * 0.4, ))
     eq_((mc.X_train, mc.y_train), mc.train)
     eq_((mc.X_test, mc.y_test), mc.test)
-    ok_(mc.le is not None)
+    eq_(mc.le.classes_.tolist(), ['Iris-A', 'Iris-B', 'Iris-C'])
     # --
     X, Y = get_iris()
     X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, Y, test_size=0.4, random_state=state)

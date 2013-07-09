@@ -9,6 +9,7 @@ from nose.tools import ok_
 from copper.tests.utils import eq_
 from copper.utils import transforms
 
+
 def test_transform_int_regex():
     eq_(transforms.to_int('0.2'), 0)
     eq_(transforms.to_int('.8753'), 8753)
@@ -190,7 +191,7 @@ def test_ml_target_string():
 
     le, target = transforms.ml_target(ds)
     eq_(target, np.array(sol))
-    ok_(le is not None)
+    eq_(le.classes_.tolist(), ['c', 'h', 'z'])
 
 
 def test_ml_target_more_than_one():

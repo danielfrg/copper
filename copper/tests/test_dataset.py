@@ -41,7 +41,7 @@ def test_default_type():
     eq_(ds.type[0], ds.CATEGORY)
     eq_(ds.type[rand_col], ds.CATEGORY)
     for col in ds.columns:
-        if col not in [0, rand_col]:
+        if col not in (0, rand_col):
             eq_(ds.type[col], ds.NUMBER)
 
 
@@ -190,7 +190,7 @@ def test_filter_type():
     eq_(ds.filter(), df)
 
 
-def test_filter_both():
+def test_filter_role_and_type():
     df = pd.DataFrame(np.random.rand(5, 5))
     ds = copper.Dataset(df)
     ds.role[:] = ds.IGNORE

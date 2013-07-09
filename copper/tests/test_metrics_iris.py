@@ -128,6 +128,9 @@ def get_mc_string():
     ds = get_iris_ds()
     ds.type['Target'] = ds.CATEGORY
     ds['Target'] = ds['Target'].apply(lambda x: str(x))
+    ds['Target'][ds['Target'] == '0'] = 'Iris-A'
+    ds['Target'][ds['Target'] == '1'] = 'Iris-B'
+    ds['Target'][ds['Target'] == '2'] = 'Iris-C'
     eq_(ds.metadata['dtype']['Target'], object)
 
     mc = copper.ModelComparison()
