@@ -1,6 +1,6 @@
 from __future__ import division
+import copper
 import pandas as pd
-from copper.utils import transforms
 
 
 class Dataset(dict):
@@ -157,7 +157,7 @@ class Dataset(dict):
         """
         for col in self._frame.columns:
             if self.type[col] == self.NUMBER and self._frame[col].dtype == object:
-                self._frame[col] = self._frame[col].apply(transforms.to_float)
+                self._frame[col] = self._frame[col].apply(copper.t.to_float)
 
     def filter_cols(self, role=None, type=None):
         """ Returns a list of the columns that matches the criterias.
