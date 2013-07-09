@@ -1,7 +1,19 @@
 import copper
 # import numpy as np
 from sklearn import cross_validation
+
+# Metrics
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import auc_score
+from sklearn.metrics import average_precision_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import fbeta_score
+from sklearn.metrics import hinge_loss
+from sklearn.metrics import matthews_corrcoef
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import zero_one_loss
 
 
 class ModelComparison(dict):
@@ -85,6 +97,18 @@ class ModelComparison(dict):
     def __len__(self):
         return len(self.algorithms)
 
+    def parse_entries(self, X_test=None, y_test=None):
+        """ DRY: Small utility used inside of the class.
+        """
+        if X_test is None and y_test is None:
+            X_test = self.X_test
+            y_test = self.y_test
+        elif isinstance(X_test, copper.Dataset):
+            X_test = copper.transforms.ml_inputs(X_test)
+            y_test = copper.transforms.ml_target(X_test)
+        assert X_test is not None, 'Nothing to predict'
+        return X_test, y_test
+
 # --------------------------- SKLEARN API -------------------------------------
 
     def fit(self):
@@ -92,11 +116,7 @@ class ModelComparison(dict):
             self.algorithms[algorithm].fit(self.X_train, self.y_train)
 
     def predict(self, X_test=None):
-        if X_test is None:
-            X_test = self.X_test
-        elif isinstance(X_test, copper.Dataset):
-            X_test = copper.transforms.ml_inputs(X_test)
-        assert X_test is not None, 'Nothing to predict'
+        X_test, _ = self.parse_entries(X_test, None)
 
         ans = pd.DataFrame(index=range(len(X_test)))
         for alg_name in self.algorithms:
@@ -107,11 +127,7 @@ class ModelComparison(dict):
         return ans
 
     def predict_proba(self, X_test=None):
-        if X_test is None:
-            X_test = self.X_test
-        elif isinstance(X_test, copper.Dataset):
-            X_test = copper.transforms.ml_inputs(X_test)
-        assert X_test is not None, 'Nothing to predict'
+        X_test, _ = self.parse_entries(X_test, None)
 
         ans = pd.DataFrame(index=range(len(X_test)))
         for alg_name in self.algorithms:
@@ -138,13 +154,7 @@ class ModelComparison(dict):
         -------
             python dictionary
         '''
-        if X_test is None and y_test is None:
-            X_test = self.X_test
-            y_test = self.y_test
-        elif isinstance(X_test, copper.Dataset):
-            X_test = copper.transforms.ml_inputs(X_test)
-            y_test = copper.transforms.ml_target(X_test)
-        assert X_test is not None, 'Nothing to predict'
+        X_test, y_test = self.parse_entries(X_test, y_test)
 
         ans = {}
         for alg_name in self.algorithms:
@@ -162,78 +172,61 @@ class ModelComparison(dict):
             clf: str, classifier identifier
         '''
         cm = self._cm(X_test, y_test)[clf]
-        values = set(self.y_test)
+        values = np.unique(self.y_test)
         return pd.DataFrame(cm, index=values, columns=values)
 
 # ------------------------- SKLEARN METRICS -----------------------------------
 
     def metric(self, func, X_test=None, y_test=None, name='', ascending=False, **args):
-        if X_test is None and y_test is None:
-            X_test = self.X_test
-            y_test = self.y_test
-        elif isinstance(X_test, copper.Dataset):
-            X_test = copper.transforms.ml_inputs(X_test)
-            y_test = copper.transforms.ml_target(X_test)
-        assert X_test is not None, 'Nothing to predict'
+        X_test, y_test = self.parse_entries(X_test, y_test)
 
-        ans = pd.Series(index=self.algorithms.keys(), name=name)
+        ans_index = []
+        ans_value = []
         for alg_name in self.algorithms:
             algo = self.algorithms[alg_name]
             y_pred = algo.predict(X_test)
-            # Prolly inset multi-class fix here: for i in y_pred ...
-            ans[alg_name] = func(y_test, y_pred, **args)
-        return ans.order(ascending=ascending)
+            scores = func(y_test, y_pred, **args)
+
+            if isinstance(scores, np.ndarray):
+                for i, score in enumerate(scores):
+                    ans_index.append('%s (%i)' % (alg_name, i))  # Change i for label
+                    ans_value.append(score)
+            else:
+                ans_index.append(alg_name)  # Change i for label
+                ans_value.append(scores)
+        return pd.Series(ans_value, index=ans_index).order(ascending=ascending)
 
     def accuracy_score(self, **args):
-        from sklearn.metrics import accuracy_score
-        return self.metric_wrapper(accuracy_score, name='Accuracy', **args)
-
-    def auc(self, **args):
-        # FIX
-        from sklearn.metrics import auc
-        return self.metric(auc, name='AUC', **args)
+        return self.metric(accuracy_score, name='Accuracy', **args)
 
     def auc_score(self, **args):
-        from sklearn.metrics import auc_score
-        return self.metric(auc_score, name='', **args)
+        return self.metric(auc_score, name='AUC', **args)
 
     def average_precision_score(self, **args):
-        from sklearn.metrics import average_precision_score
-        return self.metric(average_precision_score, name='', **args)
+        return self.metric(average_precision_score, name='Avg Precision', **args)
 
     def f1_score(self, **args):
-        # FIX for multiclass?
-        from sklearn.metrics import f1_score
-        return self.metric(f1_score, name='', **args)
+        return self.metric(f1_score, name='F1', **args)
 
     def fbeta_score(self, **args):
-        # FIX for multiclass?
-        from sklearn.metrics import fbeta_score
-        return self.metric(fbeta_score, name='', **args)
+        return self.metric(fbeta_score, name='Fbeta', **args)
 
     def hinge_loss(self, **args):
-        from sklearn.metrics import hinge_loss
-        return self.metric(hinge_loss, name='', **args)
+        return self.metric(hinge_loss, name='Hinge loss', **args)
 
     def matthews_corrcoef(self, **args):
-        from sklearn.metrics import matthews_corrcoef
-        return self.metric(matthews_corrcoef, name='', **args)
+        return self.metric(matthews_corrcoef, name='Matthews Coef', **args)
 
     def precision_score(self, **args):
         # FIX for multiclass?
-        from sklearn.metrics import precision_score
-        return self.metric(precision_score, name='', **args)
+        return self.metric(precision_score, name='Precision', **args)
 
     def recall_score(self, **args):
         # FIX for multiclass?
-        from sklearn.metrics import recall_score
-        return self.metric(recall_score, name='', **args)
+        return self.metric(recall_score, name='Recall', **args)
 
     def zero_one_loss(self, **args):
-        from sklearn.metrics import zero_one_loss
-        return self.metric(zero_one_loss, name='', **args)
-
-
+        return self.metric(zero_one_loss, name='Zero one loss', **args)
 
 #           ---------    TESTS
 import numpy as np
@@ -262,13 +255,14 @@ def get_iris_ds():
 def test_metric_wrapper():
     ds = get_iris_ds()
     mc = ModelComparison()
-    mc.train_test_split(ds)
+    mc.train_test_split(ds, random_state=0)
     from sklearn.linear_model import LogisticRegression
     from sklearn.svm import SVC
     mc['LR'] = LogisticRegression()
     mc['SVM'] = SVC(probability=True)
     mc.fit()
-    print mc.recall_score()
+    print mc.accuracy_score()
+    # print mc.recall_score(average=None)
 
 if __name__ == '__main__':
     import nose
