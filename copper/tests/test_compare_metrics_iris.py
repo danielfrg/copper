@@ -104,13 +104,6 @@ def test_recall_score(mc=None):
     eq_(score['LR'], 0.868421, 6)
 
 
-def test_zero_one_loss(mc=None):
-    mc = get_mc() if mc is None else mc
-    score = mc.zero_one_loss()
-    eq_(score['SVM'], 0.026316, 6)
-    eq_(score['LR'], 0.131579, 6)
-
-
 def test_recall_score_average_none(mc=None):
     mc = get_mc() if mc is None else mc
     score = mc.recall_score(average=None)
@@ -122,6 +115,14 @@ def test_recall_score_average_none(mc=None):
     eq_(score['LR (1)'], 0.6875, 4)
 
 
+def test_zero_one_loss(mc=None):
+    mc = get_mc() if mc is None else mc
+    score = mc.zero_one_loss()
+    eq_(score['SVM'], 0.026316, 6)
+    eq_(score['LR'], 0.131579, 6)
+
+
+
 # -----------------------------------------------------------------------------
 #                        With target as string
 
@@ -129,9 +130,9 @@ def get_mc_string():
     ds = get_iris_ds()
     ds.type['Target'] = ds.CATEGORY
     ds['Target'] = ds['Target'].apply(lambda x: str(x))
-    ds['Target'][ds['Target'] == '0'] = 'Iris-A'
-    ds['Target'][ds['Target'] == '1'] = 'Iris-B'
-    ds['Target'][ds['Target'] == '2'] = 'Iris-C'
+    ds['Target'][ds['Target'] == '0'] = 'Iris-setosa'
+    ds['Target'][ds['Target'] == '1'] = 'Iris-versicolor'
+    ds['Target'][ds['Target'] == '2'] = 'Iris-virginica'
     eq_(ds.metadata['dtype']['Target'], object)
 
     mc = copper.ModelComparison()
@@ -154,9 +155,19 @@ def test_repeat_tests_with_target_string():
     test_matthews_corrcoef(mc)
     test_precision_score(mc)
     test_recall_score(mc)
+    # test_recall_score_average_none(mc)
     test_zero_one_loss(mc)
-    test_recall_score_average_none(mc)
 
+
+def test_recall_score_average_none_string(mc=None):
+    mc = get_mc_string() if mc is None else mc
+    score = mc.recall_score(average=None)
+    eq_(score['LR (Iris-virginica)'], 1, 6)
+    eq_(score['LR (Iris-setosa)'], 1, 6)
+    eq_(score['SVM (Iris-virginica)'], 1, 6)
+    eq_(score['SVM (Iris-setosa)'], 1, 6)
+    eq_(score['SVM (Iris-versicolor)'], 0.9375, 4)
+    eq_(score['LR (Iris-versicolor)'], 0.6875, 4)
 
 if __name__ == '__main__':
     import nose
