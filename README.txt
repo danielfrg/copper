@@ -13,7 +13,7 @@ Github & Docs
 Install
 -------
 
-`pip install copper`
+``pip install copper``
 
 .. _Github: https://github.com/danielfrg/copper
 .. _Docs: https://copper.readthedocs.org/en/latest/

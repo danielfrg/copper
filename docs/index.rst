@@ -37,7 +37,7 @@ I recommend using the Anaconda_ python distribution
 Install
 -------
 
-  pip install copper
+``pip install copper``
 
 .. _Iris: http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/docs/examples/iris/iris.ipynb
 .. _Anaconda: http://docs.continuum.io/anaconda/index.html
