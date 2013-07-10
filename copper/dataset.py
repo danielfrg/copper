@@ -123,11 +123,36 @@ class Dataset(dict):
         """
         assert type(metadata) is pd.DataFrame, 'should be a pandas.DataFrame'
         assert len(self.metadata) == len(metadata), \
-            'Length is not consistent, try Dataset.match_metadata instead'
+            'Length is not consistent, try Dataset.copy_metadata instead'
         assert (self.metadata.index.values == metadata.index.values).all(), \
-            'Index is not consistent, try Dataset.match_metadata instead'
+            'Index is not consistent, try Dataset.copy_metadata instead'
         self.role = metadata['Role']
         self.type = metadata['Type']
+
+    def copy_metadata(self, metadata, ignoreMissing=True):
+        """ Copies the metadata from another dataset or dataframe
+
+        Parameters
+        ----------
+        ignoreMissing: boolean
+            If True (deafult) is going to ignore (do not modify)
+            the variables that are not on the new metadata.
+            if False is going to make role of variables not present on the
+            new metadata "IGNORE"
+
+        Returns
+        -------
+
+        """
+        if isinstance(metadata, Dataset):
+            metadata = metadata.metadata  # Brain damage
+
+        if not ignoreMissing:
+            self.role[:] = self.IGNORE
+        for col in self.columns:
+            if col in metadata.index:
+                self.role[col] = metadata['Role'][col]
+                self.type[col] = metadata['Type'][col]
 
     def get_columns(self):
         """ Returns the columns of the frame
@@ -164,9 +189,13 @@ class Dataset(dict):
         return len(self._frame)
 
     def __str__(self):
-        return str(self.metadata)
+        return self.metadata.__str__()
+
+    def __unicode__(self):
+        return self.metadata.__unicode__()
 
 # -----------------------------------------------------------------------------
+#                            Functions
 
     def update(self):
         """ Updates the DataFrame based on the metadata.
@@ -237,23 +266,25 @@ class Dataset(dict):
 # -----------------------------------------------------------------------------
 #                               Pandas API
 
-    def head(self, **args):
-        return self._frame.head(**args)
+    def head(self, *args, **kwargs):
+        return self._frame.head(*args, **kwargs)
 
-    def tail(self, **args):
-        return self._frame.tail(**args)
+    def tail(self, *args, **kwargs):
+        return self._frame.tail(*args, **kwargs)
 
-#           ---------  TESTS
-import numpy as np
+# '''
 import math
 import random
-from copper.tests.utils import eq_
+import copper
+import numpy as np
+import pandas as pd
+
 from nose.tools import raises
-
-
+from copper.tests.utils import eq_
 
 
 
 if __name__ == '__main__':
     import nose
     nose.runmodule(argv=[__file__, '-vs', '--nologcapture'], exit=False)
+# '''

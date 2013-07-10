@@ -151,7 +151,7 @@ def ml_target(dataset):
         return le, encoded
 
 
-# TESTS
+'''
 import copper
 import pandas as pd
 from copper.tests.utils import eq_
@@ -163,3 +163,4 @@ from nose.tools import raises
 if __name__ == '__main__':
     import nose
     nose.runmodule(argv=[__file__, '-vs', '--nologcapture'], exit=False)
+'''
