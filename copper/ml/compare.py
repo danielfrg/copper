@@ -233,9 +233,15 @@ class ModelComparison(dict):
         values = self.le.inverse_transform(np.unique(self.y_test))
         return pd.DataFrame(cm, index=values, columns=values)
 
-#           ---------    TESTS
+'''
+import math
+import random
+import copper
 import numpy as np
 import pandas as pd
+from sklearn import cross_validation
+from sklearn.linear_model import LogisticRegression
+
 from nose.tools import raises, ok_
 from copper.tests.utils import eq_
 
@@ -260,3 +266,4 @@ def get_iris_ds():
 if __name__ == '__main__':
     import nose
     nose.runmodule(argv=[__file__, '-vs', '--nologcapture'], exit=False)
+'''

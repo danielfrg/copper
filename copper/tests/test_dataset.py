@@ -11,6 +11,9 @@ from nose.tools import raises
 from copper.tests.utils import eq_
 
 
+# -----------------------------------------------------------------------------
+#                               Properties
+
 def test_create_empty():
     ds = copper.Dataset()
     eq_(ds.role, pd.Series())
@@ -20,29 +23,118 @@ def test_create_empty():
 
 
 def test_create_noempty():
-    df = pd.DataFrame(np.random.rand(10, 10))
+    df = pd.DataFrame(np.random.rand(10, 5))
     ds = copper.Dataset(df)
     eq_(ds.frame, df)
-    eq_(len(ds.role), 10)
-    eq_(len(ds.type), 10)
-    eq_(len(ds.metadata), 10)
+    eq_(len(ds), 10)
+    eq_(len(ds), len(df))
+    eq_(len(ds.role), 5)
+    eq_(len(ds.type), 5)
+    eq_(len(ds.metadata), 5)
     eq_(ds.metadata['Role'], ds.role)
     eq_(ds.metadata['Type'], ds.type)
     eq_(ds.index, df.index)
     eq_(ds.columns, df.columns)
+    eq_(str(ds), str(ds.metadata))
+    eq_(unicode(ds), unicode(ds.metadata))
+
+
+def test_set_frame_different_length():
+    df = pd.DataFrame(np.random.rand(5, 5))
+    ds1 = copper.Dataset(df.copy())
+    meta_old = ds1.metadata.copy()
+
+    df = pd.DataFrame(np.random.rand(10, 5))
+    ds2 = copper.Dataset(df.copy())
+    eq_(ds2.metadata, meta_old)
+
+
+@raises(AssertionError)
+def test_set_frame_different_cols():
+    df = pd.DataFrame(np.random.rand(5, 5))
+    ds1 = copper.Dataset(df.copy())
+    meta_old = ds1.metadata.copy()
+
+    df = pd.DataFrame(np.random.rand(10, 10))
+    ds2 = copper.Dataset(df.copy())
+    eq_(ds2.metadata, meta_old)
+
+
+def test_copy_metadata():
+    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds1 = copper.Dataset(df1)
+    ds1.role[['c', 'd', 'h', 'i']] = ds1.TARGET
+    ds1.type[['b', 'c', 'g', 'i']] = ds1.CATEGORY
+    # meta_old = ds1.metadata.copy()
+
+    df2 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds2 = copper.Dataset(df2)
+    ds2.copy_metadata(ds1.metadata)
+    eq_(ds2.metadata, ds1.metadata)
+
+
+def test_copy_metadata_ignore_true():
+    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds1 = copper.Dataset(df1)
+    ds1.role[['a', 'd', 'h', 'i']] = ds1.TARGET
+    ds1.type[['b', 'd', 'g', 'i']] = ds1.CATEGORY
+
+    cols = ['z', 'y', 'f', 'a', 'b', 'd', 'e']
+    df2 = pd.DataFrame(np.random.rand(5, 7), columns=cols)
+    ds2 = copper.Dataset(df2)
+    ds2.copy_metadata(ds1.metadata)
+    eq_(ds2.role['z'], ds1.INPUT)
+    eq_(ds2.role['y'], ds1.INPUT)
+    eq_(ds2.role['a'], ds1.TARGET)
+    eq_(ds2.role['b'], ds1.INPUT)
+    eq_(ds2.role['d'], ds1.TARGET)
+    eq_(ds2.role['e'], ds1.INPUT)
+
+    eq_(ds2.type['z'], ds1.NUMBER)
+    eq_(ds2.type['y'], ds1.NUMBER)
+    eq_(ds2.type['a'], ds1.NUMBER)
+    eq_(ds2.type['b'], ds1.CATEGORY)
+    eq_(ds2.type['d'], ds1.CATEGORY)
+    eq_(ds2.type['e'], ds1.NUMBER)
+
+
+def test_copy_metadata_ignore_false():
+    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds1 = copper.Dataset(df1)
+    ds1.role[['a', 'd', 'h', 'i']] = ds1.TARGET
+    ds1.type[['b', 'd', 'g', 'i']] = ds1.CATEGORY
+
+    cols = ['z', 'y', 'f', 'a', 'b', 'd', 'e']
+    df2 = pd.DataFrame(np.random.rand(5, 7), columns=cols)
+    ds2 = copper.Dataset(df2)
+    ds2.copy_metadata(ds1.metadata, ignoreMissing=False)
+    eq_(ds2.role['z'], ds1.IGNORE)
+    eq_(ds2.role['y'], ds1.IGNORE)
+    eq_(ds2.role['a'], ds1.TARGET)
+    eq_(ds2.role['b'], ds1.INPUT)
+    eq_(ds2.role['d'], ds1.TARGET)
+    eq_(ds2.role['e'], ds1.INPUT)
+
+    eq_(ds2.type['z'], ds1.NUMBER)
+    eq_(ds2.type['y'], ds1.NUMBER)
+    eq_(ds2.type['a'], ds1.NUMBER)
+    eq_(ds2.type['b'], ds1.CATEGORY)
+    eq_(ds2.type['d'], ds1.CATEGORY)
+    eq_(ds2.type['e'], ds1.NUMBER)
 
 
 def test_default_type():
-    df = pd.DataFrame(np.random.rand(10, 10))
-    rand_col = math.floor(random.random() * 5) + 1
+    df = pd.DataFrame(np.random.rand(5, 5))
+    rand_col = math.floor(random.random() * 5)
     df[rand_col] = df[rand_col].apply(lambda x: str(x))
-    df[0] = df[0].apply(lambda x: str(x))
     ds = copper.Dataset(df)
 
-    eq_(ds.type[0], ds.CATEGORY)
     eq_(ds.type[rand_col], ds.CATEGORY)
     for col in ds.columns:
-        if col not in (0, rand_col):
+        if col != rand_col:
             eq_(ds.type[col], ds.NUMBER)
 
 
@@ -79,7 +171,7 @@ def test_set_metadata():
         eq_(ds.type[rand_col], ds.CATEGORY)
 
 
-@raises(Exception)
+@raises(AssertionError)
 def test_set_metadata_fail_length():
     df = pd.DataFrame(np.random.rand(5, 5))
     ds = copper.Dataset(df)
@@ -89,7 +181,7 @@ def test_set_metadata_fail_length():
     ds.metadata = meta
 
 
-@raises(Exception)
+@raises(AssertionError)
 def test_set_metadata_fail_index():
     df = pd.DataFrame(np.random.rand(5, 5))
     ds = copper.Dataset(df)
@@ -102,14 +194,13 @@ def test_set_metadata_fail_index():
 def test_save_load_metadata():
     tempdir = tempfile.gettempdir()
     # Save
-    df = pd.DataFrame(np.random.rand(10, 10))
+    df = pd.DataFrame(np.random.rand(5, 10))
     ds = copper.Dataset(df)
     ds.role[2] = ds.TARGET
     ds.role[7] = ds.IGNORE
     ds.type[1] = ds.CATEGORY
     ds.type[5] = ds.CATEGORY
     ds.metadata.to_csv(os.path.join(tempdir, 'metadata.csv'))
-
     # Load
     ds2 = copper.Dataset(df)
     loaded_meta = pd.read_csv(os.path.join(tempdir, 'metadata.csv'))
@@ -121,24 +212,10 @@ def test_save_load_metadata():
     eq_(ds2.type[5], ds.CATEGORY)
 
 
-def test_get_column():
-    df = pd.DataFrame(np.random.rand(10, 10))
-    ds = copper.Dataset(df)
-    eq_(ds[0], df[0])
-    eq_(ds[5], df[5])
-    eq_(ds[9], df[9])
+# -----------------------------------------------------------------------------
+#                            Functions
 
-
-def test_set_column():
-    df = pd.DataFrame(np.random.rand(10, 10))
-    ds = copper.Dataset(df)
-    new_col = np.random.rand(10, 1)
-    eq_(ds[3].values, df[3].values)
-    ds[3] = new_col
-    eq_(ds[[3]].values, new_col)
-
-
-def test_transform_to_number_ints():
+def test_update_cat_to_num_int():
     sol = np.arange(100)
     strings = np.array(['a(%f)' % d for d in sol])
     df = pd.DataFrame(strings)
@@ -148,7 +225,7 @@ def test_transform_to_number_ints():
     eq_(sol, ds[0].values)
 
 
-def test_transform_to_number_float():
+def test_update_cat_to_num_float():
     sol = np.arange(100) / 100
     strings = np.array(['a(%f)' % d for d in sol])
     df = pd.DataFrame(strings)
@@ -159,7 +236,7 @@ def test_transform_to_number_float():
 
 
 def test_filter_role():
-    df = pd.DataFrame(np.random.rand(10, 10))
+    df = pd.DataFrame(np.random.rand(5, 10))
     ds = copper.Dataset(df)
     ds.role[[0, 2, 4, 5, 9]] = ds.IGNORE
     eq_(ds.filter(role=ds.INPUT), ds[[1, 3, 6, 7, 8]])
@@ -177,7 +254,7 @@ def test_filter_role():
 
 
 def test_filter_type():
-    df = pd.DataFrame(np.random.rand(10, 10))
+    df = pd.DataFrame(np.random.rand(5, 10))
     ds = copper.Dataset(df)
     ds.type[[0, 2, 4, 5, 9]] = ds.CATEGORY
     eq_(ds.filter(type=ds.CATEGORY), ds[[0, 2, 4, 5, 9]])
@@ -210,6 +287,40 @@ def test_filter_role_and_type():
     eq_(ds.filter(role=ds.INPUT, type=ds.CATEGORY), df[[2]])
 
     eq_(ds.filter(), df)
+
+
+# -----------------------------------------------------------------------------
+#                            Pandas API
+
+def test_get_column():
+    df = pd.DataFrame(np.random.rand(5, 10))
+    ds = copper.Dataset(df)
+    eq_(ds[0], df[0])
+    eq_(ds[5], df[5])
+    eq_(ds[9], df[9])
+
+
+def test_set_column():
+    df = pd.DataFrame(np.random.rand(5, 10))
+    ds = copper.Dataset(df)
+    new_col = np.random.rand(5, 1)
+    eq_(ds[3].values, df[3].values)
+    ds[3] = new_col
+    eq_(ds[[3]].values, new_col)
+
+
+def test_head():
+    df = pd.DataFrame(np.random.rand(5, 10))
+    ds = copper.Dataset(df.copy())
+    l = math.floor(random.random() * 10)
+    eq_(ds.head(l), df.head(l))
+
+
+def test_tail():
+    df = pd.DataFrame(np.random.rand(5, 10))
+    ds = copper.Dataset(df.copy())
+    l = math.floor(random.random() * 10)
+    eq_(ds.head(l), df.head(l))
 
 if __name__ == '__main__':
     import nose
