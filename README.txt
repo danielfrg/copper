@@ -1,40 +1,33 @@
-copper
+Copper
 ======
 
-More information: [https://github.com/danielfrg/copper](https://github.com/danielfrg/copper)
+.. travis-ci:: https://api.travis-ci.org/danielfrg/copper.png
 
-Wrapper around pandas & scikit-learn for doing Data Analysis in python
+Copper objective is to make machine learning prototyping on python as fast and intuitive as possible.
+To do so connects via the Dataset and Model Comparison classes the pandas and
+scikit-learn projects.
+
+Examples
+--------
+
+1. Iris classification Iris_
 
 Requirements
 ------------
 
-1. Python
-2. **pandas**
-3. scikit-learn
-4. matplotlib
-5. tornado
+1. pandas
+2. scikit-learn
 
-Note: pandas is the only package that is required before installing copper, but is
-recommended to have all other packages installed too.
+Note: The package is currently developed for Python 2.7 because scikit-learn does not support
+python 3 yet. When scikit-learn supports python 3 this project will drop support for python 2 and
+support only python 3.
 
-Note 2: The package is developed for Python 3 and Python 2 with a single code base. But the main target is Python 3 so is recommended since most packages already support Python 3.
+I recommend using the `Anaconda python distribution <http://docs.continuum.io/anaconda/index.html>`
 
 Install
 -------
 
 `pip install copper`
 
-Features
---------
-
-1. Project structure for Data Analysis projects ala [Project Template](http://www.johnmyleswhite.com/notebook/2010/08/26/projecttemplate/) on R.
-2. Dataset: Wrapper around pandas.DataFrame to introduce metadata
-3. Data transformation templates
-4. Custom matplotlib charts for exploration: histograms, scatterplots
-5. Exploration via D3.js (very experimental)
-6. More data imputation options via R (rpy2)
-7. Rapid Machine Learning prototyping:
-    * Easy to compare classifiers
-    * Ensemble (bagging)
-
-More information: [https://github.com/danielfrg/copper](https://github.com/danielfrg/copper)
+External hyperlinks, like Python_.
+.. _Iris: http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/docs/examples/iris/iris.ipynb

@@ -9,12 +9,27 @@ copper Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`dataset` Module
+---------------------
+
+.. automodule:: copper.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`transform` Module
+-----------------------
+
+.. automodule:: copper.transform
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
 .. toctree::
 
-    copper.core
     copper.ml
-    copper.utils
+    copper.tests
 

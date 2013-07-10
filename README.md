@@ -1,86 +1,30 @@
 Copper
 ======
 
-Wrapper around python data analysis packages such as pandas, scikit-learn and matplotlib
-to make data analysis on python easier.
+![Travis CI](https://api.travis-ci.org/danielfrg/copper.png)
+
+Copper objective is to make machine learning prototyping on python as fast and intuitive as possible.
+To do so connects via the Dataset and Model Comparison classes the pandas and
+scikit-learn projects.
+
+Examples
+--------
+1. [Iris classification](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/docs/examples/iris/iris.ipynb)
+
+Documentation and more info can be found on [copper.readthedocs.com](http://copper.readthedocs.org/en/latest/)
 
 Requirements
 ------------
+1. pandas
+2. scikit-learn
 
-1. Python
-2. **pandas**
-3. scikit-learn
-4. matplotlib
-5. rpy2
-6. tornado
+Note: The package is currently developed for Python 2.7 because scikit-learn does not support
+python 3 yet. When scikit-learn supports python 3 this project will drop support for python 2
+becuase all requirements will support python 3.
 
-Note: pandas is the only package that is required before installing copper, but is
-recommended to have all other packages installed too.
-
-Note 2: The package is developed for Python 3 and Python 2 with a single code base. But the main target is Python 3 so is recommended since most packages already support Python 3.
+I recommend using the [Anaconda python distribution](http://docs.continuum.io/anaconda/index.html)
 
 Install
 -------
 
 `pip install copper`
-
-Features
---------
-
-1. Project structure for Data Analysis projects ala [Project Template](http://www.johnmyleswhite.com/notebook/2010/08/26/projecttemplate/) on R.
-2. Dataset: Wrapper around pandas.DataFrame to introduce metadata
-3. Data transformation templates
-4. Custom matplotlib charts for exploration: histograms, scatterplots
-5. Exploration via D3.js (very experimental)
-6. More data imputation options via R (rpy2)
-7. Rapid Machine Learning prototyping:
-    * Easy to compare classifiers
-    * Ensemble (bagging)
-
-Project Structure
------------------
-
-Copper uses a project structure based on [Project Template](http://www.johnmyleswhite.com/notebook/2010/08/26/projecttemplate/) (from R) to give structure to a Data Analysis project.
-
-The suggested structure is:
-
-`data` -> `project/data': All the data files, raw, cached, etc.
-
-Is suggested to use `/data/raw` for raw files such as `.csv` files.
-
-Copper by default loads data from the `data` folder. For example: `data = copper.read_csv('catalog.csv')` will load the `project/data/catalog.csv` file into a pandas.DataFrame using the pandas `read_csv` method and parameters.
-
-As expected when saving files (`copper.save(...)` or `copper.export(...)`) copper saves the files on the `data` folder
-
-`source` -> `src`: Python, iPython notebook files.
-
-Following the intuition every file inside the `source` folder should do:
-
-```python
-import copper
-copper.project.path = '../'
-```
-
-For other suggested folders see: [Project Template](http://www.johnmyleswhite.com/notebook/2010/08/26/projecttemplate/)
-
-For more info about this see the examples below.
-
-Examples
---------
-Donors:
-* [Project structure and histograms](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/donors/src/explore.ipynb)
-
-* [Bootstrap and Bagging](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/donors/src/bagging.ipynb)
-
-Loans:
-* [Automatic data transformation](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/loans/src/transform.ipynb)
-
-Catalog:
-* [Custom transformation and basic machine learning](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper-examples/master/catalog/src/ml.ipynb)
-
-Kaggle Bulldozers:
-* Post: [Basic feature selection and join Datasets](http://danielfrg.github.com/blog/2013/03/07/kaggle-bulldozers-basic-cleaning/)
-
-[https://github.com/danielfrg/kaggle-data-science-london](Kaggle data science london): Repo with a lot of examples.
-
-For more information and more examples (but some are possible outdated) can see my blog: [danielfrg.github.com](http://danielfrg.github.com)
