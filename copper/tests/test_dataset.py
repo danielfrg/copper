@@ -127,14 +127,16 @@ def test_copy_metadata_ignore_false():
 
 
 def test_default_type():
-    df = pd.DataFrame(np.random.rand(5, 5))
-    rand_col = math.floor(random.random() * 5)
+    df = pd.DataFrame(np.random.rand(5, 20))
+    rand_col = math.floor(random.random() * 20)
+    rand_col2 = math.floor(random.random() * 20)
     df[rand_col] = df[rand_col].apply(lambda x: str(x))
+    df[rand_col2] = df[rand_col].apply(lambda x: str(x))
     ds = copper.Dataset(df)
 
     eq_(ds.type[rand_col], ds.CATEGORY)
     for col in ds.columns:
-        if col != rand_col:
+        if col not in (rand_col, rand_col2):
             eq_(ds.type[col], ds.NUMBER)
 
 
