@@ -162,7 +162,7 @@ class ModelComparison(dict):
 
             if isinstance(scores, np.ndarray):
                 for i, score in enumerate(scores):
-                    lbl = self.le.inverse_transform(i)
+                    lbl = str(i) if self.le is None else self.le.inverse_transform(i)
                     ans_index.append('%s (%s)' % (alg_name, lbl))
                     ans_value.append(score)
             else:
