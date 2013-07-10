@@ -48,6 +48,9 @@ class ModelComparison(dict):
         self.y_test = None
         self.le = None
 
+# -----------------------------------------------------------------------------
+#                               Properties
+
     def get_train(self):
         return self.X_train, self.y_train
 
@@ -97,6 +100,8 @@ class ModelComparison(dict):
     def __len__(self):
         return len(self.algorithms)
 
+# -----------------------------------------------------------------------------
+
     def parse_entries(self, X_test=None, y_test=None):
         """ DRY: Small utility used inside of the class.
         """
@@ -109,7 +114,8 @@ class ModelComparison(dict):
         assert X_test is not None, 'Nothing to predict'
         return X_test, y_test
 
-# --------------------------- SKLEARN API -------------------------------------
+# -----------------------------------------------------------------------------
+#                              Sklearn API
 
     def fit(self):
         for algorithm in self.algorithms:
@@ -139,7 +145,8 @@ class ModelComparison(dict):
                 ans = ans.join(new)
         return ans
 
-# ------------------------- SKLEARN METRICS -----------------------------------
+# -----------------------------------------------------------------------------
+#                             Sklearn metrics
 
     def metric(self, func, X_test=None, y_test=None, name='', ascending=False, **args):
         X_test, y_test = self.parse_entries(X_test, y_test)
@@ -190,7 +197,8 @@ class ModelComparison(dict):
     def zero_one_loss(self, **args):
         return self.metric(zero_one_loss, name='Zero one loss', ascending=True, **args)
 
-# ------------------------- CONFUSION MATRIX ----------------------------------
+# -----------------------------------------------------------------------------
+#                              Confusion matrix
 
     def _cm(self, X_test=None, y_test=None):
         '''
@@ -222,7 +230,7 @@ class ModelComparison(dict):
             clf: str, classifier identifier
         '''
         cm = self._cm(X_test, y_test)[clf]
-        values = np.unique(self.y_test)
+        values = self.le.inverse_transform(np.unique(self.y_test))
         return pd.DataFrame(cm, index=values, columns=values)
 
 #           ---------    TESTS

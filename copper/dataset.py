@@ -46,6 +46,9 @@ class Dataset(dict):
         self.type = pd.Series()
         self.frame = pd.DataFrame() if data is None else data
 
+# -----------------------------------------------------------------------------
+#                               Properties
+
     def get_frame(self):
         """ Return the pandas.DataFrame
 
@@ -151,6 +154,20 @@ class Dataset(dict):
     columns = property(get_columns, None, None)
     index = property(get_index, None, None)
 
+    def __getitem__(self, name):
+        return self._frame[name]
+
+    def __setitem__(self, name, value):
+        self._frame[name] = value
+
+    def __len__(self):
+        return len(self._frame)
+
+    def __str__(self):
+        return str(self.metadata)
+
+# -----------------------------------------------------------------------------
+
     def update(self):
         """ Updates the DataFrame based on the metadata.
         Transforms strings to numbers using regular expression.
@@ -217,17 +234,14 @@ class Dataset(dict):
         """
         return self._frame[self.filter_cols(role, type)]
 
-    def __getitem__(self, name):
-        return self._frame[name]
+# -----------------------------------------------------------------------------
+#                               Pandas API
 
-    def __setitem__(self, name, value):
-        self._frame[name] = value
+    def head(self, **args):
+        return self._frame.head(**args)
 
-    def __len__(self):
-        return len(self._frame)
-
-    def __str__(self):
-        return str(self.metadata)
+    def tail(self, **args):
+        return self._frame.tail(**args)
 
 #           ---------  TESTS
 import numpy as np
