@@ -1,4 +1,6 @@
 import copper
+import numpy as np
+import pandas as pd
 from sklearn import cross_validation
 
 # Metrics
@@ -160,7 +162,8 @@ class ModelComparison(dict):
 
             if isinstance(scores, np.ndarray):
                 for i, score in enumerate(scores):
-                    ans_index.append('%s (%i)' % (alg_name, i))  # Change i for label
+                    lbl = self.le.inverse_transform(i)
+                    ans_index.append('%s (%s)' % (alg_name, lbl))
                     ans_value.append(score)
             else:
                 ans_index.append(alg_name)
