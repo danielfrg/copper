@@ -8,10 +8,12 @@ scikit-learn projects.
 More info
 ---------
 
-Github page: https://github.com/danielfrg/copper
-Docs: https://copper.readthedocs.org/en/latest/
+Github & Docs
 
 Install
 -------
 
 `pip install copper`
+
+.. _Github: https://github.com/danielfrg/copper
+.. _Docs: https://copper.readthedocs.org/en/latest/
