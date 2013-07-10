@@ -60,72 +60,6 @@ def test_set_frame_different_cols():
     eq_(ds2.metadata, meta_old)
 
 
-def test_copy_metadata():
-    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
-    ds1 = copper.Dataset(df1)
-    ds1.role[['c', 'd', 'h', 'i']] = ds1.TARGET
-    ds1.type[['b', 'c', 'g', 'i']] = ds1.CATEGORY
-    # meta_old = ds1.metadata.copy()
-
-    df2 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
-    ds2 = copper.Dataset(df2)
-    ds2.copy_metadata(ds1.metadata)
-    eq_(ds2.metadata, ds1.metadata)
-
-
-def test_copy_metadata_ignore_true():
-    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
-    ds1 = copper.Dataset(df1)
-    ds1.role[['a', 'd', 'h', 'i']] = ds1.TARGET
-    ds1.type[['b', 'd', 'g', 'i']] = ds1.CATEGORY
-
-    cols = ['z', 'y', 'f', 'a', 'b', 'd', 'e']
-    df2 = pd.DataFrame(np.random.rand(5, 7), columns=cols)
-    ds2 = copper.Dataset(df2)
-    ds2.copy_metadata(ds1.metadata)
-    eq_(ds2.role['z'], ds1.INPUT)
-    eq_(ds2.role['y'], ds1.INPUT)
-    eq_(ds2.role['a'], ds1.TARGET)
-    eq_(ds2.role['b'], ds1.INPUT)
-    eq_(ds2.role['d'], ds1.TARGET)
-    eq_(ds2.role['e'], ds1.INPUT)
-
-    eq_(ds2.type['z'], ds1.NUMBER)
-    eq_(ds2.type['y'], ds1.NUMBER)
-    eq_(ds2.type['a'], ds1.NUMBER)
-    eq_(ds2.type['b'], ds1.CATEGORY)
-    eq_(ds2.type['d'], ds1.CATEGORY)
-    eq_(ds2.type['e'], ds1.NUMBER)
-
-
-def test_copy_metadata_ignore_false():
-    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
-    ds1 = copper.Dataset(df1)
-    ds1.role[['a', 'd', 'h', 'i']] = ds1.TARGET
-    ds1.type[['b', 'd', 'g', 'i']] = ds1.CATEGORY
-
-    cols = ['z', 'y', 'f', 'a', 'b', 'd', 'e']
-    df2 = pd.DataFrame(np.random.rand(5, 7), columns=cols)
-    ds2 = copper.Dataset(df2)
-    ds2.copy_metadata(ds1.metadata, ignoreMissing=False)
-    eq_(ds2.role['z'], ds1.IGNORE)
-    eq_(ds2.role['y'], ds1.IGNORE)
-    eq_(ds2.role['a'], ds1.TARGET)
-    eq_(ds2.role['b'], ds1.INPUT)
-    eq_(ds2.role['d'], ds1.TARGET)
-    eq_(ds2.role['e'], ds1.INPUT)
-
-    eq_(ds2.type['z'], ds1.NUMBER)
-    eq_(ds2.type['y'], ds1.NUMBER)
-    eq_(ds2.type['a'], ds1.NUMBER)
-    eq_(ds2.type['b'], ds1.CATEGORY)
-    eq_(ds2.type['d'], ds1.CATEGORY)
-    eq_(ds2.type['e'], ds1.NUMBER)
-
-
 def test_default_type():
     df = pd.DataFrame(np.random.rand(5, 20))
     rand_col = math.floor(random.random() * 20)
@@ -212,6 +146,72 @@ def test_save_load_metadata():
     eq_(ds2.role[7], ds.IGNORE)
     eq_(ds2.type[1], ds.CATEGORY)
     eq_(ds2.type[5], ds.CATEGORY)
+
+
+def test_copy_metadata():
+    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds1 = copper.Dataset(df1)
+    ds1.role[['c', 'd', 'h', 'i']] = ds1.TARGET
+    ds1.type[['b', 'c', 'g', 'i']] = ds1.CATEGORY
+    # meta_old = ds1.metadata.copy()
+
+    df2 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds2 = copper.Dataset(df2)
+    ds2.copy_metadata(ds1.metadata)
+    eq_(ds2.metadata, ds1.metadata)
+
+
+def test_copy_metadata_ignore_true():
+    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds1 = copper.Dataset(df1)
+    ds1.role[['a', 'd', 'h', 'i']] = ds1.TARGET
+    ds1.type[['b', 'd', 'g', 'i']] = ds1.CATEGORY
+
+    cols = ['z', 'y', 'f', 'a', 'b', 'd', 'e']
+    df2 = pd.DataFrame(np.random.rand(5, 7), columns=cols)
+    ds2 = copper.Dataset(df2)
+    ds2.copy_metadata(ds1.metadata)
+    eq_(ds2.role['z'], ds1.INPUT)
+    eq_(ds2.role['y'], ds1.INPUT)
+    eq_(ds2.role['a'], ds1.TARGET)
+    eq_(ds2.role['b'], ds1.INPUT)
+    eq_(ds2.role['d'], ds1.TARGET)
+    eq_(ds2.role['e'], ds1.INPUT)
+
+    eq_(ds2.type['z'], ds1.NUMBER)
+    eq_(ds2.type['y'], ds1.NUMBER)
+    eq_(ds2.type['a'], ds1.NUMBER)
+    eq_(ds2.type['b'], ds1.CATEGORY)
+    eq_(ds2.type['d'], ds1.CATEGORY)
+    eq_(ds2.type['e'], ds1.NUMBER)
+
+
+def test_copy_metadata_ignore_false():
+    cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    df1 = pd.DataFrame(np.random.rand(5, 10), columns=cols)
+    ds1 = copper.Dataset(df1)
+    ds1.role[['a', 'd', 'h', 'i']] = ds1.TARGET
+    ds1.type[['b', 'd', 'g', 'i']] = ds1.CATEGORY
+
+    cols = ['z', 'y', 'f', 'a', 'b', 'd', 'e']
+    df2 = pd.DataFrame(np.random.rand(5, 7), columns=cols)
+    ds2 = copper.Dataset(df2)
+    ds2.copy_metadata(ds1.metadata, ignoreMissing=False)
+    eq_(ds2.role['z'], ds1.IGNORE)
+    eq_(ds2.role['y'], ds1.IGNORE)
+    eq_(ds2.role['a'], ds1.TARGET)
+    eq_(ds2.role['b'], ds1.INPUT)
+    eq_(ds2.role['d'], ds1.TARGET)
+    eq_(ds2.role['e'], ds1.INPUT)
+
+    eq_(ds2.type['z'], ds1.NUMBER)
+    eq_(ds2.type['y'], ds1.NUMBER)
+    eq_(ds2.type['a'], ds1.NUMBER)
+    eq_(ds2.type['b'], ds1.CATEGORY)
+    eq_(ds2.type['d'], ds1.CATEGORY)
+    eq_(ds2.type['e'], ds1.NUMBER)
 
 
 # -----------------------------------------------------------------------------
