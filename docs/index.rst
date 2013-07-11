@@ -3,24 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to copper's documentation!
-==================================
-
-Copper
-======
-
-.. image:: https://api.travis-ci.org/danielfrg/copper.png
+Introduction
+============
 
 Copper objective is to make machine learning prototyping on python as fast and intuitive as possible.
 To do so connects via the Dataset and Model Comparison classes the pandas and
 scikit-learn projects.
 
-Github page: Copper_
+Source is on Github_.
+
+.. image:: https://api.travis-ci.org/danielfrg/copper.png
 
 Examples
 --------
 
-1. Iris classification Iris_
+1. `Iris classification`_
 
 Requirements
 ------------
@@ -32,16 +29,22 @@ Note: The package is currently developed for Python 2.7 because scikit-learn doe
 python 3 yet. When scikit-learn supports python 3 this project will drop support for python 2 and
 support only python 3.
 
-I recommend using the Anaconda_ python distribution
+I recommend using the Anaconda_ python distribution.
 
 Install
 -------
 
 ``pip install copper``
 
-.. _Iris: http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/docs/examples/iris/iris.ipynb
+.. _Iris classification: http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/docs/examples/iris/iris.ipynb
 .. _Anaconda: http://docs.continuum.io/anaconda/index.html
-.. _Copper: https://github.com/danielfrg/copper
+.. _Github: https://github.com/danielfrg/copper
+
+.. toctree::
+    :maxdepth: 3
+
+    genindex
+    :ref:`modindex`
 
 Indices and tables
 ==================
