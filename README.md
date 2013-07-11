@@ -1,7 +1,5 @@
-Copper
+Copper ![Travis CI](https://api.travis-ci.org/danielfrg/copper.png)
 ======
-
-![Travis CI](https://api.travis-ci.org/danielfrg/copper.png)
 
 Copper objective is to make machine learning prototyping on python as fast and intuitive as possible.
 To do so connects via the Dataset and Model Comparison classes the pandas and
@@ -11,7 +9,7 @@ Examples
 --------
 1. [Iris classification](http://nbviewer.ipython.org/urls/raw.github.com/danielfrg/copper/master/docs/examples/iris/iris.ipynb)
 
-Documentation and more info can be found on [copper.readthedocs.com](http://copper.readthedocs.org/en/latest/)
+More information on: [copper.readthedocs.com](http://copper.readthedocs.org/en/latest/)
 
 Requirements
 ------------
@@ -28,3 +26,9 @@ Install
 -------
 
 `pip install copper`
+
+TODO
+----
+
+Better tests for Model Comparison
+Add missing metrics to Model Comparison

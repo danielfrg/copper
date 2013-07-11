@@ -1,3 +1,0 @@
-TODO
-
-on ds.frame check if necessary to re-create metadata
