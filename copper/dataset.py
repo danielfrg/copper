@@ -44,7 +44,9 @@ class Dataset(dict):
     def __init__(self, data=None):
         self.role = pd.Series()
         self.type = pd.Series()
-        self.frame = pd.DataFrame() if data is None else data
+        self._frame = pd.DataFrame()
+        if data is not None:
+            self.frame = data
 
 # -----------------------------------------------------------------------------
 #                               Properties
@@ -74,14 +76,22 @@ class Dataset(dict):
         >>> ds.frame = pd.DataFrame(...)
         """
         assert type(frame) is pd.DataFrame, 'should be a pandas.DataFrame'
+
+        recreate = True
+        if len(self._frame.columns) > 0:
+            if len(frame.columns) == len(self._frame.columns):
+                if (frame.columns == self._frame.columns).all():
+                    recreate = False
+        if recreate:
+            columns = frame.columns
+            self.role = pd.Series(name='Role', index=columns, dtype=object)
+            self.type = pd.Series(name='Type', index=columns, dtype=object)
+            if not frame.empty:
+                self.role[:] = self.INPUT
+                self.type[:] = self.NUMBER
+                self.type[frame.dtypes == object] = self.CATEGORY
+
         self._frame = frame
-        columns = self._frame.columns
-        self.role = pd.Series(name='Role', index=columns, dtype=object)
-        self.type = pd.Series(name='Type', index=columns, dtype=object)
-        if not frame.empty:
-            self.role[:] = self.INPUT
-            self.type[:] = self.NUMBER
-            self.type[self._frame.dtypes == object] = self.CATEGORY
 
     def get_metadata(self):
         """ Return the pandas.DataFrame
@@ -272,7 +282,7 @@ class Dataset(dict):
     def tail(self, *args, **kwargs):
         return self._frame.tail(*args, **kwargs)
 
-# '''
+'''
 import math
 import random
 import copper
@@ -284,7 +294,8 @@ from copper.tests.utils import eq_
 
 
 
+
 if __name__ == '__main__':
     import nose
     nose.runmodule(argv=[__file__, '-vs', '--nologcapture'], exit=False)
-# '''
+'''

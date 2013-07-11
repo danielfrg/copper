@@ -15,11 +15,12 @@ from copper.tests.utils import eq_
 #                               Properties
 
 def test_create_empty():
+    # Checks empty Dataframes
     ds = copper.Dataset()
     eq_(ds.role, pd.Series())
     eq_(ds.type, pd.Series())
-    eq_(ds.metadata.empty, True)
     eq_(ds.frame.empty, True)
+    eq_(ds.metadata.empty, True)
 
 
 def test_create_noempty():
@@ -36,28 +37,83 @@ def test_create_noempty():
     eq_(ds.index, df.index)
     eq_(ds.columns, df.columns)
     eq_(str(ds), str(ds.metadata))
+
+
+def test_create_empty_and_set():
+    df = pd.DataFrame(np.random.rand(10, 5))
+    ds = copper.Dataset()
+    eq_(ds.role, pd.Series())
+    eq_(ds.type, pd.Series())
+    eq_(ds.metadata.empty, True)
+    eq_(ds.frame.empty, True)
+
+    ds.frame = df.copy()
+    eq_(ds.frame, df)
+    eq_(len(ds), 10)
+    eq_(len(ds), len(df))
+    eq_(len(ds.role), 5)
+    eq_(len(ds.type), 5)
+    eq_(len(ds.metadata), 5)
+    eq_(ds.metadata['Role'], ds.role)
+    eq_(ds.metadata['Type'], ds.type)
+    eq_(ds.index, df.index)
+    eq_(ds.columns, df.columns)
+    eq_(str(ds), str(ds.metadata))
     eq_(unicode(ds), unicode(ds.metadata))
 
 
-def test_set_frame_different_length():
-    df = pd.DataFrame(np.random.rand(5, 5))
-    ds1 = copper.Dataset(df.copy())
-    meta_old = ds1.metadata.copy()
+def test_set_frame_different_length_same_cols():
+    # Tests that the metadata is mantained if columns are the same
+    df1 = pd.DataFrame(np.random.rand(5, 5))
+    ds = copper.Dataset(df1.copy())
+    ds.role[[2, 4]] = ds.TARGET
+    ds.type[[1, 2]] = ds.CATEGORY
+    meta_old = ds.metadata.copy()
 
-    df = pd.DataFrame(np.random.rand(10, 5))
-    ds2 = copper.Dataset(df.copy())
-    eq_(ds2.metadata, meta_old)
+    df2 = pd.DataFrame(np.random.rand(10, 5))
+    ds.frame = df2
+    eq_(ds.metadata, meta_old)
 
 
 @raises(AssertionError)
-def test_set_frame_different_cols():
-    df = pd.DataFrame(np.random.rand(5, 5))
-    ds1 = copper.Dataset(df.copy())
-    meta_old = ds1.metadata.copy()
+def test_set_frame_different_length_same_cols_fail():
+    # By failing is testing that the default metadata is not in place
+    df1 = pd.DataFrame(np.random.rand(5, 5))
+    ds = copper.Dataset(df1.copy())
+    default_meta = ds.metadata.copy()
+    ds.role[[2, 4]] = ds.TARGET
+    ds.type[[1, 2]] = ds.CATEGORY
 
-    df = pd.DataFrame(np.random.rand(10, 10))
-    ds2 = copper.Dataset(df.copy())
-    eq_(ds2.metadata, meta_old)
+    df2 = pd.DataFrame(np.random.rand(10, 5))
+    ds.frame = df2
+    eq_(ds.metadata, default_meta)
+
+
+def test_set_frame_different_cols():
+    # Checks default metadata is placed
+    df1 = pd.DataFrame(np.random.rand(5, 5))
+    ds = copper.Dataset(df1)
+    ds.role[[2, 4]] = ds.TARGET
+    ds.type[[1, 2]] = ds.CATEGORY
+
+    df2 = pd.DataFrame(np.random.rand(10, 10))
+    ds.frame = df2
+    eq_(ds.role[2], ds.INPUT)
+    eq_(ds.role[4], ds.INPUT)
+    eq_(ds.type[1], ds.NUMBER)
+    eq_(ds.type[2], ds.NUMBER)
+
+
+@raises(AssertionError)
+def test_set_frame_different_cols_fail():
+    # By failing it checks that the metadata is different == was recreated
+    df1 = pd.DataFrame(np.random.rand(5, 5))
+    ds = copper.Dataset(df1)
+    meta_old = ds.metadata.copy()
+
+    df2 = pd.DataFrame(np.random.rand(10, 10))
+    ds.frame = df2
+    eq_(ds.metadata, meta_old)
 
 
 def test_default_type():
