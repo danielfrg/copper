@@ -1,120 +1,177 @@
-class NN_1HL(object):
-    
-    def __init__(self, reg_lambda=0, epsilon_init=0.12, hidden_layer_size=25, opti_method='TNC'):
-        self.reg_lambda = reg_lambda
+from __future__ import division
+import numpy as np
+from scipy import optimize
+
+
+def build_network(layers):
+    return [(layers[i+1], layers[i] + 1) for i in range(len(layers) - 1)]
+
+
+def pack_weigths(*weights):
+    tuples = tuple([theta.reshape(-1) for theta in weights])
+    return np.concatenate(tuples)
+
+
+def unpack_weigths_gen(weights, weights_meta):
+    start_pos = 0
+    for layer in weights_meta:
+        end_pos = start_pos + layer[0] * (layer[1])
+        theta = weights[start_pos:end_pos].reshape((layer[0], layer[1]))
+        yield theta
+        start_pos = end_pos
+
+
+def unpack_weigths_gen_inv(weights, weights_meta):
+    end_pos = len(weights)
+    for layer in reversed(weights_meta):
+        start_pos = end_pos - layer[0] * (layer[1])
+        theta = weights[start_pos:end_pos].reshape((layer[0], layer[1]))
+        yield theta
+        end_pos = start_pos
+
+
+def rand_init(weights_meta, epsilon_init):
+    s = 0
+    for t in weights_meta:
+        s += t[0] * t[1]
+    return np.random.rand(s, ) * 2 * epsilon_init - epsilon_init
+
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+
+def sigmoid_prime(z):
+    sig = sigmoid(z)
+    return sig * (1 - sig)
+
+
+def hard_sigmoid(x):
+    z = (x * 0.2) + 0.5
+    z[z > 1] = 1
+    z[z < 0] = 0
+    return z
+
+
+def hard_sigmoid_prime(z):
+    sig = hard_sigmoid(z)
+    return sig * (1 - sig)
+
+
+def forward(weights, weights_meta, X, act_func):
+    m = X.shape[0]
+    ones = np.ones(m).reshape(m,1)
+
+    a_prev = np.hstack((ones, X))  # Input layer
+    for theta in unpack_weigths_gen(weights, weights_meta):
+        # Hidden Layers
+        z = np.dot(theta, a_prev.T)
+        a = act_func(z)
+        a_prev = np.hstack((ones, a.T))
+    return a  # Output layer
+
+
+def sumsqr(a):
+    return np.sum(a ** 2)
+
+
+def function(weights, weights_meta, X, y, reg_lambda, act_func, act_func_prime):
+    m = X.shape[0]
+    num_labels = len(np.unique(y))
+    Y = np.eye(num_labels)[y]
+
+    h = forward(weights, weights_meta, X, act_func)
+    costPositive = -Y * np.log(h).T
+    costNegative = (1 - Y) * np.log(1 - h).T
+    cost = costPositive - costNegative
+    J = np.sum(cost) / m
+
+    if reg_lambda != 0:
+        sums_qr = 0
+        for theta in unpack_weigths_gen(weights, weights_meta):
+            theta_filtered = theta[:, 1:]
+            sums_qr += sumsqr(theta_filtered)
+        reg = (reg_lambda / (2 * m)) * (sums_qr)
+        J = J + reg
+    return J
+
+
+def function_prime(weights, weights_meta, X, y, reg_lambda, act_func, act_func_prime):
+    m = X.shape[0]
+    num_labels = len(np.unique(y))
+    Y = np.eye(num_labels)[y]
+
+    d_s = ()
+    Deltas = [np.zeros(w_info) for w_info in weights_meta]
+    for i, row in enumerate(X):
+        # Forward
+        ones = np.array(1).reshape(1,)
+        a_prev = np.hstack((ones, row))  # Input layer
+        a_s = (a_prev, ) ## a_s[0] == a1
+        z_s = ()  # z_s[0] == z2
+        for j, theta in enumerate(unpack_weigths_gen(weights, weights_meta)):
+            # Hidden Layers
+            z = np.dot(theta, a_prev.T)
+            z_s = z_s + (z, )
+            a = act_func(z)
+            a_prev = np.hstack((ones, a.T))
+            if j == len(weights_meta) - 1:
+                a_s = a_s + (a, )
+            else:
+                a_s = a_s + (a_prev, )
+
+        # Backprop
+        # deltas:= error
+        d_prev = a_s[-1] - Y[i, :].T  # last d
+        d_s = (d_prev, )  # d_s[0] == d2
+        for z_i, theta in zip(reversed(z_s[:-1]), unpack_weigths_gen_inv(weights, weights_meta)):
+            d_new = np.dot(theta[:, 1:].T, d_prev) * act_func_prime(z_i)
+            d_s = (d_new, ) + d_s
+            d_prev = d_new
+        for d_i, a_i, i in zip(reversed(d_s), reversed(a_s[:-1]), range(len(Deltas) - 1, -1, -1)):
+            Deltas[i] = Deltas[i] + np.dot(d_i[np.newaxis].T, a_i[np.newaxis])
+
+    thetas_gen = None
+    if reg_lambda != 0:
+        thetas_gen = unpack_weigths_gen(weights, weights_meta)
+    for i in range(len(Deltas)):
+        Deltas[i] = Deltas[i] / m
+        if reg_lambda != 0:
+            Deltas[i][:, 1:] = Deltas[i][:, 1:] + (reg_lambda / m) * thetas_gen.next()[:, 1:]
+    return pack_weigths(*tuple(Deltas))
+
+
+class NN(object):
+
+    def __init__(self, hidden_layers=None, opti_method='TNC', maxiter=100,
+                 act_func=sigmoid, act_func_prime=sigmoid_prime,
+                 epsilon_init=0.12, reg_lambda=0,
+                 random_state=0):
+        assert hidden_layers is not None, "Please specify hidden_layers"
+        self.hidden_layers = hidden_layers
+        self.opti_method = opti_method
+        self.maxiter = maxiter
+        self.act_func = act_func
+        self.act_func_prime = act_func_prime
         self.epsilon_init = epsilon_init
-        self.hidden_layer_size = hidden_layer_size
-        self.activation_func = self.sigmoid
-        self.activation_func_prime = self.sigmoid_prime
-        self.method = opti_method
-    
-    def sigmoid(self, z):
-        return 1 / (1 + np.exp(-z))
-    
-    def sigmoid_prime(self, z):
-        sig = self.sigmoid(z)
-        return sig * (1 - sig)
-    
-    def sumsqr(self, a):
-        return np.sum(a ** 2)
-    
-    def rand_init(self, l_in, l_out):
-        return np.random.rand(l_out, l_in + 1) * 2 * self.epsilon_init - self.epsilon_init
-    
-    def pack_thetas(self, t1, t2):
-        return np.concatenate((t1.reshape(-1), t2.reshape(-1)))
-    
-    def unpack_thetas(self, thetas, input_layer_size, hidden_layer_size, num_labels):
-        t1_start = 0
-        t1_end = hidden_layer_size * (input_layer_size + 1)
-        t1 = thetas[t1_start:t1_end].reshape((hidden_layer_size, input_layer_size + 1))
-        t2 = thetas[t1_end:].reshape((num_labels, hidden_layer_size + 1))
-        return t1, t2
-    
-    def _forward(self, X, t1, t2):
-        m = X.shape[0]
-        
-        ones = np.ones(m).reshape(m,1) if len(X.shape) > 1 else np.array([1])
-        # Input layer
-        a1 = np.append(ones, X, axis=1)  # [5000, 401]
-        
-        # Hidden layer
-        z2 = np.dot(t1, a1.T)  # [25, 5000]
-        a2 = self.activation_func(z2)  # [25, 5000]
-        
-        a2 = np.append(ones.T, a2, axis=0)  # [26, 5000]
-        
-        # Output layer
-        z3 = np.dot(t2, a2)  # [10, 5000]
-        a3 = self.activation_func(z3)  # [10, 5000]
-        return a1, z2, a2, z3, a3
-    
-    def function(self, thetas, input_layer_size, hidden_layer_size, num_labels, X, y, reg_lambda):
-        t1, t2 = self.unpack_thetas(thetas, input_layer_size, hidden_layer_size, num_labels)
-        
-        _, _, _, _, h = self._forward(X, t1, t2)
-        
-        m = X.shape[0]
-        Y = np.eye(num_labels)[y]
-        
-        costPositive = -Y * np.log(h).T
-        costNegative = (1 - Y) * np.log(1 - h).T
-        cost = costPositive - costNegative
-        J = np.sum(cost) / m
-        
-        t1f = t1[:, 1:]
-        t2f = t2[:, 1:]
-        reg = (self.reg_lambda / (2 * m)) * (self.sumsqr(t1f) + self.sumsqr(t2f))
-        
-        return J + reg
-        
-    def function_prime(self, thetas, input_layer_size, hidden_layer_size, num_labels, X, y, reg_lambda):
-        t1, t2 = self.unpack_thetas(thetas, input_layer_size, hidden_layer_size, num_labels)
-        
-        m = X.shape[0]
-        t1f = t1[:, 1:]
-        t2f = t2[:, 1:]
-        Y = np.eye(num_labels)[y]
-        
-        Delta1, Delta2 = 0, 0
-        for i, row in enumerate(X):
-            a1, 2, a2, z3, a3 = self._forward(row, t1, t2)
-            
-            # Backprop
-            d3 = a3 - Y[i, :].T
-            d2 = np.dot(t2f.T, d3) * self.activation_func_prime(z2)
-            
-            Delta2 += np.dot(d3[np.newaxis].T, a2[np.newaxis])  # [10, 26]
-            Delta1 += np.dot(d2[np.newaxis].T, a1[np.newaxis])  # [25, 401]
-            
-        Theta1_grad = (1 / m) * Delta1  # [25, 401]
-        Theta2_grad = (1 / m) * Delta2  # [10, 26]
-        
-        Theta1_grad[:, 1:] = Theta1_grad[:, 1:] + (reg_lambda / m) * t1f
-        Theta2_grad[:, 1:] = Theta2_grad[:, 1:] + (reg_lambda / m) * t2f
-        
-        return self.pack_thetas(Theta1_grad, Theta2_grad)
-    
+        self.reg_lambda = 0
+        self.random_state = random_state
+        self.coef_ = None
+
     def fit(self, X, y):
-        num_features = X.shape[0]
-        input_layer_size = X.shape[1]
-        hidden_layer_size = self.hidden_layer_size
-        num_labels = len(set(y))
-        
-        theta1_0 = self.rand_init(input_layer_size, hidden_layer_size)
-        theta2_0 = self.rand_init(hidden_layer_size, num_labels)
-        thetas0 = np.concatenate((theta1_0.reshape(-1), theta2_0.reshape(-1)))
-        
-        options = {'maxiter': 100}
-        _res = optimize.minimize(self.function, thetas0, jac=self.function_prime, method=self.method, 
-                                 args=(input_layer_size, hidden_layer_size, num_labels, X, y, 0), options=options)
-        
-        self.t1, self.t2 = self.unpack_thetas(_res.x, input_layer_size, hidden_layer_size, num_labels)
-    
+        layers = self.hidden_layers
+        layers.insert(0, X.shape[1])
+        layers.insert(len(layers), np.unique(y).shape[0])
+        weight_metadata = build_network(layers)
+
+        np.random.seed(self.random_state)
+        thetas0 = rand_init(weight_metadata, self.epsilon_init)
+        options = {'maxiter': self.maxiter}
+        ans = optimize.minimize(function, thetas0, jac=function_prime, method=self.opti_method,
+                                args=(weight_metadata, X, y, self.reg_lambda, self.act_func, self.act_func_prime),
+                                options=options)
+        self.coef_ = ans.x
+        self.meta_ = weight_metadata
+
     def predict(self, X):
-        # _forward() contains the probalities, so take the max of each column
-        return self.predict_proba(X).argmax(0)
-    
-    def predict_proba(self, X):
-        _, _, _, _, h = self._forward(X, self.t1, self.t2)
-        return h
+        return forward(self.coef_, self.meta_, X, self.act_func).argmax(0)
