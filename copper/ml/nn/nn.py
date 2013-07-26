@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# <nbformat>3.0</nbformat>
 from __future__ import division
 import math
 import numpy as np
@@ -5,7 +7,7 @@ from scipy import optimize
 
 
 def build_network(layers):
-    return [(layers[i+1], layers[i] + 1) for i in range(len(layers) - 1)]
+    return [(layers[i + 1], layers[i] + 1) for i in range(len(layers) - 1)]
 
 
 def pack_weigths(*weights):
@@ -42,11 +44,6 @@ def sigmoid(z):
     return np.divide(1, (1 + np.exp(-z)))
 
 
-def sigmoid_prime(z):
-    sig = sigmoid(z)
-    return sig * (1 - sig)
-
-
 def forward(weights, weights_meta, X, act_func):
     m = X.shape[0]
     ones = np.ones(m).reshape(m, 1)
@@ -64,7 +61,7 @@ def sumsqr(a):
     return np.sum(a ** 2)
 
 
-def function(weights, X, y, weights_meta, num_labels, reg_lambda, act_func, act_func_prime):
+def function(weights, X, y, weights_meta, num_labels, reg_lambda, act_func):
     m = X.shape[0]
     Y = np.eye(num_labels)[y]
 
@@ -84,7 +81,7 @@ def function(weights, X, y, weights_meta, num_labels, reg_lambda, act_func, act_
     return J
 
 
-def function_prime(weights, X, y, weights_meta, num_labels, reg_lambda, act_func, act_func_prime):
+def function_prime(weights, X, y, weights_meta, num_labels, reg_lambda, act_func):
     m = X.shape[0]
     Y = np.eye(num_labels)[y]
     ones = np.array(1).reshape(1,)
@@ -94,7 +91,7 @@ def function_prime(weights, X, y, weights_meta, num_labels, reg_lambda, act_func
     for i, row in enumerate(X):
         # Forward
         a_prev = np.hstack((ones, row))  # Input layer
-        a_s = (a_prev, ) # a_s[0] == a1
+        a_s = (a_prev, )  # a_s[0] == a1
         for j, theta in enumerate(unpack_weigths_gen(weights, weights_meta)):
             # Hidden Layers
             z = np.dot(theta, a_prev.T)
@@ -135,7 +132,8 @@ def minibatch(X, y, batch_size=1):
             yield X[indices], y[indices]
 
 
-def mb_gd(func, func_prime, thetas0, X, y, options=None, args=()):
+def mb_gd(func, func_prime, thetas0, X, y, options=None, args=(), callback=None):
+    print 'MBGD'
     batch_size = options['batch_size']
     maxiter = options['maxiter']
     learning_rate = options['learning_rate']
@@ -145,51 +143,52 @@ def mb_gd(func, func_prime, thetas0, X, y, options=None, args=()):
     diff = 1
     prevJ = 1000
     i = 0
-    for _X, _y in minibatch(X, y, batch_size):
+    for i, (_X, _y) in zip(range(1, maxiter + 1), minibatch(X, y, batch_size)):
         thetas = thetas - learning_rate * func_prime(thetas, _X, _y, *args)
         newJ = float(function(thetas, X, y, *args))
-        if disp:
-            print(i, newJ)
         if not np.isnan(newJ) and newJ != float("inf"):
             diff = np.abs(newJ - prevJ)
 
             prevJ = newJ
             if diff < tol or i >= maxiter:
                 break
+        if disp:
+            print i, newJ
+        if callback is not None:
+            callback(i, thetas)
         i += 1
     return thetas
 
 
-def mb_rmsprop(func, func_prime, thetas0, X, y, options=None, args=()):
-    print('RMSPROP')
+def mb_rmsprop(func, func_prime, thetas0, X, y, options=None, args=(), callback=None):
+    print 'RMSPROP'
     batch_size = options['batch_size']
     maxiter = options['maxiter']
     tol = options['tol']
     disp = options['disp']
-
     thetas = thetas0
     diff = 1
     prevJ = 1000
-    i = 0
     rms = 1
-    for _X, _y in minibatch(X, y, batch_size):
+    for i, (_X, _y) in zip(range(1, maxiter + 1), minibatch(X, y, batch_size)):
         grad = func_prime(thetas, _X, _y, *args)
         rms = 0.9 * rms + 0.1 * np.square(grad)
         thetas = thetas - np.divide(grad, np.sqrt(rms))
         newJ = float(function(thetas, X, y, *args))
-        if disp:
-            print(i, newJ)
         if not np.isnan(newJ) and newJ != float("inf"):
             diff = np.abs(newJ - prevJ)
             prevJ = newJ
             if diff < tol or i >= maxiter:
                 break
-        i += 1
+        if disp:
+            print i, newJ
+        if callback is not None:
+            callback(i, thetas)
     return thetas
 
 
-def mb_scipy(func, func_prime, thetas0, X, y, options=None, args=()):
-    print('scipy', options['mb_opti'])
+def mb_scipy(func, func_prime, thetas0, X, y, options=None, args=(), callback=None):
+    print 'scipy', options['mb_opti']
     batch_size = options['batch_size']
     maxiter = options['maxiter']
     tol = options['tol']
@@ -197,42 +196,43 @@ def mb_scipy(func, func_prime, thetas0, X, y, options=None, args=()):
     thetas = thetas0
     diff = 1
     prevJ = 1000
-    i = 0
     thetas = thetas0
-    for _X, _y in minibatch(X, y, batch_size):
+    for i, (_X, _y) in zip(range(1, maxiter + 1), minibatch(X, y, batch_size)):
         ans = optimize.minimize(func, thetas, jac=func_prime, method=options['mb_opti'],
                                 args=(_X, _y) + args,
                                 options={'maxiter': options['mb_opti_maxiter']})
         thetas = ans.x
         newJ = float(function(thetas, X, y, *args))
-        if disp:
-            print(i, newJ)
         if not np.isnan(newJ) and newJ != float("inf"):
             diff = np.abs(newJ - prevJ)
 
             prevJ = newJ
             if diff < tol or i >= maxiter:
                 break
-        i += 1
+        if disp:
+            print i, newJ
+        if callback is not None:
+            callback(i, thetas)
     return thetas
 
 
-def mb_opti(func, func_prime, thetas0, X, y, options=None, args=()):
+def mb_opti(func, func_prime, thetas0, X, y, options=None, args=(), callback=None):
     if options['mb_opti'] == 'GD':
-        return mb_gd(function, function_prime, thetas0, X, y, options=options, args=args)
+        return mb_gd(function, function_prime, thetas0, X, y, options=options, args=args, callback=callback)
     elif options['mb_opti'] == 'RMSPROP':
-        return mb_rmsprop(function, function_prime, thetas0, X, y, options=options, args=args)
+        return mb_rmsprop(function, function_prime, thetas0, X, y, options=options, args=args, callback=callback)
     else:
-        return mb_scipy(function, function_prime, thetas0, X, y, options=options, args=args)
+        return mb_scipy(function, function_prime, thetas0, X, y, options=options, args=args, callback=callback)
 
 
 class NN(object):
 
     def __init__(self, hidden_layers,
-                 opti_method='MB', maxiter=100, tol = 0.000001,
-                 mb_opti='CG', batch_size=0.1, learning_rate=0.3, mb_opti_maxiter=10,
-                 disp=False,
-                 act_func=sigmoid, act_func_prime=sigmoid_prime,
+                 opti_method='MB', maxiter=100, tol=0.000001,
+                 mb_opti='CG', batch_size=0.1, learning_rate=0.3,
+                 mb_opti_maxiter=10,
+                 disp=False, opti_callback=None,
+                 act_func=sigmoid,
                  epsilon_init=0.12, random_state=0,
                  reg_lambda=0, coef0=None):
         self.hidden_layers = hidden_layers
@@ -244,13 +244,17 @@ class NN(object):
         self.learning_rate = learning_rate
         self.mb_opti_maxiter = mb_opti_maxiter
         self.disp = disp
+        self.opti_callback = opti_callback
         self.act_func = act_func
-        self.act_func_prime = act_func_prime
         self.epsilon_init = epsilon_init
         self.random_state = random_state
         self.reg_lambda = reg_lambda
         self.coef0 = coef0
+        self.meta_ = None
         self.coef_ = None
+
+    def predict_proba(self, X):
+        return forward(self.coef_, self.meta_, X, self.act_func).T
 
     def predict(self, X):
         return forward(self.coef_, self.meta_, X, self.act_func).argmax(0)
@@ -260,30 +264,39 @@ class NN(object):
         layers.insert(0, X.shape[1])
         layers.insert(len(layers), np.unique(y).shape[0])
         weight_metadata = build_network(layers)
-        num_labels = len(np.unique(y))
+        self.meta_ = weight_metadata
 
         np.random.seed(self.random_state)
-
         thetas0 = self.coef0 if self.coef0 is not None else rand_init(weight_metadata, self.epsilon_init)
-        options = {}
+        num_labels = len(np.unique(y))
 
+        options = {}
         options['maxiter'] = self.maxiter
         options['disp'] = self.disp
+        _callback = None
 
         if self.opti_method == 'MB':
             print 'fast'
+            if self.opti_callback is not None:
+                def _callback(i, thetas):
+                    self.coef_ = thetas
+                    self.opti_callback(self, i)
+
             options['mb_opti'] = self.mb_opti
             options['batch_size'] = self.batch_size
             options['learning_rate'] = self.learning_rate
             options['tol'] = self.tol
             options['mb_opti_maxiter'] = self.mb_opti_maxiter
-            ans = mb_opti(function, function_prime, thetas0, X, y, options=options,
-                          args=(weight_metadata, num_labels, self.reg_lambda, self.act_func, self.act_func_prime))
+            ans = mb_opti(function, function_prime, thetas0, X, y, options=options, callback=_callback,
+                          args=(weight_metadata, num_labels, self.reg_lambda, self.act_func))
         else:
             print 'slow', self.opti_method
+            if self.opti_callback is not None:
+                def _callback(thetas):
+                    self.coef_ = thetas
+                    self.opti_callback(self, 0)
             ans = optimize.minimize(function, thetas0, jac=function_prime, method=self.opti_method,
-                                    args=(X, y, weight_metadata, num_labels, self.reg_lambda, self.act_func, self.act_func_prime),
-                                    options=options)
+                                    args=(X, y, weight_metadata, num_labels, self.reg_lambda, self.act_func),
+                                    options=options, callback=_callback)
             ans = ans.x
         self.coef_ = ans
-        self.meta_ = weight_metadata
