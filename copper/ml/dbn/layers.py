@@ -4,22 +4,29 @@ from utils import softmax, sigmoid
 
 
 class Layer(object):
-    def __init__(self, n_in=None, n_out=None, W=None, random_state=None, activation=None):
+    def __init__(self, n_in=None, n_out=None, W=None, b=None, random_state=None, activation=None):
         if random_state is None:
             self.rnd = np.random.RandomState()
         else:
             self.rnd = random_state
 
-        if W is None:
-            self.W = self.rnd.uniform(size=(n_in + 1, n_out))
+        if W is None and b is None:
+            if n_in is not None and n_out is not None:
+                gap = 4 * np.sqrt(6. / (n_in + n_out))
+                self.W = self.rnd.uniform(low=-gap, high=gap, size=(n_in, n_out))
+                self.b = np.zeros(n_out)
+                self.n_in = self.W.shape[0]
+                self.n_out = self.W.shape[1]
         else:
             self.W = W
+            self.b = b
+            self.n_in = self.W.shape[0]
+            self.n_out = self.W.shape[1]
 
         self.activation = activation
 
     def output(self, input):
-        data = np.insert(input, 0, 1, axis=1)
-        linear_output = np.dot(data, self.W)
+        linear_output = np.dot(input, self.W) + self.b
         return self.activation(linear_output)
 
     def sample_h_given_v(self, input):
@@ -29,10 +36,10 @@ class Layer(object):
 
 
 class LogisticLayer(Layer):
-    def __init__(self, n_in=None, n_out=None, W=None, random_state=None):
-        Layer.__init__(self, n_in, n_out, W, random_state, activation=softmax)
+    def __init__(self, *args, **kwargs):
+        Layer.__init__(self, *args, activation=softmax, **kwargs)
 
 
 class SigmoidLayer(Layer):
-    def __init__(self, n_in=None, n_out=None, W=None, random_state=None):
-        Layer.__init__(self, n_in, n_out, W, random_state, activation=sigmoid)
+    def __init__(self, *args, **kwargs):
+        Layer.__init__(self, *args, activation=sigmoid, **kwargs)
