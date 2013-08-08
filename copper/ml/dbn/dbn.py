@@ -86,7 +86,7 @@ class DBN(object):
                  finetune_epochs=1, finetune_batches_per_epoch=-1,
                  finetune_options=None, finetune_callback=None):
         self.hidden_layers = hidden_layers
-        self.coef_ = None if coef0 is None else np.copy(coef0)
+        self._coef_ = None if coef0 is None else np.copy(coef0)
 
         if random_state is None:
             self.rnd = np.random.RandomState()
@@ -108,6 +108,15 @@ class DBN(object):
 
         self.finetune_options = {} if finetune_options is None else finetune_options
         self.finetune_callback = finetune_callback
+
+    def get_coef(self):
+        return self._coef_
+
+    def set_coef(self, n_coef):
+        self._coef_ = n_coef
+        assign_weights(n_coef, self.layers)
+
+    coef_ = property(get_coef, set_coef, None, "I'm the 'x' property.")
 
 
     def rand_init(sefl, weights_info, random_state):
@@ -144,9 +153,9 @@ class DBN(object):
         for w_info in weights_info:
             self.layers.append(SigmoidLayer(n_in=w_info[0], n_out=w_info[1]))
 
-        if self.coef_ is None:
-            self.coef_ = self.rand_init(weights_info, self.rnd)
-            assign_weights(self.coef_, self.layers)
+        if self._coef_ is None:
+            self._coef_ = self.rand_init(weights_info, self.rnd)
+            assign_weights(self._coef_, self.layers)
 
         # Create RBM layers using the same weights
         self.rbm_layers = []
@@ -204,7 +213,7 @@ class DBN(object):
 
             self.finetune_options = self.finetune_options.copy()
             args = (self.layers, len(np.unique(y)))
-            MBOpti.minimize(self.coef_, X, y, fun=cost, grad=cost_prime, weights=self.coef_,
+            MBOpti.minimize(self._coef_, X, y, fun=cost, grad=cost_prime, weights=self._coef_,
                             method=self.finetune_method,
                             epochs=self.finetune_epochs, batch_size=self.finetune_batch_size,
                             batches_per_epoch=self.finetune_batches_per_epoch,
