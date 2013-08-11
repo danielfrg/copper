@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 import math
+import json
 import numpy as np
 from sklearn.base import BaseEstimator
 
@@ -20,9 +21,7 @@ def cost(weights, X, y, layers, num_labels):
     h = output
     costPositive = -Y * np.log(h)
     costNegative = (1 - Y) * np.log(1 - h)
-    J = np.sum(costPositive - costNegative) / X.shape[0]
-
-    return J
+    return np.sum(costPositive - costNegative) / X.shape[0]
 
 
 def cost_prime(weights, X, y, layers, num_labels):
@@ -95,15 +94,13 @@ class DBN(BaseEstimator):
         layers = [n_in]
         layers.extend(self.hidden_layers)
         layers.append(n_out)
-        weights_info = [(layers[i], layers[i + 1]) for i in range(len(layers) - 1)]
+        self.weights_info = [(layers[i], layers[i + 1]) for i in range(len(layers) - 1)]
 
         self.layers = list()
-        for w_info in weights_info:
+        for w_info in self.weights_info:
             n_in = w_info[0]
             n_out = w_info[1]
             self.layers.append(SigmoidLayer(n_in=n_in, n_out=n_out, random_state=self.rnd))
-
-        return weights_info
 
     def assign_weights(self):
         start_pos = 0
@@ -119,22 +116,25 @@ class DBN(BaseEstimator):
             layer.W = self.coef_[start_pos:end_pos].reshape((n_in, n_out))
             start_pos = end_pos
 
-    def load_weights(self, filepath, n_in, n_out):
-        self.build_net(n_in, n_out)
-        self.coef_ = np.loadtxt(filepath)
-        self.assign_weights()
+    def save(self, filepath):
+        info = {}
+        info['metadata'] = self.weights_info
+        info['weights'] = self.coef_.tolist()
+        with open(filepath, 'w') as outfile:
+            json.dump(info, outfile)
 
-    def predict_proba(self, X):
-        output = self.layers[0].output(X)
-        for layer in self.layers[1:]:
-            output = layer.output(output)
-        return output
-
-    def predict(self, X):
-        return self.predict_proba(X).argmax(1)
+    def load(self, filepath):
+        with open(filepath, 'r') as infile:
+            info = json.load(infile)
+            weight_info = info['metadata']
+            n_in = weight_info[0][0]
+            n_out = weight_info[-1][1]
+            self.build_net(n_in, n_out)
+            self.coef_ = np.array(info['weights'])
+            self.assign_weights()
 
     def fit(self, X, y):
-        weights_info = self.build_net(X.shape[1], len(np.unique(y)))
+        self.build_net(X.shape[1], len(np.unique(y)))
 
         # Assign weights of layers as views of the big weights
         if self.coef_ is None:
@@ -171,8 +171,8 @@ class DBN(BaseEstimator):
 
                 for epoch in range(self.pretrain_epochs):
                     batches = MBOpti.minibatches(input, batch_size=self.pretrain_batch_size,
-                                                        batches_per_epoch=self.pretrain_batches_per_epoch,
-                                                        random_state=self.rnd)
+                                                 batches_per_epoch=self.pretrain_batches_per_epoch,
+                                                 random_state=self.rnd)
                     for i, _X in enumerate(batches):
                         self.rbm_layers[layer].contrastive_divergence(_X)
                         if self.progress_bars:
@@ -208,3 +208,12 @@ class DBN(BaseEstimator):
                             batches_per_epoch=self.finetune_batches_per_epoch,
                             options=self.finetune_options, args=args, callback=_callback,
                             random_state=self.rnd)
+
+    def predict_proba(self, X):
+        output = self.layers[0].output(X)
+        for layer in self.layers[1:]:
+            output = layer.output(output)
+        return output
+
+    def predict(self, X):
+        return self.predict_proba(X).argmax(1)

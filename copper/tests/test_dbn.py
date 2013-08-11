@@ -105,7 +105,8 @@ def test_iris_accuracy():
 def test_save_load_weights():
     import tempfile
     tempdir = tempfile.gettempdir()
-    tempfile = os.path.join(tempdir, 'w.txt')
+    tempfile = os.path.join(tempdir, 'w.json')
+    # tempfile = os.path.join('', 'w.json')
 
     dbn1 = DBN([5], random_state=1234)
     X, y = get_iris()
@@ -113,10 +114,10 @@ def test_save_load_weights():
     pred1 = dbn1.predict(X)
     prob1 = dbn1.predict_proba(X)
 
-    np.savetxt(tempfile, dbn1.coef_)
+    dbn1.save(tempfile)
 
     dbn2 = DBN([5])
-    dbn2.load_weights(tempfile, X.shape[1], len(np.unique(y)))
+    dbn2.load(tempfile)
     pred2 = dbn2.predict(X)
     prob2 = dbn2.predict_proba(X)
 
