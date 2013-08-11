@@ -1,6 +1,7 @@
 # encoding: utf-8
 import numpy as np
 from sklearn.base import BaseEstimator
+from sklearn.preprocessing import OneHotEncoder
 
 class FeatureMixer(BaseEstimator):
 
@@ -36,11 +37,14 @@ class TransformWrapper(BaseEstimator):
         self.fit_transform = fit_transform
         self.transformation = transformation
 
-    def fit(self, X, y):
+    def fit(self, X, y=None):
         if self.fit_transform:
             self.transformation.fit(X)
         _X = self._pretransform(X)
-        self.clf.fit(_X, y)
+        if y is None:
+            self.clf.fit(_X)
+        else:
+            self.clf.fit(_X, y)
 
     def predict(self, X):
         _X = self._pretransform(X)
@@ -56,3 +60,22 @@ class TransformWrapper(BaseEstimator):
 
     def _pretransform(self, X):
         return self.transformation.transform(X)
+
+
+class GMMWrapper(TransformWrapper):
+
+    def fit(self, X, y=None):
+        if self.fit_transform:
+            self.transformation.fit(X)
+            t = self.transformation.predict(X)[np.newaxis].T
+            self.enc = OneHotEncoder()
+            self.enc.fit(t)
+        _X = self._pretransform(X)
+        if y is None:
+            self.clf.fit(_X)
+        else:
+            self.clf.fit(_X, y)
+
+    def _pretransform(self, X):
+        t = self.transformation.predict(X)[np.newaxis].T
+        return self.enc.transform(t).toarray()
