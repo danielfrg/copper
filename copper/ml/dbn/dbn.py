@@ -9,7 +9,9 @@ from rbm import RBM
 from layers import SigmoidLayer
 from copper.utils import opti as MBOpti
 from utils import sigmoid
-from copper.utils.progress import ProgressBar
+from sklearn.neural_network import BernoulliRBM
+
+from copper.utils.progress import ProgressBar  # import last
 
 
 def cost(weights, X, y, layers, num_labels):
@@ -60,7 +62,7 @@ class DBN(BaseEstimator):
 
     def __init__(self, hidden_layers, coef0=None, random_state=None,
                  progress_bars=False,
-                 pretrain_batch_size=50,
+                 pretrain_batch_size=100,
                  pretrain_epochs=0, pretrain_batches_per_epoch=-1,
                  pretrain_callback=None,
                  finetune_method='GD', finetune_batch_size=50,
@@ -147,11 +149,6 @@ class DBN(BaseEstimator):
 
         # Pretrain
         if self.pretrain_epochs > 0:
-            # Create RBM layers using the same weights
-            self.rbm_layers = []
-            for layer in self.layers:
-                self.rbm_layers.append(RBM(layer, random_state=self.rnd))
-
             if self.progress_bars:
                 if self.pretrain_batches_per_epoch == -1:
                     batches_per_epoch = int(X.shape[0] / self.pretrain_batch_size)
@@ -161,28 +158,45 @@ class DBN(BaseEstimator):
                 maxiters = self.pretrain_epochs * batches_per_epoch * len(self.layers)
                 pt_bar = ProgressBar(max=maxiters, desc='Pretrain')
 
-            # Actual pretrain
-            for layer in range(len(self.rbm_layers)):
-                if layer == 0:
-                    input = X
-                else:
-                    #input = self.layers[layer - 1].output(input)
-                    input = self.layers[layer - 1].sample_h_given_v(input)
+            if self.pretrain_batch_size == -1:
+                # Use full-batch
+                self.pretrain_batch_size = X.shape[0]
 
+            # Create RBM layers using the same weights
+            self.rbm_layers = []
+            for i, layer in enumerate(self.layers):
+                n_hid = layer.W.shape[1]
+                new = RBM(layer)
+                self.rbm_layers.append(new)
+
+            # Actual pretrain
+            for i, rbm_layer in enumerate(self.rbm_layers):
                 for epoch in range(self.pretrain_epochs):
-                    batches = MBOpti.minibatches(input, batch_size=self.pretrain_batch_size,
-                                                 batches_per_epoch=self.pretrain_batches_per_epoch,
-                                                 random_state=self.rnd)
-                    for i, _X in enumerate(batches):
-                        self.rbm_layers[layer].contrastive_divergence(_X)
+                    mb = MBOpti.minibatches(X, batch_size=self.pretrain_batch_size,
+                                 batches=self.pretrain_batches_per_epoch,
+                                 random_state=self.rnd)
+
+                    for j, batch in enumerate(mb):
+                        if i == 0:
+                            input = batch
+                        else:
+                            # input = self.layers[i - 1].output(batcn)
+                            try:
+                                input = self.layers[i - 1].sample_h_given_v(input)
+                            except:
+                                print input.shape, self.layers[i-1].W.shape
+                                raise Exception('1')
+
+                        rbm_layer.contrastive_divergence(input)
                         if self.progress_bars:
                             pt_bar.next()
                         if self.pretrain_callback is not None:
-                            stop = self.pretrain_callback(self, layer, epoch + 1, i + 1)
+                            stop = self.pretrain_callback(self, layer, epoch + 1, j + 1)
                             if stop == True:
                                 break
+
             if self.progress_bars:
-                pt_bar.finish()
+                pt_bar.complete()
 
         # Finetune
         if self.finetune_epochs > 0:
@@ -208,6 +222,9 @@ class DBN(BaseEstimator):
                             batches_per_epoch=self.finetune_batches_per_epoch,
                             options=self.finetune_options, args=args, callback=_callback,
                             random_state=self.rnd)
+
+            if self.progress_bars:
+                ft_bar.complete()
 
     def predict_proba(self, X):
         output = self.layers[0].output(X)

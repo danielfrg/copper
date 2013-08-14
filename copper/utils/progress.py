@@ -23,14 +23,11 @@ class ProgressBar(object):
             self.index += 1
             self.update()
 
-    def animate(self, index):
+    def set(self, index):
         self.index = index
         self.update()
 
     def update(self):
-        print('\r', self, end='')
-        sys.stdout.flush()
-
         percent_done = self.index / self.max
         all_full = self.width - 2
         num_hashes = int(round(percent_done * all_full))
@@ -40,11 +37,22 @@ class ProgressBar(object):
         self.prog_bar += self.border
         self.prog_bar += '  %.2f%%' % (percent_done * 100)
 
+        print('\r', self, end='')
+        sys.stdout.flush()
+
+    def complete(self, finish=True):
+        self.index = self.max
+        self.update()
+        if finish:
+            self.finish()
+
     def finish(self):
         print('\r', self)
 
     def __str__(self):
         return str(self.prog_bar)
+
+
 
 
 class JSProgressbar(object):

@@ -7,6 +7,7 @@ class RBM(object):
     '''
     Note: this class was taken from yusugomori RBM
     https://github.com/yusugomori/DeepLearning/blob/master/python/RBM.py
+    I modified the class to match my requirements but basicly is the same thing.
     '''
     def __init__(self, input_layer, learning_rate=0.1, random_state=None):
         self.input_layer = input_layer
@@ -22,7 +23,7 @@ class RBM(object):
         self.n_hidden = input_layer.W.shape[1]
         self.W = input_layer.W
 
-        self.hbias = np.zeros(self.n_hidden)
+        self.hbias = input_layer.b
         self.vbias = np.zeros(self.n_visible)
 
     def contrastive_divergence(self, input, lr=0.3, k=1):
@@ -35,8 +36,8 @@ class RBM(object):
                 nv_means, nv_samples, nh_means, nh_samples = self.gibbs_hvh(nh_samples)
 
 
-        self.W += lr * (np.dot(input.T, ph_sample)
-                                  - np.dot(nv_samples.T, nh_means)) / input.shape[0]
+        self.W += lr * (np.dot(input.T, ph_sample) -
+                        np.dot(nv_samples.T, nh_means)) / input.shape[0]
         self.vbias += lr * np.mean(input - nv_samples, axis=0)
         self.hbias += lr * np.mean(ph_sample - nh_means, axis=0)
 
@@ -66,19 +67,16 @@ class RBM(object):
         return v1_mean, v1_sample, h1_mean, h1_sample
 
 
-    def get_reconstruction_cross_entropy(self):
-        pre_activation_h = np.dot(self.input, self.W) + self.hbias
-        activation_h = self.activation(pre_activation_h)
+    def get_reconstruction_cross_entropy(self, input):
+        pre_activation_h = np.dot(input, self.W) + self.hbias
+        sigmoid_activation_h = self.activation(pre_activation_h)
 
         pre_sigmoid_activation_v = np.dot(sigmoid_activation_h, self.W.T) + self.vbias
-        activation_v = self.activation(pre_activation_v)
+        sigmoid_activation_v = self.activation(pre_sigmoid_activation_v)
 
-        cross_entropy =  - np.mean(
-            np.sum(self.input * np.log(activation_v) +
-            (1 - self.input) * np.log(1 - activation_v),
-                      axis=1))
-
-        return cross_entropy
+        return - np.mean(np.sum(input * np.log(sigmoid_activation_v) +
+                         (1 - input) * np.log(1 - sigmoid_activation_v),
+                                  axis=1))
 
     def reconstruct(self, v):
         h = sigmoid(np.dot(v, self.W) + self.hbias)

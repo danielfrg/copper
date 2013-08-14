@@ -5,7 +5,7 @@ import numpy as np
 from scipy import optimize
 
 
-def minibatches(X, y=None, batch_size=50, batches_per_epoch=-1, random_state=None):
+def minibatches(X, y=None, batch_size=50, batches=-1, random_state=None):
     if random_state is None:
         rnd = np.random.RandomState()
     elif isinstance(random_state, int):
@@ -16,11 +16,11 @@ def minibatches(X, y=None, batch_size=50, batches_per_epoch=-1, random_state=Non
     m = X.shape[0]
     batch_size = batch_size if batch_size >= 1 else int(math.floor(m * batch_size))
 
-    if batches_per_epoch == -1:
-        batches_per_epoch = int(m / batch_size)
+    if batches == -1:
+        batches = int(math.ceil(m / batch_size))
 
     random_indices = rnd.choice(np.arange(m), m, replace=False)
-    for i in range(batches_per_epoch):
+    for i in range(batches):
         batch_indices = np.arange(i * batch_size, (i + 1) * batch_size)
         indices = random_indices[batch_indices]
         if y is None:
@@ -110,7 +110,7 @@ def minimize(weights0, X, y, fun, grad, weights, method,
 
     for epoch in range(epochs):
         batches = minibatches(X, y, batch_size=batch_size,
-                              batches_per_epoch=batches_per_epoch,
+                              batches=batches_per_epoch,
                               random_state=rnd)
         if update_params is not None:
             update_params()
