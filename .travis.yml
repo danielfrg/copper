@@ -9,8 +9,8 @@ virtualenv:
 notifications:
   email: false
 
-# before_install:
-# - sudo apt-get install -qq python3-numpy python3-scipy
+before_install:
+- sudo apt-get install -qq python3-dev libatlas-base-dev gfortran
 
 install:
   - pip install numpy==1.7
