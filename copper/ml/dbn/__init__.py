@@ -1,1 +1,1 @@
-from dbn import DBN as DBN
+from .dbn import DBN as DBN

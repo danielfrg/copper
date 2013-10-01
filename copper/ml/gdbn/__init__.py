@@ -1,1 +1,1 @@
-from gdbn import DBN as DBN
+from .gdbn import DBN as DBN
