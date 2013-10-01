@@ -9,8 +9,8 @@ virtualenv:
 notifications:
   email: false
 
-# before_install:
-# - sudo apt-get install -qq python3-numpy python3-scipy
+before_install:
+- sudo apt-get install -qq python3-numpy python3-scipy
 
 install:
   - pip install -r requirements.txt --use-mirrors
