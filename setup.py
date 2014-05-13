@@ -12,6 +12,6 @@ setup(
     long_description=open('README.txt').read(),
     install_requires=[
         "pandas>= 0.11",
-        "scikit-learn == 0.13.1"
+        "scikit-learn >= 0.13.1"
     ],
 )
